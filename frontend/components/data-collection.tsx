@@ -3,23 +3,22 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DatePickerWithRange } from "@/components/date-range-picker"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
 import { PlatformSelector } from "@/components/platform-selector"
-import { KeywordSuggestions } from "@/components/keyword-suggestions"
 import { DataPreview } from "@/components/data-preview"
+import { BrandAliasManagement } from "@/components/brand-alias-management"
 import { GameSlangKnowledgeBase } from "@/components/game-slang-knowledge-base"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Video, MessageSquare, FileText, Radio, Hash } from "lucide-react"
+import { Separator } from "@/components/ui/separator"
 
 export function DataCollection() {
   const [isLoading, setIsLoading] = useState(false)
   const [dataCollected, setDataCollected] = useState(false)
-  const [suggestedKeywords, setSuggestedKeywords] = useState<string[]>([])
-  const [activeTab, setActiveTab] = useState("data-collection")
+  const [activeTab, setActiveTab] = useState("data-source")
 
   const handleCollectData = () => {
     setIsLoading(true)
@@ -27,85 +26,103 @@ export function DataCollection() {
     setTimeout(() => {
       setIsLoading(false)
       setDataCollected(true)
-      setSuggestedKeywords(["刺客信条", "育碧", "开放世界", "游戏性", "画面", "优化"])
     }, 2000)
   }
 
   return (
     <div className="grid gap-6">
-      <Tabs defaultValue="data-collection" value={activeTab} onValueChange={setActiveTab}>
+      <Tabs defaultValue="data-source" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
-          <TabsTrigger value="data-collection">数据采集</TabsTrigger>
+          <TabsTrigger value="data-source">数据源配置</TabsTrigger>
+          <TabsTrigger value="brand-alias">品牌别名管理</TabsTrigger>
           <TabsTrigger value="slang-knowledge">游戏黑话知识库</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="data-collection">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>数据源配置</CardTitle>
-                <CardDescription>选择要监测的品牌和平台</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
+        <TabsContent value="data-source">
+          <Card>
+            <CardHeader>
+              <CardTitle>监测配置</CardTitle>
+              <CardDescription>选择要监测的品牌、平台和时间范围</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="brand">品牌</Label>
-                  <Select defaultValue="assassins-creed">
+                  <Label htmlFor="brand">品牌产品</Label>
+                  <Select defaultValue="assassins-creed-mirage">
                     <SelectTrigger id="brand">
                       <SelectValue placeholder="选择品牌" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="assassins-creed">刺客信条</SelectItem>
-                      <SelectItem value="far-cry">孤岛惊魂</SelectItem>
-                      <SelectItem value="rainbow-six">彩虹六号</SelectItem>
+                      <SelectItem value="assassins-creed-mirage">刺客信条：幻影刺客</SelectItem>
+                      <SelectItem value="far-cry-6">孤岛惊魂6</SelectItem>
+                      <SelectItem value="rainbow-six-siege">彩虹六号：围攻</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label>日期范围</Label>
+                  <Label>监测时间范围</Label>
                   <DatePickerWithRange />
                 </div>
 
                 <div className="space-y-2">
-                  <Label>平台选择</Label>
+                  <Label>内容类型</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="text-content" defaultChecked />
+                      <Label htmlFor="text-content" className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        图文内容
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="video-content" defaultChecked />
+                      <Label htmlFor="video-content" className="flex items-center gap-2">
+                        <Video className="h-4 w-4" />
+                        视频内容
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="live-content" defaultChecked />
+                      <Label htmlFor="live-content" className="flex items-center gap-2">
+                        <Radio className="h-4 w-4" />
+                        直播内容
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="comment-content" defaultChecked />
+                      <Label htmlFor="comment-content" className="flex items-center gap-2">
+                        <MessageSquare className="h-4 w-4" />
+                        评论
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="barrage-content" defaultChecked />
+                      <Label htmlFor="barrage-content" className="flex items-center gap-2">
+                        <Hash className="h-4 w-4" />
+                        弹幕
+                      </Label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>监测平台</Label>
                   <PlatformSelector />
                 </div>
-              </CardContent>
-            </Card>
+              </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>关键词设置</CardTitle>
-                <CardDescription>设置要监测的关键词</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="keywords">手动输入关键词</Label>
-                  <div className="flex gap-2">
-                    <Input id="keywords" placeholder="输入关键词，按回车添加" />
-                    <Button variant="outline" size="icon">
-                      +
-                    </Button>
-                  </div>
+              <Separator />
 
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <Badge>刺客信条</Badge>
-                    <Badge>育碧</Badge>
-                    <Badge className="flex gap-1 items-center">
-                      幻影刺客
-                      <button className="h-3 w-3 rounded-full">×</button>
-                    </Badge>
-                  </div>
-                </div>
-
-                {suggestedKeywords.length > 0 && <KeywordSuggestions keywords={suggestedKeywords} />}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">高级设置</h3>
 
                 <div className="space-y-2">
                   <Label className="flex items-center gap-2">
-                    <Checkbox id="ai-keywords" />
-                    <span>使用AI智能推荐关键词</span>
+                    <Checkbox id="use-brand-alias" defaultChecked />
+                    <span>使用品牌别名库</span>
                   </Label>
-                  <p className="text-sm text-muted-foreground">基于历史数据和行业趋势，AI将推荐相关关键词</p>
+                  <p className="text-sm text-muted-foreground">启用品牌别名库，识别游戏的各种代称、主角名称等</p>
                 </div>
 
                 <div className="space-y-2">
@@ -117,9 +134,9 @@ export function DataCollection() {
                     启用游戏黑话知识库，帮助AI更准确理解玩家使用的特殊术语和表达
                   </p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="flex justify-center mt-6">
             <Button
@@ -133,6 +150,10 @@ export function DataCollection() {
           </div>
 
           {dataCollected && <DataPreview />}
+        </TabsContent>
+
+        <TabsContent value="brand-alias">
+          <BrandAliasManagement />
         </TabsContent>
 
         <TabsContent value="slang-knowledge">

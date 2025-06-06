@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AlertCircle, ArrowUpRight, BarChart3, Clock, Download, Filter, MessageSquare, TrendingUp } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
+import { TrendCharts } from "@/components/trend-charts"
 
 export function TrainingCenter() {
   const [activeTab, setActiveTab] = useState("trends")
@@ -102,9 +103,7 @@ export function TrainingCenter() {
                 </div>
 
                 <div className="border rounded-md p-4">
-                  <div className="h-80 flex items-center justify-center">
-                    <TrendChart />
-                  </div>
+                  <TrendChart />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -396,9 +395,5 @@ export function TrainingCenter() {
 }
 
 function TrendChart() {
-  return (
-    <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-      [情感趋势图表 - 展示正面、负面、中性评论随时间的变化趋势]
-    </div>
-  )
+  return <TrendCharts />
 }

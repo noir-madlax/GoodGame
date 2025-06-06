@@ -709,21 +709,21 @@ export function ReportGeneration() {
                     <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
                     <div>
                       <p className="font-medium">性能优化</p>
-                      <p className="text-sm text-muted-foreground">优先解决游戏优化问题，减少卡顿和崩溃</p>
+                      <p className="text-sm text-muted-foreground">游戏优化是负面评论的主要来源，需要尽快解决</p>
                     </div>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
                     <div>
                       <p className="font-medium">剧情创新</p>
-                      <p className="text-sm text-muted-foreground">增强剧情创新，避免重复感，提升叙事深度</p>
+                      <p className="text-sm text-muted-foreground">剧情被认为缺乏创新，需要在后续内容中改进</p>
                     </div>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
                     <div>
                       <p className="font-medium">任务设计</p>
-                      <p className="text-sm text-muted-foreground">增加任务多样性，减少重复性任务</p>
+                      <p className="text-sm text-muted-foreground">任务设计重复性较高，需要增加多样性</p>
                     </div>
                   </li>
                 </ul>
