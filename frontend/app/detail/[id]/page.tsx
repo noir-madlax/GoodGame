@@ -112,10 +112,64 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
           fetch("/api/video/card", { cache: "no-store" }),
           fetch("/api/video/detail", { cache: "no-store" }),
         ])
-        if (!cardRes.ok || !detailRes.ok) return
-        const card = await cardRes.json()
-        const detail = await detailRes.json()
-        setData({ ...card, analysis: detail.analysis, risk_types: detail.risk_types, original_url: card.original_url })
+        let card: any | null = null
+        if (cardRes.ok) card = await cardRes.json()
+        if (!card || !card.title) {
+          try {
+            const raw = await fetch("/data/douyin/card.json", { cache: "no-store" })
+            const json = await raw.json()
+            const data = json.data || {}
+            const stats = data.statistics || {}
+            const durationMs: number = Number(data.duration || 0)
+            const durationSec = Math.floor(durationMs / 1000)
+            const minutes = Math.floor(durationSec / 60)
+            const seconds = String(durationSec % 60).padStart(2, "0")
+            const createTime: number | undefined = data.create_time
+            const publishTime = createTime ? new Date(createTime * 1000).toLocaleString("zh-CN") : ""
+            card = {
+              id: 1,
+              title: data.preview_title || data.desc || "",
+              description: data.desc || "",
+              thumbnail: (data.url_list && data.url_list[0]) || "",
+              platform: "抖音",
+              author: data.nickname || "",
+              likes: Number(stats.digg_count || 0),
+              comments: Number(stats.comment_count || 0),
+              shares: Number(stats.share_count || 0),
+              sentiment: "negative",
+              duration: `${minutes}:${seconds}`,
+              publishTime,
+              contentType: "视频",
+              views: Number(stats.play_count || 0),
+              riskLevel: "中风险",
+              original_url: json.aweme_id ? `https://www.douyin.com/video/${json.aweme_id}` : "",
+            }
+          } catch {}
+        }
+        let detail: any | null = null
+        if (detailRes.ok) detail = await detailRes.json()
+        if (!detail || !detail.analysis) {
+          try {
+            const raw = await fetch("/data/douyin/detail.json", { cache: "no-store" })
+            const json = await raw.json()
+            const result = json.result || {}
+            const riskSet = new Set<string>()
+            ;(result.timeline || []).forEach((t: any) => (t.risk_type || []).forEach((r: string) => riskSet.add(r)))
+            detail = {
+              analysis: {
+                summary: result.summary || "",
+                sentiment: result.sentiment || "neutral",
+                brand: result.brand || "",
+                timeline: result.timeline || [],
+                key_points: result.key_points || [],
+                risks: [],
+              },
+              risk_types: Array.from(riskSet),
+            }
+          } catch {}
+        }
+        if (card && detail)
+          setData({ ...card, analysis: detail.analysis, risk_types: detail.risk_types, original_url: card.original_url })
       } catch (e) {}
     }
     hydrate()
