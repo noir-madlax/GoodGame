@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   TrendingUp,
@@ -23,20 +23,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const mockVideos = [
   {
     id: 1,
-    title: "海底捞服务体验分享",
-    description: "今天去海底捞吃火锅，服务员小姐姐超级贴心，还帮我们拍照！",
-    thumbnail: "/hotpot-restaurant-interior.png",
-    platform: "小红书",
-    author: "美食达人小王",
-    likes: 1234,
-    comments: 89,
-    shares: 45,
-    sentiment: "positive",
-    duration: "2:34",
-    publishTime: "2小时前",
+    title: "",
+    description: "",
+    thumbnail: "",
+    platform: "抖音",
+    author: "",
+    likes: 0,
+    comments: 0,
+    shares: 0,
+    sentiment: "negative",
+    duration: "0:00",
+    publishTime: "",
     contentType: "视频",
-    views: 12340,
-    riskLevel: "低风险",
+    views: 0,
+    riskLevel: "中风险",
   },
   {
     id: 2,
@@ -168,7 +168,8 @@ function VideoCard({ video }: { video: (typeof mockVideos)[0] }) {
 
   const handleViewOriginal = (e: React.MouseEvent) => {
     e.stopPropagation()
-    window.open(`https://${video.platform.toLowerCase()}.com/video/${video.id}`, "_blank")
+    const url = (video as any).original_url || `https://${video.platform.toLowerCase()}.com/video/${video.id}`
+    window.open(url, "_blank")
   }
 
   return (
@@ -189,6 +190,11 @@ function VideoCard({ video }: { video: (typeof mockVideos)[0] }) {
         <div className="absolute top-2 right-2 flex gap-1">
           <Badge className={getSentimentColor(video.sentiment)}>{getSentimentText(video.sentiment)}</Badge>
           <Badge className={getRiskColor(video.riskLevel)}>{video.riskLevel}</Badge>
+          {Array.isArray((video as any).risk_types) && (video as any).risk_types.map((r: string) => (
+            <Badge key={r} variant="secondary" className="bg-amber-50 text-amber-800 border border-amber-200">
+              {r}
+            </Badge>
+          ))}
         </div>
         <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
           {video.duration}
@@ -253,6 +259,26 @@ export default function HomePage() {
     publishTime: "all",
     views: "all",
   })
+
+  // hydrate first card from API
+  useEffect(() => {
+    async function load() {
+      try {
+        const [cardRes, detailRes] = await Promise.all([
+          fetch("/api/video/card", { cache: "no-store" }),
+          fetch("/api/video/detail", { cache: "no-store" }),
+        ])
+        if (!cardRes.ok) return
+        const card = await cardRes.json()
+        if (detailRes.ok) {
+          const detail = await detailRes.json()
+          card.risk_types = detail.risk_types || []
+        }
+        mockVideos[0] = card
+      } catch (e) {}
+    }
+    load()
+  }, [])
 
   const navigationItems = [
     { id: "content", label: "舆情内容", icon: BarChart3, active: true },

@@ -1,4 +1,5 @@
 "use client"
+import { use, useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   ArrowLeft,
@@ -20,47 +21,24 @@ import { Badge } from "@/components/ui/badge"
 const mockDetailData = {
   1: {
     id: 1,
-    title: "海底捞服务体验分享",
-    description: "今天去海底捞吃火锅，服务员小姐姐超级贴心，还帮我们拍照！",
-    thumbnail: "/hotpot-restaurant-interior.png",
-    platform: "小红书",
-    author: "美食达人小王",
-    likes: 1234,
-    comments: 89,
-    shares: 45,
-    views: 12340,
-    duration: "2:34",
-    publishTime: "2小时前",
+    title: "",
+    description: "",
+    thumbnail: "",
+    platform: "抖音",
+    author: "",
+    likes: 0,
+    comments: 0,
+    shares: 0,
+    views: 0,
+    duration: "0:00",
+    publishTime: "",
     contentType: "视频",
     analysis: {
-      summary: "视频展示了海底捞优质的服务体验，顾客对服务员的贴心服务表示满意，整体舆情积极正面，有助于品牌形象提升。",
-      sentiment: "positive",
+      summary: "",
+      sentiment: "negative",
       brand: "海底捞",
-      timeline: [
-        {
-          timestamp: "00:00:15",
-          scene_description: "服务员主动为顾客拍照，面带微笑",
-          audio_transcript: "服务员小姐姐超级贴心，还帮我们拍照",
-          issue: "无明显问题，展现良好服务态度",
-          risk_type: [],
-          severity: 1,
-          evidence: "服务员主动提供拍照服务，体现贴心服务",
-        },
-        {
-          timestamp: "00:01:30",
-          scene_description: "餐厅环境整洁，顾客用餐愉快",
-          audio_transcript: "环境真的很不错，很干净",
-          issue: "无问题，正面评价",
-          risk_type: [],
-          severity: 1,
-          evidence: "顾客对环境卫生给予正面评价",
-        },
-      ],
-      key_points: [
-        "服务员主动提供拍照服务，体现贴心服务理念",
-        "餐厅环境卫生状况良好，获得顾客认可",
-        "整体用餐体验积极正面，有利于品牌口碑传播",
-      ],
+      timeline: [],
+      key_points: [],
       risks: [],
     },
   },
@@ -120,10 +98,37 @@ const mockDetailData = {
   },
 }
 
-export default function DetailPage({ params }: { params: { id: string } }) {
+export default function DetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
-  const videoId = Number.parseInt(params.id)
-  const data = mockDetailData[videoId as keyof typeof mockDetailData]
+  const { id } = use(params)
+  const videoId = Number.parseInt(id)
+  const [data, setData] = useState(mockDetailData[videoId as keyof typeof mockDetailData])
+
+  useEffect(() => {
+    async function hydrate() {
+      if (videoId !== 1) return
+      try {
+        const [cardRes, detailRes] = await Promise.all([
+          fetch("/api/video/card", { cache: "no-store" }),
+          fetch("/api/video/detail", { cache: "no-store" }),
+        ])
+        if (!cardRes.ok || !detailRes.ok) return
+        const card = await cardRes.json()
+        const detail = await detailRes.json()
+        setData({ ...card, analysis: detail.analysis, risk_types: detail.risk_types, original_url: card.original_url })
+      } catch (e) {}
+    }
+    hydrate()
+  }, [videoId])
+
+  const summaryRiskTypes: string[] = useMemo(() => {
+    // prefer risk_types from API, or gather from timeline
+    const fromApi = (data as any)?.risk_types as string[] | undefined
+    if (fromApi && fromApi.length > 0) return fromApi
+    const set = new Set<string>()
+    data.analysis.timeline.forEach((t: any) => (t.risk_type || []).forEach((r: string) => set.add(r)))
+    return Array.from(set)
+  }, [data])
 
   if (!data) {
     return <div>内容不存在</div>
@@ -205,9 +210,16 @@ export default function DetailPage({ params }: { params: { id: string } }) {
                   <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
                     {data.duration}
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Button size="lg" className="rounded-full w-16 h-16">
-                      <Play className="w-6 h-6" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                    <Button
+                      size="sm"
+                      className="h-9 px-3 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 text-sm rounded-md shadow"
+                      onClick={() => {
+                        const url = (data as any).original_url || `https://${data.platform.toLowerCase()}.com/video/${data.id}`
+                        window.open(url, "_blank")
+                      }}
+                    >
+                      查看原内容
                     </Button>
                   </div>
                 </div>
@@ -249,12 +261,17 @@ export default function DetailPage({ params }: { params: { id: string } }) {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Badge className={getSentimentColor(data.analysis.sentiment)}>
                     {getSentimentIcon(data.analysis.sentiment)}
                     <span className="ml-1">{getSentimentText(data.analysis.sentiment)}</span>
                   </Badge>
                   <Badge variant="outline">品牌: {data.analysis.brand}</Badge>
+                  {summaryRiskTypes.map((r) => (
+                    <Badge key={r} variant="secondary" className="bg-amber-50 text-amber-800 border border-amber-200">
+                      {r}
+                    </Badge>
+                  ))}
                 </div>
                 <p className="text-gray-700 leading-relaxed">{data.analysis.summary}</p>
               </CardContent>
@@ -267,69 +284,78 @@ export default function DetailPage({ params }: { params: { id: string } }) {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {data.analysis.key_points.map((point, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0" />
-                      <span className="text-gray-700">{point}</span>
-                    </li>
-                  ))}
+                  {data.analysis.timeline.map((t, index) => {
+                    const r = (t.risk_type && t.risk_type[0]) || undefined
+                    const textParts = [t.issue || t.scene_description]
+                    const text = textParts.filter(Boolean).join(" - ")
+                    return (
+                      <li key={index} className="flex items-start gap-2">
+                        {r ? (
+                          <Badge className="mt-0.5 bg-amber-50 text-amber-800 border border-amber-200">{r}</Badge>
+                        ) : (
+                          <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0" />
+                        )}
+                        <span className="text-gray-700">
+                          {r ? <span className="font-medium mr-1">：</span> : null}
+                          {text}
+                        </span>
+                      </li>
+                    )
+                  })}
                 </ul>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* 时间轴分析 */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="w-5 h-5" />
-              时间轴分析
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              {data.analysis.timeline.map((item, index) => (
-                <div key={index} className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="w-3 h-3 bg-emerald-500 rounded-full" />
-                    {index < data.analysis.timeline.length - 1 && <div className="w-px h-16 bg-gray-200 mt-2" />}
-                  </div>
-                  <div className="flex-1 pb-6">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="outline" className="font-mono text-xs">
-                        {item.timestamp}
-                      </Badge>
-                      {item.severity > 1 && (
-                        <Badge className={getSeverityColor(item.severity)}>风险等级: {item.severity}</Badge>
-                      )}
+        {/* 时间轴分析：仅在有数据时展示，压缩留白 */}
+        {data.analysis.timeline.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="w-5 h-5" />
+                时间轴分析
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                {data.analysis.timeline.map((item, index) => (
+                  <div key={index} className="flex gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="w-3 h-3 bg-emerald-500 rounded-full" />
+                      {index < data.analysis.timeline.length - 1 && <div className="w-px h-12 bg-gray-200 mt-2" />}
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                      <div>
-                        <h4 className="font-medium text-sm text-gray-900 mb-1">画面描述</h4>
-                        <p className="text-sm text-gray-600">{item.scene_description}</p>
+                    <div className="flex-1 pb-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {item.timestamp}
+                        </Badge>
+                        {item.severity > 1 && (
+                          <Badge className={getSeverityColor(item.severity)}>风险等级: {item.severity}</Badge>
+                        )}
+                        {(item.risk_type || []).map((r: string) => (
+                          <Badge key={r} variant="secondary" className="bg-amber-50 text-amber-800 border border-amber-200">
+                            {r}
+                          </Badge>
+                        ))}
                       </div>
-                      <div>
-                        <h4 className="font-medium text-sm text-gray-900 mb-1">音频转写</h4>
-                        <p className="text-sm text-gray-600 italic">"{item.audio_transcript}"</p>
+                      <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                        {item.scene_description && (
+                          <p className="text-sm text-gray-700">{item.scene_description}</p>
+                        )}
+                        {item.audio_transcript && (
+                          <p className="text-sm text-gray-500 italic">"{item.audio_transcript}"</p>
+                        )}
+                        {item.issue && <p className="text-sm text-gray-700">{item.issue}</p>}
+                        {item.evidence && <p className="text-xs text-gray-500">{item.evidence}</p>}
                       </div>
-                      <div>
-                        <h4 className="font-medium text-sm text-gray-900 mb-1">问题分析</h4>
-                        <p className="text-sm text-gray-600">{item.issue}</p>
-                      </div>
-                      {item.evidence && (
-                        <div>
-                          <h4 className="font-medium text-sm text-gray-900 mb-1">证据要点</h4>
-                          <p className="text-sm text-gray-600">{item.evidence}</p>
-                        </div>
-                      )}
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* 风险清单与建议 */}
         {data.analysis.risks.length > 0 && (

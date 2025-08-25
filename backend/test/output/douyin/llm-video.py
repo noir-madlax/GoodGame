@@ -18,9 +18,9 @@ import argparse
 # REQUIRED: set the target video file here if not supplying via CLI
 # You can modify this constant directly to change the target file.
 #⼩狗已经沉浸在海底捞⽆法⾃拔了-已分析
-#VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4"
+VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4"
 #这酒你就喝吧 一喝一个不吱声
-VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4"
+#VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4"
 #下次请善待我们小吃房好吗🥺#海底捞 #回答我-已分析
 #VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7505583378596646180/7505583378596646180.mp4"
 
