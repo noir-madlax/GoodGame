@@ -188,6 +188,9 @@ exports/
 *.json
 *.xlsx
 
+# 保留前端静态数据到仓库（覆盖上面的 *.json 规则）
+!frontend/public/data/**/*.json
+
 # 日志文件
 *.log
 logs/

@@ -4,8 +4,15 @@ import fs from "fs/promises"
 // Read card data from backend JSON and map to frontend card shape
 export async function GET() {
   try {
-    const filePath = "/Users/rigel/project/goodgame/backend/test/output/douyin/output/prd/#⼩狗已经沉浸在海底捞⽆法⾃拔了/card.json"
-    const raw = await fs.readFile(filePath, "utf-8")
+    let raw: string
+    try {
+      // preferred path on Vercel: read from public data
+      raw = await fs.readFile(process.cwd() + "/public/data/douyin/card.json", "utf-8")
+    } catch {
+      // fallback to backend path for local dev
+      const filePath = "/Users/rigel/project/goodgame/backend/test/output/douyin/output/prd/#⼩狗已经沉浸在海底捞⽆法⾃拔了/card.json"
+      raw = await fs.readFile(filePath, "utf-8")
+    }
     const json = JSON.parse(raw)
     const data = json.data || {}
     const stats = data.statistics || {}
