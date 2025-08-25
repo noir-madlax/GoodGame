@@ -17,29 +17,12 @@ import argparse
 
 # REQUIRED: set the target video file here if not supplying via CLI
 # You can modify this constant directly to change the target file.
-#⼩狗已经沉浸在海底捞⽆法⾃拔了-已分析
-#VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4"
-#这酒你就喝吧 一喝一个不吱声
-VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4"
-#下次请善待我们小吃房好吗🥺#海底捞 #回答我-已分析
-#VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7505583378596646180/7505583378596646180.mp4"
-
-# Optional: set Gemini API key here to avoid VSCode Run Python not inheriting shell env
-API_KEY = os.getenv("GEMINI_API_KEY", "")
-
+VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4"
 
 def ensure_output_dir() -> Path:
 	output_dir = Path(__file__).resolve().parent / "output"
 	output_dir.mkdir(parents=True, exist_ok=True)
 	return output_dir
-
-
-class EvidenceItem(BaseModel):
-	scene_area: str
-	subject_type: str
-	subject_behavior: str
-	negative_impact: str
-	details: str | None = None
 
 
 class TimelineItem(BaseModel):
@@ -49,17 +32,17 @@ class TimelineItem(BaseModel):
 	issue: str
 	risk_type: list[str] | str
 	severity: int | None = None
-	evidence: list[EvidenceItem] | None = None
+	evidence: str | None = None
 
 
 class RiskItem(BaseModel):
 	timestamp: str
 	risk_type: str
-	evidence: list[EvidenceItem] | None = None
+	evidence: str | None = None
 	recommendation: str | None = None
 
 
-class VideoAnalysisV2(BaseModel):
+class VideoAnalysis(BaseModel):
 	summary: str
 	sentiment: str
 	brand: str
@@ -101,26 +84,6 @@ def _to_jsonable(obj):
 		return repr(obj)
 
 
-def _read_env_key_from_files(paths: list[Path], key: str) -> str:
-	"""Minimal .env reader: reads KEY=VALUE lines without external deps."""
-	for p in paths:
-		try:
-			if not p.exists():
-				continue
-			for line in p.read_text(encoding="utf-8").splitlines():
-				line = line.strip()
-				if not line or line.startswith("#"):
-					continue
-				if "=" not in line:
-					continue
-				k, v = line.split("=", 1)
-				if k.strip() == key:
-					return v.strip().strip('"\'')
-		except Exception:
-			pass
-	return ""
-
-
 def _wait_file_active(client: genai.Client, name: str, timeout_sec: int = 120) -> None:
 	"""Poll file state until ACTIVE or timeout."""
 	start = _time.time()
@@ -134,7 +97,6 @@ def _wait_file_active(client: genai.Client, name: str, timeout_sec: int = 120) -
 		_time.sleep(2)
 
 
-
 def analyze_with_local_file(client: genai.Client, local_path: Path, model: str) -> types.GenerateContentResponse:
 	file_obj = client.files.upload(file=str(local_path))
 	# Wait until file is ACTIVE before use
@@ -142,58 +104,32 @@ def analyze_with_local_file(client: genai.Client, local_path: Path, model: str) 
 	# Load system prompt from txt next to this script
 	prompt_path = Path(__file__).resolve().parent / "videoprompt.txt"
 	system_prompt = prompt_path.read_text(encoding="utf-8") if prompt_path.exists() else ""
-
-	# Build video part with explicit metadata (fps)
-	file_uri = getattr(file_obj, "uri", None) or getattr(file_obj, "file_uri", None)
-	mime_type = getattr(file_obj, "mime_type", None) or "video/mp4"
-	video_part = types.Part(
-		file_data=types.FileData(file_uri=file_uri, mime_type=mime_type),
-		video_metadata=types.VideoMetadata(fps=5),
-	)
-
 	return client.models.generate_content(
 		model=model,
 		contents=[
-			video_part,
 			"请基于系统提示对视频进行舆情与合规风险分析，并严格输出 JSON。",
+			file_obj,
 		],
 		config=types.GenerateContentConfig(
 			temperature=0.3,
 			response_mime_type="application/json",
-			response_schema=VideoAnalysisV2,
+			response_schema=VideoAnalysis,
 			system_instruction=system_prompt,
 		),
 	)
 
 
-def main(video_path: str | None = None, api_key_param: str | None = None) -> None:
-	# Resolve GEMINI_API_KEY with precedence suitable for VSCode Run Python
-	api_key = api_key_param or (os.getenv("GEMINI_API_KEY") or API_KEY)
-	# Try dotenv if available
+def main(video_path: str | None = None) -> None:
+	# Switch to official Gemini SDK and GEMINI_API_KEY
+	api_key = os.getenv("GEMINI_API_KEY")
 	if not api_key and load_dotenv:
-		candidates: list[Path] = [
-			Path(__file__).resolve().parent / ".env",
-			Path(__file__).resolve().parents[4] / "backend/.env",
-			Path(__file__).resolve().parents[4] / ".env",
-		]
-		for env_path in candidates:
-			try:
-				if env_path.exists():
-					load_dotenv(env_path)  # type: ignore
-					api_key = os.getenv("GEMINI_API_KEY")
-					if api_key:
-						break
-			except Exception:
-				pass
-	# Manual .env parsing fallback when python-dotenv missing or failed
+		project_root = Path(__file__).resolve().parents[4]
+		for env_path in (project_root / "backend/.env", project_root / ".env"):
+			if env_path.exists():
+				load_dotenv(env_path)  # type: ignore
+				api_key = os.getenv("GEMINI_API_KEY")
 	if not api_key:
-		api_key = _read_env_key_from_files([
-			Path(__file__).resolve().parent / ".env",
-			Path(__file__).resolve().parents[4] / "backend/.env",
-			Path(__file__).resolve().parents[4] / ".env",
-		], "GEMINI_API_KEY") or api_key
-	if not api_key:
-		raise RuntimeError("GEMINI_API_KEY not found. Provide via --api-key, API_KEY constant, or .env next to script.")
+		raise RuntimeError("GEMINI_API_KEY not found")
 
 	client = build_client(api_key)
 	output_dir = ensure_output_dir()
@@ -210,10 +146,7 @@ def main(video_path: str | None = None, api_key_param: str | None = None) -> Non
 	parser = argparse.ArgumentParser(add_help=False)
 	parser.add_argument("file", nargs="?", default="", type=str)
 	parser.add_argument("--file", dest="file_flag", default="", type=str)
-	parser.add_argument("--api-key", dest="api_key_flag", default="", type=str)
 	args, _ = parser.parse_known_args()
-	if args.api_key_flag:
-		api_key = args.api_key_flag
 
 	# Resolve provided path precedence: function param > positional > --file > top-level constant
 	candidate_path_str = video_path or args.file or args.file_flag or VIDEO_FILE
@@ -232,9 +165,7 @@ def main(video_path: str | None = None, api_key_param: str | None = None) -> Non
 		"request_config": {
 			"temperature": 0.3,
 			"response_mime_type": "application/json",
-			"response_schema": "VideoAnalysisV2(pydantic)",
-			"video_metadata": {"fps": 5},
-			"contents_order": ["video", "text"],
+			"response_schema": "VideoAnalysis(pydantic)",
 		},
 	}
 	print(json.dumps({"request": debug_params}, ensure_ascii=False, indent=2))
