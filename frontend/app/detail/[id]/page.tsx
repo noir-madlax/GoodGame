@@ -160,7 +160,16 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                 summary: result.summary || "",
                 sentiment: result.sentiment || "neutral",
                 brand: result.brand || "",
-                timeline: result.timeline || [],
+                timeline:
+                  (result.timeline || []).map((t: any) => ({
+                    timestamp: t.timestamp || "",
+                    scene_description: t.scene_description || "",
+                    audio_transcript: t.audio_transcript || "",
+                    issue: t.issue || "",
+                    risk_type: t.risk_type || [],
+                    severity: 3,
+                    evidence: (t.evidence && t.evidence[0] && t.evidence[0].details) || "",
+                  })) || [],
                 key_points: result.key_points || [],
                 risks: [],
               },
