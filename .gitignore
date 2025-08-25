@@ -210,3 +210,7 @@ tests/
 # 缓存文件
 cache/
 .cache/ 
+
+
+# 特殊情况
+!backend/tikhub_api/downloads/douyin/*/video_info.json
