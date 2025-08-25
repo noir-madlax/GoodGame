@@ -73,10 +73,14 @@ def download_video_complete(platform: str, video_id: str, base_download_dir: str
         if video_details:
             _display_video_info(platform, video_details)
 
-        # 7. 设置视频文件名: {视频ID}.mp4
+        # 7. 获取弹幕信息（仅抖音平台支持）
+        if platform == "douyin" and hasattr(fetcher, 'get_video_danmaku'):
+            _fetch_and_save_danmaku(fetcher, video_id, video_details, video_dir)
+
+        # 8. 设置视频文件名: {视频ID}.mp4
         video_filename = f"{video_id}.mp4"
 
-        # 8. 尝试下载视频（多URL重试）
+        # 9. 尝试下载视频（多URL重试）
         print("⬇️ 开始下载视频...")
         downloader = VideoDownloader(video_dir)
         file_path = _download_with_multiple_urls(downloader, download_urls, video_filename)
@@ -161,6 +165,46 @@ def _display_video_info(platform: str, video_details: dict) -> None:
         print(f"⚠️ 显示视频信息时出错: {str(e)}")
 
 
+def _fetch_and_save_danmaku(fetcher, video_id: str, video_details: dict, video_dir: str) -> None:
+    """
+    获取并保存弹幕信息到 danmaku.json 文件
+
+    Args:
+        fetcher: 视频获取器实例
+        video_id (str): 视频 ID
+        video_details (dict): 视频详细信息
+        video_dir (str): 视频保存目录
+    """
+    try:
+        print("🎭 正在获取弹幕信息...")
+
+        # 从视频详细信息中获取视频时长
+        aweme_detail = video_details.get('aweme_detail', {})
+        video_info = aweme_detail.get('video', {})
+        duration = video_info.get('duration', 0)  # 时长单位为毫秒
+
+        if duration <= 0:
+            print("⚠️ 无法获取视频时长，跳过弹幕获取")
+            return
+
+        print(f"📏 视频时长: {duration / 1000:.1f} 秒")
+
+        # 获取弹幕信息
+        danmaku_data = fetcher.get_video_danmaku(video_id, duration)
+
+        if danmaku_data:
+            # 保存弹幕信息到 danmaku.json 文件
+            danmaku_file_path = os.path.join(video_dir, "danmaku.json")
+            with open(danmaku_file_path, 'w', encoding='utf-8') as f:
+                json.dump(danmaku_data, f, ensure_ascii=False, indent=2)
+            print(f"🎭 弹幕信息已保存: {danmaku_file_path}")
+        else:
+            print("⚠️ 未获取到弹幕信息")
+
+    except Exception as e:
+        print(f"⚠️ 获取弹幕信息时出错: {str(e)}")
+
+
 # 为了向后兼容，保留原函数名
 def download_douyin_video_complete(aweme_id: str, base_download_dir: str = "downloads"):
     """
@@ -183,33 +227,13 @@ def main():
 
     # 示例视频 ID
     test_cases = [
-        ("douyin", "7383012850161241385"),
-        ("xiaohongshu", "test_note_id_123"),
+        ("douyin", "7499608775142608186"),
+        # ("xiaohongshu", "test_note_id_123"),
     ]
 
-    for platform, video_id in test_cases:
-        print(f"\n=== {platform.upper()} 平台测试 ===")
-
-        try:
-            # 创建获取器实例
-            fetcher = create_fetcher(platform)
-            print(f"✅ 成功创建 {platform} 获取器: {fetcher}")
-
-            # 获取完整的 API 响应
-            full_response = fetcher.fetch_video_info(video_id)
-            print(f"API 状态码: {full_response.get('code')}")
-
-            # 获取视频详细信息
-            video_details = fetcher.get_video_details(video_id)
-            if video_details:
-                _display_video_info(platform, video_details)
-
-        except Exception as e:
-            print(f"❌ {platform} 平台测试失败: {e}")
-
-    print("\n=== 完整下载流程示例 ===")
+    print("\n=== 完整下载流程示例（包含弹幕获取）===")
     # 执行完整的下载流程（仅测试抖音）
-    download_path = download_video_complete("douyin", "7383012850161241385", "downloads")
+    download_path = download_video_complete("douyin", "7499608775142608186", "downloads")
 
     if download_path:
         print(f"\n✅ 任务完成！视频已保存到: {download_path}")

@@ -80,6 +80,77 @@ class DouyinVideoFetcher(BaseFetcher):
             print(f"获取下载链接失败: {str(e)}")
             return None
 
+    def fetch_video_danmaku(self, item_id: str, duration: int, start_time: int = 0, end_time: Optional[int] = None) -> Dict[str, Any]:
+        """
+        获取抖音视频弹幕信息
+
+        Args:
+            item_id (str): 抖音视频 ID
+            duration (int): 视频时长（毫秒）
+            start_time (int): 开始时间（毫秒），默认为 0
+            end_time (Optional[int]): 结束时间（毫秒），如果为 None 则使用 duration-1
+
+        Returns:
+            Dict[str, Any]: API 返回的弹幕信息
+
+        Raises:
+            requests.RequestException: 请求异常
+            ValueError: 参数错误
+        """
+        self._validate_video_id(item_id)
+
+        if duration <= 0:
+            raise ValueError("视频时长必须大于 0")
+
+        if start_time < 0:
+            raise ValueError("开始时间不能小于 0")
+
+        if end_time is None:
+            end_time = duration - 1
+
+        if end_time > duration:
+            raise ValueError("结束时间不能大于视频时长")
+
+        if start_time >= end_time:
+            raise ValueError("开始时间必须小于结束时间")
+
+        url = f"{self.base_url}/douyin/web/fetch_one_video_danmaku"
+        params = {
+            'item_id': item_id,
+            'duration': duration,
+            'start_time': start_time,
+            'end_time': end_time
+        }
+
+        return self._make_request(url, params)
+
+    def get_video_danmaku(self, item_id: str, duration: int, start_time: int = 0, end_time: Optional[int] = None) -> Optional[Dict[str, Any]]:
+        """
+        获取视频弹幕信息的便捷方法
+
+        Args:
+            item_id (str): 抖音视频 ID
+            duration (int): 视频时长（毫秒）
+            start_time (int): 开始时间（毫秒），默认为 0
+            end_time (Optional[int]): 结束时间（毫秒），如果为 None 则使用 duration-1
+
+        Returns:
+            Optional[Dict[str, Any]]: 弹幕信息，如果获取失败返回 None
+        """
+        try:
+            result = self.fetch_video_danmaku(item_id, duration, start_time, end_time)
+
+            # 检查 API 返回状态
+            if self._check_api_response(result):
+                return result.get('data')
+            else:
+                print(f"获取弹幕失败: {result.get('message', '未知错误')}")
+                return None
+
+        except Exception as e:
+            print(f"获取弹幕信息失败: {str(e)}")
+            return None
+
 
 # 便捷函数
 def fetch_douyin_video(aweme_id: str) -> Optional[Dict[str, Any]]:
