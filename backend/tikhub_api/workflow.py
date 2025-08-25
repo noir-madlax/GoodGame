@@ -9,13 +9,16 @@ import sys
 
 # 添加当前目录到 Python 路径，支持直接运行
 if __name__ == "__main__":
-    sys.path.insert(0, os.path.dirname(__file__))
-    from fetchers import create_fetcher, get_supported_platforms
-    from video_downloader import VideoDownloader
+    # 将项目根目录加入路径，确保以包方式导入，避免相对导入报错
+    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+    from tikhub_api.fetchers import create_fetcher, get_supported_platforms
+    from tikhub_api.video_downloader import VideoDownloader
+    from tikhub_api.orm.post_repository import PostRepository
 else:
     # 作为模块导入时使用相对导入
     from .fetchers import create_fetcher, get_supported_platforms
     from .video_downloader import VideoDownloader
+    from .orm.post_repository import PostRepository
 
 
 def download_video_complete(platform: str, video_id: str, base_download_dir: str = "downloads"):
@@ -39,46 +42,57 @@ def download_video_complete(platform: str, video_id: str, base_download_dir: str
             print(f"❌ 不支持的平台: {platform}，支持的平台: {get_supported_platforms()}")
             return None
 
-        # 2. 创建目录结构: downloads/{platform}/{视频ID}/
-        video_dir = os.path.join(base_download_dir, platform, video_id)
-        os.makedirs(video_dir, exist_ok=True)
-        print(f"📁 创建目录: {video_dir}")
-
-        # 3. 获取完整视频信息
-        print("📡 正在获取视频信息...")
+        # 2~5. 直接通过统一模型一步到位，并从统一模型中拿下载地址（必要时回退）
+        print(" 正在获取统一领域模型并准备下载...")
         fetcher = create_fetcher(platform)
-        full_video_info = fetcher.fetch_video_info(video_id)
 
-        if not full_video_info or not fetcher._check_api_response(full_video_info):
-            print("❌ 获取视频信息失败")
+        # 6 获取统一领域模型 PlatformPost 并直接入库
+        try:
+            unified_post = fetcher.get_platform_post(video_id)
+            if unified_post is not None:
+                saved = PostRepository.upsert_post(unified_post)
+                print(f"🧩 统一模型已入库: id={saved.id} platform={saved.platform} item={saved.platform_item_id}")
+            else:
+                print("❌ 未能生成统一领域模型 PlatformPost")
+                return None
+        except Exception as e:
+            print(f"⚠️ 入库统一领域模型出错: {e}")
             return None
 
-        # 4. 保存完整视频信息到 JSON 文件
-        json_file_path = os.path.join(video_dir, "video_info.json")
-        with open(json_file_path, 'w', encoding='utf-8') as f:
-            json.dump(full_video_info, f, ensure_ascii=False, indent=2)
-        print(f"💾 视频信息已保存: {json_file_path}")
+        # 从统一模型中获取下载链接，若没有则回退到 fetcher.get_download_urls
+        download_urls = []
+        if getattr(unified_post, "video_url", None):
+            download_urls = [unified_post.video_url]
+        else:
+            download_urls = fetcher.get_download_urls(video_id) or []
 
-        # 5. 获取下载链接
-        download_urls = fetcher.get_download_urls(video_id)
-
+        # 规范化为字符串（避免 Pydantic HttpUrl 之类的不可切片对象）
+        download_urls = [str(u) for u in download_urls if u]
         if not download_urls:
             print("❌ 未找到下载链接")
             return None
 
         print(f"🔗 找到 {len(download_urls)} 个下载链接")
 
-        # 6. 显示视频基本信息
-        video_details = fetcher.get_video_details(video_id)
-        if video_details:
-            _display_video_info(platform, video_details)
+        # 7.（可选）弹幕：仅在支持且能拿到时获取
+        try:
+            from .capabilities import DanmakuProvider  # 局部导入避免循环
+            if isinstance(fetcher, DanmakuProvider):
+                # 需要视频详情中的时长，临时获取一次详情
+                video_details = fetcher.get_video_details(video_id) or {}
+                # 准备保存目录（若还未创建）
+                video_dir = os.path.join(base_download_dir, platform, video_id)
+                os.makedirs(video_dir, exist_ok=True)
+                _fetch_and_save_danmaku(fetcher, video_id, video_details, video_dir)
+            else:
+                print("🎭 当前平台不支持弹幕能力，跳过")
+        except Exception:
+            print("🎭 弹幕能力检测失败或未提供，跳过")
 
-        # 7. 获取弹幕信息（仅抖音平台支持）
-        if platform == "douyin" and hasattr(fetcher, 'get_video_danmaku'):
-            _fetch_and_save_danmaku(fetcher, video_id, video_details, video_dir)
-
-        # 8. 设置视频文件名: {视频ID}.mp4
+        # 8. 设置视频文件名: {视频ID}.mp4，并准备保存目录
         video_filename = f"{video_id}.mp4"
+        video_dir = os.path.join(base_download_dir, platform, video_id)
+        os.makedirs(video_dir, exist_ok=True)
 
         # 9. 尝试下载视频（多URL重试）
         print("⬇️ 开始下载视频...")
@@ -87,7 +101,7 @@ def download_video_complete(platform: str, video_id: str, base_download_dir: str
 
         if file_path:
             print(f"🎉 视频下载完成: {file_path}")
-            print(f"📋 视频信息文件: {json_file_path}")
+
             return file_path
         else:
             print("❌ 所有下载链接都失败了")
@@ -112,11 +126,12 @@ def _download_with_multiple_urls(downloader, download_urls: list, filename: str)
     """
     for i, url in enumerate(download_urls, 1):
         print(f"🔗 尝试第 {i}/{len(download_urls)} 个下载链接...")
-        print(f"   链接: {url[:80]}...")
+        url_str = str(url)
+        print(f"   链接: {url_str[:80]}...")
 
         try:
             # 尝试下载
-            file_path = downloader.download_video_with_retry(url, filename, max_retries=2)
+            file_path = downloader.download_video_with_retry(url_str, filename, max_retries=2)
 
             if file_path:
                 print(f"✅ 第 {i} 个链接下载成功！")
@@ -233,7 +248,7 @@ def main():
 
     print("\n=== 完整下载流程示例（包含弹幕获取）===")
     # 执行完整的下载流程（仅测试抖音）
-    download_path = download_video_complete("douyin", "7499608775142608186", "downloads")
+    download_path = download_video_complete("douyin", "7383012850161241385", "downloads")
 
     if download_path:
         print(f"\n✅ 任务完成！视频已保存到: {download_path}")

@@ -71,6 +71,23 @@ class BaseFetcher(ABC):
         pass
 
     @abstractmethod
+    def get_adapter(self):
+        """返回该平台的视频适配器，实现 to_post(details)->PlatformPost。"""
+        pass
+
+    def get_platform_post(self, video_id: str):
+        """高层统一入口：获取领域模型 PlatformPost。
+        - 默认基于 fetch_video_info -> get_video_details -> adapter.to_post
+        - 子类可重写定制
+        """
+        details = self.get_video_details(video_id)
+        if not details:
+            return None
+        adapter = self.get_adapter()
+        return adapter.to_post(details)
+
+
+    @abstractmethod
     def get_download_urls(self, video_id: str) -> Optional[List[str]]:
         """
         获取视频下载链接的抽象方法
@@ -83,47 +100,6 @@ class BaseFetcher(ABC):
         """
         pass
 
-    @abstractmethod
-    def fetch_video_danmaku(self, video_id: str, duration: int, start_time: int = 0,
-                             end_time: Optional[int] = None) -> Dict[str, Any]:
-        """
-        获取视频弹幕的抽象方法（由具体平台实现）
-
-        Args:
-            video_id (str): 视频 ID
-            duration (int): 视频时长（毫秒）
-            start_time (int): 开始时间（毫秒），默认 0
-            end_time (Optional[int]): 结束时间（毫秒），默认 None 表示使用 duration-1
-
-        Returns:
-            Dict[str, Any]: API 返回的原始响应
-        """
-        pass
-
-    def get_video_danmaku(self, video_id: str, duration: int, start_time: int = 0,
-                           end_time: Optional[int] = None) -> Optional[Dict[str, Any]]:
-        """
-        获取视频弹幕的便捷方法（调用平台实现并做通用成功检查）
-
-        Args:
-            video_id (str): 视频 ID
-            duration (int): 视频时长（毫秒）
-            start_time (int): 开始时间（毫秒），默认 0
-            end_time (Optional[int]): 结束时间（毫秒），默认 None 表示使用 duration-1
-
-        Returns:
-            Optional[Dict[str, Any]]: 成功时返回 data 字段内容，失败返回 None
-        """
-        try:
-            result = self.fetch_video_danmaku(video_id, duration, start_time, end_time)
-            if self._check_api_response(result):
-                return result.get('data')
-            else:
-                print(f"获取弹幕失败: {result.get('message', '未知错误')}")
-                return None
-        except Exception as e:
-            print(f"获取弹幕信息失败: {str(e)}")
-            return None
 
 
     def _make_request(self, url: str, params: Dict[str, Any]) -> Dict[str, Any]:

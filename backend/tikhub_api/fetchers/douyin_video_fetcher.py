@@ -2,7 +2,11 @@ from typing import Dict, Any, Optional, List
 from .base_fetcher import BaseFetcher
 
 
-class DouyinVideoFetcher(BaseFetcher):
+from ..orm.models import PlatformPost
+from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProvider
+
+
+class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, DanmakuProvider):
     """抖音视频获取器，用于调用 TikHub API 获取抖音视频信息"""
 
     @property
@@ -10,11 +14,16 @@ class DouyinVideoFetcher(BaseFetcher):
         """平台名称"""
         return "抖音"
 
+
+    def get_adapter(self):
+        from ..adapters import DouyinVideoAdapter
+        return DouyinVideoAdapter()
+
     @property
     def api_endpoint(self) -> str:
         """API 端点路径"""
         return "/douyin/web/fetch_one_video"
-    
+
     def fetch_video_info(self, aweme_id: str) -> Dict[str, Any]:
         """
         根据视频 ID 获取抖音视频信息
@@ -35,7 +44,7 @@ class DouyinVideoFetcher(BaseFetcher):
         params = {'aweme_id': aweme_id}
 
         return self._make_request(url, params)
-    
+
     def get_video_details(self, aweme_id: str) -> Optional[Dict[str, Any]]:
         """
         获取视频详细信息的便捷方法
@@ -53,7 +62,7 @@ class DouyinVideoFetcher(BaseFetcher):
             if self._check_api_response(result):
                 return result.get('data')
             else:
-                print(f"API 返回错误: {result.get('message', '未知错误')}")
+                print(f"API 返回信息: {result}")
                 return None
 
         except Exception as e:
@@ -156,10 +165,10 @@ class DouyinVideoFetcher(BaseFetcher):
 def fetch_douyin_video(aweme_id: str) -> Optional[Dict[str, Any]]:
     """
     便捷函数：获取抖音视频信息
-    
+
     Args:
         aweme_id (str): 抖音视频 ID
-        
+
     Returns:
         Optional[Dict[str, Any]]: 视频信息，失败返回 None
     """
@@ -170,13 +179,13 @@ def fetch_douyin_video(aweme_id: str) -> Optional[Dict[str, Any]]:
 if __name__ == "__main__":
     # 测试代码
     test_aweme_id = "7499608775142608186"
-    
+
     try:
         fetcher = DouyinVideoFetcher()
         video_info = fetcher.fetch_video_info(test_aweme_id)
         print("API 返回结果:")
         print(video_info)
-        
+
         # 使用便捷方法
         video_details = fetcher.get_video_details(test_aweme_id)
         if video_details:
@@ -184,6 +193,6 @@ if __name__ == "__main__":
             print(video_details)
         else:
             print("获取视频详细信息失败")
-            
+
     except Exception as e:
         print(f"错误: {str(e)}")

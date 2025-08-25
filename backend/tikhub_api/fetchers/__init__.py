@@ -16,8 +16,6 @@ from .fetcher_factory import (
     Platform,
     create_fetcher,
     get_supported_platforms,
-    fetch_video_info,
-    fetch_video_danmaku,
 )
 
 __all__ = [
@@ -35,6 +33,4 @@ __all__ = [
     'Platform',
     'create_fetcher',
     'get_supported_platforms',
-    'fetch_video_info',
-    'fetch_video_danmaku',
 ]

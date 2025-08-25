@@ -15,6 +15,11 @@ class XiaohongshuFetcher(BaseFetcher):
         """平台名称"""
         return "小红书"
 
+    def get_adapter(self):
+        from ..adapters import XiaohongshuVideoAdapter
+        return XiaohongshuVideoAdapter()
+
+
     @property
     def api_endpoint(self) -> str:
         """API 端点路径"""

@@ -151,38 +151,6 @@ def get_supported_platforms() -> list:
     return FetcherFactory.get_supported_platforms()
 
 
-def fetch_video_info(platform: str, video_id: str) -> Optional[Dict]:
-    """
-    便捷函数：获取任意平台的视频信息
-
-    Args:
-        platform (str): 平台名称
-        video_id (str): 视频 ID
-
-    Returns:
-        Optional[Dict]: 视频信息，失败返回 None
-    """
-    try:
-        fetcher = create_fetcher(platform)
-        return fetcher.get_video_details(video_id)
-    except Exception as e:
-        print(f"获取 {platform} 平台视频信息失败: {str(e)}")
-        return None
-
-
-def fetch_video_danmaku(platform: str, video_id: str, duration: int, start_time: int = 0, end_time: Optional[int] = None) -> Optional[Dict]:
-    """
-    便捷函数：获取任意平台的视频弹幕（若平台不支持则返回 None 或抛出）
-    """
-    try:
-        fetcher = create_fetcher(platform)
-        return fetcher.get_video_danmaku(video_id, duration, start_time, end_time)
-    except NotImplementedError as e:
-        print(str(e))
-        return None
-    except Exception as e:
-        print(f"获取 {platform} 平台弹幕失败: {str(e)}")
-        return None
 
 
 

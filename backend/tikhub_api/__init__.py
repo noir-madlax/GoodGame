@@ -23,8 +23,6 @@ from .fetchers import (
     Platform,
     create_fetcher,
     get_supported_platforms,
-    fetch_video_info,
-    fetch_video_danmaku,
 )
 
 # 工作流组件
@@ -50,8 +48,6 @@ __all__ = [
     'Platform',
     'create_fetcher',
     'get_supported_platforms',
-    'fetch_video_info',
-    'fetch_video_danmaku',
 
     # 工作流组件
     'download_video_complete',
