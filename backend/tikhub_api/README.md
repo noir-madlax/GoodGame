@@ -1,26 +1,35 @@
-# TikHub API 抖音视频下载工具
+# TikHub API 多平台视频下载工具
 
-这是一个用于调用 TikHub API 获取抖音视频信息并下载视频的 Python 工具包。
+这是一个基于工厂模式设计的多平台视频下载工具，支持抖音、小红书等多个平台的视频获取和下载。
 
 ## 功能特性
 
-- ✅ 调用 TikHub API 获取抖音视频详细信息
+- ✅ **工厂模式设计** - 支持多平台扩展
+- ✅ **多平台支持** - 抖音、小红书（可扩展更多平台）
+- ✅ 调用 TikHub API 获取视频详细信息
 - ✅ 解析视频下载链接
 - ✅ 下载视频到本地
 - ✅ 支持重试机制
 - ✅ 显示下载进度
 - ✅ 自动生成安全的文件名
 - ✅ 完整的错误处理
+- ✅ 统一的接口设计
 
 ## 文件结构
 
 ```
 backend/tikhub_api/
 ├── __init__.py                 # 包初始化文件
-├── douyin_video_fetcher.py     # 抖音视频信息获取器
+├── fetchers/                   # 获取器模块目录
+│   ├── __init__.py            # 获取器模块初始化
+│   ├── base_fetcher.py        # 基础获取器抽象类
+│   ├── douyin_video_fetcher.py # 抖音视频获取器
+│   ├── xiaohongshu_fetcher.py # 小红书视频获取器
+│   └── fetcher_factory.py     # 获取器工厂类
 ├── video_downloader.py         # 视频下载工具类
-├── workflow.py                 # 完整工作流程
-├── test_download.py            # 测试脚本
+├── workflow.py                 # 多平台工作流程
+├── demo.py                     # 工厂模式演示脚本
+├── test_factory.py             # 工厂模式测试脚本
 ├── requirements.txt            # 依赖管理
 └── README.md                   # 说明文档
 ```
@@ -54,18 +63,33 @@ tikhub_API_KEY=your_api_key_here
 
 ## 使用方法
 
-### 1. 基础使用 - 获取视频信息
+### 1. 工厂模式 - 创建获取器
 
 ```python
-from douyin_video_fetcher import DouyinVideoFetcher
+from tikhub_api.fetchers import create_fetcher, get_supported_platforms
 
-# 创建获取器
-fetcher = DouyinVideoFetcher()
+# 查看支持的平台
+print(f"支持的平台: {get_supported_platforms()}")
 
-# 获取视频信息
+# 创建抖音获取器
+douyin_fetcher = create_fetcher("douyin")
+
+# 创建小红书获取器
+xiaohongshu_fetcher = create_fetcher("xiaohongshu")
+```
+
+### 2. 基础使用 - 获取视频信息
+
+```python
+# 获取抖音视频信息
 aweme_id = "7499608775142608186"
-video_info = fetcher.fetch_video_info(aweme_id)
+video_info = douyin_fetcher.fetch_video_info(aweme_id)
 print(video_info)
+
+# 获取小红书视频信息
+note_id = "note_id_123"
+note_info = xiaohongshu_fetcher.fetch_video_info(note_id)
+print(note_info)
 ```
 
 ### 2. 获取下载链接
@@ -96,18 +120,32 @@ if download_urls:
         print(f"下载成功: {file_path}")
 ```
 
-### 4. 完整流程 - 一键下载
+### 4. 完整流程 - 多平台一键下载
 
 ```python
-from workflow import download_douyin_video_complete
+from tikhub_api.workflow import download_video_complete
 
-# 一键下载抖音视频
+# 下载抖音视频
 aweme_id = "7499608775142608186"
-file_path = download_douyin_video_complete(aweme_id, "downloads")
+file_path = download_video_complete("douyin", aweme_id, "downloads")
+
+# 下载小红书视频
+note_id = "note_id_123"
+file_path = download_video_complete("xiaohongshu", note_id, "downloads")
 
 if file_path:
     print(f"视频已下载到: {file_path}")
-    # 视频信息保存在: downloads/douyin/{aweme_id}/video_info.json
+    # 视频信息保存在: downloads/{platform}/{video_id}/video_info.json
+```
+
+### 5. 便捷函数 - 跨平台获取
+
+```python
+from tikhub_api.fetchers import fetch_video_info
+
+# 统一接口获取任意平台视频信息
+douyin_info = fetch_video_info("douyin", "7499608775142608186")
+xiaohongshu_info = fetch_video_info("xiaohongshu", "note_id_123")
 ```
 
 ## 运行示例
@@ -118,19 +156,54 @@ cd backend/tikhub_api
 python workflow.py
 ```
 
+### 运行演示
+```bash
+cd backend/tikhub_api
+python demo.py
+```
+
 ### 运行测试
 ```bash
 cd backend/tikhub_api
-python test_download.py
+python test_factory.py
+```
+
+### 验证目录结构
+```bash
+cd backend/tikhub_api
+python test_structure.py
 ```
 
 ## API 说明
 
-### DouyinVideoFetcher 类
+### 工厂模式组件
 
-- `fetch_video_info(aweme_id)`: 获取完整的视频信息
-- `get_video_details(aweme_id)`: 获取视频详细信息
-- `get_download_urls(aweme_id)`: 获取下载链接列表
+#### FetcherFactory 类
+- `create_fetcher(platform)`: 创建指定平台的获取器
+- `get_supported_platforms()`: 获取支持的平台列表
+- `is_platform_supported(platform)`: 检查平台是否支持
+- `register_fetcher(platform, fetcher_class)`: 注册新的获取器类
+
+#### Platform 枚举
+- `DOUYIN`: 抖音平台
+- `XIAOHONGSHU`: 小红书平台
+
+### 基础获取器接口 (BaseFetcher)
+
+所有平台获取器都实现以下接口：
+- `fetch_video_info(video_id)`: 获取完整的视频信息
+- `get_video_details(video_id)`: 获取视频详细信息
+- `get_download_urls(video_id)`: 获取下载链接列表
+
+### 平台特定获取器
+
+#### DouyinVideoFetcher (抖音)
+- 继承自 BaseFetcher
+- 支持抖音视频信息获取和下载链接解析
+
+#### XiaohongshuFetcher (小红书)
+- 继承自 BaseFetcher
+- 支持小红书笔记信息获取（当前为模拟实现）
 
 ### VideoDownloader 类
 
