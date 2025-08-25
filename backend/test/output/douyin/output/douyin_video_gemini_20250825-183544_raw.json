@@ -1,0 +1,150 @@
+{
+  "request": {
+    "model_candidates": [
+      "gemini-2.5-pro"
+    ],
+    "video_file": "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4",
+    "request_config": {
+      "temperature": 0.3,
+      "response_mime_type": "application/json",
+      "response_schema": "VideoAnalysisV2(pydantic)",
+      "video_metadata": {
+        "fps": 5
+      },
+      "contents_order": [
+        "video",
+        "text"
+      ]
+    }
+  },
+  "raw_response_type": "GenerateContentResponse",
+  "raw_response": {
+    "sdk_http_response": {
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "vary": "Origin, X-Origin, Referer",
+        "content-encoding": "gzip",
+        "date": "Mon, 25 Aug 2025 10:36:20 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "x-xss-protection": "0",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "server-timing": "gfet4t7; dur=30574",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "transfer-encoding": "chunked"
+      },
+      "body": null
+    },
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "video_metadata": null,
+              "thought": null,
+              "inline_data": null,
+              "file_data": null,
+              "thought_signature": null,
+              "code_execution_result": null,
+              "executable_code": null,
+              "function_call": null,
+              "function_response": null,
+              "text": "{\n  \"summary\": \"该视频内容与海底捞品牌完全无关，未出现任何品牌相关元素。视频本身包含强烈的性暗示和不当行为，属于高风险的低俗内容，若被错误地与品牌关联，将对品牌形象造成毁灭性打击。整体舆情风险极高。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"timeline\": [\n    {\n      \"timestamp\": \"00:00:00.000\",\n      \"scene_description\": \"在疑似卧室的私人空间内，一名男子将一名穿着暴露（蕾丝上衣、短裙、长靴）的女子按入一个婴儿床中，后续有多人抚摸该女子背部，动作和场景带有强烈的性暗示。\",\n      \"audio_transcript\": \"背景音乐为动感的电子舞曲，无对话。\",\n      \"issue\": \"视频内容低俗，包含强烈的性暗示，且场景涉及成人使用婴儿床进行不当行为，极易引发公众反感和平台封禁。虽然视频与海底捞无直接关联，但其内容性质属于最高级别的品牌风险，必须警惕任何可能产生的错误关联。\",\n      \"risk_type\": [\n        \"内容中黄、暴、政相关的视频\"\n      ],\n      \"severity\": 5,\n      \"evidence\": [\n        {\n          \"scene_area\": \"卫生间/休息区\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"穿着暴露，在婴儿床内进行带有性暗示的互动\",\n          \"negative_impact\": \"视频内容低俗，若与品牌产生任何关联，将严重损害品牌家庭友好、健康积极的公众形象，引发灾难性舆情。\",\n          \"details\": \"视频场景为私人空间，与任何海底捞门店无关。内容涉及成人使用婴儿用品进行不当行为，挑战社会公序良俗。\"\n        }\n      ]\n    }\n  ],\n  \"key_points\": [\n    \"视频内容与海底捞品牌完全无关，无任何品牌标识、员工或场景。\",\n    \"视频内容涉及性暗示和低俗行为，属于高风险内容，违反社交平台规定。\",\n    \"核心风险在于防止任何将此视频与品牌进行错误关联的可能。\",\n    \"该视频的性质决定了任何形式的品牌关联都将是灾难性的。\"\n  ],\n  \"risks\": [\n    {\n      \"timestamp\": \"00:00:00.000\",\n      \"risk_type\": \"内容中黄、暴、政相关的视频\",\n      \"evidence\": [\n        {\n          \"scene_area\": \"卫生间/休息区\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"在婴儿床内进行带有性暗示的互动\",\n          \"negative_impact\": \"严重损害品牌形象，可能被平台判定为低俗色情内容，并引发公众强烈抵制。\",\n          \"details\": \"视频内容与品牌无关，但其低俗性质使其成为一个潜在的舆情炸弹，需警惕任何形式的关联。\"\n        }\n      ],\n      \"recommendation\": \"立即确认该视频的发布者及视频中人物与公司员工无任何关联。同时，应加强对员工社交媒体使用规范的培训，严禁发布、转发任何有损品牌形象的低俗、不当内容。\"\n    }\n  ]\n}"
+            }
+          ],
+          "role": "model"
+        },
+        "citation_metadata": null,
+        "finish_message": null,
+        "token_count": null,
+        "finish_reason": "STOP",
+        "url_context_metadata": null,
+        "avg_logprobs": null,
+        "grounding_metadata": null,
+        "index": 0,
+        "logprobs_result": null,
+        "safety_ratings": null
+      }
+    ],
+    "create_time": null,
+    "model_version": "gemini-2.5-pro",
+    "prompt_feedback": null,
+    "response_id": "pDysaK_NNbCHz7IP9v-8uQM",
+    "usage_metadata": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 769,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 22964,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1412
+        },
+        {
+          "modality": "VIDEO",
+          "token_count": 21040
+        },
+        {
+          "modality": "AUDIO",
+          "token_count": 512
+        }
+      ],
+      "thoughts_token_count": 1470,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 25203,
+      "traffic_type": null
+    },
+    "automatic_function_calling_history": [],
+    "parsed": {
+      "summary": "该视频内容与海底捞品牌完全无关，未出现任何品牌相关元素。视频本身包含强烈的性暗示和不当行为，属于高风险的低俗内容，若被错误地与品牌关联，将对品牌形象造成毁灭性打击。整体舆情风险极高。",
+      "sentiment": "negative",
+      "brand": "海底捞",
+      "timeline": [
+        {
+          "timestamp": "00:00:00.000",
+          "scene_description": "在疑似卧室的私人空间内，一名男子将一名穿着暴露（蕾丝上衣、短裙、长靴）的女子按入一个婴儿床中，后续有多人抚摸该女子背部，动作和场景带有强烈的性暗示。",
+          "audio_transcript": "背景音乐为动感的电子舞曲，无对话。",
+          "issue": "视频内容低俗，包含强烈的性暗示，且场景涉及成人使用婴儿床进行不当行为，极易引发公众反感和平台封禁。虽然视频与海底捞无直接关联，但其内容性质属于最高级别的品牌风险，必须警惕任何可能产生的错误关联。",
+          "risk_type": [
+            "内容中黄、暴、政相关的视频"
+          ],
+          "severity": 5,
+          "evidence": [
+            {
+              "scene_area": "卫生间/休息区",
+              "subject_type": "人",
+              "subject_behavior": "穿着暴露，在婴儿床内进行带有性暗示的互动",
+              "negative_impact": "视频内容低俗，若与品牌产生任何关联，将严重损害品牌家庭友好、健康积极的公众形象，引发灾难性舆情。",
+              "details": "视频场景为私人空间，与任何海底捞门店无关。内容涉及成人使用婴儿用品进行不当行为，挑战社会公序良俗。"
+            }
+          ]
+        }
+      ],
+      "key_points": [
+        "视频内容与海底捞品牌完全无关，无任何品牌标识、员工或场景。",
+        "视频内容涉及性暗示和低俗行为，属于高风险内容，违反社交平台规定。",
+        "核心风险在于防止任何将此视频与品牌进行错误关联的可能。",
+        "该视频的性质决定了任何形式的品牌关联都将是灾难性的。"
+      ],
+      "risks": [
+        {
+          "timestamp": "00:00:00.000",
+          "risk_type": "内容中黄、暴、政相关的视频",
+          "evidence": [
+            {
+              "scene_area": "卫生间/休息区",
+              "subject_type": "人",
+              "subject_behavior": "在婴儿床内进行带有性暗示的互动",
+              "negative_impact": "严重损害品牌形象，可能被平台判定为低俗色情内容，并引发公众强烈抵制。",
+              "details": "视频内容与品牌无关，但其低俗性质使其成为一个潜在的舆情炸弹，需警惕任何形式的关联。"
+            }
+          ],
+          "recommendation": "立即确认该视频的发布者及视频中人物与公司员工无任何关联。同时，应加强对员工社交媒体使用规范的培训，严禁发布、转发任何有损品牌形象的低俗、不当内容。"
+        }
+      ]
+    }
+  },
+  "raw_text": "{\n  \"summary\": \"该视频内容与海底捞品牌完全无关，未出现任何品牌相关元素。视频本身包含强烈的性暗示和不当行为，属于高风险的低俗内容，若被错误地与品牌关联，将对品牌形象造成毁灭性打击。整体舆情风险极高。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"timeline\": [\n    {\n      \"timestamp\": \"00:00:00.000\",\n      \"scene_description\": \"在疑似卧室的私人空间内，一名男子将一名穿着暴露（蕾丝上衣、短裙、长靴）的女子按入一个婴儿床中，后续有多人抚摸该女子背部，动作和场景带有强烈的性暗示。\",\n      \"audio_transcript\": \"背景音乐为动感的电子舞曲，无对话。\",\n      \"issue\": \"视频内容低俗，包含强烈的性暗示，且场景涉及成人使用婴儿床进行不当行为，极易引发公众反感和平台封禁。虽然视频与海底捞无直接关联，但其内容性质属于最高级别的品牌风险，必须警惕任何可能产生的错误关联。\",\n      \"risk_type\": [\n        \"内容中黄、暴、政相关的视频\"\n      ],\n      \"severity\": 5,\n      \"evidence\": [\n        {\n          \"scene_area\": \"卫生间/休息区\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"穿着暴露，在婴儿床内进行带有性暗示的互动\",\n          \"negative_impact\": \"视频内容低俗，若与品牌产生任何关联，将严重损害品牌家庭友好、健康积极的公众形象，引发灾难性舆情。\",\n          \"details\": \"视频场景为私人空间，与任何海底捞门店无关。内容涉及成人使用婴儿用品进行不当行为，挑战社会公序良俗。\"\n        }\n      ]\n    }\n  ],\n  \"key_points\": [\n    \"视频内容与海底捞品牌完全无关，无任何品牌标识、员工或场景。\",\n    \"视频内容涉及性暗示和低俗行为，属于高风险内容，违反社交平台规定。\",\n    \"核心风险在于防止任何将此视频与品牌进行错误关联的可能。\",\n    \"该视频的性质决定了任何形式的品牌关联都将是灾难性的。\"\n  ],\n  \"risks\": [\n    {\n      \"timestamp\": \"00:00:00.000\",\n      \"risk_type\": \"内容中黄、暴、政相关的视频\",\n      \"evidence\": [\n        {\n          \"scene_area\": \"卫生间/休息区\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"在婴儿床内进行带有性暗示的互动\",\n          \"negative_impact\": \"严重损害品牌形象，可能被平台判定为低俗色情内容，并引发公众强烈抵制。\",\n          \"details\": \"视频内容与品牌无关，但其低俗性质使其成为一个潜在的舆情炸弹，需警惕任何形式的关联。\"\n        }\n      ],\n      \"recommendation\": \"立即确认该视频的发布者及视频中人物与公司员工无任何关联。同时，应加强对员工社交媒体使用规范的培训，严禁发布、转发任何有损品牌形象的低俗、不当内容。\"\n    }\n  ]\n}"
+}
