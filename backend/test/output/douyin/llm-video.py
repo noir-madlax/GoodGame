@@ -22,41 +22,36 @@ VIDEO_URL = (
 )
 
 
-def load_api_key() -> str:
-	api_key = os.getenv("OPENROUTER_API_KEY")
-	if api_key:
-		return api_key
-	project_root = Path(__file__).resolve().parents[4]
-	backend_env = project_root / "backend/.env"
-	root_env = project_root / ".env"
-	if load_dotenv:
-		for env_path in (backend_env, root_env):
-			if env_path.exists():
-				load_dotenv(env_path)  # type: ignore
-				api_key = os.getenv("OPENROUTER_API_KEY")
-				if api_key:
-					return api_key
-	# manual parse as last resort
-	for env_path in (backend_env, root_env):
-		if env_path.exists():
-			for line in env_path.read_text(encoding="utf-8").splitlines():
-				if line.strip().startswith("OPENROUTER_API_KEY"):
-					return line.split("=", 1)[1].strip()
-	raise RuntimeError("OPENROUTER_API_KEY not found")
-
-
 def ensure_output_dir() -> Path:
 	output_dir = Path(__file__).resolve().parent / "output"
 	output_dir.mkdir(parents=True, exist_ok=True)
 	return output_dir
 
 
+class TimelineItem(BaseModel):
+	timestamp: str
+	scene_description: str
+	audio_transcript: str | None = None
+	issue: str
+	risk_type: list[str] | str
+	severity: int | None = None
+	evidence: str | None = None
+
+
+class RiskItem(BaseModel):
+	timestamp: str
+	risk_type: str
+	evidence: str | None = None
+	recommendation: str | None = None
+
+
 class VideoAnalysis(BaseModel):
 	summary: str
 	sentiment: str
-	key_points: list[str]
-	risks: list[str] | None = None
 	brand: str
+	timeline: list[TimelineItem]
+	key_points: list[str]
+	risks: list[RiskItem] | None = None
 
 
 def build_client(api_key: str) -> genai.Client:
@@ -81,20 +76,20 @@ def analyze_with_local_file(client: genai.Client, local_path: Path, model: str) 
 	file_obj = client.files.upload(file=str(local_path))
 	# Wait until file is ACTIVE before use
 	_wait_file_active(client, file_obj.name)
+	# Load system prompt from txt next to this script
+	prompt_path = Path(__file__).resolve().parent / "videoprompt.txt"
+	system_prompt = prompt_path.read_text(encoding="utf-8") if prompt_path.exists() else ""
 	return client.models.generate_content(
 		model=model,
 		contents=[
-			"你是一名中文舆情分析师。请分析该视频并输出 JSON。",
+			"请基于系统提示对视频进行舆情与合规风险分析，并严格输出 JSON。",
 			file_obj,
 		],
 		config=types.GenerateContentConfig(
 			temperature=0.3,
 			response_mime_type="application/json",
 			response_schema=VideoAnalysis,
-			system_instruction=(
-				"以简洁中文输出，字段: summary,sentiment(positive|neutral|negative),"
-				"key_points[],risks[],brand='海底捞'。"
-			),
+			system_instruction=system_prompt,
 		),
 	)
 
@@ -117,7 +112,8 @@ def main() -> None:
 	outfile = output_dir / f"douyin_video_gemini_{stamp}.json"
 
 	# Try multiple models and input methods to avoid quota/feature limits
-	model_candidates = ["gemini-2.0-flash-001", "gemini-1.5-flash-8b", "gemini-2.0-pro-exp-02-05"]
+	model_candidates = ["gemini-2.5-pro"]
+	#model_candidates = ["gemini-2.0-flash-001", "gemini-1.5-flash-8b", "gemini-2.0-pro-exp-02-05"]
 	last_err: Exception | None = None
 	resp = None
 
