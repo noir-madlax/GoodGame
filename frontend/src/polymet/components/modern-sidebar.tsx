@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  BarChart3,
-  FileText,
-  Settings,
-  TrendingUp,
-  Filter,
-  Search,
-} from "lucide-react";
+import { BarChart3, Settings, TrendingUp, Filter, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarItem {
@@ -15,6 +8,7 @@ interface SidebarItem {
   icon: React.ReactNode;
   active?: boolean;
   count?: number;
+  disabled?: boolean;
 }
 
 interface ModernSidebarProps {
@@ -34,11 +28,13 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
       id: "analysis",
       label: "内容检索配置",
       icon: <Search className="w-5 h-5" />,
+      disabled: true,
     },
     {
       id: "settings",
       label: "舆情分析配置",
       icon: <Settings className="w-5 h-5" />,
+      disabled: true,
     },
   ];
 
@@ -74,11 +70,14 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
             key={item.id}
             className={cn(
               "w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300",
-              "hover:bg-white/10 hover:backdrop-blur-sm hover:shadow-lg",
+              !item.disabled && "hover:bg-white/10 hover:backdrop-blur-sm hover:shadow-lg",
               item.active
                 ? "bg-gradient-to-r from-blue-500/20 to-purple-600/20 backdrop-blur-sm border border-white/20 shadow-lg"
-                : "hover:border hover:border-white/10"
+                : !item.disabled && "hover:border hover:border-white/10",
+              item.disabled && "opacity-50 cursor-not-allowed"
             )}
+            disabled={item.disabled}
+            aria-disabled={item.disabled}
           >
             <div
               className={cn(

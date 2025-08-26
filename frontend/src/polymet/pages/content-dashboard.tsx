@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+ 
 import FilterBar from "@/polymet/components/filter-bar";
 import VideoGridCard from "@/polymet/components/video-grid-card";
 import { Grid, List, SortAsc, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 export default function ContentDashboard() {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const navigate = useNavigate();
 
   const sampleVideos = [
@@ -21,7 +20,7 @@ export default function ContentDashboard() {
       comments: 428,
       author: "CC记录",
       category: "抖音",
-      tags: ["宠物进店", "用餐卫生", "宠物话题"],
+      tags: ["宠物进店", "用餐卫生"],
       publishTime: "6小时前",
     },
     {
@@ -34,8 +33,8 @@ export default function ContentDashboard() {
       comments: 23,
       author: "吃货小分队",
       category: "内容",
-      tags: ["排队", "服务体验"],
-      publishTime: "小时前",
+      tags: ["服务体验", "排队"],
+      publishTime: "8小时前",
     },
     {
       title: "海底捞新品试吃",
@@ -47,7 +46,7 @@ export default function ContentDashboard() {
       comments: 156,
       author: "美食探店",
       category: "小红书",
-      tags: ["新品", "试吃", "正面"],
+      tags: ["食品安全", "新品", "试吃"],
       publishTime: "6小时前",
     },
     {
@@ -60,7 +59,7 @@ export default function ContentDashboard() {
       comments: 78,
       author: "价格分析师",
       category: "正面",
-      tags: ["价格", "分析", "低风险"],
+      tags: ["价格", "分析"],
       publishTime: "8小时前",
     },
     {
@@ -73,7 +72,7 @@ export default function ContentDashboard() {
       comments: 67,
       author: "服务体验官",
       category: "小红书",
-      tags: ["服务", "正面", "员工"],
+      tags: ["服务", "员工"],
       publishTime: "12小时前",
     },
     {
@@ -86,7 +85,7 @@ export default function ContentDashboard() {
       comments: 12,
       author: "健康生活",
       category: "科普",
-      tags: ["食材", "健康", "图文"],
+      tags: ["食品安全", "健康", "图文"],
       publishTime: "1天前",
     },
     {
@@ -99,7 +98,7 @@ export default function ContentDashboard() {
       comments: 189,
       author: "卫生监督",
       category: "中风险",
-      tags: ["卫生", "环境", "检查"],
+      tags: ["环境卫生", "检查"],
       publishTime: "2天前",
     },
     {
@@ -136,61 +135,48 @@ export default function ContentDashboard() {
         {/* View Controls */}
         <div className="flex items-center space-x-4">
           {/* Sort Button */}
-          <button className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl">
+          <button
+            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-100/40 dark:bg-gray-800/30 backdrop-blur-xl border border-white/20 text-gray-400 cursor-not-allowed transition-all duration-300"
+            disabled
+            aria-disabled
+            title="Not implemented yet"
+          >
             <SortAsc className="w-4 h-4 text-gray-600 dark:text-gray-300" />
 
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+            <span className="text-sm font-medium text-gray-400">
               按时间排序
             </span>
           </button>
 
           {/* View Mode Toggle */}
           <div className="flex items-center rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 p-1">
-            <button
-              onClick={() => setViewMode("grid")}
-              className={cn(
-                "p-2 rounded-lg transition-all duration-200",
-                viewMode === "grid"
-                  ? "bg-blue-500 text-white shadow-lg"
-                  : "text-gray-600 dark:text-gray-300 hover:bg-white/10"
-              )}
-            >
+            <button className="p-2 rounded-lg text-gray-400 bg-transparent cursor-not-allowed" disabled aria-disabled>
               <Grid className="w-4 h-4" />
             </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className={cn(
-                "p-2 rounded-lg transition-all duration-200",
-                viewMode === "list"
-                  ? "bg-blue-500 text-white shadow-lg"
-                  : "text-gray-600 dark:text-gray-300 hover:bg-white/10"
-              )}
-            >
+            <button className="p-2 rounded-lg text-gray-400 bg-transparent cursor-not-allowed" disabled aria-disabled>
               <List className="w-4 h-4" />
             </button>
           </div>
 
           {/* More Options */}
-          <button className="p-2 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl">
+          <button
+            className="p-2 rounded-xl bg-gray-100/40 dark:bg-gray-800/30 backdrop-blur-xl border border-white/20 text-gray-400 cursor-not-allowed"
+            disabled
+            aria-disabled
+            title="Not implemented yet"
+          >
             <MoreHorizontal className="w-5 h-5 text-gray-600 dark:text-gray-300" />
           </button>
         </div>
       </div>
 
       {/* Content Grid */}
-      <div
-        className={cn(
-          "grid gap-6 transition-all duration-500",
-          viewMode === "grid"
-            ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-            : "grid-cols-1"
-        )}
+      <div className={cn("grid gap-6 transition-all duration-500 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4")}
       >
         {sampleVideos.map((video, index) => (
           <VideoGridCard
             key={index}
             {...video}
-            className={cn(viewMode === "list" && "flex-row h-32")}
             onClick={() => navigate(`/detail/${index + 1}`)}
           />
         ))}

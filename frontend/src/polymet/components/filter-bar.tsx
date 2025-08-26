@@ -23,11 +23,12 @@ export default function FilterBar({ className }: FilterBarProps) {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const topicFilters: FilterOption[] = [
-    { id: "all", label: "全部主题", count: 1250 },
-    { id: "pet", label: "宠物话题", count: 45 },
-    { id: "service", label: "服务体验", count: 230 },
-    { id: "food", label: "菜品评价", count: 180 },
+  const riskFilters: FilterOption[] = [
+    { id: "all", label: "全部风险", count: 1250 },
+    { id: "pet-entry", label: "宠物进店", count: 45 },
+    { id: "food-safety", label: "用餐卫生", count: 32 },
+    { id: "food-security", label: "食品安全", count: 28 },
+    { id: "env-hygiene", label: "环境卫生", count: 18 },
   ];
 
   const channelFilters: FilterOption[] = [
@@ -161,8 +162,8 @@ export default function FilterBar({ className }: FilterBarProps) {
       {/* Filters */}
       <div className="flex flex-wrap gap-4">
         <FilterDropdown
-          title="主题"
-          options={topicFilters}
+          title="风险类型"
+          options={riskFilters}
           icon={<Tag className="w-4 h-4" />}
         />
 

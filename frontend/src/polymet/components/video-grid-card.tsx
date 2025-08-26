@@ -1,6 +1,7 @@
 import React from "react";
-import { Play, Eye, Heart, MessageCircle, MoreHorizontal } from "lucide-react";
+import { Play, Eye, Heart, MessageCircle, MoreHorizontal, AlertTriangle, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface VideoGridCardProps {
   title: string;
@@ -14,6 +15,7 @@ interface VideoGridCardProps {
   tags: string[];
   publishTime: string;
   className?: string;
+  // Optional click handler so parent can control navigation
   onClick?: () => void;
 }
 
@@ -45,28 +47,24 @@ export default function VideoGridCard({
     return colors[category as keyof typeof colors] || "bg-gray-500";
   };
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
-    if (!onClick) return;
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onClick();
-    }
-  };
-
   return (
     <div
       className={cn(
         "group relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20",
         "shadow-lg shadow-black/5 hover:shadow-2xl hover:shadow-black/15 transition-all duration-500",
-        "hover:scale-[1.02] hover:bg-white/15 hover:border-white/30",
-        onClick && "cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500",
+        "hover:scale-[1.02] hover:bg-white/15 hover:border-white/30 cursor-pointer",
         className
       )}
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : -1}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open detail for ${title}`}
       onClick={onClick}
-      onKeyDown={handleKeyDown}
-      aria-label={onClick ? `Open details for ${title}` : undefined}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
@@ -113,16 +111,46 @@ export default function VideoGridCard({
           {title}
         </h3>
 
-        {/* Tags */}
+        {/* Risk Badges */}
         <div className="flex flex-wrap gap-1 mb-3">
-          {tags.slice(0, 3).map((tag, index) => (
-            <span
-              key={index}
-              className="px-2 py-1 rounded-full bg-gray-100/50 dark:bg-gray-800/50 text-xs text-gray-600 dark:text-gray-400 backdrop-blur-sm"
-            >
-              {tag}
-            </span>
-          ))}
+          {tags.slice(0, 3).map((tag, index) => {
+            const isRiskTag = [
+              "宠物进店",
+              "用餐卫生",
+              "食品安全",
+              "环境卫生",
+            ].includes(tag);
+            if (isRiskTag) {
+              return (
+                <Badge
+                  key={index}
+                  variant={tag === "宠物进店" ? "destructive" : "secondary"}
+                  className={cn(
+                    "px-2 py-1 text-xs font-medium rounded-full flex items-center gap-1",
+                    tag === "宠物进店"
+                      ? "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800"
+                      : "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800"
+                  )}
+                >
+                  {tag === "宠物进店" ? (
+                    <AlertTriangle className="w-3 h-3" />
+                  ) : (
+                    <Shield className="w-3 h-3" />
+                  )}
+                  {tag}
+                </Badge>
+              );
+            } else {
+              return (
+                <span
+                  key={index}
+                  className="px-2 py-1 rounded-full bg-gray-100/50 dark:bg-gray-800/50 text-xs text-gray-600 dark:text-gray-400 backdrop-blur-sm"
+                >
+                  {tag}
+                </span>
+              );
+            }
+          })}
         </div>
 
         {/* Stats */}

@@ -1,6 +1,6 @@
 "use client"
-import { use, useEffect, useMemo, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
+import { useParams, useRouter } from "next/navigation"
 import {
   ArrowLeft,
   Play,
@@ -99,10 +99,11 @@ const mockDetailData = {
   },
 }
 
-export default function DetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function DetailPage() {
   const router = useRouter()
-  const { id } = use(params)
-  const videoId = Number.parseInt(id)
+  const params = useParams()
+  const idParam = (params?.id as string) || "0"
+  const videoId = Number.parseInt(idParam)
   const [data, setData] = useState(mockDetailData[videoId as keyof typeof mockDetailData])
 
   useEffect(() => {
