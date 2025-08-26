@@ -283,7 +283,7 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#f7f7f8]">
       {/* 顶部导航 */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center gap-4">
@@ -297,79 +297,74 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
       </header>
-
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
-        {/* 视频基本信息 */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
-            <Card>
+   {/* 视频基本信息介绍区域 */}
+      <div className="max-w-6xl mx-auto p-6 space-y-6">
+        {/* 区域1：左图右信息（横向） */}
+        <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden">
+          {/* 使用11列：左5列封面，右6列信息；固定视觉高度，右侧垂直居中 */}
+          <div className="grid grid-cols-1 lg:grid-cols-11">
+            {/* 左侧封面 */}
+            <div className="lg:col-span-5 bg-white">
               <CardContent className="p-0">
-                <div className="relative">
+                <div className="relative h-56 sm:h-60 lg:h-[320px]">
                   <img
                     src={data.thumbnail || "/placeholder.svg"}
                     alt={data.title}
-                    className="w-full h-64 object-cover rounded-t-lg"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/20 rounded-t-lg" />
                   <div className="absolute top-4 left-4">
-                    <Badge variant="secondary" className="bg-black/50 text-white">
+                    <Badge variant="secondary" className="bg-black/60 text-white backdrop-blur px-2.5 py-1 rounded-full">
                       {data.platform}
                     </Badge>
                   </div>
-                  <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
+                  <div className="absolute bottom-4 right-4 bg-black/75 text-white px-2 py-1 rounded text-xs">
                     {data.duration}
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                    <Button
-                      size="sm"
-                      className="h-9 px-3 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 text-sm rounded-md shadow"
-                      onClick={() => {
-                        const url = (data as any).original_url || `https://${data.platform.toLowerCase()}.com/video/${data.id}`
-                        window.open(url, "_blank")
-                      }}
-                    >
-                      查看原内容
-                    </Button>
-                  </div>
-                </div>
-                <div className="p-4 space-y-3">
-                  <h2 className="font-semibold text-lg">{data.title}</h2>
-                  <p className="text-sm text-gray-600">{data.description}</p>
-                  <div className="flex items-center justify-between text-sm text-gray-500">
-                    <span>@{data.author}</span>
-                    <span>{data.publishTime}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-4 h-4" />
-                        <span>{data.views.toLocaleString()}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MessageCircle className="w-4 h-4" />
-                        <span>{data.comments}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Share2 className="w-4 h-4" />
-                        <span>{data.shares}</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </div>
+            {/* 右侧视频信息 */}
+            <div className="lg:col-span-6 bg-white">
+              <CardContent className="h-full flex flex-col justify-center p-6 lg:p-8 gap-3">
+                <h2 className="text-xl lg:text-2xl font-semibold text-gray-900 leading-snug">{data.title}</h2>
+                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{data.description}</p>
+                <div className="flex items-center justify-between text-xs text-gray-500 pt-1">
+                  <span>@{data.author}</span>
+                  <span>{data.publishTime}</span>
+                </div>
+                <div className="flex items-center gap-4 text-sm text-gray-700 pt-1">
+                  <div className="flex items-center gap-1"><Eye className="w-4 h-4" /><span>{data.views.toLocaleString()}</span></div>
+                  <div className="flex items-center gap-1"><MessageCircle className="w-4 h-4" /><span>{data.comments}</span></div>
+                  <div className="flex items-center gap-1"><Share2 className="w-4 h-4" /><span>{data.shares}</span></div>
+                  <Button
+                    size="sm"
+                    className="ml-auto h-9 px-3 bg-rose-100 text-rose-700 hover:bg-rose-200 rounded-full"
+                    onClick={() => {
+                      const url = (data as any).original_url || `https://${data.platform.toLowerCase()}.com/video/${data.id}`
+                      window.open(url, "_blank")
+                    }}
+                  >
+                    查看原内容
+                  </Button>
+                </div>
+              </CardContent>
+            </div>
           </div>
+        </Card>
 
-          <div className="lg:col-span-2 space-y-6">
-            {/* 舆情总结 */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+        {/* 区域2：舆情分析总结（横向分栏） */}
+        <Card className="border border-gray-200 shadow-sm rounded-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-gray-100">
+              <CardHeader className="py-6">
+                <CardTitle className="flex items-center gap-2 text-gray-900">
                   <TrendingUp className="w-5 h-5" />
                   舆情分析总结
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+            </div>
+            <div className="lg:col-span-9">
+              <CardContent className="py-6 space-y-4">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge className={getSentimentColor(data.analysis.sentiment)}>
                     {getSentimentIcon(data.analysis.sentiment)}
@@ -382,16 +377,22 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                     </Badge>
                   ))}
                 </div>
-                <p className="text-gray-700 leading-relaxed">{data.analysis.summary}</p>
+                <p className="text-gray-700 leading-7">{data.analysis.summary}</p>
               </CardContent>
-            </Card>
+            </div>
+          </div>
+        </Card>
 
-            {/* 关键观察点 */}
-            <Card>
-              <CardHeader>
+        {/* 区域3：关键观察点（横向分栏） */}
+        <Card className="border border-gray-200 shadow-sm rounded-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-gray-100">
+              <CardHeader className="py-6">
                 <CardTitle>关键观察点</CardTitle>
               </CardHeader>
-              <CardContent>
+            </div>
+            <div className="lg:col-span-9">
+              <CardContent className="py-6">
                 <ul className="space-y-2">
                   {data.analysis.key_points.map((kp, idx) => {
                     const str = String(kp)
@@ -407,21 +408,25 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                   })}
                 </ul>
               </CardContent>
-            </Card>
+            </div>
           </div>
-        </div>
+        </Card>
 
         {/* 时间轴分析：仅在有数据时展示，压缩留白 */}
         {data.analysis.timeline.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="w-5 h-5" />
-              时间轴分析
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
+        <Card className="border border-gray-200 shadow-sm rounded-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-gray-100">
+              <CardHeader className="py-6">
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="w-5 h-5" />
+                  时间轴分析
+                </CardTitle>
+              </CardHeader>
+            </div>
+            <div className="lg:col-span-9">
+              <CardContent className="py-6">
+                <div className="space-y-6">
               {data.analysis.timeline.map((item, index) => (
                 <div key={index} className="flex gap-4">
                   <div className="flex flex-col items-center">
@@ -471,22 +476,28 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                   </div>
                 </div>
               ))}
+                </div>
+              </CardContent>
             </div>
-          </CardContent>
+          </div>
         </Card>
         )}
 
         {/* 风险清单与建议 */}
         {data.analysis.risks.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-red-500" />
-                风险清单与改进建议
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+          <Card className="border border-gray-200 shadow-sm rounded-2xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-gray-100">
+                <CardHeader className="py-6">
+                  <CardTitle className="flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5 text-red-500" />
+                    风险清单与改进建议
+                  </CardTitle>
+                </CardHeader>
+              </div>
+              <div className="lg:col-span-9">
+                <CardContent className="py-6">
+                  <div className="space-y-4">
                 {data.analysis.risks.map((risk, index) => (
                   <div key={index} className="border border-red-200 rounded-lg p-4 bg-red-50">
                     <div className="flex items-center gap-2 mb-2">
@@ -507,8 +518,10 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                     </div>
                   </div>
                 ))}
+                  </div>
+                </CardContent>
               </div>
-            </CardContent>
+            </div>
           </Card>
         )}
       </div>
