@@ -1,50 +1,54 @@
-import React from "react";
-import { Play, Eye, Heart, MessageCircle, MoreHorizontal, AlertTriangle, Shield } from "lucide-react";
+import { useState } from "react";
+import { Heart, MessageCircle, Shield, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 interface VideoGridCardProps {
   title: string;
   thumbnail: string;
-  duration: string;
-  views: number;
+  duration: string; // mm:ss
   likes: number;
   comments: number;
+  shares: number;
   author: string;
-  category: string;
-  tags: string[];
-  publishTime: string;
+  platformLabel: string; // 渠道名（抖音/小红书/哔哩哔哩等）
+  riskTags: string[]; // 来自 gg_video_analysis.risk_types
+  publishDate: string; // YYYY-MM-DD
   className?: string;
-  // Optional click handler so parent can control navigation
-  onClick?: () => void;
+  onClick?: () => void; // Optional click handler so parent can control navigation
 }
 
 export default function VideoGridCard({
   title,
   thumbnail,
   duration,
-  views,
   likes,
   comments,
+  shares,
   author,
-  category,
-  tags,
-  publishTime,
+  platformLabel,
+  riskTags,
+  publishDate,
   className,
   onClick,
 }: VideoGridCardProps) {
+  const [isPortrait, setIsPortrait] = useState<boolean>(false);
+
+  // Tuning knobs for portrait cover rendering. Adjust as needed without touching logic.
+  // Increase Y to crop更多上下内容（>1 会放大竖向，裁掉上下）；
+  // Increase X 可微调横向填充避免留边。
+  const PORTRAIT_SCALE_X = 1.0; // 横向轻微放大
+  const PORTRAIT_SCALE_Y = 1.0; // 约裁掉上下各 ~15% - 20%
+  const PORTRAIT_POSITION_Y = "40%"; // 焦点（可调 40%-60%）
   const getCategoryColor = (category: string) => {
     const colors = {
       抖音: "bg-red-500",
-      内容: "bg-blue-500",
       小红书: "bg-pink-500",
-      正面: "bg-green-500",
-      低风险: "bg-yellow-500",
-      科普: "bg-purple-500",
-      中风险: "bg-orange-500",
-      图文: "bg-indigo-500",
+      哔哩哔哩: "bg-indigo-500",
+      微博: "bg-orange-500",
+      其他: "bg-gray-500",
     };
-    return colors[category as keyof typeof colors] || "bg-gray-500";
+    return colors[category as keyof typeof colors] || colors["其他"];
   };
 
   return (
@@ -68,20 +72,38 @@ export default function VideoGridCard({
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
+        {/* Blurred backdrop for portrait images to avoid empty bands */}
+        {isPortrait && (
+          <img
+            src={thumbnail}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover blur-xl scale-110 opacity-60"
+          />
+        )}
+        {/* Foreground cover */}
         <img
           src={thumbnail}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          loading="lazy"
+          onLoad={(e) => {
+            const el = e.currentTarget;
+            setIsPortrait(el.naturalHeight > el.naturalWidth);
+          }}
+          className={cn(
+            "relative w-full h-full transition-transform duration-700 object-cover",
+          )}
+          style={{
+            objectPosition: `50% ${PORTRAIT_POSITION_Y}`,
+            transform: isPortrait
+              ? `scale(${PORTRAIT_SCALE_X}, ${PORTRAIT_SCALE_Y})`
+              : "scale(1,1)",
+          }}
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-        {/* Play Button */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110">
-            <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
-          </button>
-        </div>
+        {/* Play Button removed per requirement: do not show on hover */}
 
         {/* Duration */}
         <div className="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-white text-xs font-medium">
@@ -92,75 +114,43 @@ export default function VideoGridCard({
         <div
           className={cn(
             "absolute top-2 left-2 px-2 py-1 rounded-md text-white text-xs font-medium",
-            getCategoryColor(category)
+            getCategoryColor(platformLabel)
           )}
         >
-          {category}
+          {platformLabel}
         </div>
 
-        {/* More Options */}
-        <button className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70">
-          <MoreHorizontal className="w-4 h-4 text-white" />
-        </button>
+        {/* More Options removed per requirement: hide the menu on hover */}
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-4 flex flex-col h-full">
         {/* Title */}
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 text-sm leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-          {title}
-        </h3>
+        <div className="mb-2 min-h-[48px] max-h-[48px] overflow-hidden">
+          <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 text-sm leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+            {title}
+          </h3>
+        </div>
 
-        {/* Risk Badges */}
-        <div className="flex flex-wrap gap-1 mb-3">
-          {tags.slice(0, 3).map((tag, index) => {
-            const isRiskTag = [
-              "宠物进店",
-              "用餐卫生",
-              "食品安全",
-              "环境卫生",
-            ].includes(tag);
-            if (isRiskTag) {
-              return (
-                <Badge
-                  key={index}
-                  variant={tag === "宠物进店" ? "destructive" : "secondary"}
-                  className={cn(
-                    "px-2 py-1 text-xs font-medium rounded-full flex items-center gap-1",
-                    tag === "宠物进店"
-                      ? "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800"
-                      : "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800"
-                  )}
-                >
-                  {tag === "宠物进店" ? (
-                    <AlertTriangle className="w-3 h-3" />
-                  ) : (
-                    <Shield className="w-3 h-3" />
-                  )}
-                  {tag}
-                </Badge>
-              );
-            } else {
-              return (
-                <span
-                  key={index}
-                  className="px-2 py-1 rounded-full bg-gray-100/50 dark:bg-gray-800/50 text-xs text-gray-600 dark:text-gray-400 backdrop-blur-sm"
-                >
-                  {tag}
-                </span>
-              );
-            }
-          })}
+        {/* Risk Badges - fixed height to keep cards aligned even when empty */}
+        <div className="flex flex-wrap gap-1 mb-3 min-h-[28px] max-h-[28px] overflow-hidden">
+          {riskTags.map((tag, index) => (
+            <Badge
+              key={index}
+              className={cn(
+                "px-2 py-1 text-xs font-medium rounded-full flex items-center gap-1",
+                "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800"
+              )}
+            >
+              <Shield className="w-3 h-3" />
+              {tag}
+            </Badge>
+          ))}
         </div>
 
         {/* Stats */}
         <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-3">
           <div className="flex items-center space-x-3">
-            <span className="flex items-center space-x-1">
-              <Eye className="w-3 h-3" />
-
-              <span>{views.toLocaleString()}</span>
-            </span>
             <span className="flex items-center space-x-1">
               <Heart className="w-3 h-3" />
 
@@ -171,6 +161,11 @@ export default function VideoGridCard({
 
               <span>{comments}</span>
             </span>
+            <span className="flex items-center space-x-1">
+              <Share2 className="w-3 h-3" />
+
+              <span>{shares}</span>
+            </span>
           </div>
         </div>
 
@@ -180,7 +175,7 @@ export default function VideoGridCard({
             @{author}
           </span>
           <span className="text-gray-500 dark:text-gray-400">
-            {publishTime}
+            {publishDate}
           </span>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   Share2,
@@ -12,48 +12,118 @@ import AnalysisSection from "@/polymet/components/analysis-section";
 import { BarChart3, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate, useParams } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
+
+type PostRow = {
+  id: number;
+  platform: string;
+  platform_item_id: string;
+  title: string;
+  cover_url: string | null;
+  original_url: string | null;
+  video_url?: string | null;
+  author_name: string | null;
+  like_count: number;
+  comment_count: number;
+  share_count: number;
+  play_count: number;
+  duration_ms: number;
+  published_at: string | null;
+  created_at: string;
+};
+
+type AnalysisRow = {
+  summary?: string;
+  sentiment?: string;
+  brand?: string;
+  key_points?: unknown[];
+  risk_types?: string[];
+  timeline?: any;
+};
 
 export default function VideoAnalysisDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const trendAnalysis = [
-    {
-      id: "1",
-      type: "trend" as const,
-      title: "宠物入店",
-      description:
-        "视频显示，在海底捞用餐区，两只宠物狗与顾客同桌生在桌上，并使用印有品牌Logo的餐具进食。",
-      timestamp: "6小时前",
-    },
-    {
-      id: "2",
-      type: "alert" as const,
-      title: "用餐卫生",
-      description: "宠物狗使用餐厅品牌Logo的餐具进食。",
-      severity: "medium" as const,
-    },
-  ];
+  const [post, setPost] = useState<PostRow | null>(null);
+  const [analysis, setAnalysis] = useState<AnalysisRow | null>(null);
 
-  const timeline = [
-    {
-      id: "5",
-      type: "trend" as const,
-      title: "00:00:00 - 风险等级：中",
-      description:
-        "在海底捞餐厅的用餐区，一名男子与两只宠物狗只（一只金毛犬和一只拉布拉多），这两只宠物人一样坐在桌上，桌面摆着餐具。",
-      timestamp: "宠物进店",
-      riskBadge: "宠物进店",
-    },
-    {
-      id: "6",
-      type: "alert" as const,
-      title: "00:11:40 - 风险等级：高",
-      description: "宠物狗使用带有品牌Logo头像的餐具进食。",
-      severity: "high" as const,
-      timestamp: "用餐卫生",
-      riskBadge: "用餐卫生",
-    },
-  ];
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      try {
+        if (!supabase || !id) return;
+        const { data: postRows } = await supabase
+          .from("gg_platform_post")
+          .select(
+            "id, platform, platform_item_id, title, cover_url, original_url, author_name, like_count, comment_count, share_count, play_count, duration_ms, published_at, created_at"
+          )
+          .eq("platform_item_id", id)
+          .limit(1);
+        if (!postRows || !postRows[0]) return;
+        const p = postRows[0] as unknown as PostRow;
+        const { data: aRows } = await supabase
+          .from("gg_video_analysis")
+          .select("summary, sentiment, brand, key_points, risk_types, timeline")
+          .eq("platform_item_id", id)
+          .order("id", { ascending: false })
+          .limit(1);
+        const a = (aRows && (aRows[0] as AnalysisRow)) || null;
+        if (!cancelled) {
+          setPost(p);
+          setAnalysis(a);
+        }
+      } catch {}
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  const formatDuration = (ms: number) => {
+    const total = Math.max(0, Math.round((ms || 0) / 1000));
+    const m = Math.floor(total / 60)
+      .toString()
+      .padStart(1, "0");
+    const s = (total % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
+
+  const keyPointItems = useMemo(() => {
+    const arr = (analysis?.key_points as unknown[]) || [];
+    return arr.map((kp, idx) => {
+      const str = String(kp);
+      const parts = str.split(/[:：]/);
+      const title = parts[0] || "要点";
+      const description = parts.slice(1).join(":").trim() || str;
+      return { id: String(idx + 1), type: "trend" as const, title, description };
+    });
+  }, [analysis?.key_points]);
+
+  const timelineItems = useMemo(() => {
+    const raw = (analysis as any)?.timeline;
+    const list = (raw && (raw.events || raw)) || [];
+    if (!Array.isArray(list)) return [] as any[];
+    return list.map((t: any, i: number) => {
+      const sev = t?.severity as number | undefined;
+      return {
+        id: String(i + 1),
+        type: sev && sev >= 4 ? ("alert" as const) : ("trend" as const),
+        title: `${t?.timestamp || ""}${sev ? ` - 风险等级：${sev}` : ""}`,
+        description: [
+          t?.scene_description,
+          t?.audio_transcript ? `“${t.audio_transcript}”` : "",
+          t?.issue,
+          Array.isArray(t?.risk_type) ? t.risk_type.join(" / ") : "",
+          t?.evidence && (Array.isArray(t.evidence) ? t.evidence[0]?.details : t.evidence?.details),
+        ]
+          .filter(Boolean)
+          .join(" · "),
+        severity: sev ? (sev >= 4 ? ("high" as const) : ("medium" as const)) : undefined,
+        riskBadge: Array.isArray(t?.risk_type) ? t.risk_type[0] : undefined,
+      };
+    });
+  }, [analysis]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
@@ -94,18 +164,41 @@ export default function VideoAnalysisDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Video Player - Smaller size */}
         <div className="">
-          <VideoPlayerCard
-            title="大晚上去海底捞吃饭看到的小可爱 😍 #当你有只喵馋小狗"
-            description="视频显示，在海底捞用餐区，两只宠物狗与顾客同桌生在桌上，并使用印有品牌Logo的餐具进食。"
-            thumbnail="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&h=338&fit=crop"
-            duration="0:27"
-            views={1250}
-            likes={55}
-            comments={12}
-            timestamp="2024/8/25 19:49:21"
-            author="CC记录"
-            className="h-fit"
-          />
+          {post ? (
+            <VideoPlayerCard
+              title={post.title}
+              description={analysis?.summary || ""}
+              thumbnail={post.cover_url || ""}
+              duration={formatDuration(post.duration_ms)}
+              views={post.play_count || 0}
+              likes={post.like_count || 0}
+              comments={post.comment_count || 0}
+              shares={post.share_count || 0}
+              timestamp={(post.published_at || post.created_at).slice(0, 19)}
+              author={post.author_name || ""}
+              originalUrl={post.original_url || undefined}
+              videoUrl={post.video_url || undefined as any}
+              className="h-fit"
+            />
+          ) : (
+            <div className="rounded-3xl overflow-hidden border border-white/20">
+              <div className="relative aspect-video">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              </div>
+              <div className="p-8 space-y-4">
+                <div className="h-7 w-2/3 bg-primary/10 animate-pulse rounded" />
+                <div className="h-4 w-full bg-primary/10 animate-pulse rounded" />
+                <div className="h-4 w-11/12 bg-primary/10 animate-pulse rounded" />
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center space-x-4">
+                    <div className="h-4 w-16 bg-primary/10 animate-pulse rounded" />
+                    <div className="h-4 w-24 bg-primary/10 animate-pulse rounded" />
+                  </div>
+                  <div className="h-4 w-24 bg-primary/10 animate-pulse rounded" />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Quick Stats */}
@@ -117,20 +210,16 @@ export default function VideoAnalysisDetail() {
 
             {/* Key Risk Badges */}
             <div className="flex flex-wrap gap-2 mb-4">
-              <Badge
-                variant="destructive"
-                className="px-3 py-1 text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-full flex items-center gap-1"
-              >
-                <AlertTriangle className="w-3 h-3" />
-                宠物进店
-              </Badge>
-              <Badge
-                variant="secondary"
-                className="px-3 py-1 text-xs font-medium bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800 rounded-full flex items-center gap-1"
-              >
-                <Shield className="w-3 h-3" />
-                用餐卫生
-              </Badge>
+              {(analysis?.risk_types || []).map((rt, i) => (
+                <Badge
+                  key={i}
+                  variant={"secondary"}
+                  className="px-3 py-1 text-xs font-medium bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800 rounded-full flex items-center gap-1"
+                >
+                  <Shield className="w-3 h-3" />
+                  {rt}
+                </Badge>
+              ))}
             </div>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -138,7 +227,11 @@ export default function VideoAnalysisDetail() {
                   风险等级
                 </span>
                 <span className="px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-sm font-medium">
-                  中等风险
+                  {analysis?.sentiment === "negative"
+                    ? "高风险"
+                    : analysis?.sentiment === "positive"
+                    ? "低风险"
+                    : "中等风险"}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -154,7 +247,7 @@ export default function VideoAnalysisDetail() {
                   发布平台
                 </span>
                 <span className="text-gray-900 dark:text-white font-medium">
-                  抖音
+                  {post?.platform || "-"}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -174,7 +267,7 @@ export default function VideoAnalysisDetail() {
             icon={
               <BarChart3 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             }
-            items={trendAnalysis}
+            items={keyPointItems}
           />
         </div>
       </div>
@@ -185,7 +278,7 @@ export default function VideoAnalysisDetail() {
         icon={
           <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
         }
-        items={timeline}
+        items={timelineItems}
         className="w-full"
       />
     </div>
