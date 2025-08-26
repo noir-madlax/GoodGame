@@ -69,6 +69,7 @@ class DouyinVideoAdapter:
             comment_count=int(statistics.get('comment_count') or 0),
             cover_url=cover_url,
             video_url=video_url,
+            raw_details=details,
             published_at=published_at,
         )
 
@@ -95,6 +96,7 @@ class XiaohongshuVideoAdapter:
             comment_count=0,
             cover_url=None,
             video_url=video_url,
+            raw_details=details,
             published_at=None,
         )
 

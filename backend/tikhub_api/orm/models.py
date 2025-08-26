@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional
+from typing import Optional, Dict, Any
 from datetime import datetime
 
 from pydantic import BaseModel, Field, HttpUrl, constr
@@ -34,6 +34,10 @@ class PlatformPost(BaseModel):
 
     cover_url: Optional[HttpUrl] = None
     video_url: Optional[HttpUrl] = None
+
+    # 存储 get_video_details 返回的原始报文，便于排查
+    raw_details: Optional[Dict[str, Any]] = None
+
 
     published_at: Optional[datetime] = None
     created_at: Optional[datetime] = None

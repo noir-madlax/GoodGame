@@ -436,12 +436,12 @@ def main():
     print("\n=== 完整下载流程示例（包含弹幕获取）===")
     report = run_video_workflow(
         platform="douyin",
-        video_id="7505583378596646180",
+        video_id="7383012850161241385",
         options=WorkflowOptions(
             sync_details=True,
-            sync_comments=True,
-            sync_danmaku=True,
-            download_video=True,
+            sync_comments=False,
+            sync_danmaku=False,
+            download_video=False,
         ),
     )
 
