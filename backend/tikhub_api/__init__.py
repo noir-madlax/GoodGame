@@ -25,11 +25,7 @@ from .fetchers import (
     get_supported_platforms,
 )
 
-# 工作流组件
-from .workflow import (
-    download_video_complete,
-    download_douyin_video_complete  # 向后兼容
-)
+# 工作流组件（避免导入循环，此处不直接导出 workflow 内符号）
 
 __all__ = [
     # 基础组件
@@ -48,8 +44,4 @@ __all__ = [
     'Platform',
     'create_fetcher',
     'get_supported_platforms',
-
-    # 工作流组件
-    'download_video_complete',
-    'download_douyin_video_complete',
 ]
