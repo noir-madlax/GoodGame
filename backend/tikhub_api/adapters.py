@@ -44,11 +44,26 @@ class DouyinVideoAdapter:
             except Exception:
                 published_at = None
 
+        # 新增字段映射
+        post_type = "video"  # 抖音此接口以视频为主，后续如检测到图文可调整
+        original_url = aweme_detail.get('share_url') or (aweme_detail.get('share_info') or {}).get('share_url')
+        author = aweme_detail.get('author', {}) or {}
+        author_id = str(author.get('uid') or '') or None
+        author_name = str(author.get('nickname') or '') or None
+        share_count = int((aweme_detail.get('statistics') or {}).get('share_count') or statistics.get('share_count') or 0)
+        duration_ms = int(aweme_detail.get('duration') or 0)
+
         return PlatformPost(
             platform="douyin",
             platform_item_id=str(aweme_detail.get('aweme_id', '')),
             title=str(aweme_detail.get('desc', '') or '').strip() or '无标题',
             content=None,
+            post_type=post_type,
+            original_url=original_url,
+            author_id=author_id,
+            author_name=author_name,
+            share_count=share_count,
+            duration_ms=duration_ms,
             play_count=int(statistics.get('play_count') or 0),
             like_count=int(statistics.get('digg_count') or 0),
             comment_count=int(statistics.get('comment_count') or 0),

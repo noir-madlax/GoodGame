@@ -20,6 +20,14 @@ class PlatformPost(BaseModel):
     title: NonEmptyStr
     content: Optional[str] = None
 
+    # 新增：帖子类型/原始链接/作者信息/转发数/时长（毫秒）
+    post_type: str = Field(default="video")
+    original_url: Optional[HttpUrl] = None
+    author_id: Optional[str] = None
+    author_name: Optional[str] = None
+    share_count: int = Field(default=0, ge=0)
+    duration_ms: int = Field(default=0, ge=0)
+
     play_count: int = Field(default=0, ge=0)
     like_count: int = Field(default=0, ge=0)
     comment_count: int = Field(default=0, ge=0)

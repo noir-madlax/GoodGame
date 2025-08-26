@@ -69,6 +69,13 @@ class PostRepository:
             platform_item_id=row.get("platform_item_id", ""),
             title=row.get("title", ""),
             content=row.get("content"),
+            # 新增字段映射（若列暂不存在，Pydantic 使用默认值）
+            post_type=row.get("post_type", "video"),
+            original_url=row.get("original_url"),
+            author_id=row.get("author_id"),
+            author_name=row.get("author_name"),
+            share_count=row.get("share_count", 0),
+            duration_ms=row.get("duration_ms", 0),
             play_count=row.get("play_count", 0),
             like_count=row.get("like_count", 0),
             comment_count=row.get("comment_count", 0),
