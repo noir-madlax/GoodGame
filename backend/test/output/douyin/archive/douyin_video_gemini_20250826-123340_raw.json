@@ -1,0 +1,162 @@
+{
+  "request": {
+    "model_candidates": [
+      "gemini-2.5-pro"
+    ],
+    "video_file": "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4",
+    "request_config": {
+      "temperature": 0.3,
+      "response_mime_type": "application/json",
+      "response_schema": "VideoAnalysisV3(pydantic)",
+      "video_metadata": {
+        "fps": 5
+      },
+      "contents_order": [
+        "video",
+        "text"
+      ]
+    }
+  },
+  "raw_response_type": "GenerateContentResponse",
+  "raw_response": {
+    "sdk_http_response": {
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "vary": "Origin, X-Origin, Referer",
+        "content-encoding": "gzip",
+        "date": "Tue, 26 Aug 2025 04:34:14 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "x-xss-protection": "0",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "server-timing": "gfet4t7; dur=28656",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "transfer-encoding": "chunked"
+      },
+      "body": null
+    },
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "video_metadata": null,
+              "thought": null,
+              "inline_data": null,
+              "file_data": null,
+              "thought_signature": null,
+              "code_execution_result": null,
+              "executable_code": null,
+              "function_call": null,
+              "function_response": null,
+              "text": "{\n  \"summary\": \"视频显示，在海底捞用餐区，两只宠物狗与顾客同桌坐在卡座上，并使用印有品牌Logo的餐具进食。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"risk_type_total\": [\n    \"宠物进店\",\n    \"用餐卫生\"\n  ],\n  \"key_points\": [\n    \"宠物进店: 两只宠物狗在用餐区卡座与顾客同桌就坐。\",\n    \"用餐卫生: 宠物狗使用带有品牌Logo的餐具进食。\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00:00\",\n      \"scene_description\": \"在海底捞餐厅的用餐区，一张桌子旁坐着三位顾客和两只狗（一只金毛犬和一只哈士奇）。这两只狗和人一样坐在卡座上，紧挨着餐桌。\",\n      \"audio_transcript\": \"背景播放着关于小狗的儿童歌曲。\",\n      \"issue\": \"两只宠物狗在用餐区卡座上与顾客同桌就坐。\",\n      \"risk_type\": [\n        \"宠物进店\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/卡座\",\n          \"subject_type\": \"宠物\",\n          \"subject_behavior\": \"宠物狗坐在卡座上与顾客同桌\",\n          \"objects_involved\": \"餐桌、卡座、餐具\",\n          \"brand_assets\": \"带有品牌Logo的餐具、店内装潢\",\n          \"visibility\": \"清晰，持续整个视频\",\n          \"details\": \"一只金毛犬和一只哈士奇犬坐在顾客中间的卡座上，面前是火锅餐桌。\"\n        }\n      ]\n    },\n    {\n      \"timestamp\": \"00:11:40\",\n      \"scene_description\": \"坐在餐桌旁的金毛犬将头伸进一个印有“海底捞火锅”字样的白色纸碗里进食。\",\n      \"audio_transcript\": \"背景播放着关于小狗的儿童歌曲。\",\n      \"issue\": \"宠物狗使用带有品牌Logo的餐具进食。\",\n      \"risk_type\": [\n        \"宠物进店\",\n        \"用餐卫生\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/卡座\",\n          \"subject_type\": \"宠物\",\n          \"subject_behavior\": \"宠物狗的口腔接触带有品牌Logo的碗并进食\",\n          \"objects_involved\": \"带Logo的碗\",\n          \"contact_path\": \"动物口腔→品牌碗\",\n          \"brand_assets\": \"碗上印有‘海底捞火锅’字样\",\n          \"visibility\": \"清晰，持续约15秒\",\n          \"details\": \"金毛犬将头伸入白色纸碗中进食，碗上有清晰的红色‘海底捞火锅’Logo。另一只哈士奇在约00:26:00时也接触了类似的碗。\"\n        }\n      ]\n    }\n  ]\n}"
+            }
+          ],
+          "role": "model"
+        },
+        "citation_metadata": null,
+        "finish_message": null,
+        "token_count": null,
+        "finish_reason": "STOP",
+        "url_context_metadata": null,
+        "avg_logprobs": null,
+        "grounding_metadata": null,
+        "index": 0,
+        "logprobs_result": null,
+        "safety_ratings": null
+      }
+    ],
+    "create_time": null,
+    "model_version": "gemini-2.5-pro",
+    "prompt_feedback": null,
+    "response_id": "RjmtaMHEIbPzqtsPmeKbmQ4",
+    "usage_metadata": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 718,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 42379,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1969
+        },
+        {
+          "modality": "VIDEO",
+          "token_count": 39450
+        },
+        {
+          "modality": "AUDIO",
+          "token_count": 960
+        }
+      ],
+      "thoughts_token_count": 1907,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 45004,
+      "traffic_type": null
+    },
+    "automatic_function_calling_history": [],
+    "parsed": {
+      "summary": "视频显示，在海底捞用餐区，两只宠物狗与顾客同桌坐在卡座上，并使用印有品牌Logo的餐具进食。",
+      "sentiment": "negative",
+      "brand": "海底捞",
+      "risk_type_total": [
+        "宠物进店",
+        "用餐卫生"
+      ],
+      "key_points": [
+        "宠物进店: 两只宠物狗在用餐区卡座与顾客同桌就坐。",
+        "用餐卫生: 宠物狗使用带有品牌Logo的餐具进食。"
+      ],
+      "events": [
+        {
+          "timestamp": "00:00:00",
+          "scene_description": "在海底捞餐厅的用餐区，一张桌子旁坐着三位顾客和两只狗（一只金毛犬和一只哈士奇）。这两只狗和人一样坐在卡座上，紧挨着餐桌。",
+          "audio_transcript": "背景播放着关于小狗的儿童歌曲。",
+          "issue": "两只宠物狗在用餐区卡座上与顾客同桌就坐。",
+          "risk_type": [
+            "宠物进店"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区/卡座",
+              "subject_type": "宠物",
+              "subject_behavior": "宠物狗坐在卡座上与顾客同桌",
+              "objects_involved": "餐桌、卡座、餐具",
+              "contact_path": null,
+              "brand_assets": "带有品牌Logo的餐具、店内装潢",
+              "audio_quote": null,
+              "visibility": "清晰，持续整个视频",
+              "details": "一只金毛犬和一只哈士奇犬坐在顾客中间的卡座上，面前是火锅餐桌。"
+            }
+          ]
+        },
+        {
+          "timestamp": "00:11:40",
+          "scene_description": "坐在餐桌旁的金毛犬将头伸进一个印有“海底捞火锅”字样的白色纸碗里进食。",
+          "audio_transcript": "背景播放着关于小狗的儿童歌曲。",
+          "issue": "宠物狗使用带有品牌Logo的餐具进食。",
+          "risk_type": [
+            "宠物进店",
+            "用餐卫生"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区/卡座",
+              "subject_type": "宠物",
+              "subject_behavior": "宠物狗的口腔接触带有品牌Logo的碗并进食",
+              "objects_involved": "带Logo的碗",
+              "contact_path": "动物口腔→品牌碗",
+              "brand_assets": "碗上印有‘海底捞火锅’字样",
+              "audio_quote": null,
+              "visibility": "清晰，持续约15秒",
+              "details": "金毛犬将头伸入白色纸碗中进食，碗上有清晰的红色‘海底捞火锅’Logo。另一只哈士奇在约00:26:00时也接触了类似的碗。"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "raw_text": "{\n  \"summary\": \"视频显示，在海底捞用餐区，两只宠物狗与顾客同桌坐在卡座上，并使用印有品牌Logo的餐具进食。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"risk_type_total\": [\n    \"宠物进店\",\n    \"用餐卫生\"\n  ],\n  \"key_points\": [\n    \"宠物进店: 两只宠物狗在用餐区卡座与顾客同桌就坐。\",\n    \"用餐卫生: 宠物狗使用带有品牌Logo的餐具进食。\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00:00\",\n      \"scene_description\": \"在海底捞餐厅的用餐区，一张桌子旁坐着三位顾客和两只狗（一只金毛犬和一只哈士奇）。这两只狗和人一样坐在卡座上，紧挨着餐桌。\",\n      \"audio_transcript\": \"背景播放着关于小狗的儿童歌曲。\",\n      \"issue\": \"两只宠物狗在用餐区卡座上与顾客同桌就坐。\",\n      \"risk_type\": [\n        \"宠物进店\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/卡座\",\n          \"subject_type\": \"宠物\",\n          \"subject_behavior\": \"宠物狗坐在卡座上与顾客同桌\",\n          \"objects_involved\": \"餐桌、卡座、餐具\",\n          \"brand_assets\": \"带有品牌Logo的餐具、店内装潢\",\n          \"visibility\": \"清晰，持续整个视频\",\n          \"details\": \"一只金毛犬和一只哈士奇犬坐在顾客中间的卡座上，面前是火锅餐桌。\"\n        }\n      ]\n    },\n    {\n      \"timestamp\": \"00:11:40\",\n      \"scene_description\": \"坐在餐桌旁的金毛犬将头伸进一个印有“海底捞火锅”字样的白色纸碗里进食。\",\n      \"audio_transcript\": \"背景播放着关于小狗的儿童歌曲。\",\n      \"issue\": \"宠物狗使用带有品牌Logo的餐具进食。\",\n      \"risk_type\": [\n        \"宠物进店\",\n        \"用餐卫生\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/卡座\",\n          \"subject_type\": \"宠物\",\n          \"subject_behavior\": \"宠物狗的口腔接触带有品牌Logo的碗并进食\",\n          \"objects_involved\": \"带Logo的碗\",\n          \"contact_path\": \"动物口腔→品牌碗\",\n          \"brand_assets\": \"碗上印有‘海底捞火锅’字样\",\n          \"visibility\": \"清晰，持续约15秒\",\n          \"details\": \"金毛犬将头伸入白色纸碗中进食，碗上有清晰的红色‘海底捞火锅’Logo。另一只哈士奇在约00:26:00时也接触了类似的碗。\"\n        }\n      ]\n    }\n  ]\n}"
+}

@@ -18,9 +18,9 @@ import argparse
 # REQUIRED: set the target video file here if not supplying via CLI
 # You can modify this constant directly to change the target file.
 #⼩狗已经沉浸在海底捞⽆法⾃拔了-已分析
-VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4"
+#VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4"
 #这酒你就喝吧 一喝一个不吱声
-#VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4"
+VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4"
 #下次请善待我们小吃房好吗🥺#海底捞 #回答我-已分析
 #VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7505583378596646180/7505583378596646180.mp4"
 
@@ -38,17 +38,20 @@ class EvidenceItem(BaseModel):
 	scene_area: str
 	subject_type: str
 	subject_behavior: str
-	negative_impact: str
+	objects_involved: str | None = None
+	contact_path: str | None = None
+	brand_assets: str | None = None
+	audio_quote: str | None = None
+	visibility: str | None = None
 	details: str | None = None
 
 
-class TimelineItem(BaseModel):
+class EventItem(BaseModel):
 	timestamp: str
 	scene_description: str
 	audio_transcript: str | None = None
 	issue: str
 	risk_type: list[str] | str
-	severity: int | None = None
 	evidence: list[EvidenceItem] | None = None
 
 
@@ -59,13 +62,13 @@ class RiskItem(BaseModel):
 	recommendation: str | None = None
 
 
-class VideoAnalysisV2(BaseModel):
+class VideoAnalysisV3(BaseModel):
 	summary: str
 	sentiment: str
 	brand: str
-	timeline: list[TimelineItem]
+	risk_type_total: list[str]
 	key_points: list[str]
-	risks: list[RiskItem] | None = None
+	events: list[EventItem]
 
 
 def build_client(api_key: str) -> genai.Client:
@@ -160,7 +163,7 @@ def analyze_with_local_file(client: genai.Client, local_path: Path, model: str) 
 		config=types.GenerateContentConfig(
 			temperature=0.3,
 			response_mime_type="application/json",
-			response_schema=VideoAnalysisV2,
+			response_schema=VideoAnalysisV3,
 			system_instruction=system_prompt,
 		),
 	)
@@ -232,7 +235,7 @@ def main(video_path: str | None = None, api_key_param: str | None = None) -> Non
 		"request_config": {
 			"temperature": 0.3,
 			"response_mime_type": "application/json",
-			"response_schema": "VideoAnalysisV2(pydantic)",
+			"response_schema": "VideoAnalysisV3(pydantic)",
 			"video_metadata": {"fps": 5},
 			"contents_order": ["video", "text"],
 		},
