@@ -352,17 +352,17 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                     const textParts = [t.issue || t.scene_description]
                     const text = textParts.filter(Boolean).join(" - ")
                     return (
-                      <li key={index} className="flex items-start gap-2">
+                    <li key={index} className="flex items-start gap-2">
                         {r ? (
                           <Badge className="mt-0.5 bg-amber-50 text-amber-800 border border-amber-200">{r}</Badge>
                         ) : (
-                          <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0" />
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0" />
                         )}
                         <span className="text-gray-700">
                           {r ? <span className="font-medium mr-1">：</span> : null}
                           {text}
                         </span>
-                      </li>
+                    </li>
                     )
                   })}
                 </ul>
@@ -373,29 +373,29 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
 
         {/* 时间轴分析：仅在有数据时展示，压缩留白 */}
         {data.analysis.timeline.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                时间轴分析
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                {data.analysis.timeline.map((item, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="flex flex-col items-center">
-                      <div className="w-3 h-3 bg-emerald-500 rounded-full" />
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Clock className="w-5 h-5" />
+              时间轴分析
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {data.analysis.timeline.map((item, index) => (
+                <div key={index} className="flex gap-4">
+                  <div className="flex flex-col items-center">
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full" />
                       {index < data.analysis.timeline.length - 1 && <div className="w-px h-12 bg-gray-200 mt-2" />}
-                    </div>
+                  </div>
                     <div className="flex-1 pb-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge variant="outline" className="font-mono text-xs">
-                          {item.timestamp}
-                        </Badge>
-                        {item.severity > 1 && (
-                          <Badge className={getSeverityColor(item.severity)}>风险等级: {item.severity}</Badge>
-                        )}
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="outline" className="font-mono text-xs">
+                        {item.timestamp}
+                      </Badge>
+                      {item.severity > 1 && (
+                        <Badge className={getSeverityColor(item.severity)}>风险等级: {item.severity}</Badge>
+                      )}
                         {(item.risk_type || []).map((r: string) => (
                           <Badge key={r} variant="secondary" className="bg-amber-50 text-amber-800 border border-amber-200">
                             {r}
@@ -411,13 +411,13 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                         )}
                         {item.issue && <p className="text-sm text-gray-700">{item.issue}</p>}
                         {item.evidence && <p className="text-xs text-gray-500">{item.evidence}</p>}
-                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
         )}
 
         {/* 风险清单与建议 */}

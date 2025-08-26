@@ -1,0 +1,80 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "视频中，一名身穿疑似员工服饰的人员在海底捞门店内，面对镜头激烈抱怨工作量大、人手不足，并使用了“累死在海底捞”、“勾八玩意儿”等极端和粗俗词汇。",
+    "sentiment": "negative",
+    "brand": "海底捞",
+    "risk_type_total": [
+      "员工不当言论"
+    ],
+    "key_points": [
+      "员工不当言论: 员工抱怨人手不足，称要被“累死在海底捞”",
+      "员工不当言论: 员工在品牌背景下使用粗俗词汇抱怨工作"
+    ],
+    "events": [
+      {
+        "timestamp": "00:03:200",
+        "scene_description": "一名头戴装饰帽、身穿白色上衣、佩戴口罩的人员，站在海底捞Logo前，情绪激动地对着镜头说话。",
+        "audio_transcript": "小吃房就我一个人能忙的过来吗？",
+        "issue": "疑似员工的人员在店内公开宣称人手不足。",
+        "risk_type": [
+          "员工不当言论"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区",
+            "subject_type": "员工工服",
+            "subject_behavior": "穿疑似工服的人员面对镜头抱怨人手不足",
+            "objects_involved": "员工工服",
+            "brand_assets": "品牌背景墙",
+            "audio_quote": "小吃房就我一个人能忙的过来吗？",
+            "visibility": "特写清晰",
+            "details": "视频拍摄者以第一人称视角，身穿白色上衣，背景为清晰的海底捞火锅Logo。"
+          }
+        ]
+      },
+      {
+        "timestamp": "00:10:800",
+        "scene_description": "一名头戴装饰帽、身穿白色上衣、佩戴口罩的人员，站在海底捞Logo前，情绪激动地对着镜头说话。",
+        "audio_transcript": "是想要我累死在海底捞吗？",
+        "issue": "疑似员工的人员在店内发表极端负面言论，称要“累死在海底捞”。",
+        "risk_type": [
+          "员工不当言论"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区",
+            "subject_type": "员工工服",
+            "subject_behavior": "穿疑似工服的人员面对镜头发表极端言论",
+            "objects_involved": "员工工服",
+            "brand_assets": "品牌背景墙",
+            "audio_quote": "是想要我累死在海底捞吗？",
+            "visibility": "特写清晰",
+            "details": "视频拍摄者以第一人称视角，身穿白色上衣，背景为清晰的海底捞火锅Logo。"
+          }
+        ]
+      },
+      {
+        "timestamp": "00:22:600",
+        "scene_description": "一名头戴装饰帽、身穿白色上衣、佩戴口罩的人员，站在海底捞Logo前，情绪激动地对着镜头说话。",
+        "audio_transcript": "我炸那些勾八玩意儿要不要时间？",
+        "issue": "疑似员工的人员在店内使用粗俗词汇抱怨工作。",
+        "risk_type": [
+          "员工不当言论"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区",
+            "subject_type": "员工工服",
+            "subject_behavior": "穿疑似工服的人员面对镜头使用粗俗词汇",
+            "objects_involved": "员工工服",
+            "brand_assets": "品牌背景墙",
+            "audio_quote": "我炸那些勾八玩意儿要不要时间？",
+            "visibility": "特写清晰",
+            "details": "视频拍摄者以第一人称视角，身穿白色上衣，背景为清晰的海底捞火锅Logo。"
+          }
+        ]
+      }
+    ]
+  }
+}
