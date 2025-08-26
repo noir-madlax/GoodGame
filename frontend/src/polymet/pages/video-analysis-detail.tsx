@@ -1,12 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  ArrowLeft,
-  Share2,
-  Bookmark,
-  Download,
-  AlertTriangle,
-  Shield,
-} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowLeft, Share2, Bookmark, Download, Shield } from "lucide-react";
 import VideoPlayerCard from "@/polymet/components/video-player-card";
 import AnalysisSection from "@/polymet/components/analysis-section";
 import { BarChart3, Clock } from "lucide-react";
@@ -38,7 +31,7 @@ type AnalysisRow = {
   brand?: string;
   key_points?: unknown[];
   risk_types?: string[];
-  timeline?: any;
+  timeline?: { events?: unknown[] } | unknown[] | null;
 };
 
 export default function VideoAnalysisDetail() {
@@ -72,7 +65,9 @@ export default function VideoAnalysisDetail() {
           setPost(p);
           setAnalysis(a);
         }
-      } catch {}
+      } catch (error) {
+        console.error("Failed to load analysis detail", error);
+      }
     };
     run();
     return () => {
@@ -101,26 +96,39 @@ export default function VideoAnalysisDetail() {
   }, [analysis?.key_points]);
 
   const timelineItems = useMemo(() => {
-    const raw = (analysis as any)?.timeline;
-    const list = (raw && (raw.events || raw)) || [];
-    if (!Array.isArray(list)) return [] as any[];
-    return list.map((t: any, i: number) => {
-      const sev = t?.severity as number | undefined;
+    const raw = (analysis as { timeline?: { events?: unknown[] } | unknown[] | null } | null)?.timeline;
+    const list = (raw && ((raw as { events?: unknown[] }).events || raw)) || [];
+    if (!Array.isArray(list)) return [] as { id: string; type: "trend" | "alert"; title: string; description: string; severity?: "low" | "medium" | "high"; riskBadges?: string[] }[];
+    return (list as Record<string, unknown>[]).map((t, i: number) => {
+      const severityNum = (t?.severity as number | undefined) || undefined;
+      const riskTypes = Array.isArray(t?.risk_type)
+        ? (t.risk_type as string[])
+        : (typeof t?.risk_type === "string" && t.risk_type
+            ? [t.risk_type]
+            : []);
+
+      // Evidence exists but currently unused in UI; keep for future extension
+
+      const lines: string[] = [];
+      if (t?.issue) lines.push(`问题概述：${t.issue}`);
+      if (t?.audio_transcript) lines.push(`音频/字幕：${t.audio_transcript}`);
+      if (t?.scene_description) lines.push(`场景详述：${t.scene_description}`);
+
+   
+
+     
+
       return {
         id: String(i + 1),
-        type: sev && sev >= 4 ? ("alert" as const) : ("trend" as const),
-        title: `${t?.timestamp || ""}${sev ? ` - 风险等级：${sev}` : ""}`,
-        description: [
-          t?.scene_description,
-          t?.audio_transcript ? `“${t.audio_transcript}”` : "",
-          t?.issue,
-          Array.isArray(t?.risk_type) ? t.risk_type.join(" / ") : "",
-          t?.evidence && (Array.isArray(t.evidence) ? t.evidence[0]?.details : t.evidence?.details),
-        ]
-          .filter(Boolean)
-          .join(" · "),
-        severity: sev ? (sev >= 4 ? ("high" as const) : ("medium" as const)) : undefined,
-        riskBadge: Array.isArray(t?.risk_type) ? t.risk_type[0] : undefined,
+        type: severityNum && severityNum >= 4 ? ("alert" as const) : ("trend" as const),
+        title: `${t?.timestamp || ""}${severityNum ? ` - 风险等级：${severityNum}` : ""}`,
+        description: lines.join("\n"),
+        severity: severityNum
+          ? severityNum >= 4
+            ? ("high" as const)
+            : ("medium" as const)
+          : undefined,
+        riskBadges: riskTypes,
       };
     });
   }, [analysis]);
@@ -177,7 +185,7 @@ export default function VideoAnalysisDetail() {
               timestamp={(post.published_at || post.created_at).slice(0, 19)}
               author={post.author_name || ""}
               originalUrl={post.original_url || undefined}
-              videoUrl={post.video_url || undefined as any}
+              videoUrl={post.video_url || undefined}
               className="h-fit"
             />
           ) : (

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Heart, MessageCircle, Shield, Share2 } from "lucide-react";
+import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
+import { RiskBadge } from "@/components/ui/risk-badge";
 
 interface VideoGridCardProps {
   title: string;
@@ -133,18 +134,9 @@ export default function VideoGridCard({
         </div>
 
         {/* Risk Badges - fixed height to keep cards aligned even when empty */}
-        <div className="flex flex-wrap gap-1 mb-3 min-h-[28px] max-h-[28px] overflow-hidden">
+        <div className="flex flex-wrap gap-1.5 mb-3 min-h-[28px] max-h-[28px] overflow-hidden">
           {riskTags.map((tag, index) => (
-            <Badge
-              key={index}
-              className={cn(
-                "px-2 py-1 text-xs font-medium rounded-full flex items-center gap-1",
-                "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800"
-              )}
-            >
-              <Shield className="w-3 h-3" />
-              {tag}
-            </Badge>
+            <RiskBadge key={index} label={tag} severity="medium" size="sm" />
           ))}
         </div>
 

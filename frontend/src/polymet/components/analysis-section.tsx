@@ -1,7 +1,8 @@
 import React from "react";
-import { TrendingUp, AlertTriangle, Clock, Target, Shield } from "lucide-react";
+import { TrendingUp, AlertTriangle, Clock, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
+import { RiskBadge } from "@/components/ui/risk-badge";
 
 interface AnalysisItem {
   id: string;
@@ -10,7 +11,7 @@ interface AnalysisItem {
   description: string;
   timestamp?: string;
   severity?: "low" | "medium" | "high";
-  riskBadge?: string;
+  riskBadges?: string[];
 }
 
 interface AnalysisSectionProps {
@@ -80,7 +81,7 @@ export default function AnalysisSection({
 
       {/* Content */}
       <div className="p-6 space-y-4">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <div
             key={item.id}
             className="group p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
@@ -102,33 +103,18 @@ export default function AnalysisSection({
                   <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
                     {item.title}
                   </h4>
-                  <div className="flex items-center gap-2">
-                    {item.riskBadge && (
-                      <Badge
-                        variant={
-                          item.riskBadge === "宠物进店"
-                            ? "destructive"
-                            : "secondary"
-                        }
-                        className={cn(
-                          "px-2 py-1 text-xs font-medium rounded-full flex items-center gap-1",
-                          item.riskBadge === "宠物进店"
-                            ? "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800"
-                            : "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800"
-                        )}
-                      >
-                        {item.riskBadge === "宠物进店" ? (
-                          <AlertTriangle className="w-3 h-3" />
-                        ) : (
-                          <Shield className="w-3 h-3" />
-                        )}
-                        {item.riskBadge}
-                      </Badge>
-                    )}
-               
+                  <div className="flex items-center gap-2 flex-wrap justify-end">
+                    {(item.riskBadges || []).map((rb, i) => (
+                      <RiskBadge
+                        key={`${rb}-${i}`}
+                        label={rb}
+                        severity={rb === "宠物进店" ? "high" : "medium"}
+                        size="lg"
+                      />
+                    ))}
                   </div>
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-line">
                   {item.description}
                 </p>
               </div>
