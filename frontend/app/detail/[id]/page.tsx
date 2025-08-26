@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { supabase } from "@/lib/supabase"
 
 // 模拟详情数据
 const mockDetailData = {
@@ -106,79 +107,124 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
 
   useEffect(() => {
     async function hydrate() {
-      if (videoId !== 1) return
       try {
-        const [cardRes, detailRes] = await Promise.all([
-          fetch("/api/video/card", { cache: "no-store" }),
-          fetch("/api/video/detail", { cache: "no-store" }),
-        ])
-        let card: any | null = null
-        if (cardRes.ok) card = await cardRes.json()
-        if (!card || !card.title) {
-          try {
-            const raw = await fetch("/data/douyin/card.json", { cache: "no-store" })
-            const json = await raw.json()
-            const data = json.data || {}
-            const stats = data.statistics || {}
-            const durationMs: number = Number(data.duration || 0)
-            const durationSec = Math.floor(durationMs / 1000)
-            const minutes = Math.floor(durationSec / 60)
-            const seconds = String(durationSec % 60).padStart(2, "0")
-            const createTime: number | undefined = data.create_time
-            const publishTime = createTime ? new Date(createTime * 1000).toLocaleString("zh-CN") : ""
-            card = {
-              id: 1,
-              title: data.preview_title || data.desc || "",
-              description: data.desc || "",
-              thumbnail: (data.url_list && data.url_list[0]) || "",
-              platform: "抖音",
-              author: data.nickname || "",
-              likes: Number(stats.digg_count || 0),
-              comments: Number(stats.comment_count || 0),
-              shares: Number(stats.share_count || 0),
-              sentiment: "negative",
-              duration: `${minutes}:${seconds}`,
-              publishTime,
-              contentType: "视频",
-              views: Number(stats.play_count || 0),
-              riskLevel: "中风险",
-              original_url: json.aweme_id ? `https://www.douyin.com/video/${json.aweme_id}` : "",
+        // id=1 读取 Supabase 的 id=4；其他 id 使用 public JSON
+        if (videoId === 1 && supabase) {
+          const { data: rows, error } = await supabase
+            .from("gg_video_analysis")
+            .select("*")
+            .eq("id", 4)
+            .limit(1)
+          if (!error && rows && rows[0]) {
+            const row: any = rows[0]
+            // 同步读取 gg_platform_post 填充左侧卡片
+            let post: any | null = null
+            if (row.platform_item_id) {
+              const { data: posts } = await supabase
+                .from("gg_platform_post")
+                .select("*")
+                .eq("platform_item_id", row.platform_item_id)
+                .eq("platform", row.source_platform || "douyin")
+                .limit(1)
+              post = posts && posts[0]
             }
-          } catch {}
-        }
-        let detail: any | null = null
-        if (detailRes.ok) detail = await detailRes.json()
-        if (!detail || !detail.analysis) {
-          try {
-            const raw = await fetch("/data/douyin/detail.json", { cache: "no-store" })
-            const json = await raw.json()
-            const result = json.result || {}
-            const riskSet = new Set<string>()
-            ;(result.timeline || []).forEach((t: any) => (t.risk_type || []).forEach((r: string) => riskSet.add(r)))
-            detail = {
+            const timeline = (row.timeline?.events || []).map((e: any) => ({
+              timestamp: e.timestamp || "",
+              scene_description: e.scene_description || "",
+              audio_transcript: e.audio_transcript || "",
+              issue: e.issue || "",
+              risk_type: e.risk_type || [],
+              severity: 3,
+              evidence: (e.evidence && e.evidence[0] && e.evidence[0].details) || "",
+            }))
+            const merged = {
+              id: 1,
+              title: post?.title || row.summary || "xxx字段数据缺失",
+              description: post?.desc || row.summary || "xxx字段数据缺失",
+              thumbnail: post?.cover_url || "",
+              platform: post?.platform || row.source_platform || "抖音",
+              author: post?.author || "xxx字段数据缺失",
+              likes: Number(post?.digg_count ?? 0),
+              comments: Number(post?.comment_count ?? 0),
+              shares: Number(post?.share_count ?? 0),
+              views: Number(post?.play_count ?? 0),
+              duration: post?.duration || "0:27",
+              publishTime: post?.created_at ? new Date(post.created_at).toLocaleString("zh-CN") : "",
+              contentType: "视频",
               analysis: {
-                summary: result.summary || "",
-                sentiment: result.sentiment || "neutral",
-                brand: result.brand || "",
-                timeline:
-                  (result.timeline || []).map((t: any) => ({
-                    timestamp: t.timestamp || "",
-                    scene_description: t.scene_description || "",
-                    audio_transcript: t.audio_transcript || "",
-                    issue: t.issue || "",
-                    risk_type: t.risk_type || [],
-                    severity: 3,
-                    evidence: (t.evidence && t.evidence[0] && t.evidence[0].details) || "",
-                  })) || [],
-                key_points: result.key_points || [],
+                summary: row.summary || "",
+                sentiment: row.sentiment || "neutral",
+                brand: row.brand || "",
+                timeline,
+                key_points: row.key_points || [],
                 risks: [],
               },
-              risk_types: Array.from(riskSet),
+              risk_types: row.risk_types || [],
+              original_url: row.platform_item_id
+                ? `https://www.douyin.com/video/${row.platform_item_id}`
+                : (data as any).original_url,
             }
-          } catch {}
+            setData(merged as any)
+            return
+          }
         }
-        if (card && detail)
-          setData({ ...card, analysis: detail.analysis, risk_types: detail.risk_types, original_url: card.original_url })
+
+        if (videoId !== 1 || !supabase) {
+          const [cardRaw, detailRaw] = await Promise.all([
+            fetch("/data/douyin/card.json", { cache: "no-store" }),
+            fetch("/data/douyin/detail.json", { cache: "no-store" }),
+          ])
+          const cardJson = await cardRaw.json()
+          const djson = await detailRaw.json()
+          const base = cardJson.data || {}
+          const stats = base.statistics || {}
+          const durationMs: number = Number(base.duration || 0)
+          const durationSec = Math.floor(durationMs / 1000)
+          const minutes = Math.floor(durationSec / 60)
+          const seconds = String(durationSec % 60).padStart(2, "0")
+          const createTime: number | undefined = base.create_time
+          const publishTime = createTime ? new Date(createTime * 1000).toLocaleString("zh-CN") : ""
+          const result = djson.result || {}
+          const riskSet = new Set<string>()
+          ;(result.timeline || []).forEach((t: any) => (t.risk_type || []).forEach((r: string) => riskSet.add(r)))
+          const mapped = {
+            id: videoId,
+            title: base.preview_title || base.desc || "",
+            description: base.desc || "",
+            thumbnail: (base.url_list && base.url_list[0]) || "",
+            platform: "抖音",
+            author: base.nickname || "",
+            likes: Number(stats.digg_count || 0),
+            comments: Number(stats.comment_count || 0),
+            shares: Number(stats.share_count || 0),
+            sentiment: result.sentiment || "neutral",
+            duration: `${minutes}:${seconds}`,
+            publishTime,
+            contentType: "视频",
+            views: Number(stats.play_count || 0),
+            riskLevel: "中风险",
+            original_url: cardJson.aweme_id ? `https://www.douyin.com/video/${cardJson.aweme_id}` : "",
+            analysis: {
+              summary: result.summary || "",
+              sentiment: result.sentiment || "neutral",
+              brand: result.brand || "",
+              timeline:
+                (result.timeline || []).map((t: any) => ({
+                  timestamp: t.timestamp || "",
+                  scene_description: t.scene_description || "",
+                  audio_transcript: t.audio_transcript || "",
+                  issue: t.issue || "",
+                  risk_type: t.risk_type || [],
+                  severity: 3,
+                  evidence: (t.evidence && t.evidence[0] && t.evidence[0].details) || "",
+                })) || [],
+              key_points: result.key_points || [],
+              risks: [],
+            },
+            risk_types: Array.from(riskSet),
+          }
+          setData(mapped as any)
+        }
       } catch (e) {}
     }
     hydrate()
@@ -347,22 +393,16 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {data.analysis.timeline.map((t, index) => {
-                    const r = (t.risk_type && t.risk_type[0]) || undefined
-                    const textParts = [t.issue || t.scene_description]
-                    const text = textParts.filter(Boolean).join(" - ")
+                  {data.analysis.key_points.map((kp, idx) => {
+                    const str = String(kp)
+                    const parts = str.split(/[:：]/)
+                    const badge = parts[0] || "要点"
+                    const desc = parts.slice(1).join(":").trim()
                     return (
-                    <li key={index} className="flex items-start gap-2">
-                        {r ? (
-                          <Badge className="mt-0.5 bg-amber-50 text-amber-800 border border-amber-200">{r}</Badge>
-                        ) : (
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0" />
-                        )}
-                        <span className="text-gray-700">
-                          {r ? <span className="font-medium mr-1">：</span> : null}
-                          {text}
-                        </span>
-                    </li>
+                      <li key={idx} className="flex items-start gap-2">
+                        <Badge className="mt-0.5 bg-amber-50 text-amber-800 border border-amber-200">{badge}</Badge>
+                        <span className="text-gray-700">{desc}</span>
+                      </li>
                     )
                   })}
                 </ul>
@@ -402,15 +442,31 @@ export default function DetailPage({ params }: { params: Promise<{ id: string }>
                           </Badge>
                         ))}
                       </div>
-                      <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                      <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                         {item.scene_description && (
-                          <p className="text-sm text-gray-700">{item.scene_description}</p>
+                          <div>
+                            <p className="text-xs text-gray-400 mb-1">场景描述</p>
+                            <p className="text-sm text-gray-700">{item.scene_description}</p>
+                          </div>
                         )}
                         {item.audio_transcript && (
-                          <p className="text-sm text-gray-500 italic">"{item.audio_transcript}"</p>
+                          <div>
+                            <p className="text-xs text-gray-400 mb-1">配音内容</p>
+                            <p className="text-sm text-gray-500 italic">"{item.audio_transcript}"</p>
+                          </div>
                         )}
-                        {item.issue && <p className="text-sm text-gray-700">{item.issue}</p>}
-                        {item.evidence && <p className="text-xs text-gray-500">{item.evidence}</p>}
+                        {item.issue && (
+                          <div>
+                            <p className="text-xs text-gray-400 mb-1">风险问题</p>
+                            <p className="text-sm text-gray-700">{item.issue}</p>
+                          </div>
+                        )}
+                        {item.evidence && (
+                          <div>
+                            <p className="text-xs text-gray-400 mb-1">详细说明</p>
+                            <p className="text-xs text-gray-500">{item.evidence}</p>
+                          </div>
+                        )}
                     </div>
                   </div>
                 </div>
