@@ -445,10 +445,7 @@ def main():
         ),
     )
 
-    if report.file_path:
-        print(f"\n✅ 任务完成！视频已保存到: {report.file_path}")
-    else:
-        print("\n❌ 任务失败！")
+    print("\n☑️ 任务完成！")
 
 
 if __name__ == "__main__":
