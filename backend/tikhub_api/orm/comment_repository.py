@@ -15,18 +15,41 @@ class CommentRepository:
     def upsert_comment(comment: PlatformComment) -> PlatformComment:
         """Upsert a comment by (platform, platform_comment_id) unique constraint.
         Returns the stored row.
+        支持两种输入：
+        - PlatformComment 实例：严格校验、完整 upsert
+        - dict（部分字段补丁）：用于二次修正 parent_comment_id 等，仅更新提供的字段
         """
         client = get_client()
-        # validate using Pydantic, and produce dict for DB
-        model = comment if isinstance(comment, PlatformComment) else PlatformComment(**comment)  # type: ignore
-        payload: Dict[str, Any] = model.dict()
-        if isinstance(payload.get("published_at"), datetime):
-            payload["published_at"] = payload["published_at"].isoformat()
+
+        # 如果传入的是补丁 dict，直接 upsert（不经 Pydantic 强校验）
+        if isinstance(comment, dict):  # type: ignore
+            payload: Dict[str, Any] = {k: v for k, v in comment.items() if v is not None}
+            # 规范化时间字段
+            if isinstance(payload.get("published_at"), datetime):
+                payload["published_at"] = payload["published_at"].isoformat()
+            # id=None 移除，避免插入路径冲突
+            if payload.get("id") is None:
+                payload.pop("id", None)
+            resp = client.table(TABLE).upsert(payload, on_conflict="platform,platform_comment_id").execute()
+            data = resp.data[0] if resp.data else None
+            return CommentRepository._row_to_model(data) if data else PlatformComment()
+
+        # 否则按完整对象处理
+        model = comment  # type: ignore[assignment]
+
+        # Pydantic v2 preferred
+        if hasattr(model, "model_dump"):
+            payload: Dict[str, Any] = model.model_dump(mode="json", exclude_none=True)  # type: ignore[attr-defined]
+        else:
+            payload = model.dict()
+            if isinstance(payload.get("published_at"), datetime):
+                payload["published_at"] = payload["published_at"].isoformat()
+
         if payload.get("id") is None:
-            payload.pop("id")
-        resp = client.table(TABLE).upsert(payload).execute()
+            payload.pop("id", None)
+        resp = client.table(TABLE).upsert(payload, on_conflict="platform,platform_comment_id").execute()
         data = resp.data[0] if resp.data else None
-        return CommentRepository._row_to_model(data) if data else comment
+        return CommentRepository._row_to_model(data) if data else model
 
     @staticmethod
     def get_by_platform_comment(platform: str, platform_comment_id: str) -> Optional[PlatformComment]:
@@ -67,6 +90,26 @@ class CommentRepository:
             .execute()
         )
         return [CommentRepository._row_to_model(r) for r in (resp.data or [])]
+
+    @staticmethod
+    def update_parent_link(platform: str, platform_comment_id: str, parent_comment_id: int,
+                           parent_platform_comment_id: str, post_id: int) -> Optional[PlatformComment]:
+        """仅更新父子关联字段，避免触碰 content 等非空字段。"""
+        client = get_client()
+        payload: Dict[str, Any] = {
+            "parent_comment_id": parent_comment_id,
+            "parent_platform_comment_id": parent_platform_comment_id,
+        }
+        resp = (
+            client.table(TABLE)
+            .update(payload)
+            .eq("platform", platform)
+            .eq("platform_comment_id", platform_comment_id)
+            .eq("post_id", post_id)
+            .execute()
+        )
+        row = resp.data[0] if resp.data else None
+        return CommentRepository._row_to_model(row) if row else None
 
     @staticmethod
     def _row_to_model(row: Dict[str, Any]) -> PlatformComment:

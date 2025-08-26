@@ -26,8 +26,9 @@ class PostRepository:
         if payload.get("id") is None:
             payload.pop("id", None)
 
-        # Upsert ensures idempotency on unique (platform, platform_item_id)
-        resp = client.table(TABLE).upsert(payload).execute()
+        # Upsert on the unique constraint (platform, platform_item_id)
+        # 需要显式声明 on_conflict，才能命中该唯一索引而非按主键冲突
+        resp = client.table(TABLE).upsert(payload, on_conflict="platform,platform_item_id").execute()
         data = resp.data[0] if resp.data else None
         return PostRepository._row_to_model(data) if data else model
 

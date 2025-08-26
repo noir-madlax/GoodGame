@@ -3,10 +3,10 @@ from .base_fetcher import BaseFetcher
 
 
 from ..orm.models import PlatformPost
-from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProvider
+from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider
 
 
-class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, DanmakuProvider):
+class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider):
     """抖音视频获取器，用于调用 TikHub API 获取抖音视频信息"""
 
     @property
@@ -158,6 +158,63 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
 
         except Exception as e:
             print(f"获取弹幕信息失败: {str(e)}")
+            return None
+
+    # ===== 评论能力 =====
+    def fetch_video_comments_page(self, aweme_id: str, cursor: int = 0, count: int = 20) -> Dict[str, Any]:
+        self._validate_video_id(aweme_id)
+        if cursor < 0:
+            raise ValueError("cursor 不能小于 0")
+        if count <= 0 or count > 50:
+            raise ValueError("count 必须在 1~50 之间")
+        url = f"{self.base_url}/douyin/web/fetch_video_comments"
+        params = {
+            'aweme_id': aweme_id,
+            'cursor': cursor,
+            'count': count,
+        }
+        return self._make_request(url, params)
+
+    def get_video_comments(self, aweme_id: str, cursor: int = 0, count: int = 20) -> Optional[Dict[str, Any]]:
+        try:
+            result = self.fetch_video_comments_page(aweme_id, cursor, count)
+            if self._check_api_response(result):
+                return result.get('data')
+            else:
+                print(f"获取评论失败，response: {result}")
+                return None
+        except Exception as e:
+            print(f"获取评论信息失败: {str(e)}")
+            return None
+
+    # ===== 评论回复能力 =====
+    def fetch_video_comment_replies_page(self, item_id: str, comment_id: str, cursor: int = 0, count: int = 20) -> Dict[str, Any]:
+        self._validate_video_id(item_id)
+        if not comment_id:
+            raise ValueError("comment_id 不能为空")
+        if cursor < 0:
+            raise ValueError("cursor 不能小于 0")
+        if count <= 0 or count > 50:
+            raise ValueError("count 必须在 1~50 之间")
+        url = f"{self.base_url}/douyin/web/fetch_video_comment_replies"
+        params = {
+            'item_id': item_id,
+            'comment_id': comment_id,
+            'cursor': cursor,
+            'count': count,
+        }
+        return self._make_request(url, params)
+
+    def get_video_comment_replies(self, item_id: str, comment_id: str, cursor: int = 0, count: int = 20) -> Optional[Dict[str, Any]]:
+        try:
+            result = self.fetch_video_comment_replies_page(item_id, comment_id, cursor, count)
+            if self._check_api_response(result):
+                return result.get('data')
+            else:
+                print(f"获取评论回复失败: {result.get('message', '未知错误')}")
+                return None
+        except Exception as e:
+            print(f"获取评论回复信息失败: {str(e)}")
             return None
 
 

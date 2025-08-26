@@ -35,3 +35,25 @@ class VideoDurationProvider(Protocol):
     def get_video_duration_ms(self, video_id: str) -> Optional[int]:
         ...
 
+
+@runtime_checkable
+class CommentsProvider(Protocol):
+    """提供评论分页获取能力的协议接口。"""
+
+    def fetch_video_comments_page(self, video_id: str, cursor: int = 0, count: int = 20) -> Dict[str, Any]:
+        """获取评论分页原始响应（顶层评论）。"""
+        ...
+
+    def get_video_comments(self, video_id: str, cursor: int = 0, count: int = 20) -> Optional[Dict[str, Any]]:
+        """便捷方法，返回 data 字段（含 comments, cursor, has_more）。"""
+        ...
+
+    # 评论回复（楼中楼）
+    def fetch_video_comment_replies_page(self, item_id: str, comment_id: str, cursor: int = 0, count: int = 20) -> Dict[str, Any]:
+        """获取某个顶层评论的回复分页原始响应。"""
+        ...
+
+    def get_video_comment_replies(self, item_id: str, comment_id: str, cursor: int = 0, count: int = 20) -> Optional[Dict[str, Any]]:
+        """便捷方法，返回 data 字段（含 comments, cursor, has_more, total）。"""
+        ...
+

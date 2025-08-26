@@ -1,8 +1,8 @@
 from __future__ import annotations
-from typing import Protocol, Optional, Dict, Any, runtime_checkable
+from typing import Protocol, Optional, Dict, Any, runtime_checkable, List
 from datetime import datetime
 
-from .orm.models import PlatformPost
+from .orm.models import PlatformPost, PlatformComment
 
 
 @runtime_checkable
@@ -83,3 +83,91 @@ class XiaohongshuVideoAdapter:
             published_at=None,
         )
 
+class DouyinCommentAdapter:
+    """抖音评论数据 -> PlatformComment 适配器"""
+
+    @staticmethod
+    def to_comment(raw: Dict[str, Any], post_id: int) -> PlatformComment:
+        user = (raw.get('user') or {})
+        avatar = (user.get('avatar_thumb') or {})
+        url_list = avatar.get('url_list') or []
+        avatar_url = url_list[0] if url_list else None
+
+        published_at = None
+        ts = raw.get('create_time')
+        if isinstance(ts, (int, float)):
+            try:
+                published_at = datetime.fromtimestamp(ts)
+            except Exception:
+                published_at = None
+
+        return PlatformComment(
+            post_id=post_id,
+            platform="douyin",
+            platform_comment_id=str(raw.get('cid', '')),
+            parent_comment_id=None,
+            parent_platform_comment_id=None,
+            author_id=str(user.get('uid', '') or ''),
+            author_name=str(user.get('nickname', '') or ''),
+            author_avatar_url=avatar_url,
+            content=str(raw.get('text', '') or ''),
+            like_count=int(raw.get('digg_count') or 0),
+            reply_count=int(raw.get('reply_comment_total') or 0),
+            published_at=published_at,
+        )
+
+    @staticmethod
+    def to_comment_list(raw_list: List[Dict[str, Any]], post_id: int) -> List[PlatformComment]:
+        out: List[PlatformComment] = []
+        for raw in (raw_list or []):
+            try:
+                out.append(DouyinCommentAdapter.to_comment(raw, post_id))
+            except Exception:
+                continue
+        return out
+
+    @staticmethod
+    def to_reply_list(raw_list: List[Dict[str, Any]], post_id: int, top_cid: str,
+                      id_map: Dict[str, int]) -> List[PlatformComment]:
+        """将楼中楼回复列表映射为 PlatformComment，并尽力绑定父级关系。
+        - parent_platform_comment_id: 对 "0" 使用顶层 cid；否则用 reply_to_reply_id
+        - parent_comment_id: 如果 id_map 里已经有父，则绑定；否则置 None，后续再补
+        """
+        out: List[PlatformComment] = []
+        for raw in (raw_list or []):
+            try:
+                user = (raw.get('user') or {})
+                avatar = (user.get('avatar_thumb') or {})
+                url_list = avatar.get('url_list') or []
+                avatar_url = url_list[0] if url_list else None
+
+                published_at = None
+                ts = raw.get('create_time')
+                if isinstance(ts, (int, float)):
+                    try:
+                        published_at = datetime.fromtimestamp(ts)
+                    except Exception:
+                        published_at = None
+
+                cid = str(raw.get('cid', ''))
+                reply_to_reply_id = str(raw.get('reply_to_reply_id', '') or '0')
+                parent_platform_cid = top_cid if reply_to_reply_id == '0' else reply_to_reply_id
+                parent_db_id = id_map.get(parent_platform_cid)
+
+                out.append(PlatformComment(
+                    post_id=post_id,
+                    platform="douyin",
+                    platform_comment_id=cid,
+                    parent_comment_id=parent_db_id,
+                    parent_platform_comment_id=parent_platform_cid,
+                    author_id=str(user.get('uid', '') or ''),
+                    author_name=str(user.get('nickname', '') or ''),
+                    author_avatar_url=avatar_url,
+                    content=str(raw.get('text', '') or ''),
+                    like_count=int(raw.get('digg_count') or 0),
+                    reply_count=int(raw.get('comment_reply_total') or 0),
+                    published_at=published_at,
+                ))
+            except Exception:
+                continue
+        return out
