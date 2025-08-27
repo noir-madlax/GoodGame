@@ -197,7 +197,7 @@ def analyze_with_inputs(
 
 	contents: list[types.Part | str] = [
 		video_part,
-		"以下是与该视频对应的评论数据，请一并纳入分析，并在 events 中标注来源 source=video 或 source=comment；若来源为评论请同时标注 comment_id 与 comment_index。",
+		"以下是与该视频对应的评论数据，请一并纳入分析，并在 events 中标注来源 source=video 或 source=comment。",
 	]
 
 	if comments:

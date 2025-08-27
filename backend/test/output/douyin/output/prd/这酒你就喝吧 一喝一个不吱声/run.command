@@ -1,0 +1,1 @@
+python3 /Users/rigel/project/goodgame/backend/test/output/douyin/llm-video+comment.py "/Users/rigel/project/goodgame/backend/test/output/douyin/output/prd/这酒你就喝吧 一喝一个不吱声/7499608775142608186.mp4" --comments "/Users/rigel/project/goodgame/backend/test/output/douyin/output/prd/这酒你就喝吧 一喝一个不吱声/comments.json"

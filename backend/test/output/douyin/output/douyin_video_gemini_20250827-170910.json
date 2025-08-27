@@ -1,0 +1,100 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "视频展示了在一家海底捞门店内，两只宠物狗与顾客同桌坐在卡座上，其中一只狗使用了印有“海底捞火锅”字样的碗进食。评论区内容显示，部分用户对允许宠物进店并上桌的行为表示不满。",
+    "sentiment": "negative",
+    "brand": "海底捞",
+    "brand_relevance": "相关",
+    "risk_type_total": [
+      "宠物进店",
+      "用餐卫生"
+    ],
+    "key_points": [
+      "宠物进店: 两只宠物狗在用餐区卡座与顾客同桌就坐。",
+      "用餐卫生: 宠物使用带有品牌Logo的碗进食。",
+      "宠物进店: 评论区有顾客因允许宠物上桌表示不满。"
+    ],
+    "events": [
+      {
+        "timestamp": "00:01",
+        "scene_description": "在餐厅用餐区，一只金毛犬和一只哈士奇坐在卡座的沙发上，与三名顾客同桌。桌上摆放着带有“海底捞火锅”字样的餐具。",
+        "audio_transcript": "背景音乐：儿童歌曲《小狗乖乖》",
+        "issue": "宠物与顾客在用餐区同桌就坐于沙发上。",
+        "risk_type": [
+          "宠物进店"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "宠物",
+            "subject_behavior": "两只狗（金毛犬和哈士奇）坐在用餐区的卡座沙发上，与顾客同桌",
+            "objects_involved": "餐桌、卡座沙发、带Logo的碗",
+            "brand_assets": "带有'海底捞火锅'字样的碗",
+            "visibility": "清晰，持续整个视频",
+            "details": "金毛犬头戴黄色充气头饰，两只狗与三名顾客同桌就坐。"
+          }
+        ],
+        "source": "video"
+      },
+      {
+        "timestamp": "00:11",
+        "scene_description": "一只头戴黄色头饰的金毛犬，将头伸入一个印有“海底捞火锅”字样的白色纸碗中舔食。",
+        "audio_transcript": "背景音乐：儿童歌曲《小狗乖乖》",
+        "issue": "宠物使用店内提供的餐具进食。",
+        "risk_type": [
+          "宠物进店",
+          "用餐卫生"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "宠物",
+            "subject_behavior": "金毛犬的嘴接触并伸入带有'海底捞火锅'Logo的碗中进食",
+            "objects_involved": "带Logo的碗",
+            "contact_path": "动物口腔→品牌碗",
+            "brand_assets": "带有'海底捞火锅'字样的白色纸碗",
+            "visibility": "清晰，持续约15秒",
+            "details": "该行为从00:11持续到00:26左右。"
+          }
+        ],
+        "source": "video"
+      },
+      {
+        "timestamp": "00:00",
+        "scene_description": "评论内容为：“再也不去了”",
+        "audio_transcript": "无",
+        "issue": "顾客因视频中允许宠物进店就餐的现象表达了负面看法和抵制意愿。",
+        "risk_type": [
+          "宠物进店"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "评论者表达因宠物上桌而不再光顾的意愿",
+            "audio_quote": "再也不去了"
+          }
+        ],
+        "source": "comment"
+      },
+      {
+        "timestamp": "00:00",
+        "scene_description": "评论内容为：“带狗上桌，真6”",
+        "audio_transcript": "无",
+        "issue": "顾客对允许宠物上餐桌的行为表示不满和讽刺。",
+        "risk_type": [
+          "宠物进店"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "评论者对允许宠物上餐桌的行为发表负面评论",
+            "audio_quote": "带狗上桌，真6"
+          }
+        ],
+        "source": "comment"
+      }
+    ]
+  }
+}
