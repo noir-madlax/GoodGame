@@ -7,6 +7,7 @@ interface PlatformBadgeProps {
   platform: PlatformKey;
   className?: string;
   size?: "sm" | "md";
+  variant?: "overlay" | "panel"; // overlay: on thumbnail; panel: in cards/sidebars
 }
 
 const platformMeta = (platform: PlatformKey) => {
@@ -27,20 +28,40 @@ const platformMeta = (platform: PlatformKey) => {
   return { label: "other", color: "bg-gray-500" };
 };
 
-export const PlatformBadge: React.FC<PlatformBadgeProps> = ({ platform, className, size = "sm" }) => {
+export const PlatformBadge: React.FC<PlatformBadgeProps> = ({ platform, className, size = "sm", variant = "panel" }) => {
   const meta = platformMeta(platform);
-  const sizeClasses = size === "sm" ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm";
+  const baseSize = size === "sm" ? "text-xs px-2 py-1" : "text-sm px-3 py-1.5";
+  if (variant === "overlay") {
+    // On image: glass backdrop + small brand dot + white text
+    return (
+      <span
+        className={cn(
+          "inline-flex items-center gap-0 rounded-md text-white",
+          "bg-black/45 backdrop-blur-sm border border-white/20",
+          baseSize,
+          className
+        )}
+        aria-label={`platform ${meta.label}`}
+      >
+        <span className={cn( meta.color.replace("bg-", "bg-"))} aria-hidden />
+        {meta.label}
+      </span>
+    );
+  }
+  // Panel/default: subtle neutral chip with brand-colored text and dot
   return (
     <span
       className={cn(
-        "rounded-md text-white font-medium inline-flex items-center bg-opacity-80",
-        `${meta.color} bg-opacity-70`,
-        sizeClasses,
+        "inline-flex items-center gap-1 rounded-md",
+        "bg-gray-200/70 dark:bg-gray-800/70 text-gray-900 dark:text-gray-100",
+        "border border-black/10 dark:border-white/10",
+        baseSize,
         className
       )}
       aria-label={`platform ${meta.label}`}
     >
-      {meta.label}
+     
+      <span className={cn(meta.color.replace("bg-", "text-"))}>{meta.label}</span>
     </span>
   );
 };

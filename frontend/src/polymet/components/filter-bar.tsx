@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Search,
   Filter,
@@ -26,6 +26,10 @@ interface FilterBarProps {
   contentType: string; // 'all' | 'video' | 'image'
   timeRange: "all" | "today" | "week" | "month";
   sentiment: SentimentValue;
+  riskOptions?: { id: string; label: string; count: number }[];
+  channelOptions?: { id: string; label: string; count?: number }[];
+  typeOptions?: { id: string; label: string; count?: number }[];
+  sentimentOptions?: { id: SentimentValue; label: string }[];
   onChange: (next: {
     riskScenario?: RiskScenario;
     channel?: string;
@@ -36,32 +40,27 @@ interface FilterBarProps {
   }) => void;
 }
 
-export default function FilterBar({ className, riskScenario, channel, contentType, timeRange, sentiment, onChange }: FilterBarProps) {
+export default function FilterBar({ className, riskScenario, channel, contentType, timeRange, sentiment, riskOptions, channelOptions, typeOptions, sentimentOptions, onChange }: FilterBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const openInit: string | null = null;
   const [openMenu, setOpenMenu] = useState<string | null>(openInit);
 
-  const riskFilters: FilterOption[] = [
-    { id: "all", label: "风险场景", count: 1250 },
-    { id: "pet-entry", label: "宠物进店", count: 45 },
-    { id: "food-safety", label: "用餐卫生", count: 32 },
-    { id: "food-security", label: "食品安全", count: 28 },
-    { id: "env-hygiene", label: "环境卫生", count: 18 },
-  ];
+  const riskFilters: FilterOption[] = useMemo(() => {
+    if (riskOptions && riskOptions.length > 0) return riskOptions;
+    return [{ id: "all", label: "全部场景", count: 0 }];
+  }, [riskOptions]);
 
-  const channelFilters: FilterOption[] = [
-    { id: "all", label: "全部渠道", count: 1250 },
-    { id: "douyin", label: "抖音", count: 450 },
-    { id: "xiaohongshu", label: "小红书", count: 320 },
-    { id: "weibo", label: "微博", count: 280 },
-  ];
+  const channelFilters: FilterOption[] = useMemo(() => {
+    if (channelOptions && channelOptions.length > 0) return channelOptions as FilterOption[];
+    return [{ id: "all", label: "全部渠道" }];
+  }, [channelOptions]);
 
-  const typeFilters: FilterOption[] = [
-    { id: "all", label: "全部类型", count: 1250 },
-    { id: "video", label: "视频", count: 800 },
-    { id: "image", label: "图文", count: 350 },
-    { id: "text", label: "文本", count: 100 },
-  ];
+  const typeFilters: FilterOption[] = useMemo(() => {
+    if (typeOptions && typeOptions.length > 0) return typeOptions as FilterOption[];
+    return [
+      { id: "all", label: "全部类型" },
+    ];
+  }, [typeOptions]);
 
   const timeFilters: FilterOption[] = [
     { id: "all", label: "全部时间", count: 1250 },
@@ -85,20 +84,47 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
   }) => {
     const isOpen = openMenu === menuId;
     const selected = useMemo(() => options.find(o => o.id === value) || options[0], [options, value]);
+    const btnRef = useRef<HTMLButtonElement | null>(null);
+    const menuRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      const handleDown = (e: MouseEvent) => {
+        if (!isOpen) return;
+        const target = e.target as Node;
+        if (btnRef.current?.contains(target)) return;
+        if (menuRef.current?.contains(target)) return;
+        setOpenMenu(null);
+      };
+      const handleKey = (e: KeyboardEvent) => {
+        if (!isOpen) return;
+        if (e.key === "Escape") setOpenMenu(null);
+      };
+      document.addEventListener("mousedown", handleDown);
+      document.addEventListener("keydown", handleKey);
+      return () => {
+        document.removeEventListener("mousedown", handleDown);
+        document.removeEventListener("keydown", handleKey);
+      };
+    }, [isOpen]);
 
     return (
       <div className="relative">
         <button
+          ref={btnRef}
           onClick={() => setOpenMenu(isOpen ? null : menuId)}
           className={cn(
             "flex items-center space-x-2 px-4 py-2 rounded-xl",
-            "bg-white/10 backdrop-blur-xl border border-white/20",
+            "bg-white/10 backdrop-blur-xl border",
+            selected.id !== "all" ? "border-blue-400/60 text-blue-600 dark:text-blue-400" : "border-white/20",
             "hover:bg-white/20 hover:border-white/30 transition-all duration-300",
             "shadow-lg hover:shadow-xl"
           )}
         >
           <div className="text-gray-600 dark:text-gray-300">{icon}</div>
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+          <span className={cn(
+            "text-sm font-medium",
+            selected.id !== "all" ? "text-blue-600 dark:text-blue-400" : "text-gray-700 dark:text-gray-200"
+          )}>
             {selected.label}
           </span>
           <ChevronDown
@@ -110,7 +136,10 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
         </button>
 
         {isOpen && (
-          <div className="absolute top-full left-0 mt-2 w-48 rounded-xl bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border border-white/20 shadow-2xl z-50">
+          <div
+            ref={menuRef}
+            className="absolute top-full left-0 mt-2 w-48 rounded-xl bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border border-white/20 shadow-2xl z-[3000]"
+          >
             <div className="p-2 space-y-1">
               {options.map((option) => (
                 <button
@@ -128,11 +157,6 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
                   )}
                 >
                   <span className="text-sm font-medium">{option.label}</span>
-                  {option.count && (
-                    <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100/50 dark:bg-gray-700/50 px-2 py-1 rounded-full">
-                      {option.count.toLocaleString()}
-                    </span>
-                  )}
                 </button>
               ))}
             </div>
@@ -146,7 +170,7 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
     <div
       className={cn(
         "p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20",
-        "shadow-xl shadow-black/5",
+        "shadow-xl shadow-black/5 relative z-[2500]",
         className
       )}
     >
@@ -218,15 +242,19 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
           icon={<Calendar className="w-4 h-4" />}
           value={timeRange}
           menuId="time"
-          onSelect={(id) => onChange({ timeRange: id as any })}
+          onSelect={(id) => onChange({ timeRange: id as "all" | "today" | "week" | "month" })}
         />
 
         <FilterDropdown
-          options={[{ id: "all", label: "全部情绪" }, { id: "positive", label: "正向" }, { id: "neutral", label: "中立" }, { id: "negative", label: "负面" }]}
+          options={(
+            sentimentOptions && sentimentOptions.length > 0
+              ? sentimentOptions
+              : ([{ id: "all", label: "全部情绪" }, { id: "positive", label: "正向" }, { id: "neutral", label: "中立" }, { id: "negative", label: "负面" }] as any)
+          ) as FilterOption[]}
           icon={<Filter className="w-4 h-4" />}
           value={sentiment}
           menuId="sentiment"
-          onSelect={(id) => onChange({ sentiment: id as any })}
+          onSelect={(id) => onChange({ sentiment: id as SentimentValue })}
         />
       </div>
     </div>

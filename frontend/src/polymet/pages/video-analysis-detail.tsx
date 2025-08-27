@@ -248,7 +248,7 @@ export default function VideoAnalysisDetail() {
                 <span className="text-gray-600 dark:text-gray-400">
                   发布平台
                 </span>
-                <PlatformBadge platform={post?.platform || ""} size="md" className="!bg-opacity-60" />
+                <PlatformBadge platform={post?.platform || ""} size="md" variant="panel" />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">

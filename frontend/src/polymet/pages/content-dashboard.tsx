@@ -35,12 +35,30 @@ export default function ContentDashboard() {
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [risks, setRisks] = useState<Record<string, string[]>>({});
   const [sentiments, setSentiments] = useState<Record<string, string>>({});
+  const [riskOptions, setRiskOptions] = useState<{ id: string; label: string; count: number }[]>([]);
+  const [channelOptions, setChannelOptions] = useState<{ id: string; label: string }[]>([]);
+  const [typeOptions, setTypeOptions] = useState<{ id: string; label: string }[]>([]);
+  const [sentimentOptions, setSentimentOptions] = useState<{ id: SentimentValue; label: string }[]>([]);
+  const PLATFORM_LABELS: Record<string, string> = {
+    douyin: "抖音",
+    xiaohongshu: "小红书",
+    xhs: "小红书",
+    weibo: "微博",
+  };
+  const TYPE_LABELS: Record<string, string> = {
+    video: "视频",
+    image: "图文",
+    note: "图文",
+    text: "文本",
+    unknown: "其他",
+  };
   // filters
   const [riskScenario, setRiskScenario] = useState<string>("all");
   const [channel, setChannel] = useState<string>("all");
   const [contentType, setContentType] = useState<string>("all");
   const [timeRange, setTimeRange] = useState<"all" | "today" | "week" | "month">("all");
   const [sentiment, setSentiment] = useState<SentimentValue>("all");
+  const [oldestFirst, setOldestFirst] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -50,6 +68,7 @@ export default function ContentDashboard() {
           setLoading(false);
           return;
         }
+        setLoading(true);
         let query = supabase
           .from("gg_platform_post")
           .select(
@@ -60,33 +79,118 @@ export default function ContentDashboard() {
 
         if (channel !== "all") query = query.eq("platform", channel);
         if (contentType !== "all") query = query.eq("post_type", contentType);
-        // timeRange (basic client filter)
         const { data: postData } = await query;
 
         const postsSafe = (postData || []) as unknown as PostRow[];
 
-        const ids = postsSafe.map((p) => p.platform_item_id).filter(Boolean);
+        // client-side time range filter using published_at/created_at
+        const now = new Date();
+        let startAt: Date | null = null;
+        if (timeRange === "today") {
+          startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        } else if (timeRange === "week") {
+          const d = new Date(now);
+          d.setDate(d.getDate() - 7);
+          startAt = d;
+        } else if (timeRange === "month") {
+          const d = new Date(now);
+          d.setMonth(d.getMonth() - 1);
+          startAt = d;
+        }
+
+        const filteredByTime = startAt
+          ? postsSafe.filter((p) => {
+              const ts = new Date((p.published_at || p.created_at));
+              return ts >= startAt!;
+            })
+          : postsSafe;
+
+        // dynamic filter options from actual data
+        const platformSet = new Set<string>();
+        const typeSet = new Set<string>();
+        filteredByTime.forEach((p) => {
+          if (p.platform) platformSet.add(String(p.platform));
+          // post_type not in selected fields; fetch inferred via risks? We rely on postsSafe earlier selection includes post_type? It doesn't.
+        });
+
+        // fetch post_type via another lightweight query scoped by ids to avoid schema change
+        const idsForTypes = filteredByTime.map((p) => p.id);
+        if (idsForTypes.length > 0) {
+          const { data: typeRows } = await supabase
+            .from("gg_platform_post")
+            .select("id, post_type")
+            .in("id", idsForTypes);
+          (typeRows || []).forEach((r: any) => {
+            if (r.post_type) typeSet.add(String(r.post_type));
+          });
+        }
+
+        const ids = filteredByTime.map((p) => p.platform_item_id).filter(Boolean);
         const risksMap: Record<string, string[]> = {};
         const sentimentsMap: Record<string, string> = {};
+        const riskCountMap: Record<string, number> = {};
+        const sentimentSet = new Set<string>();
         if (ids.length > 0) {
           let riskQuery = supabase
             .from("gg_video_analysis")
             .select("platform_item_id, risk_types, sentiment")
             .in("platform_item_id", ids);
-          if (sentiment !== "all") riskQuery = riskQuery.eq("sentiment", sentiment);
+          // 不在这里按 sentiment 过滤，以便枚举选项不受当前筛选影响
           const { data: riskData } = await riskQuery;
           (riskData as unknown as (RiskRow & { sentiment?: string })[] | null)?.forEach((r) => {
-            risksMap[r.platform_item_id] = Array.isArray(r.risk_types)
-              ? r.risk_types
+            const raw = (r as any).risk_types;
+            const names: string[] = Array.isArray(raw)
+              ? raw.map((x: any) => (typeof x === "string" ? x : (x?.category || x?.scenario || ""))).filter(Boolean)
               : [];
+            risksMap[r.platform_item_id] = names;
+            names.forEach((name) => {
+              riskCountMap[name] = (riskCountMap[name] || 0) + 1;
+            });
             if ((r as any).sentiment) sentimentsMap[r.platform_item_id] = String((r as any).sentiment);
+            if ((r as any).sentiment) sentimentSet.add(String((r as any).sentiment));
           });
         }
 
+        // apply riskScenario and sentiment filter on posts
+        let postsAfterFilters = filteredByTime;
+        if (sentiment !== "all") {
+          postsAfterFilters = postsAfterFilters.filter((p) => sentimentsMap[p.platform_item_id] === sentiment);
+        }
+        if (riskScenario !== "all") {
+          postsAfterFilters = postsAfterFilters.filter((p) => (risksMap[p.platform_item_id] || []).includes(riskScenario));
+        }
+
+        // sort by time using published_at if present, else created_at
+        const postsSorted = [...postsAfterFilters].sort((a, b) => {
+          const ta = new Date((a.published_at || a.created_at)).getTime();
+          const tb = new Date((b.published_at || b.created_at)).getTime();
+          return oldestFirst ? ta - tb : tb - ta;
+        });
+
+        // build risk options for dropdown (top 8)
+        const riskOpts = [
+          { id: "all", label: "全部场景", count: Object.values(riskCountMap).reduce((a, b) => a + b, 0) },
+          ...Object.entries(riskCountMap)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 8)
+            .map(([k, v]) => ({ id: k, label: k, count: v })),
+        ];
+
+        const channelOpts = [{ id: "all", label: "全部渠道" }, ...Array.from(platformSet).map((p) => ({ id: p, label: PLATFORM_LABELS[p] || p }))];
+        const typeOpts = [{ id: "all", label: "全部类型" }, ...Array.from(typeSet).map((t) => ({ id: t, label: TYPE_LABELS[t] || t }))];
+        const sentimentOpts: { id: SentimentValue; label: string }[] = [
+          { id: "all", label: "全部情绪" },
+          ...Array.from(sentimentSet).map((s) => ({ id: s as SentimentValue, label: s === "positive" ? "正向" : s === "neutral" ? "中立" : "负面" })),
+        ];
+
         if (!cancelled) {
-          setPosts(postsSafe);
+          setPosts(postsSorted);
           setRisks(risksMap);
           setSentiments(sentimentsMap);
+          setRiskOptions(riskOpts);
+          setChannelOptions(channelOpts);
+          setTypeOptions(typeOpts);
+          setSentimentOptions(sentimentOpts);
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -96,7 +200,7 @@ export default function ContentDashboard() {
     return () => {
       cancelled = true;
     };
-  }, [channel, contentType, sentiment]);
+  }, [channel, contentType, sentiment, riskScenario, timeRange, oldestFirst]);
 
   const normalizePlatform = (platform: string) => {
     const key = String(platform || "").toLowerCase();
@@ -124,6 +228,10 @@ export default function ContentDashboard() {
         contentType={contentType}
         timeRange={timeRange}
         sentiment={sentiment}
+        riskOptions={riskOptions}
+        channelOptions={channelOptions}
+        typeOptions={typeOptions}
+        sentimentOptions={sentimentOptions}
         onChange={(next) => {
           if (next.riskScenario !== undefined) setRiskScenario(next.riskScenario);
           if (next.channel !== undefined) setChannel(next.channel);
@@ -148,14 +256,13 @@ export default function ContentDashboard() {
         <div className="flex items-center space-x-4">
           {/* Sort Button */}
           <button
-            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-100/40 dark:bg-gray-800/30 backdrop-blur-xl border border-white/20 text-gray-400 cursor-not-allowed transition-all duration-300"
-            disabled
-            aria-disabled
-            title="Not implemented yet"
+            onClick={() => setOldestFirst((v) => !v)}
+            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-100/40 dark:bg-gray-800/30 backdrop-blur-xl border border-white/20 text-gray-700 dark:text-gray-200 transition-all duration-300 hover:bg-gray-100/60 dark:hover:bg-gray-800/50"
+            aria-label="Sort by time"
+            title="Sort by time"
           >
-            <SortAsc className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-
-            <span className="text-sm font-medium text-gray-400">
+            <SortAsc className={cn("w-4 h-4 transition-transform", oldestFirst && "rotate-180")} />
+            <span className="text-sm font-medium">
               按时间排序
             </span>
           </button>

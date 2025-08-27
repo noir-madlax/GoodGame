@@ -111,7 +111,7 @@ export default function VideoGridCard({
 
         {/* Platform Badge */}
         <div className="absolute top-2 left-2">
-          <PlatformBadge platform={platform || platformLabel} size="sm" className="!bg-opacity-60" />
+          <PlatformBadge platform={platform || platformLabel} size="sm" variant="overlay" />
         </div>
 
         {/* Sentiment Badge */}
