@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Search,
   Filter,
@@ -15,16 +15,34 @@ interface FilterOption {
   count?: number;
 }
 
+export type SentimentValue = "all" | "positive" | "neutral" | "negative";
+export type RiskScenario = "all" | string;
+
 interface FilterBarProps {
   className?: string;
+  // controlled selections
+  riskScenario: RiskScenario;
+  channel: string; // platform key or 'all'
+  contentType: string; // 'all' | 'video' | 'image'
+  timeRange: "all" | "today" | "week" | "month";
+  sentiment: SentimentValue;
+  onChange: (next: {
+    riskScenario?: RiskScenario;
+    channel?: string;
+    contentType?: string;
+    timeRange?: "all" | "today" | "week" | "month";
+    sentiment?: SentimentValue;
+    search?: string;
+  }) => void;
 }
 
-export default function FilterBar({ className }: FilterBarProps) {
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+export default function FilterBar({ className, riskScenario, channel, contentType, timeRange, sentiment, onChange }: FilterBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const openInit: string | null = null;
+  const [openMenu, setOpenMenu] = useState<string | null>(openInit);
 
   const riskFilters: FilterOption[] = [
-    { id: "all", label: "全部风险", count: 1250 },
+    { id: "all", label: "风险场景", count: 1250 },
     { id: "pet-entry", label: "宠物进店", count: 45 },
     { id: "food-safety", label: "用餐卫生", count: 32 },
     { id: "food-security", label: "食品安全", count: 28 },
@@ -53,21 +71,25 @@ export default function FilterBar({ className }: FilterBarProps) {
   ];
 
   const FilterDropdown = ({
-    title,
     options,
     icon,
+    value,
+    onSelect,
+    menuId,
   }: {
-    title: string;
     options: FilterOption[];
     icon: React.ReactNode;
+    value: string;
+    menuId: string;
+    onSelect: (id: string) => void;
   }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState(options[0]);
+    const isOpen = openMenu === menuId;
+    const selected = useMemo(() => options.find(o => o.id === value) || options[0], [options, value]);
 
     return (
       <div className="relative">
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setOpenMenu(isOpen ? null : menuId)}
           className={cn(
             "flex items-center space-x-2 px-4 py-2 rounded-xl",
             "bg-white/10 backdrop-blur-xl border border-white/20",
@@ -94,8 +116,8 @@ export default function FilterBar({ className }: FilterBarProps) {
                 <button
                   key={option.id}
                   onClick={() => {
-                    setSelected(option);
-                    setIsOpen(false);
+                    onSelect(option.id);
+                    setOpenMenu(null);
                   }}
                   className={cn(
                     "w-full flex items-center justify-between px-3 py-2 rounded-lg",
@@ -133,7 +155,13 @@ export default function FilterBar({ className }: FilterBarProps) {
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">
           舆情内容监控
         </h2>
-        <button className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg">
+        <button
+          onClick={() => {
+            onChange({ riskScenario: "all", channel: "all", contentType: "all", timeRange: "all", sentiment: "all", search: "" });
+            setSearchQuery("");
+          }}
+          className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
+        >
           <TrendingUp className="w-4 h-4" />
 
           <span>重置筛选</span>
@@ -162,27 +190,43 @@ export default function FilterBar({ className }: FilterBarProps) {
       {/* Filters */}
       <div className="flex flex-wrap gap-4">
         <FilterDropdown
-          title="风险类型"
           options={riskFilters}
           icon={<Tag className="w-4 h-4" />}
+          value={riskScenario}
+          menuId="risk"
+          onSelect={(id) => onChange({ riskScenario: id })}
         />
 
         <FilterDropdown
-          title="渠道"
           options={channelFilters}
           icon={<Filter className="w-4 h-4" />}
+          value={channel}
+          menuId="channel"
+          onSelect={(id) => onChange({ channel: id })}
         />
 
         <FilterDropdown
-          title="类型"
           options={typeFilters}
           icon={<Filter className="w-4 h-4" />}
+          value={contentType}
+          menuId="type"
+          onSelect={(id) => onChange({ contentType: id })}
         />
 
         <FilterDropdown
-          title="时间"
           options={timeFilters}
           icon={<Calendar className="w-4 h-4" />}
+          value={timeRange}
+          menuId="time"
+          onSelect={(id) => onChange({ timeRange: id as any })}
+        />
+
+        <FilterDropdown
+          options={[{ id: "all", label: "全部情绪" }, { id: "positive", label: "正向" }, { id: "neutral", label: "中立" }, { id: "negative", label: "负面" }]}
+          icon={<Filter className="w-4 h-4" />}
+          value={sentiment}
+          menuId="sentiment"
+          onSelect={(id) => onChange({ sentiment: id as any })}
         />
       </div>
     </div>

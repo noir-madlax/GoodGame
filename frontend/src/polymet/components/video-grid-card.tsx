@@ -3,6 +3,8 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 // import { Badge } from "@/components/ui/badge";
 import { RiskBadge } from "@/components/ui/risk-badge";
+import PlatformBadge from "@/polymet/components/platform-badge";
+import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
 
 interface VideoGridCardProps {
   title: string;
@@ -12,8 +14,10 @@ interface VideoGridCardProps {
   comments: number;
   shares: number;
   author: string;
-  platformLabel: string; // 渠道名（抖音/小红书/哔哩哔哩等）
+  platformLabel: string; // 平台 key，用于兼容旧调用
+  platform?: string; // 新：平台 key（douyin/xiaohongshu/...）
   riskTags: string[]; // 来自 gg_video_analysis.risk_types
+  sentiment?: string; // negative | neutral | positive
   publishDate: string; // YYYY-MM-DD
   className?: string;
   onClick?: () => void; // Optional click handler so parent can control navigation
@@ -28,7 +32,9 @@ export default function VideoGridCard({
   shares,
   author,
   platformLabel,
+  platform,
   riskTags,
+  sentiment,
   publishDate,
   className,
   onClick,
@@ -41,16 +47,7 @@ export default function VideoGridCard({
   const PORTRAIT_SCALE_X = 1.0; // 横向轻微放大
   const PORTRAIT_SCALE_Y = 1.0; // 约裁掉上下各 ~15% - 20%
   const PORTRAIT_POSITION_Y = "40%"; // 焦点（可调 40%-60%）
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      抖音: "bg-red-500",
-      小红书: "bg-pink-500",
-      哔哩哔哩: "bg-indigo-500",
-      微博: "bg-orange-500",
-      其他: "bg-gray-500",
-    };
-    return colors[category as keyof typeof colors] || colors["其他"];
-  };
+  // Deprecated color map kept for backward compatibility; no longer used
 
   return (
     <div
@@ -84,13 +81,14 @@ export default function VideoGridCard({
         )}
         {/* Foreground cover */}
         <img
-          src={thumbnail}
+          src={normalizeCoverUrl(thumbnail)}
           alt={title}
           loading="lazy"
           onLoad={(e) => {
             const el = e.currentTarget;
             setIsPortrait(el.naturalHeight > el.naturalWidth);
           }}
+          onError={onImageErrorSetPlaceholder}
           className={cn(
             "relative w-full h-full transition-transform duration-700 object-cover",
           )}
@@ -111,15 +109,24 @@ export default function VideoGridCard({
           {duration}
         </div>
 
-        {/* Category Badge */}
-        <div
-          className={cn(
-            "absolute top-2 left-2 px-2 py-1 rounded-md text-white text-xs font-medium",
-            getCategoryColor(platformLabel)
-          )}
-        >
-          {platformLabel}
+        {/* Platform Badge */}
+        <div className="absolute top-2 left-2">
+          <PlatformBadge platform={platform || platformLabel} size="sm" className="!bg-opacity-60" />
         </div>
+
+        {/* Sentiment Badge */}
+        {sentiment && (
+          <div className="absolute top-2 right-2">
+            <span
+              className={cn(
+                "px-2 py-1 rounded-md text-white text-xs font-medium",
+                sentiment === "negative" ? "bg-red-500" : sentiment === "positive" ? "bg-green-500" : "bg-gray-500"
+              )}
+            >
+              {sentiment === "negative" ? "负面" : sentiment === "positive" ? "正向" : "中立"}
+            </span>
+          </div>
+        )}
 
         {/* More Options removed per requirement: hide the menu on hover */}
       </div>

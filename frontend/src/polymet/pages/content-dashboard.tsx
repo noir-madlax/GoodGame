@@ -1,12 +1,15 @@
  
-import FilterBar from "@/polymet/components/filter-bar";
+import FilterBar, { SentimentValue } from "@/polymet/components/filter-bar";
 import VideoGridCard from "@/polymet/components/video-grid-card";
+// PlatformBadge used inside child; keep import removed
+import { normalizeCoverUrl } from "@/lib/media";
 import { Grid, List, SortAsc, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Skeleton } from "@/components/ui/skeleton";
+// Skeleton replaced by shared loading skeletons
+import { DashboardCardSkeleton } from "@/polymet/components/loading-skeletons";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
@@ -31,6 +34,13 @@ export default function ContentDashboard() {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [risks, setRisks] = useState<Record<string, string[]>>({});
+  const [sentiments, setSentiments] = useState<Record<string, string>>({});
+  // filters
+  const [riskScenario, setRiskScenario] = useState<string>("all");
+  const [channel, setChannel] = useState<string>("all");
+  const [contentType, setContentType] = useState<string>("all");
+  const [timeRange, setTimeRange] = useState<"all" | "today" | "week" | "month">("all");
+  const [sentiment, setSentiment] = useState<SentimentValue>("all");
 
   useEffect(() => {
     let cancelled = false;
@@ -40,7 +50,7 @@ export default function ContentDashboard() {
           setLoading(false);
           return;
         }
-        const { data: postData } = await supabase
+        let query = supabase
           .from("gg_platform_post")
           .select(
             "id, platform, platform_item_id, title, like_count, comment_count, share_count, cover_url, author_name, duration_ms, published_at, created_at"
@@ -48,25 +58,35 @@ export default function ContentDashboard() {
           .order("id", { ascending: false })
           .limit(24);
 
+        if (channel !== "all") query = query.eq("platform", channel);
+        if (contentType !== "all") query = query.eq("post_type", contentType);
+        // timeRange (basic client filter)
+        const { data: postData } = await query;
+
         const postsSafe = (postData || []) as unknown as PostRow[];
 
         const ids = postsSafe.map((p) => p.platform_item_id).filter(Boolean);
         const risksMap: Record<string, string[]> = {};
+        const sentimentsMap: Record<string, string> = {};
         if (ids.length > 0) {
-          const { data: riskData } = await supabase
+          let riskQuery = supabase
             .from("gg_video_analysis")
-            .select("platform_item_id, risk_types")
+            .select("platform_item_id, risk_types, sentiment")
             .in("platform_item_id", ids);
-          (riskData as unknown as RiskRow[] | null)?.forEach((r) => {
+          if (sentiment !== "all") riskQuery = riskQuery.eq("sentiment", sentiment);
+          const { data: riskData } = await riskQuery;
+          (riskData as unknown as (RiskRow & { sentiment?: string })[] | null)?.forEach((r) => {
             risksMap[r.platform_item_id] = Array.isArray(r.risk_types)
               ? r.risk_types
               : [];
+            if ((r as any).sentiment) sentimentsMap[r.platform_item_id] = String((r as any).sentiment);
           });
         }
 
         if (!cancelled) {
           setPosts(postsSafe);
           setRisks(risksMap);
+          setSentiments(sentimentsMap);
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -76,13 +96,12 @@ export default function ContentDashboard() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [channel, contentType, sentiment]);
 
-  const platformToLabel = (platform: string) => {
-    if (platform === "douyin") return "抖音";
-    if (platform === "redbook") return "小红书";
-    if (platform === "bilibili") return "哔哩哔哩";
-    return "其他";
+  const normalizePlatform = (platform: string) => {
+    const key = String(platform || "").toLowerCase();
+    if (key === "xiaohongshu" || key === "xhs") return "xiaohongshu";
+    return key;
   };
 
   const formatDuration = (ms: number) => {
@@ -99,7 +118,20 @@ export default function ContentDashboard() {
   return (
     <div className="space-y-8">
       {/* Filter Bar */}
-      <FilterBar />
+      <FilterBar
+        riskScenario={riskScenario}
+        channel={channel}
+        contentType={contentType}
+        timeRange={timeRange}
+        sentiment={sentiment}
+        onChange={(next) => {
+          if (next.riskScenario !== undefined) setRiskScenario(next.riskScenario);
+          if (next.channel !== undefined) setChannel(next.channel);
+          if (next.contentType !== undefined) setContentType(next.contentType);
+          if (next.timeRange !== undefined) setTimeRange(next.timeRange);
+          if (next.sentiment !== undefined) setSentiment(next.sentiment);
+        }}
+      />
 
       {/* Content Header */}
       <div className="flex items-center justify-between">
@@ -156,28 +188,7 @@ export default function ContentDashboard() {
           "grid gap-6 transition-all duration-500 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         )}
       >
-        {loading &&
-          Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="rounded-2xl overflow-hidden animate-pulse">
-              <div className="relative">
-                <Skeleton className="w-full aspect-video" />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_1.2s_infinite]" />
-              </div>
-              <div className="p-4 space-y-3">
-                <Skeleton className="h-4 w-5/6" />
-                <div className="flex gap-2">
-                  <Skeleton className="h-5 w-16 rounded-full" />
-                  <Skeleton className="h-5 w-16 rounded-full" />
-                  <Skeleton className="h-5 w-16 rounded-full" />
-                </div>
-                <div className="flex gap-3">
-                  <Skeleton className="h-3 w-10" />
-                  <Skeleton className="h-3 w-10" />
-                  <Skeleton className="h-3 w-10" />
-                </div>
-              </div>
-            </div>
-          ))}
+        {loading && Array.from({ length: 8 }).map((_, i) => <DashboardCardSkeleton key={i} />)}
 
         {!loading && posts.length === 0 && (
           <div className="col-span-full flex items-center justify-center text-gray-500 dark:text-gray-400 py-16">
@@ -190,14 +201,17 @@ export default function ContentDashboard() {
             <VideoGridCard
               key={p.id}
               title={p.title}
-              thumbnail={p.cover_url || "/placeholder.jpg"}
+              platform={normalizePlatform(p.platform)}
+              thumbnail={normalizeCoverUrl(p.cover_url)}
               duration={formatDuration(p.duration_ms)}
               likes={p.like_count || 0}
               comments={p.comment_count || 0}
               shares={p.share_count || 0}
               author={p.author_name || ""}
-              platformLabel={platformToLabel(p.platform)}
+              // Platform badge is rendered inside card; keep for alignment
+              platformLabel={normalizePlatform(p.platform)}
               riskTags={risks[p.platform_item_id] || []}
+              sentiment={sentiments[p.platform_item_id]}
               publishDate={(p.published_at || p.created_at).slice(0, 10)}
               onClick={() => navigate(`/detail/${p.platform_item_id}`)}
             />

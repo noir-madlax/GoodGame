@@ -1,6 +1,7 @@
-import React from "react";
-import { Play, Heart, Share2, MessageCircle, Eye, Clock } from "lucide-react";
+// no React import needed with JSX transform
+import { Heart, Share2, MessageCircle, Eye, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
 
 interface VideoPlayerCardProps {
   title: string;
@@ -53,9 +54,10 @@ export default function VideoPlayerCard({
           />
         ) : (
           <img
-            src={thumbnail}
+            src={normalizeCoverUrl(thumbnail)}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+            onError={onImageErrorSetPlaceholder}
           />
         )}
 

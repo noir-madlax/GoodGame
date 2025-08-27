@@ -4,6 +4,9 @@ import VideoPlayerCard from "@/polymet/components/video-player-card";
 import AnalysisSection from "@/polymet/components/analysis-section";
 import { BarChart3, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import PlatformBadge from "@/polymet/components/platform-badge";
+import { normalizeCoverUrl } from "@/lib/media";
+import { DetailMainSkeleton, DetailSidebarSkeleton } from "@/polymet/components/loading-skeletons";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 
@@ -21,6 +24,7 @@ type PostRow = {
   share_count: number;
   play_count: number;
   duration_ms: number;
+  post_type?: string | null;
   published_at: string | null;
   created_at: string;
 };
@@ -48,7 +52,7 @@ export default function VideoAnalysisDetail() {
         const { data: postRows } = await supabase
           .from("gg_platform_post")
           .select(
-            "id, platform, platform_item_id, title, cover_url, original_url, author_name, like_count, comment_count, share_count, play_count, duration_ms, published_at, created_at"
+            "id, platform, platform_item_id, title, cover_url, original_url, author_name, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at"
           )
           .eq("platform_item_id", id)
           .limit(1);
@@ -82,6 +86,15 @@ export default function VideoAnalysisDetail() {
       .padStart(1, "0");
     const s = (total % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
+  };
+
+  const typeBadge = (postType?: string | null) => {
+    const key = String(postType || "video").toLowerCase();
+    const label = key === "image" || key === "images" || key === "graphic" || key === "note" ? "图文" : "视频";
+    const color = label === "视频" ? "bg-blue-500" : "bg-emerald-500";
+    return (
+      <span className={`px-3 py-1 rounded-full ${color} text-white text-sm font-medium`}>{label}</span>
+    );
   };
 
   const keyPointItems = useMemo(() => {
@@ -146,9 +159,7 @@ export default function VideoAnalysisDetail() {
             <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              舆情详情分析 {id ? `#${id}` : ""}
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">舆情详情分析</h1>
             <p className="text-gray-600 dark:text-gray-400">
               基于AI的深度舆情内容分析
             </p>
@@ -176,41 +187,26 @@ export default function VideoAnalysisDetail() {
             <VideoPlayerCard
               title={post.title}
               description={analysis?.summary || ""}
-              thumbnail={post.cover_url || ""}
+              thumbnail={normalizeCoverUrl(post.cover_url)}
               duration={formatDuration(post.duration_ms)}
               views={post.play_count || 0}
               likes={post.like_count || 0}
               comments={post.comment_count || 0}
               shares={post.share_count || 0}
-              timestamp={(post.published_at || post.created_at).slice(0, 19)}
+              timestamp={(post.published_at || post.created_at).slice(0, 19).replace("T", " ")}
               author={post.author_name || ""}
               originalUrl={post.original_url || undefined}
               videoUrl={post.video_url || undefined}
               className="h-fit"
             />
           ) : (
-            <div className="rounded-3xl overflow-hidden border border-white/20">
-              <div className="relative aspect-video">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-              </div>
-              <div className="p-8 space-y-4">
-                <div className="h-7 w-2/3 bg-primary/10 animate-pulse rounded" />
-                <div className="h-4 w-full bg-primary/10 animate-pulse rounded" />
-                <div className="h-4 w-11/12 bg-primary/10 animate-pulse rounded" />
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center space-x-4">
-                    <div className="h-4 w-16 bg-primary/10 animate-pulse rounded" />
-                    <div className="h-4 w-24 bg-primary/10 animate-pulse rounded" />
-                  </div>
-                  <div className="h-4 w-24 bg-primary/10 animate-pulse rounded" />
-                </div>
-              </div>
-            </div>
+            <DetailMainSkeleton />
           )}
         </div>
 
         {/* Quick Stats */}
         <div className="space-y-6">
+          {post ? (
           <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
               内容概览
@@ -231,43 +227,44 @@ export default function VideoAnalysisDetail() {
             </div>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">
-                  风险等级
-                </span>
-                <span className="px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-sm font-medium">
-                  {analysis?.sentiment === "negative"
-                    ? "高风险"
+                <span className="text-gray-600 dark:text-gray-400">舆情状态</span>
+                <span className={
+                  analysis?.sentiment === "negative"
+                    ? "px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium"
                     : analysis?.sentiment === "positive"
-                    ? "低风险"
-                    : "中等风险"}
+                    ? "px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-medium"
+                    : "px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium"
+                }>
+                  {analysis?.sentiment === "negative" ? "负面" : analysis?.sentiment === "positive" ? "正向" : "中立"}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">
                   内容类型
                 </span>
-                <span className="text-gray-900 dark:text-white font-medium">
-                  视频
-                </span>
+                {typeBadge(post?.post_type)}
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">
                   发布平台
                 </span>
-                <span className="text-gray-900 dark:text-white font-medium">
-                  {post?.platform || "-"}
-                </span>
+                <PlatformBadge platform={post?.platform || ""} size="md" className="!bg-opacity-60" />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">
                   分析状态
                 </span>
-                <span className="px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-medium">
-                  已完成
-                </span>
+                {analysis ? (
+                  <span className="px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-medium">已完成</span>
+                ) : (
+                  <span className="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium">待分析</span>
+                )}
               </div>
             </div>
           </div>
+          ) : (
+            <DetailSidebarSkeleton />
+          )}
 
           {/* Sentiment Analysis Summary */}
           <AnalysisSection

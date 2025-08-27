@@ -1,5 +1,5 @@
 import React from "react";
-import { BarChart3, Settings, TrendingUp, Filter, Search } from "lucide-react";
+import { BarChart3, Settings, TrendingUp, Filter, Search, BellRing } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarItem {
@@ -25,15 +25,21 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
       active: true,
     },
     {
-      id: "analysis",
-      label: "内容检索配置",
+      id: "search-filter",
+      label: "内容检索与过滤设置",
       icon: <Search className="w-5 h-5" />,
       disabled: true,
     },
     {
-      id: "settings",
-      label: "舆情分析配置",
+      id: "rules-settings",
+      label: "舆情分析规则配置",
       icon: <Settings className="w-5 h-5" />,
+      disabled: true,
+    },
+    {
+      id: "alerts-push",
+      label: "告警与推送配置",
+      icon: <BellRing className="w-5 h-5" />,
       disabled: true,
     },
   ];
@@ -68,6 +74,7 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
         {menuItems.map((item) => (
           <button
             key={item.id}
+            type="button"
             className={cn(
               "w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300",
               !item.disabled && "hover:bg-white/10 hover:backdrop-blur-sm hover:shadow-lg",
