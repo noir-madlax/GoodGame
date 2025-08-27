@@ -437,8 +437,8 @@ def main():
 
     print("\n=== 完整下载流程示例（包含弹幕获取）===")
     report = run_video_workflow(
-        platform="xiaohongshu",
-        video_id="685752ea000000000d01b8b2",
+        platform="douyin",
+        video_id="7497155954375494950",
         options=WorkflowOptions(
             sync_details=True,
             sync_comments=False,

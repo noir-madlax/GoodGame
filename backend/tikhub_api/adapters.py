@@ -3,6 +3,7 @@ from typing import Protocol, Optional, Dict, Any, runtime_checkable, List
 from datetime import datetime
 
 from .orm.models import PlatformPost, PlatformComment
+from .utils.url_validator import filter_valid_video_urls
 
 
 @runtime_checkable
@@ -30,10 +31,11 @@ class DouyinVideoAdapter:
                 cover_url = urls[0]
                 break
 
-        # 取下载直链（可能有防盗链/重定向，仅作占位）
+        # 取下载直链，并校验可用性（某些链接可能无法实际下载）
         download_addr = video.get('download_addr') or {}
         url_list = download_addr.get('url_list') or []
-        video_url = url_list[0] if url_list else None
+        valid_urls = filter_valid_video_urls(url_list)
+        video_url = valid_urls[0] if valid_urls else None
 
         # 发布时间（抖音可能返回 create_time: epoch 秒）
         published_at = None
@@ -106,17 +108,18 @@ class XiaohongshuVideoAdapter:
         duration_val = video.get("duration")
         duration_ms = int(duration_val * 1000) if isinstance(duration_val, (int, float)) else 0
 
-        # 取视频直链：优先 url_info_list
+        # 取视频直链：优先 url_info_list，并进行可用性校验
         video_url = None
+        candidates: List[str] = []
         url_info_list = video.get("url_info_list") or []
         if isinstance(url_info_list, list) and url_info_list:
-            # 可按清晰度排序；这里按给定顺序取第一个
             for it in url_info_list:
-                if isinstance(it, dict) and it.get("url"):
-                    video_url = it.get("url")
-                    break
-        if not video_url and isinstance(video.get("url"), str):
-            video_url = video.get("url")
+                if isinstance(it, dict) and isinstance(it.get("url"), str) and it.get("url"):
+                    candidates.append(it.get("url"))
+        if isinstance(video.get("url"), str) and video.get("url"):
+            candidates.append(video.get("url"))
+        valid_urls = filter_valid_video_urls(candidates)
+        video_url = valid_urls[0] if valid_urls else None
 
         # 取封面
         cover_url = None
