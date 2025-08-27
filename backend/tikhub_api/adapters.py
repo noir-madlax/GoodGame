@@ -75,29 +75,86 @@ class DouyinVideoAdapter:
 
 
 class XiaohongshuVideoAdapter:
-    """小红书视频数据 -> PlatformPost 适配器"""
+    """小红书视频数据 -> PlatformPost 适配器（适配 web_v2/fetch_feed_notes_v2）"""
 
     def to_post(self, details: Dict[str, Any]) -> PlatformPost:
-        note_detail = details.get('note_detail', {}) or {}
-        video = note_detail.get('video', {}) or {}
+        # details 为 XiaohongshuFetcher.get_video_details 返回的 note_list[0]
+        raw = details or {}
 
-        download_addr = video.get('download_addr') or {}
-        url_list = download_addr.get('url_list') or []
-        video_url = url_list[0] if url_list else None
+        note_id = str(raw.get("id") or "")
+        title = str(raw.get("title") or "").strip() or "无标题"
+        content = raw.get("desc") or None
+        post_type = str(raw.get("type") or "").lower() or ("video" if raw.get("video") else "image")
+        original_url = None
+        # 可从 share_info.link / mini_program_info/webpage_url 取分享链接
+        share_info = raw.get("share_info") or {}
+        if isinstance(share_info.get("link"), str) and share_info.get("link"):
+            original_url = share_info.get("link")
+        elif isinstance((raw.get("mini_program_info") or {}).get("webpage_url"), str):
+            original_url = (raw.get("mini_program_info") or {}).get("webpage_url")
 
-        # 小红书的统计字段与发布时间可能需要额外拉取，这里先做兼容
+        user = raw.get("user") or {}
+        author_id = str(user.get("userid") or user.get("id") or "") or None
+        author_name = user.get("nickname") or user.get("name") or None
+
+        play_count = int(raw.get("view_count") or 0)  # 有些返回为 0
+        like_count = int(raw.get("liked_count") or 0)
+        comment_count = int(raw.get("comments_count") or 0)
+        share_count = int(raw.get("shared_count") or 0)
+
+        video = raw.get("video") or {}
+        duration_val = video.get("duration")
+        duration_ms = int(duration_val * 1000) if isinstance(duration_val, (int, float)) else 0
+
+        # 取视频直链：优先 url_info_list
+        video_url = None
+        url_info_list = video.get("url_info_list") or []
+        if isinstance(url_info_list, list) and url_info_list:
+            # 可按清晰度排序；这里按给定顺序取第一个
+            for it in url_info_list:
+                if isinstance(it, dict) and it.get("url"):
+                    video_url = it.get("url")
+                    break
+        if not video_url and isinstance(video.get("url"), str):
+            video_url = video.get("url")
+
+        # 取封面
+        cover_url = None
+        images = raw.get("images_list") or []
+        if isinstance(images, list) and images:
+            first = images[0] or {}
+            # web_v2 返回的图片字段
+            cover_url = first.get("url") or first.get("original") or first.get("thumb")
+        if not cover_url and isinstance(video.get("thumbnail_dim"), str):
+            cover_url = video.get("thumbnail_dim")
+
+        # 发布时间（time 为 epoch 秒）
+        published_at = None
+        ts = raw.get("time")
+        if isinstance(ts, (int, float)) and ts > 0:
+            try:
+                published_at = datetime.fromtimestamp(ts)
+            except Exception:
+                published_at = None
+
         return PlatformPost(
             platform="xiaohongshu",
-            platform_item_id=str(note_detail.get('note_id', '')),
-            title=str(note_detail.get('title', '') or '').strip() or '无标题',
-            content=str(note_detail.get('desc', '') or None) or None,
-            play_count=0,
-            like_count=0,
-            comment_count=0,
-            cover_url=None,
+            platform_item_id=note_id,
+            title=title,
+            content=content,
+            post_type=post_type,
+            original_url=original_url,
+            author_id=author_id,
+            author_name=author_name,
+            share_count=share_count,
+            duration_ms=duration_ms,
+            play_count=play_count,
+            like_count=like_count,
+            comment_count=comment_count,
+            cover_url=cover_url,
             video_url=video_url,
             raw_details=details,
-            published_at=None,
+            published_at=published_at,
         )
 
 class DouyinCommentAdapter:

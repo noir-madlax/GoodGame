@@ -431,12 +431,14 @@ def main():
         ("douyin", "7383012850161241385"),
         ("douyin", "7499608775142608186"),
         ("douyin", "7505583378596646180"),
+        ("douyin", "7497155954375494950"),
+        ("xiaohongshu", "685752ea000000000d01b8b2"),
     ]
 
     print("\n=== 完整下载流程示例（包含弹幕获取）===")
     report = run_video_workflow(
-        platform="douyin",
-        video_id="7383012850161241385",
+        platform="xiaohongshu",
+        video_id="685752ea000000000d01b8b2",
         options=WorkflowOptions(
             sync_details=True,
             sync_comments=False,

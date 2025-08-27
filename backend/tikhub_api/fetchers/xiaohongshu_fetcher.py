@@ -23,18 +23,18 @@ class XiaohongshuFetcher(BaseFetcher):
     @property
     def api_endpoint(self) -> str:
         """API 端点路径"""
-        # TODO: 根据实际 TikHub API 文档填写小红书的端点
-        return "/xiaohongshu/web/fetch_one_note"
+        # 切换为 TikHub 小红书 Web v2 feed 接口，数据更完整
+        return "/xiaohongshu/web_v2/fetch_feed_notes_v2"
 
     def fetch_video_info(self, note_id: str) -> Dict[str, Any]:
         """
-        根据笔记 ID 获取小红书视频信息
+        根据笔记 ID 获取小红书视频信息（调用 TikHub web_v2/fetch_feed_notes_v2）
 
         Args:
             note_id (str): 小红书笔记 ID
 
         Returns:
-            Dict[str, Any]: API 返回的视频信息
+            Dict[str, Any]: API 返回的原始响应
 
         Raises:
             requests.RequestException: 请求异常
@@ -43,50 +43,31 @@ class XiaohongshuFetcher(BaseFetcher):
         self._validate_video_id(note_id)
 
         url = f"{self.base_url}{self.api_endpoint}"
-        params = {'note_id': note_id}
-
-        # TODO: 实现具体的 API 调用逻辑
-        # return self._make_request(url, params)
-
-        # 临时返回空结果，等待具体实现
-        return {
-            "code": 200,
-            "message": "success",
-            "data": {
-                "note_detail": {
-                    "note_id": note_id,
-                    "title": "待实现",
-                    "desc": "小红书视频获取功能待实现",
-                    "video": {
-                        "download_addr": {
-                            "url_list": []
-                        }
-                    },
-                    "author": {
-                        "nickname": "待实现"
-                    }
-                }
-            }
-        }
+        params = {"note_id": note_id}
+        return self._make_request(url, params)
 
     def get_video_details(self, note_id: str) -> Optional[Dict[str, Any]]:
         """
-        获取视频详细信息的便捷方法
+        获取视频详细信息（返回 data.note_list[0]）
 
         Args:
             note_id (str): 小红书笔记 ID
 
         Returns:
-            Optional[Dict[str, Any]]: 视频详细信息，如果获取失败返回 None
+            Optional[Dict[str, Any]]: 单条笔记详情字典（note_list[0]）
         """
         try:
             result = self.fetch_video_info(note_id)
 
-            # 检查 API 返回状态
             if self._check_api_response(result):
-                return result.get('data')
+                payload = result.get("data") or {}
+                note_list = payload.get("note_list") or []
+                if isinstance(note_list, list) and note_list:
+                    return note_list[0]
+                else:
+                    return None
             else:
-                print(f"API 返回错误: {result.get('message', '未知错误')}")
+                print(f"API 返回信息: {result}")
                 return None
 
         except Exception as e:
@@ -104,11 +85,18 @@ class XiaohongshuFetcher(BaseFetcher):
             Optional[List[str]]: 下载链接列表，如果获取失败返回 None
         """
         try:
-            video_details = self.get_video_details(note_id)
-            if video_details and 'note_detail' in video_details:
-                # TODO: 根据小红书 API 响应结构调整路径
-                download_addr = video_details['note_detail']['video']['download_addr']
-                return download_addr.get('url_list', [])
+            details = self.get_video_details(note_id)
+            if not details:
+                return None
+            video = (details.get("video") or {})
+            # 优先多清晰度列表
+            url_info_list = video.get("url_info_list") or []
+            urls = [x.get("url") for x in url_info_list if isinstance(x, dict) and x.get("url")]
+            if urls:
+                return urls
+            # 回落到单一 url 字段
+            if isinstance(video.get("url"), str) and video.get("url"):
+                return [video.get("url")]
             return None
         except Exception as e:
             print(f"获取下载链接失败: {str(e)}")
