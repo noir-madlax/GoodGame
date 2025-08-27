@@ -1,0 +1,163 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "视频中一名疑似海底捞员工抱怨小吃房人手不足、新品过多导致工作量巨大，并使用了不当言词。评论区大量自称员工的用户也分享了在不同岗位过度劳累、运营混乱的经历。",
+    "sentiment": "negative",
+    "brand": "海底捞",
+    "brand_relevance": "相关，依据：视频音频中明确提及‘海底捞’，且画面背景有清晰可辨的海底捞Logo与‘海底捞火锅’字样。",
+    "risk_type_total": [
+      "员工不当言论",
+      "后厨运营混乱",
+      "员工不当动作",
+      "用餐卫生"
+    ],
+    "key_points": [
+      "员工不当言论: 员工公开抱怨工作量大想“累死在海底捞”并使用不当措辞",
+      "后厨运营混乱: 视频与多条评论提及人手不足、流程复杂导致运营混乱",
+      "员工不当动作: 评论提及因过度劳累在洗碗机内睡着",
+      "用餐卫生: 评论提及为应付检查将新旧炸品混合"
+    ],
+    "events": [
+      {
+        "timestamp": "00:03",
+        "scene_description": "一名身穿疑似员工服、头戴狮子头饰的男子在镜头前抱怨，背景是带有“海底捞火锅”字样的红色招牌。",
+        "audio_transcript": "小吃房就我一个人能忙的过来吗？...是想要我累死在海底捞吗？",
+        "issue": "员工公开抱怨人手不足、工作量过大，并提及“累死”等极端词汇。",
+        "risk_type": [
+          "员工不当言论"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "员工",
+            "subject_behavior": "对镜头抱怨公司新品多、人手不足、工作量大",
+            "objects_involved": "员工服饰、品牌背景墙",
+            "brand_assets": "背景墙上有清晰的“海底捞火锅”字样及Logo",
+            "audio_quote": "小吃房就我一个人能忙的过来吗？...是想要我累死在海底捞吗？",
+            "visibility": "人物与背景招牌清晰可见",
+            "details": "男子身穿白色上衣、黄色内领，戴白色口罩和红色狮子头饰。"
+          }
+        ],
+        "source": "video"
+      },
+      {
+        "timestamp": "00:23",
+        "scene_description": "视频中的男子情绪激动地对着镜头说话。",
+        "audio_transcript": "我炸那些勾八玩意儿要不要时间？",
+        "issue": "员工在视频中使用了“勾八玩意儿”等粗俗词汇。",
+        "risk_type": [
+          "员工不当言论"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "员工",
+            "subject_behavior": "对镜头使用粗俗语言抱怨工作内容",
+            "audio_quote": "我炸那些勾八玩意儿要不要时间？",
+            "visibility": "人物清晰，音频清晰"
+          }
+        ],
+        "source": "video"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "一条用户评论描述了其在海底捞的工作经历。",
+        "audio_transcript": "无",
+        "issue": "评论者自称因过度劳累在洗碗机内睡着，存在安全和卫生风险。",
+        "risk_type": [
+          "员工不当动作",
+          "后厨运营混乱"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "评论者自述因工作劳累在洗碗机里睡着",
+            "audio_quote": "最累的那天洗机器的时候爬洗碗机里睡着了[流泪]"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "10"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "一条用户评论表达了对小吃房工作的不满。",
+        "audio_transcript": "无",
+        "issue": "评论者自称因工作繁忙会直接扔掉催菜单，影响出餐流程。",
+        "risk_type": [
+          "后厨运营混乱",
+          "员工不当言论"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "评论者声称会无视并丢弃催菜单",
+            "audio_quote": "垃圾小吃房[泪奔][泪奔][泪奔]，番茄汤猪肚汤菌汤这些爷看都不看，催单直接扔[看][看][看]，米饭好盛是吧，那也得有时间煮啊！"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "23"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "一条用户评论回忆了过去在海底捞的工作方式。",
+        "audio_transcript": "无",
+        "issue": "评论者提及曾将放置过久的炸品与新炸品混合，存在食品安全隐患。",
+        "risk_type": [
+          "用餐卫生",
+          "后厨运营混乱"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "评论者自述将口感不好的旧炸品与新炸品混合",
+            "contact_path": "旧食品→新食品",
+            "audio_quote": "想起五六年前海底捞管你妈流程全部一锅出一袋酥肉2.5kg一次半袋，来单就复炸，炸制时间全凭感觉，放太久口感不好了，炸点新的混进去，拿到保鲜库开炫，渴了和员工奖励区的饮料"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "94"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "一条用户评论指责海底捞的人员管理政策。",
+        "audio_transcript": "无",
+        "issue": "评论者指责公司为节约人效而过度压榨一线员工，让一人干多个人的活。",
+        "risk_type": [
+          "员工不当言论"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "评论者批评公司压榨一线员工的成本控制方式",
+            "audio_quote": "海底捞做服务就需要用人工，现在为了经营节约人效，让一个人干两个甚至多个人的活，价值最大化，员工是人不是机器人！员工从早到晚都是精神紧绷的！！！！节约人效应该节约一线门店一个拿保底的员工吗？？？公司那么多人双手改变命运了，靠着以前的红利站在了店经理以上的高度，开始搞现在的一线！不应该砍掉这些人的工资吗？？？他们工资很高，想尽一切办法折磨一线"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "119"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "一条用户评论详细描述了前堂服务员的混乱工作状态。",
+        "audio_transcript": "无",
+        "issue": "评论者详细描述了服务员在高峰期面临的复杂、冲突且海量的顾客需求，导致服务混乱和顾客差评。",
+        "risk_type": [
+          "后厨运营混乱"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "评论者以服务员视角详述了多任务并行、需求冲突导致的服务混乱",
+            "audio_quote": "最崩溃的是酥肉刚下锅，又来半份，儿童套餐一次性来3个，刚忙完又来1个"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "120"
+      }
+    ]
+  }
+}

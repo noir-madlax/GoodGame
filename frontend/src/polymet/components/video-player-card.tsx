@@ -1,5 +1,5 @@
 // no React import needed with JSX transform
-import { Heart, Share2, MessageCircle, Eye, Clock } from "lucide-react";
+import { Heart, Share2, MessageCircle, Eye, Clock, FileText, Link as LinkIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
 
@@ -17,6 +17,8 @@ interface VideoPlayerCardProps {
   originalUrl?: string;
   videoUrl?: string;
   className?: string;
+  brandRelevance?: string;
+  relevanceEvidence?: string;
 }
 
 export default function VideoPlayerCard({
@@ -33,6 +35,8 @@ export default function VideoPlayerCard({
   originalUrl,
   videoUrl,
   className,
+  brandRelevance,
+  relevanceEvidence,
 }: VideoPlayerCardProps) {
   return (
     <div
@@ -77,11 +81,6 @@ export default function VideoPlayerCard({
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 line-clamp-2 leading-tight">
           {title}
         </h2>
-
-        {/* Description */}
-        <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3 leading-relaxed">
-          {description}
-        </p>
 
         {/* Meta Info */}
         <div className="flex items-center justify-between mb-6">
@@ -130,6 +129,36 @@ export default function VideoPlayerCard({
             </button>
           )}
         </div>
+
+        {/* Summary Section moved below meta and actions */}
+        {description && (
+          <div className="mt-6">
+            <div className="flex items-center gap-2 mb-2">
+              <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-lg font-bold text-gray-900 dark:text-gray-100">总结</span>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {description}
+            </p>
+          </div>
+        )}
+
+        {/* Brand relevance and evidence */}
+        {(brandRelevance || relevanceEvidence) && (
+          <div className="mt-6">
+            <div className="flex items-center gap-2 mb-2">
+              <LinkIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span className="text-lg font-bold text-gray-900 dark:text-gray-100">相关性与证据</span>
+                <span className="inline-block ml-4 px-2 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">{brandRelevance}</span>
+              </div>
+            
+            {relevanceEvidence && (
+              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                {relevanceEvidence}
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

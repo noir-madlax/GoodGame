@@ -3,7 +3,7 @@ import { Heart, MessageCircle, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 // import { Badge } from "@/components/ui/badge";
 import { RiskBadge } from "@/components/ui/risk-badge";
-import PlatformBadge from "@/polymet/components/platform-badge";
+// PlatformBadge no longer used on grid card after design update
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
 
 interface VideoGridCardProps {
@@ -18,6 +18,7 @@ interface VideoGridCardProps {
   platform?: string; // 新：平台 key（douyin/xiaohongshu/...）
   riskTags: string[]; // 来自 gg_video_analysis.risk_types
   sentiment?: string; // negative | neutral | positive
+  brandRelevance?: string;
   publishDate: string; // YYYY-MM-DD
   className?: string;
   onClick?: () => void; // Optional click handler so parent can control navigation
@@ -35,6 +36,7 @@ export default function VideoGridCard({
   platform,
   riskTags,
   sentiment,
+  brandRelevance,
   publishDate,
   className,
   onClick,
@@ -47,6 +49,16 @@ export default function VideoGridCard({
   const PORTRAIT_SCALE_X = 1.0; // 横向轻微放大
   const PORTRAIT_SCALE_Y = 1.0; // 约裁掉上下各 ~15% - 20%
   const PORTRAIT_POSITION_Y = "40%"; // 焦点（可调 40%-60%）
+  const renderPlatformLogo = (keyRaw?: string) => {
+    const key = String(keyRaw || "").toLowerCase();
+    if (key.includes("douyin")) {
+      return <img src="/douyin.svg" alt="抖音" className="w-5 h-5" />;
+    }
+    if (key.includes("xiaohongshu") || key.includes("xhs")) {
+      return <img src="/xiaohongshu.svg" alt="小红书" className="w-5 h-5" />;
+    }
+    return null;
+  };
   // Deprecated color map kept for backward compatibility; no longer used
 
   return (
@@ -105,14 +117,18 @@ export default function VideoGridCard({
         {/* Play Button removed per requirement: do not show on hover */}
 
         {/* Duration */}
-        <div className="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-white text-xs font-medium">
+        <div className="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           {duration}
         </div>
 
-        {/* Platform Badge */}
-        <div className="absolute top-2 left-2">
-          <PlatformBadge platform={platform || platformLabel} size="sm" variant="overlay" />
-        </div>
+        {/* Left-top: Relevance badge (weak visual) */}
+        {brandRelevance && (
+          <div className="absolute top-2 left-2">
+            <span className="px-2 py-1 rounded-md bg-black/35 backdrop-blur-[2px] text-white/100 text-[10px] font-medium">
+              {brandRelevance}
+            </span>
+          </div>
+        )}
 
         {/* Sentiment Badge */}
         {sentiment && (
@@ -125,6 +141,13 @@ export default function VideoGridCard({
             >
               {sentiment === "negative" ? "负面" : sentiment === "positive" ? "正向" : "中立"}
             </span>
+          </div>
+        )}
+
+        {/* Brand Relevance Badge (top-right below sentiment) */}
+        {brandRelevance && (
+          <div className="absolute top-10 right-2">
+           
           </div>
         )}
 
@@ -147,7 +170,7 @@ export default function VideoGridCard({
           ))}
         </div>
 
-        {/* Stats */}
+        {/* Stats + Platform Logo */}
         <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-3">
           <div className="flex items-center space-x-3">
             <span className="flex items-center space-x-1">
@@ -165,6 +188,9 @@ export default function VideoGridCard({
 
               <span>{shares}</span>
             </span>
+          </div>
+          <div className="flex items-center">
+            {renderPlatformLogo(platform || platformLabel)}
           </div>
         </div>
 

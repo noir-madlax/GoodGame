@@ -36,6 +36,8 @@ type AnalysisRow = {
   key_points?: unknown[];
   risk_types?: string[];
   timeline?: { events?: unknown[] } | unknown[] | null;
+  brand_relevance?: string | null;
+  relevance_evidence?: string | null;
 };
 
 export default function VideoAnalysisDetail() {
@@ -60,7 +62,7 @@ export default function VideoAnalysisDetail() {
         const p = postRows[0] as unknown as PostRow;
         const { data: aRows } = await supabase
           .from("gg_video_analysis")
-          .select("summary, sentiment, brand, key_points, risk_types, timeline")
+          .select("summary, sentiment, brand, key_points, risk_types, timeline, brand_relevance, relevance_evidence")
           .eq("platform_item_id", id)
           .order("id", { ascending: false })
           .limit(1);
@@ -197,6 +199,8 @@ export default function VideoAnalysisDetail() {
               author={post.author_name || ""}
               originalUrl={post.original_url || undefined}
               videoUrl={post.video_url || undefined}
+              brandRelevance={analysis?.brand_relevance || undefined}
+              relevanceEvidence={analysis?.relevance_evidence || undefined}
               className="h-fit"
             />
           ) : (
@@ -268,7 +272,7 @@ export default function VideoAnalysisDetail() {
 
           {/* Sentiment Analysis Summary */}
           <AnalysisSection
-            title="舆情分析总结"
+            title="内容解析"
             icon={
               <BarChart3 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             }

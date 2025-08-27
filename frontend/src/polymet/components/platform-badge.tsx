@@ -37,7 +37,7 @@ export const PlatformBadge: React.FC<PlatformBadgeProps> = ({ platform, classNam
       <span
         className={cn(
           "inline-flex items-center gap-0 rounded-md text-white",
-          "bg-black/45 backdrop-blur-sm border border-white/20",
+          "bg-black/45 backdrop-blur-sm ",
           baseSize,
           className
         )}

@@ -35,10 +35,12 @@ export default function ContentDashboard() {
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [risks, setRisks] = useState<Record<string, string[]>>({});
   const [sentiments, setSentiments] = useState<Record<string, string>>({});
+  const [relevances, setRelevances] = useState<Record<string, string>>({});
   const [riskOptions, setRiskOptions] = useState<{ id: string; label: string; count: number }[]>([]);
   const [channelOptions, setChannelOptions] = useState<{ id: string; label: string }[]>([]);
   const [typeOptions, setTypeOptions] = useState<{ id: string; label: string }[]>([]);
   const [sentimentOptions, setSentimentOptions] = useState<{ id: SentimentValue; label: string }[]>([]);
+  const [relevanceOptions, setRelevanceOptions] = useState<{ id: string; label: string }[]>([]);
   const PLATFORM_LABELS: Record<string, string> = {
     douyin: "抖音",
     xiaohongshu: "小红书",
@@ -58,6 +60,7 @@ export default function ContentDashboard() {
   const [contentType, setContentType] = useState<string>("all");
   const [timeRange, setTimeRange] = useState<"all" | "today" | "week" | "month">("all");
   const [sentiment, setSentiment] = useState<SentimentValue>("all");
+  const [relevance, setRelevance] = useState<string>("all");
   const [oldestFirst, setOldestFirst] = useState(false);
 
   useEffect(() => {
@@ -128,16 +131,18 @@ export default function ContentDashboard() {
         const ids = filteredByTime.map((p) => p.platform_item_id).filter(Boolean);
         const risksMap: Record<string, string[]> = {};
         const sentimentsMap: Record<string, string> = {};
+        const relevanceMap: Record<string, string> = {};
         const riskCountMap: Record<string, number> = {};
         const sentimentSet = new Set<string>();
+        const relevanceSet = new Set<string>();
         if (ids.length > 0) {
           let riskQuery = supabase
             .from("gg_video_analysis")
-            .select("platform_item_id, risk_types, sentiment")
+            .select("platform_item_id, risk_types, sentiment, brand_relevance")
             .in("platform_item_id", ids);
           // 不在这里按 sentiment 过滤，以便枚举选项不受当前筛选影响
           const { data: riskData } = await riskQuery;
-          (riskData as unknown as (RiskRow & { sentiment?: string })[] | null)?.forEach((r) => {
+          (riskData as unknown as (RiskRow & { sentiment?: string; brand_relevance?: string })[] | null)?.forEach((r) => {
             const raw = (r as any).risk_types;
             const names: string[] = Array.isArray(raw)
               ? raw.map((x: any) => (typeof x === "string" ? x : (x?.category || x?.scenario || ""))).filter(Boolean)
@@ -148,6 +153,11 @@ export default function ContentDashboard() {
             });
             if ((r as any).sentiment) sentimentsMap[r.platform_item_id] = String((r as any).sentiment);
             if ((r as any).sentiment) sentimentSet.add(String((r as any).sentiment));
+            if ((r as any).brand_relevance) {
+              const rel = String((r as any).brand_relevance);
+              relevanceMap[r.platform_item_id] = rel;
+              relevanceSet.add(rel);
+            }
           });
         }
 
@@ -158,6 +168,9 @@ export default function ContentDashboard() {
         }
         if (riskScenario !== "all") {
           postsAfterFilters = postsAfterFilters.filter((p) => (risksMap[p.platform_item_id] || []).includes(riskScenario));
+        }
+        if (relevance !== "all") {
+          postsAfterFilters = postsAfterFilters.filter((p) => (relevanceMap[p.platform_item_id] || "") === relevance);
         }
 
         // sort by time using published_at if present, else created_at
@@ -182,15 +195,18 @@ export default function ContentDashboard() {
           { id: "all", label: "全部情绪" },
           ...Array.from(sentimentSet).map((s) => ({ id: s as SentimentValue, label: s === "positive" ? "正向" : s === "neutral" ? "中立" : "负面" })),
         ];
+        const relevanceOpts = [{ id: "all", label: "全部相关性" }, ...Array.from(relevanceSet).map((r) => ({ id: r, label: r }))];
 
         if (!cancelled) {
           setPosts(postsSorted);
           setRisks(risksMap);
           setSentiments(sentimentsMap);
+          setRelevances(relevanceMap);
           setRiskOptions(riskOpts);
           setChannelOptions(channelOpts);
           setTypeOptions(typeOpts);
           setSentimentOptions(sentimentOpts);
+          setRelevanceOptions(relevanceOpts);
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -200,7 +216,7 @@ export default function ContentDashboard() {
     return () => {
       cancelled = true;
     };
-  }, [channel, contentType, sentiment, riskScenario, timeRange, oldestFirst]);
+  }, [channel, contentType, sentiment, relevance, riskScenario, timeRange, oldestFirst]);
 
   const normalizePlatform = (platform: string) => {
     const key = String(platform || "").toLowerCase();
@@ -228,16 +244,19 @@ export default function ContentDashboard() {
         contentType={contentType}
         timeRange={timeRange}
         sentiment={sentiment}
+        relevance={relevance}
         riskOptions={riskOptions}
         channelOptions={channelOptions}
         typeOptions={typeOptions}
         sentimentOptions={sentimentOptions}
+        relevanceOptions={relevanceOptions}
         onChange={(next) => {
           if (next.riskScenario !== undefined) setRiskScenario(next.riskScenario);
           if (next.channel !== undefined) setChannel(next.channel);
           if (next.contentType !== undefined) setContentType(next.contentType);
           if (next.timeRange !== undefined) setTimeRange(next.timeRange);
           if (next.sentiment !== undefined) setSentiment(next.sentiment);
+          if (next.relevance !== undefined) setRelevance(next.relevance);
         }}
       />
 
@@ -319,6 +338,7 @@ export default function ContentDashboard() {
               platformLabel={normalizePlatform(p.platform)}
               riskTags={risks[p.platform_item_id] || []}
               sentiment={sentiments[p.platform_item_id]}
+              brandRelevance={relevances[p.platform_item_id]}
               publishDate={(p.published_at || p.created_at).slice(0, 10)}
               onClick={() => navigate(`/detail/${p.platform_item_id}`)}
             />

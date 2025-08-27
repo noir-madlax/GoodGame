@@ -1,0 +1,217 @@
+{
+  "request": {
+    "model_candidates": [
+      "gemini-2.5-pro"
+    ],
+    "video_file": "/Users/rigel/project/goodgame/backend/test/output/douyin/output/prd/这酒你就喝吧 一喝一个不吱声/7499608775142608186.mp4",
+    "request_config": {
+      "temperature": 0.3,
+      "response_mime_type": "application/json",
+      "response_schema": "VideoAnalysisV3(pydantic)",
+      "video_metadata": {
+        "fps": 5
+      },
+      "contents_order": [
+        "video",
+        "text"
+      ]
+    }
+  },
+  "raw_response_type": "GenerateContentResponse",
+  "raw_response": {
+    "sdk_http_response": {
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "vary": "Origin, X-Origin, Referer",
+        "content-encoding": "gzip",
+        "date": "Wed, 27 Aug 2025 10:41:29 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "x-xss-protection": "0",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "server-timing": "gfet4t7; dur=32694",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "transfer-encoding": "chunked"
+      },
+      "body": null
+    },
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "video_metadata": null,
+              "thought": null,
+              "inline_data": null,
+              "file_data": null,
+              "thought_signature": null,
+              "code_execution_result": null,
+              "executable_code": null,
+              "function_call": null,
+              "function_response": null,
+              "text": "{\n  \"summary\": \"视频展示了一名衣着暴露的女性被他人放入婴儿床的场景，该场景与餐饮无关。评论区中，有两条评论将此不雅场景与“海底捞母婴室”进行关联，同时存在大量使用“你们老婆”等词语的低俗、物化女性的言论。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"brand_relevance\": \"疑似相关\",\n  \"risk_type_total\": [\n    \"色情低俗内容\"\n  ],\n  \"key_points\": [\n    \"色情低俗内容: 视频含性暗示内容，被评论区用户错误关联至品牌母婴室\",\n    \"色情低俗内容: 评论区存在大量物化女性的低俗言论\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00-00:12\",\n      \"scene_description\": \"在室内非经营场所，一名穿着黑色蕾丝上衣、短裙和长靴的女性，被一名男性抱起并放入一个木制婴儿床内。周围有多人围观，期间有其他人的手触碰该女性的身体。\",\n      \"audio_transcript\": \"背景播放着电子音乐。\",\n      \"issue\": \"视频内容包含将成年女性放入婴儿床的性暗示行为，且衣着暴露，场景混乱。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"室内/非营业场所\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"一名女性被他人放入婴儿床中，并被多人触摸\",\n          \"objects_involved\": \"婴儿床\",\n          \"details\": \"视频画面晃动，女性似乎处于醉酒或无意识状态，衣着暴露。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"评论\",\n      \"scene_description\": \"评论内容为：“这是海底捞的母婴室嘛[泣不成声]”\",\n      \"audio_transcript\": \"无\",\n      \"issue\": \"评论将视频中不雅的、带有性暗示的场景，错误地与海底捞的母婴室进行关联，对品牌形象造成负面影响。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"评论/文本\",\n          \"subject_type\": \"评论内容\",\n          \"subject_behavior\": \"发布将不雅视频场景关联至品牌特定设施（母婴室）的评论\",\n          \"audio_quote\": \"这是海底捞的母婴室嘛[泣不成声]\"\n        }\n      ],\n      \"source\": \"comment\"\n    },\n    {\n      \"timestamp\": \"评论\",\n      \"scene_description\": \"评论内容为：“海底捞母婴室？”\",\n      \"audio_transcript\": \"无\",\n      \"issue\": \"评论将视频中不雅的、带有性暗示的场景，错误地与海底捞的母婴室进行关联，对品牌形象造成负面影响。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"评论/文本\",\n          \"subject_type\": \"评论内容\",\n          \"subject_behavior\": \"发布将不雅视频场景关联至品牌特定设施（母婴室）的评论\",\n          \"audio_quote\": \"海底捞母婴室？\"\n        }\n      ],\n      \"source\": \"comment\"\n    },\n    {\n      \"timestamp\": \"评论\",\n      \"scene_description\": \"评论区内多条评论使用“你们老婆”、“你们女儿”、“你们的异地恋慢热女友”等词语指代视频中的女性。\",\n      \"audio_transcript\": \"无\",\n      \"issue\": \"评论区存在大量物化、贬低女性的低俗言论，因有评论关联至品牌，污染了品牌相关的网络环境。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"评论/文本\",\n          \"subject_type\": \"评论内容\",\n          \"subject_behavior\": \"使用“你们老婆”等物化女性的词语进行评论\",\n          \"audio_quote\": \"你们老婆\"\n        }\n      ],\n      \"source\": \"comment\"\n    }\n  ]\n}"
+            }
+          ],
+          "role": "model"
+        },
+        "citation_metadata": null,
+        "finish_message": null,
+        "token_count": null,
+        "finish_reason": "STOP",
+        "url_context_metadata": null,
+        "avg_logprobs": null,
+        "grounding_metadata": null,
+        "index": 0,
+        "logprobs_result": null,
+        "safety_ratings": null
+      }
+    ],
+    "create_time": null,
+    "model_version": "gemini-2.5-pro",
+    "prompt_feedback": null,
+    "response_id": "2eCuaMi2M_-Cz7IPt5yosQg",
+    "usage_metadata": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 1048,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 26947,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 5395
+        },
+        {
+          "modality": "VIDEO",
+          "token_count": 21040
+        },
+        {
+          "modality": "AUDIO",
+          "token_count": 512
+        }
+      ],
+      "thoughts_token_count": 2000,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 29995,
+      "traffic_type": null
+    },
+    "automatic_function_calling_history": [],
+    "parsed": {
+      "summary": "视频展示了一名衣着暴露的女性被他人放入婴儿床的场景，该场景与餐饮无关。评论区中，有两条评论将此不雅场景与“海底捞母婴室”进行关联，同时存在大量使用“你们老婆”等词语的低俗、物化女性的言论。",
+      "sentiment": "negative",
+      "brand": "海底捞",
+      "brand_relevance": "疑似相关",
+      "risk_type_total": [
+        "色情低俗内容"
+      ],
+      "key_points": [
+        "色情低俗内容: 视频含性暗示内容，被评论区用户错误关联至品牌母婴室",
+        "色情低俗内容: 评论区存在大量物化女性的低俗言论"
+      ],
+      "events": [
+        {
+          "timestamp": "00:00-00:12",
+          "scene_description": "在室内非经营场所，一名穿着黑色蕾丝上衣、短裙和长靴的女性，被一名男性抱起并放入一个木制婴儿床内。周围有多人围观，期间有其他人的手触碰该女性的身体。",
+          "audio_transcript": "背景播放着电子音乐。",
+          "issue": "视频内容包含将成年女性放入婴儿床的性暗示行为，且衣着暴露，场景混乱。",
+          "risk_type": [
+            "色情低俗内容"
+          ],
+          "evidence": [
+            {
+              "scene_area": "室内/非营业场所",
+              "subject_type": "人",
+              "subject_behavior": "一名女性被他人放入婴儿床中，并被多人触摸",
+              "objects_involved": "婴儿床",
+              "contact_path": null,
+              "brand_assets": null,
+              "audio_quote": null,
+              "visibility": null,
+              "details": "视频画面晃动，女性似乎处于醉酒或无意识状态，衣着暴露。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "评论",
+          "scene_description": "评论内容为：“这是海底捞的母婴室嘛[泣不成声]”",
+          "audio_transcript": "无",
+          "issue": "评论将视频中不雅的、带有性暗示的场景，错误地与海底捞的母婴室进行关联，对品牌形象造成负面影响。",
+          "risk_type": [
+            "色情低俗内容"
+          ],
+          "evidence": [
+            {
+              "scene_area": "评论/文本",
+              "subject_type": "评论内容",
+              "subject_behavior": "发布将不雅视频场景关联至品牌特定设施（母婴室）的评论",
+              "objects_involved": null,
+              "contact_path": null,
+              "brand_assets": null,
+              "audio_quote": "这是海底捞的母婴室嘛[泣不成声]",
+              "visibility": null,
+              "details": null
+            }
+          ],
+          "source": "comment",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "评论",
+          "scene_description": "评论内容为：“海底捞母婴室？”",
+          "audio_transcript": "无",
+          "issue": "评论将视频中不雅的、带有性暗示的场景，错误地与海底捞的母婴室进行关联，对品牌形象造成负面影响。",
+          "risk_type": [
+            "色情低俗内容"
+          ],
+          "evidence": [
+            {
+              "scene_area": "评论/文本",
+              "subject_type": "评论内容",
+              "subject_behavior": "发布将不雅视频场景关联至品牌特定设施（母婴室）的评论",
+              "objects_involved": null,
+              "contact_path": null,
+              "brand_assets": null,
+              "audio_quote": "海底捞母婴室？",
+              "visibility": null,
+              "details": null
+            }
+          ],
+          "source": "comment",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "评论",
+          "scene_description": "评论区内多条评论使用“你们老婆”、“你们女儿”、“你们的异地恋慢热女友”等词语指代视频中的女性。",
+          "audio_transcript": "无",
+          "issue": "评论区存在大量物化、贬低女性的低俗言论，因有评论关联至品牌，污染了品牌相关的网络环境。",
+          "risk_type": [
+            "色情低俗内容"
+          ],
+          "evidence": [
+            {
+              "scene_area": "评论/文本",
+              "subject_type": "评论内容",
+              "subject_behavior": "使用“你们老婆”等物化女性的词语进行评论",
+              "objects_involved": null,
+              "contact_path": null,
+              "brand_assets": null,
+              "audio_quote": "你们老婆",
+              "visibility": null,
+              "details": null
+            }
+          ],
+          "source": "comment",
+          "comment_id": null,
+          "comment_index": null
+        }
+      ]
+    }
+  },
+  "raw_text": "{\n  \"summary\": \"视频展示了一名衣着暴露的女性被他人放入婴儿床的场景，该场景与餐饮无关。评论区中，有两条评论将此不雅场景与“海底捞母婴室”进行关联，同时存在大量使用“你们老婆”等词语的低俗、物化女性的言论。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"brand_relevance\": \"疑似相关\",\n  \"risk_type_total\": [\n    \"色情低俗内容\"\n  ],\n  \"key_points\": [\n    \"色情低俗内容: 视频含性暗示内容，被评论区用户错误关联至品牌母婴室\",\n    \"色情低俗内容: 评论区存在大量物化女性的低俗言论\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00-00:12\",\n      \"scene_description\": \"在室内非经营场所，一名穿着黑色蕾丝上衣、短裙和长靴的女性，被一名男性抱起并放入一个木制婴儿床内。周围有多人围观，期间有其他人的手触碰该女性的身体。\",\n      \"audio_transcript\": \"背景播放着电子音乐。\",\n      \"issue\": \"视频内容包含将成年女性放入婴儿床的性暗示行为，且衣着暴露，场景混乱。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"室内/非营业场所\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"一名女性被他人放入婴儿床中，并被多人触摸\",\n          \"objects_involved\": \"婴儿床\",\n          \"details\": \"视频画面晃动，女性似乎处于醉酒或无意识状态，衣着暴露。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"评论\",\n      \"scene_description\": \"评论内容为：“这是海底捞的母婴室嘛[泣不成声]”\",\n      \"audio_transcript\": \"无\",\n      \"issue\": \"评论将视频中不雅的、带有性暗示的场景，错误地与海底捞的母婴室进行关联，对品牌形象造成负面影响。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"评论/文本\",\n          \"subject_type\": \"评论内容\",\n          \"subject_behavior\": \"发布将不雅视频场景关联至品牌特定设施（母婴室）的评论\",\n          \"audio_quote\": \"这是海底捞的母婴室嘛[泣不成声]\"\n        }\n      ],\n      \"source\": \"comment\"\n    },\n    {\n      \"timestamp\": \"评论\",\n      \"scene_description\": \"评论内容为：“海底捞母婴室？”\",\n      \"audio_transcript\": \"无\",\n      \"issue\": \"评论将视频中不雅的、带有性暗示的场景，错误地与海底捞的母婴室进行关联，对品牌形象造成负面影响。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"评论/文本\",\n          \"subject_type\": \"评论内容\",\n          \"subject_behavior\": \"发布将不雅视频场景关联至品牌特定设施（母婴室）的评论\",\n          \"audio_quote\": \"海底捞母婴室？\"\n        }\n      ],\n      \"source\": \"comment\"\n    },\n    {\n      \"timestamp\": \"评论\",\n      \"scene_description\": \"评论区内多条评论使用“你们老婆”、“你们女儿”、“你们的异地恋慢热女友”等词语指代视频中的女性。\",\n      \"audio_transcript\": \"无\",\n      \"issue\": \"评论区存在大量物化、贬低女性的低俗言论，因有评论关联至品牌，污染了品牌相关的网络环境。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"评论/文本\",\n          \"subject_type\": \"评论内容\",\n          \"subject_behavior\": \"使用“你们老婆”等物化女性的词语进行评论\",\n          \"audio_quote\": \"你们老婆\"\n        }\n      ],\n      \"source\": \"comment\"\n    }\n  ]\n}"
+}

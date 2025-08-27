@@ -17,6 +17,7 @@ interface FilterOption {
 
 export type SentimentValue = "all" | "positive" | "neutral" | "negative";
 export type RiskScenario = "all" | string;
+export type RelevanceValue = string;
 
 interface FilterBarProps {
   className?: string;
@@ -26,21 +27,24 @@ interface FilterBarProps {
   contentType: string; // 'all' | 'video' | 'image'
   timeRange: "all" | "today" | "week" | "month";
   sentiment: SentimentValue;
+  relevance: RelevanceValue;
   riskOptions?: { id: string; label: string; count: number }[];
   channelOptions?: { id: string; label: string; count?: number }[];
   typeOptions?: { id: string; label: string; count?: number }[];
   sentimentOptions?: { id: SentimentValue; label: string }[];
+  relevanceOptions?: { id: string; label: string }[];
   onChange: (next: {
     riskScenario?: RiskScenario;
     channel?: string;
     contentType?: string;
     timeRange?: "all" | "today" | "week" | "month";
     sentiment?: SentimentValue;
+    relevance?: RelevanceValue;
     search?: string;
   }) => void;
 }
 
-export default function FilterBar({ className, riskScenario, channel, contentType, timeRange, sentiment, riskOptions, channelOptions, typeOptions, sentimentOptions, onChange }: FilterBarProps) {
+export default function FilterBar({ className, riskScenario, channel, contentType, timeRange, sentiment, relevance, riskOptions, channelOptions, typeOptions, sentimentOptions, relevanceOptions, onChange }: FilterBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const openInit: string | null = null;
   const [openMenu, setOpenMenu] = useState<string | null>(openInit);
@@ -61,6 +65,14 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
       { id: "all", label: "全部类型" },
     ];
   }, [typeOptions]);
+
+  const relevanceFilters: FilterOption[] = useMemo(() => {
+    if (relevanceOptions && relevanceOptions.length > 0) return relevanceOptions as FilterOption[];
+    return [
+      { id: "all", label: "全部相关性" },
+      { id: "相关", label: "相关" },
+    ];
+  }, [relevanceOptions]);
 
   const timeFilters: FilterOption[] = [
     { id: "all", label: "全部时间", count: 1250 },
@@ -198,7 +210,7 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
 
         <input
           type="text"
-          placeholder="搜索关键词、话题或内容..."
+          placeholder="搜索标题或者作者"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className={cn(
@@ -219,6 +231,14 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
           value={riskScenario}
           menuId="risk"
           onSelect={(id) => onChange({ riskScenario: id })}
+        />
+
+        <FilterDropdown
+          options={relevanceFilters}
+          icon={<Filter className="w-4 h-4" />}
+          value={relevance}
+          menuId="relevance"
+          onSelect={(id) => onChange({ relevance: id })}
         />
 
         <FilterDropdown
