@@ -10,8 +10,11 @@ interface VideoPlayerCardProps {
   views: number;
   likes: number;
   comments: number;
+  shares?: number;
   timestamp: string;
   author: string;
+  originalUrl?: string;
+  videoUrl?: string;
   className?: string;
 }
 
@@ -23,8 +26,11 @@ export default function VideoPlayerCard({
   views,
   likes,
   comments,
+  shares = 0,
   timestamp,
   author,
+  originalUrl,
+  videoUrl,
   className,
 }: VideoPlayerCardProps) {
   return (
@@ -38,20 +44,24 @@ export default function VideoPlayerCard({
     >
       {/* Video Thumbnail */}
       <div className="relative aspect-video overflow-hidden rounded-t-3xl">
-        <img
-          src={thumbnail}
-          alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-        />
+        {videoUrl ? (
+          <video
+            className="w-full h-full object-cover"
+            controls
+            poster={thumbnail}
+            src={videoUrl}
+          />
+        ) : (
+          <img
+            src={thumbnail}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+          />
+        )}
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-        {/* Play Button */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-          <button className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110">
-            <Play className="w-8 h-8 text-white ml-1" fill="white" />
-          </button>
-        </div>
+        {/* Overlay gradient */}
 
         {/* Duration */}
         <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm text-white text-sm font-medium">
@@ -103,16 +113,20 @@ export default function VideoPlayerCard({
 
               <span className="font-medium">{comments}</span>
             </button>
-            <button className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-green-500 transition-colors duration-200">
+            <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
               <Share2 className="w-5 h-5" />
-
-              <span className="font-medium">分享</span>
-            </button>
+              <span className="font-medium">{shares}</span>
+            </div>
           </div>
 
-          <button className="px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-            查看详情
-          </button>
+          {originalUrl && (
+            <button
+              className="px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+              onClick={() => window.open(originalUrl, "_blank")}
+            >
+              查看原内容
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -4,117 +4,97 @@ import VideoGridCard from "@/polymet/components/video-grid-card";
 import { Grid, List, SortAsc, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
 
-  const sampleVideos = [
-    {
-      title:
-        "大晚上去海底捞吃饭看到的小可爱 😍 #当你有只喵馋小狗 #养狗当然就是用来玩的 #被小狗治愈的一万个瞬间",
-      thumbnail:
-        "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&h=225&fit=crop",
-      duration: "0:27",
-      views: 508,
-      likes: 55,
-      comments: 428,
-      author: "CC记录",
-      category: "抖音",
-      tags: ["宠物进店", "用餐卫生"],
-      publishTime: "6小时前",
-    },
-    {
-      title: "海底捞排队太久了",
-      thumbnail:
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=225&fit=crop",
-      duration: "1:45",
-      views: 567,
-      likes: 123,
-      comments: 23,
-      author: "吃货小分队",
-      category: "内容",
-      tags: ["服务体验", "排队"],
-      publishTime: "8小时前",
-    },
-    {
-      title: "海底捞新品试吃",
-      thumbnail:
-        "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=225&fit=crop",
-      duration: "3:12",
-      views: 2341,
-      likes: 234,
-      comments: 156,
-      author: "美食探店",
-      category: "小红书",
-      tags: ["食品安全", "新品", "试吃"],
-      publishTime: "6小时前",
-    },
-    {
-      title: "海底捞价格分析",
-      thumbnail:
-        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=225&fit=crop",
-      duration: "4:23",
-      views: 890,
-      likes: 167,
-      comments: 78,
-      author: "价格分析师",
-      category: "正面",
-      tags: ["价格", "分析"],
-      publishTime: "8小时前",
-    },
-    {
-      title: "海底捞员工服务态度",
-      thumbnail:
-        "https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=400&h=225&fit=crop",
-      duration: "2:56",
-      views: 1567,
-      likes: 98,
-      comments: 67,
-      author: "服务体验官",
-      category: "小红书",
-      tags: ["服务", "员工"],
-      publishTime: "12小时前",
-    },
-    {
-      title: "海底捞食材新鲜度",
-      thumbnail:
-        "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=400&h=225&fit=crop",
-      duration: "1:23",
-      views: 234,
-      likes: 56,
-      comments: 12,
-      author: "健康生活",
-      category: "科普",
-      tags: ["食品安全", "健康", "图文"],
-      publishTime: "1天前",
-    },
-    {
-      title: "海底捞环境卫生检查",
-      thumbnail:
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=225&fit=crop",
-      duration: "5:45",
-      views: 3456,
-      likes: 234,
-      comments: 189,
-      author: "卫生监督",
-      category: "中风险",
-      tags: ["环境卫生", "检查"],
-      publishTime: "2天前",
-    },
-    {
-      title: "海底捞新店开业",
-      thumbnail:
-        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=225&fit=crop",
-      duration: "3:30",
-      views: 1890,
-      likes: 145,
-      comments: 89,
-      author: "商业观察",
-      category: "内容",
-      tags: ["开业", "新店", "扩张"],
-      publishTime: "3天前",
-    },
-  ];
+  type PostRow = {
+    id: number;
+    platform: string;
+    platform_item_id: string;
+    title: string;
+    like_count: number;
+    comment_count: number;
+    share_count: number;
+    cover_url: string | null;
+    author_name: string | null;
+    duration_ms: number;
+    published_at: string | null;
+    created_at: string;
+  };
+
+  type RiskRow = { platform_item_id: string; risk_types: string[] };
+
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState<PostRow[]>([]);
+  const [risks, setRisks] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      try {
+        if (!supabase) {
+          setLoading(false);
+          return;
+        }
+        const { data: postData } = await supabase
+          .from("gg_platform_post")
+          .select(
+            "id, platform, platform_item_id, title, like_count, comment_count, share_count, cover_url, author_name, duration_ms, published_at, created_at"
+          )
+          .order("id", { ascending: false })
+          .limit(24);
+
+        const postsSafe = (postData || []) as unknown as PostRow[];
+
+        const ids = postsSafe.map((p) => p.platform_item_id).filter(Boolean);
+        const risksMap: Record<string, string[]> = {};
+        if (ids.length > 0) {
+          const { data: riskData } = await supabase
+            .from("gg_video_analysis")
+            .select("platform_item_id, risk_types")
+            .in("platform_item_id", ids);
+          (riskData as unknown as RiskRow[] | null)?.forEach((r) => {
+            risksMap[r.platform_item_id] = Array.isArray(r.risk_types)
+              ? r.risk_types
+              : [];
+          });
+        }
+
+        if (!cancelled) {
+          setPosts(postsSafe);
+          setRisks(risksMap);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const platformToLabel = (platform: string) => {
+    if (platform === "douyin") return "抖音";
+    if (platform === "redbook") return "小红书";
+    if (platform === "bilibili") return "哔哩哔哩";
+    return "其他";
+  };
+
+  const formatDuration = (ms: number) => {
+    const total = Math.max(0, Math.round(ms / 1000));
+    const m = Math.floor(total / 60)
+      .toString()
+      .padStart(1, "0");
+    const s = (total % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
+
+  const totalCountText = useMemo(() => posts.length.toLocaleString(), [posts.length]);
 
   return (
     <div className="space-y-8">
@@ -128,7 +108,7 @@ export default function ContentDashboard() {
             内容监控结果
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            共找到 {sampleVideos.length.toLocaleString()} 条相关内容
+            共找到 {totalCountText} 条相关内容
           </p>
         </div>
 
@@ -171,23 +151,60 @@ export default function ContentDashboard() {
       </div>
 
       {/* Content Grid */}
-      <div className={cn("grid gap-6 transition-all duration-500 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4")}
+      <div
+        className={cn(
+          "grid gap-6 transition-all duration-500 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        )}
       >
-        {sampleVideos.map((video, index) => (
-          <VideoGridCard
-            key={index}
-            {...video}
-            onClick={() => navigate(`/detail/${index + 1}`)}
-          />
-        ))}
+        {loading &&
+          Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="rounded-2xl overflow-hidden animate-pulse">
+              <div className="relative">
+                <Skeleton className="w-full aspect-video" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_1.2s_infinite]" />
+              </div>
+              <div className="p-4 space-y-3">
+                <Skeleton className="h-4 w-5/6" />
+                <div className="flex gap-2">
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                </div>
+                <div className="flex gap-3">
+                  <Skeleton className="h-3 w-10" />
+                  <Skeleton className="h-3 w-10" />
+                  <Skeleton className="h-3 w-10" />
+                </div>
+              </div>
+            </div>
+          ))}
+
+        {!loading && posts.length === 0 && (
+          <div className="col-span-full flex items-center justify-center text-gray-500 dark:text-gray-400 py-16">
+            暂无内容
+          </div>
+        )}
+
+        {!loading &&
+          posts.map((p) => (
+            <VideoGridCard
+              key={p.id}
+              title={p.title}
+              thumbnail={p.cover_url || "/placeholder.jpg"}
+              duration={formatDuration(p.duration_ms)}
+              likes={p.like_count || 0}
+              comments={p.comment_count || 0}
+              shares={p.share_count || 0}
+              author={p.author_name || ""}
+              platformLabel={platformToLabel(p.platform)}
+              riskTags={risks[p.platform_item_id] || []}
+              publishDate={(p.published_at || p.created_at).slice(0, 10)}
+              onClick={() => navigate(`/detail/${p.platform_item_id}`)}
+            />
+          ))}
       </div>
 
-      {/* Load More */}
-      <div className="flex justify-center pt-8">
-        <button className="px-8 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-          加载更多内容
-        </button>
-      </div>
+      {/* Load More removed per requirement. Future: implement infinite scroll with skeletons. */}
     </div>
   );
 }
