@@ -1,0 +1,38 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "视频展示了在海底捞用餐时，顾客将一个小型相机放入沸腾的火锅汤底中进行拍摄，构成了用餐卫生风险。",
+    "sentiment": "negative",
+    "brand": "海底捞",
+    "risk_type_total": [
+      "用餐卫生"
+    ],
+    "key_points": [
+      "用餐卫生: 顾客将相机等异物放入火锅汤底中"
+    ],
+    "events": [
+      {
+        "timestamp": "00:00:00-00:02:400",
+        "scene_description": "在海底捞的餐桌上，一个白色的微型相机被放置在漏勺中，随后被浸入沸腾的红色火锅汤底里。火锅的金属边框上可见“海底捞火锅”字样。",
+        "audio_transcript": "被下火锅是什么体验",
+        "issue": "非食品异物（相机）被放入供人食用的火锅汤底中。",
+        "risk_type": [
+          "用餐卫生"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "相机",
+            "subject_behavior": "被放入沸腾的火锅汤底中",
+            "objects_involved": "相机、漏勺、火锅",
+            "contact_path": "电子设备→火锅汤底",
+            "brand_assets": "火锅边框印有“海底捞火锅”字样",
+            "audio_quote": "“被下火锅是什么体验”",
+            "visibility": "清晰，特写镜头",
+            "details": "视频开头，一个白色Insta360相机被放置在金属漏勺上，于00:02:200左右被完全浸入红油锅底。该行为持续约2秒。"
+          }
+        ]
+      }
+    ]
+  }
+}

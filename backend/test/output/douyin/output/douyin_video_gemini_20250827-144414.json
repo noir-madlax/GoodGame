@@ -1,0 +1,37 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "视频显示一只宠物狗在海底捞餐厅的用餐区卡座上，使用带有品牌Logo的纸杯进食，该行为持续了整个视频。",
+    "sentiment": "negative",
+    "brand": "海底捞",
+    "risk_type_total": [
+      "宠物进店"
+    ],
+    "key_points": [
+      "宠物进店: 宠物狗在用餐区卡座上使用品牌纸杯进食。"
+    ],
+    "events": [
+      {
+        "timestamp": "00:00:00",
+        "scene_description": "在海底捞餐厅的用餐区，一只黄色的柴犬坐在绿色的卡座沙发上，将整个头部伸进一个印有“海底捞火锅”Logo的白色纸杯中进食。旁边有一只手扶着纸杯。",
+        "audio_transcript": "餐厅环境背景音。",
+        "issue": "宠物狗在用餐区卡座就坐，并使用带有品牌Logo的容器进食。",
+        "risk_type": [
+          "宠物进店"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "宠物",
+            "subject_behavior": "坐在卡座上并将头部伸入品牌纸杯中进食",
+            "objects_involved": "带有Logo的纸杯",
+            "contact_path": "动物口腔→品牌纸杯",
+            "brand_assets": "印有“海底捞火锅”及“Hi”Logo的纸杯",
+            "visibility": "特写清晰，持续整个视频",
+            "details": "一只柴犬坐在顾客用餐的卡座沙发上，其主人用手扶着纸杯。桌面上还放有其他餐具。"
+          }
+        ]
+      }
+    ]
+  }
+}

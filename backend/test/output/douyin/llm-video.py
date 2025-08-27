@@ -14,16 +14,96 @@ from google import genai
 from google.genai import types
 import time as _time
 import argparse
+from typing import Any, Dict, Optional
+import requests
+from urllib.parse import urlparse
+
+# DB: reuse project supabase client singleton
+try:
+    # prefer existing client used by backend
+    from ...tikhub_api.orm.supabase_client import get_client  # type: ignore
+except Exception:
+    # fallback to runtime path import if relative import fails
+    import sys
+    THIS_FILE = Path(__file__).resolve()
+    # project root: /Users/rigel/project/goodgame
+    PROJECT_ROOT = THIS_FILE.parents[4]
+    sys.path.append(str(PROJECT_ROOT / "backend" / "tikhub_api"))
+    try:  # type: ignore
+        from orm.supabase_client import get_client  # type: ignore
+    except Exception as _e:  # pragma: no cover
+        get_client = None  # type: ignore
+
+
+def _download_video(url: str, dest_dir: Path, filename: Optional[str] = None) -> Path:
+	"""Download a video file into dest_dir and return the saved path."""
+	dest_dir.mkdir(parents=True, exist_ok=True)
+	parsed = urlparse(url)
+	if not parsed.scheme or not parsed.scheme.startswith("http"):
+		raise ValueError(f"Unsupported URL: {url}")
+	name = filename or Path(parsed.path).name or "video.mp4"
+	if not name.endswith(".mp4"):
+		name = f"{name}.mp4"
+	outfile = dest_dir / name
+	# Douyin CDN often requires browser headers; add UA/Referer and retry
+	headers = {
+		"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+		"Referer": "https://www.douyin.com/",
+		"Accept": "*/*",
+		"Accept-Language": "zh-CN,zh;q=0.9",
+	}
+	last_exc: Exception | None = None
+	for attempt in range(3):
+		try:
+			with requests.get(url, stream=True, timeout=60, headers=headers, allow_redirects=True) as r:
+				r.raise_for_status()
+				with outfile.open("wb") as f:
+					for chunk in r.iter_content(chunk_size=1024 * 1024):
+						if chunk:
+							f.write(chunk)
+			return outfile
+		except Exception as e:
+			last_exc = e
+			_time.sleep(1 + attempt)
+	# If still failing, raise the last exception for visibility
+	raise last_exc if last_exc else RuntimeError("download failed")
+	return outfile
+
+
+def _get_supabase_client():
+	"""Return a Supabase client. Prefer project's `get_client`; fallback to local create_client.
+
+	Supports env var names SUPABASE_URL/SUPABASE_KEY and SupabaseUrl/SupabaseKey.
+	"""
+	# Prefer imported singleton
+	if get_client is not None:
+		return get_client()
+	# Local fallback
+	try:
+		from supabase import create_client as _create_client  # type: ignore
+	except Exception as e:  # pragma: no cover
+		raise RuntimeError("supabase python client not installed") from e
+
+	# Load .env near backend if not already
+	if load_dotenv:
+		try:
+			load_dotenv(PROJECT_ROOT / "backend/.env")  # type: ignore
+		except Exception:
+			pass
+	url = os.getenv("SUPABASE_URL") or os.getenv("SupabaseUrl")
+	key = os.getenv("SUPABASE_KEY") or os.getenv("SupabaseKey")
+	if not url or not key:
+		raise RuntimeError("Missing SUPABASE_URL/SupabaseUrl or SUPABASE_KEY/SupabaseKey env vars")
+	return _create_client(url, key)
 
 # REQUIRED: set the target video file here if not supplying via CLI
 # You can modify this constant directly to change the target file.
 #⼩狗已经沉浸在海底捞⽆法⾃拔了-已分析
+# 保留但不再使用固定文件路径；统一通过 VIDEO_ID/--post-id 获取 video_url
 #VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7383012850161241385/7383012850161241385.mp4"
-#这酒你就喝吧 一喝一个不吱声
-VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4"
-#下次请善待我们小吃房好吗🥺#海底捞 #回答我-已分析
+#VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4"
 #VIDEO_FILE = "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7505583378596646180/7505583378596646180.mp4"
-
+VIDEO_ID = "29"
 # Optional: set Gemini API key here to avoid VSCode Run Python not inheriting shell env
 API_KEY = os.getenv("GEMINI_API_KEY", "")
 
@@ -214,13 +294,42 @@ def main(video_path: str | None = None, api_key_param: str | None = None) -> Non
 	parser.add_argument("file", nargs="?", default="", type=str)
 	parser.add_argument("--file", dest="file_flag", default="", type=str)
 	parser.add_argument("--api-key", dest="api_key_flag", default="", type=str)
+	parser.add_argument("--post-id", dest="post_id", default=0, type=int)
 	args, _ = parser.parse_known_args()
 	if args.api_key_flag:
 		api_key = args.api_key_flag
 
-	# Resolve provided path precedence: function param > positional > --file > top-level constant
-	candidate_path_str = video_path or args.file or args.file_flag or VIDEO_FILE
-	custom_file = Path(candidate_path_str) if candidate_path_str else None
+	# If --post-id provided, fetch video_url from DB and download file first
+	platform_item_id_override: str | None = None
+	post_id_override: int | None = None
+	# priority: CLI --post-id > hard-coded VIDEO_ID in file (if present)
+	video_id_from_code = None
+	try:
+		video_id_from_code = int(globals().get("VIDEO_ID", 0) or 0)
+	except Exception:
+		video_id_from_code = 0
+	post_id_to_use = args.post_id or video_id_from_code or 0
+	if post_id_to_use:
+		client_db = _get_supabase_client()
+		resp_post = (
+			client_db.table("gg_platform_post")
+			.select("id, platform, platform_item_id, video_url")
+			.eq("id", post_id_to_use)
+			.limit(1)
+			.execute()
+		)
+		row = (resp_post.data or [{}])[0]
+		video_url = row.get("video_url")
+		if not video_url:
+			raise RuntimeError(f"post id={post_id_to_use} has empty video_url")
+		platform_item_id_override = row.get("platform_item_id")
+		post_id_override = row.get("id")
+		# download into output dir
+		custom_file = _download_video(video_url, output_dir, filename=f"post_{post_id_override}_{platform_item_id_override or 'video'}.mp4")
+	else:
+		# Resolve provided path precedence: function param > positional > --file
+		candidate_path_str = video_path or args.file or args.file_flag
+		custom_file = Path(candidate_path_str) if candidate_path_str else None
 
 	# Validate file
 	if not custom_file.exists():
@@ -274,6 +383,71 @@ def main(video_path: str | None = None, api_key_param: str | None = None) -> Non
 		json.dump({"model": resp.model_version if hasattr(resp, "model_version") else "gemini",
 			"result": parsed}, f, ensure_ascii=False, indent=2)
 	print(str(outfile))
+
+	# After file is written, insert a summary row into Supabase (best-effort)
+	try:
+		client = _get_supabase_client()
+
+		# Build source_path relative to project root with leading '/'
+		project_root = Path(__file__).resolve().parents[5]
+		rel = outfile.resolve().relative_to(project_root)
+		source_path = f"/{rel.as_posix()}"
+
+		# Derive platform_item_id
+		platform_item_id = platform_item_id_override or ""
+		if not platform_item_id:
+			try:
+				parts = [p for p in Path(custom_file).parts]
+				idx = parts.index("downloads")
+				platform_item_id = parts[idx + 2]
+			except Exception:
+				platform_item_id = ""
+
+		def _get(d: Dict[str, Any], key: str, default: Any = None) -> Any:
+			return d.get(key, default) if isinstance(d, dict) else default
+
+		analysis = _get(parsed, "result", parsed)
+		summary = _get(analysis, "summary", "")
+		sentiment = _get(analysis, "sentiment", None)
+		brand = _get(analysis, "brand", None)
+		key_points = _get(analysis, "key_points", [])
+		risk_types = _get(analysis, "risk_type_total", [])
+		events = _get(analysis, "events", [])
+
+		# Resolve post_id
+		post_id = post_id_override
+		if post_id is None:
+			try:
+				res = (
+					client.table("gg_platform_post")
+					.select("id")
+					.eq("platform", "douyin")
+					.eq("platform_item_id", platform_item_id)
+					.limit(1)
+					.execute()
+				)
+				post_id = (res.data or [{}])[0].get("id") if res.data else None
+			except Exception:
+				post_id = None
+
+		payload = {
+			"source_path": source_path,
+			"source_platform": "douyin",
+			"summary": summary,
+			"sentiment": sentiment,
+			"brand": brand,
+			"timeline": events,
+			"key_points": key_points,
+			"risk_types": risk_types,
+			"platform_item_id": platform_item_id or None,
+			"post_id": post_id,
+			"analysis_detail": analysis,
+		}
+		# insert, ignore on conflict by unique source_path
+		client.table("gg_video_analysis").upsert(payload, on_conflict="source_path").execute()
+		print(json.dumps({"db_inserted": True, "table": "gg_video_analysis", "source_path": source_path}, ensure_ascii=False))
+	except Exception as e:  # best-effort, do not fail the main flow
+		print(json.dumps({"db_inserted": False, "error": str(e)}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
