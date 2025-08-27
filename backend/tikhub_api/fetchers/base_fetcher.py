@@ -102,13 +102,14 @@ class BaseFetcher(ABC):
 
 
 
-    def _make_request(self, url: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    def _make_request(self, url: str, params: Dict[str, Any], method: str = "GET") -> Dict[str, Any]:
         """
         发送 HTTP 请求的通用方法
 
         Args:
             url (str): 请求 URL
-            params (Dict[str, Any]): 请求参数
+            params (Dict[str, Any]): 请求参数（GET 使用 query params，POST 使用 JSON body）
+            method (str): 请求方法，支持 "GET" 或 "POST"，默认 "GET"
 
         Returns:
             Dict[str, Any]: API 响应
@@ -117,7 +118,11 @@ class BaseFetcher(ABC):
             requests.RequestException: 请求异常
         """
         try:
-            response = requests.get(url, headers=self.headers, params=params)
+            method_upper = method.upper()
+            if method_upper == "POST":
+                response = requests.post(url, headers=self.headers, json=params)
+            else:
+                response = requests.get(url, headers=self.headers, params=params)
 
             # 尝试解析 JSON 响应
             try:

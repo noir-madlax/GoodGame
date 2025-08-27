@@ -5,6 +5,24 @@ from .base_fetcher import BaseFetcher
 from ..orm.models import PlatformPost
 from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider
 
+# ===== 抖音搜索（V3）默认配置常量（可由你后续修改） =====
+# 接口路径占位：请根据实际文档更新
+DOUYIN_SEARCH_API = "/douyin/search/fetch_general_search_v3"
+
+# 默认请求体（仅占位示例）：首次请求 cursor=0, search_id=""
+DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
+    "keyword": "海底捞",
+    "cursor": 0,
+    "sort_type": "0",
+    "publish_time": "1",
+    "filter_duration": "0",
+    "content_type": "1",  # 0: 不限1: 视频2: 图片3: 文章
+    "search_id": "",
+}
+
+# 本次任务最多获取的结果条数（达到该数将停止翻页）
+DOUYIN_SEARCH_MAX_ITEMS: int = 10
+
 
 class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider):
     """抖音视频获取器，用于调用 TikHub API 获取抖音视频信息"""
@@ -88,6 +106,57 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
         except Exception as e:
             print(f"获取下载链接失败: {str(e)}")
             return None
+
+    # ===== 抖音搜索能力 =====
+    def fetch_search_posts(self) -> List[PlatformPost]:
+        """
+        内置分页：基于 DOUYIN_SEARCH_DEFAULT_PAYLOAD 和 DOUYIN_SEARCH_MAX_ITEMS，
+        自动按 cursor/search_id 翻页，最终返回 PlatformPost 列表。
+        """
+        try:
+            from ..adapters import to_posts_from_douyin_search
+        except Exception:
+            from tikhub_api.adapters import to_posts_from_douyin_search
+
+        gathered: List[PlatformPost] = []
+        cursor = 0
+        search_id = ""
+        has_more = 1
+        total_needed = int(DOUYIN_SEARCH_MAX_ITEMS)
+
+        while has_more == 1 and len(gathered) < total_needed:
+            payload = dict(DOUYIN_SEARCH_DEFAULT_PAYLOAD)
+            payload["cursor"] = cursor
+            payload["search_id"] = search_id
+
+            url = f"{self.base_url}{DOUYIN_SEARCH_API}"
+            # 该接口要求 POST，因此这里用 POST 方式调用
+            result = self._make_request(url, payload, method="POST")
+            if not self._check_api_response(result):
+                print(f"搜索接口返回异常: {result}")
+                break
+
+            data = result.get("data") or {}
+            posts = to_posts_from_douyin_search(data)
+            for p in posts:
+                if len(gathered) >= total_needed:
+                    break
+                gathered.append(p)
+
+            # 翻页字段（参考示例文件，可按实际返回字段名调整）
+            inner = data if isinstance(data, dict) else {}
+            cursor = int(inner.get("cursor") or cursor)
+            search_id = str(inner.get("search_id") or search_id)
+            has_more = int(inner.get("has_more") or (1 if len(posts) > 0 else 0))
+            if cursor == payload["cursor"] and has_more == 1:
+                has_more = 0  # 防止死循环
+
+        return gathered
+
+    # 兼容命名：对外也提供 fetch_search_page，返回 PlatformPost 列表
+    def fetch_search_page(self) -> List[PlatformPost]:
+        return self.fetch_search_posts()
+
 
     def fetch_video_danmaku(self, item_id: str, duration: int, start_time: int = 0, end_time: Optional[int] = None) -> Dict[str, Any]:
         """

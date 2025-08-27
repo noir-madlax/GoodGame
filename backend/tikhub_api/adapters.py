@@ -5,6 +5,59 @@ from datetime import datetime
 from .orm.models import PlatformPost, PlatformComment
 from .utils.url_validator import filter_valid_video_urls
 
+# ===== 搜索结果 -> PlatformPost 列表适配器 =====
+
+def to_posts_from_douyin_search(data: Dict[str, Any]) -> List[PlatformPost]:
+    """
+    将抖音搜索结果 data 转为 PlatformPost 列表。
+    兼容以下结构：
+    - 顶层 code=200, data={ status_code, data=[...] }
+    - 直接传入 data={ status_code, data=[...] }
+    - 直接传入 { data=[...] } 或 { aweme_list=[...] } 或 { items=[...] }
+    仅处理 type==1（视频）。
+    """
+    out: List[PlatformPost] = []
+    if not isinstance(data, dict):
+        return out
+
+    # 解析到最终的 items 列表（容错多种路径）
+    items = None
+    try:
+        if isinstance(data.get("data"), dict) and isinstance(data["data"].get("data"), list):
+            items = data["data"]["data"]
+        elif isinstance(data.get("status_code"), (int, float)) and isinstance(data.get("data"), list):
+            items = data["data"]
+        elif isinstance(data.get("data"), list):
+            items = data["data"]
+        elif isinstance(data.get("aweme_list"), list):
+            items = data["aweme_list"]
+        elif isinstance(data.get("items"), list):
+            items = data["items"]
+    except Exception:
+        items = None
+
+    if not isinstance(items, list):
+        return out
+
+    adapter = DouyinVideoAdapter()
+    for it in items:
+        try:
+            if not isinstance(it, dict):
+                continue
+            if int(it.get("type") or 0) != 1:
+                continue
+            aweme = it.get("aweme_info") or {}
+            if not isinstance(aweme, dict):
+                continue
+            details_like = {"aweme_detail": aweme}
+            post = adapter.to_post(details_like)
+            # 保存原始以便弹幕/排查
+            post.raw_details = details_like
+            out.append(post)
+        except Exception:
+            continue
+    return out
+
 
 @runtime_checkable
 class VideoAdapter(Protocol):

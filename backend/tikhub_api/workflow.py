@@ -64,16 +64,21 @@ class WorkflowReport:
 
 
 def run_video_workflow(
-    platform: str,
-    video_id: str,
+    unified_post,  # PlatformPost 对象
     options: WorkflowOptions = WorkflowOptions(),
 ) -> WorkflowReport:
     """
-    统一视频工作流：可选择性执行 详情入库 / 评论同步 / 弹幕保存 / 视频下载。
-    默认行为与原 download_video_complete 保持一致（全部开启）。
+    统一视频工作流：基于已有 PlatformPost，执行 评论同步 / 弹幕保存 / 视频下载。
+    不再执行"详情获取+入库"步骤。
+
+    Args:
+        unified_post: PlatformPost 对象（已包含 platform_item_id、platform 等信息）
+        options: 工作流选项
 
     Returns: WorkflowReport（结构化每步信息）
     """
+    platform = unified_post.platform
+    video_id = unified_post.platform_item_id
     print(f"🎬 开始处理 {platform} 视频: {video_id}")
 
     report = WorkflowReport(platform=platform, video_id=video_id)
@@ -92,20 +97,9 @@ def run_video_workflow(
     video_dir = os.path.join(DEFAULT_BASE_DOWNLOAD_DIR, platform, video_id)
     report.video_dir = video_dir
 
-    unified_post = None
-
-    # Step A: 详情 + 入库
-    if options.sync_details:
-        a_res = _step_sync_details_and_upsert(fetcher, video_id)
-        report.steps["details"] = a_res
-        if a_res.ok:
-            report.post_id = a_res.output.get("post_id")
-            unified_post = a_res.output.get("unified_post")
-        else:
-            # 原逻辑：详情是前置，为保证行为一致，如果详情失败，后续依赖 post_id 的步骤会被跳过
-            pass
-    else:
-        report.steps["details"] = StepResult(ok=True, skipped=True)
+    # Step A: 外部负责详情获取与可选入库；此处仅记录已有 post_id（若已入库过）
+    report.post_id = getattr(unified_post, "id", None)
+    report.steps["details"] = StepResult(ok=True, skipped=True)
 
     # Step B: 评论
     if options.sync_comments:
@@ -117,19 +111,11 @@ def run_video_workflow(
     else:
         report.steps["comments"] = StepResult(ok=True, skipped=True)
 
-    # Step C: 弹幕
+    # Step C: 弹幕（优先使用已知时长，避免重复详情请求）
     if options.sync_danmaku:
         try:
-            try:
-                from .capabilities import DanmakuProvider
-            except Exception:
-                from tikhub_api.capabilities import DanmakuProvider
-            if isinstance(fetcher, DanmakuProvider):
-                os.makedirs(video_dir, exist_ok=True)
-                c_res = _step_sync_danmaku(fetcher, video_id, video_dir)
-                report.steps["danmaku"] = c_res
-            else:
-                report.steps["danmaku"] = StepResult(ok=True, skipped=True, error="平台不支持弹幕能力")
+            c_res = _step_sync_danmaku_from_post(fetcher, unified_post, video_id, video_dir)
+            report.steps["danmaku"] = c_res
         except Exception as e:
             report.steps["danmaku"] = StepResult(ok=False, error=str(e))
     else:
@@ -232,6 +218,51 @@ def _step_sync_danmaku(fetcher, video_id: str, video_dir: str) -> StepResult:
         return StepResult(ok=True)
     except Exception as e:
         return StepResult(ok=False, error=f"弹幕处理失败: {e}")
+
+
+# 基于已知 PlatformPost 的弹幕处理，避免重复详情请求
+def _step_sync_danmaku_from_post(fetcher, unified_post, video_id: str, video_dir: str) -> StepResult:
+    try:
+        # 优先使用 PlatformPost.duration_ms
+        duration = int(getattr(unified_post, "duration_ms", 0) or 0)
+        if duration <= 0:
+            # 尝试从 raw_details 中取
+            raw = getattr(unified_post, "raw_details", {}) or {}
+            if isinstance(raw, dict):
+                aweme_detail = raw.get("aweme_detail", {}) or {}
+                video = aweme_detail.get("video", {}) or {}
+                duration = int(video.get("duration") or 0)
+        if duration <= 0:
+            # 兜底：调一次详情拿时长
+            try:
+                details = fetcher.get_video_details(video_id) or {}
+                aweme_detail = details.get("aweme_detail", {}) or {}
+                video = aweme_detail.get("video", {}) or {}
+                duration = int(video.get("duration") or 0)
+            except Exception:
+                duration = 0
+        if duration <= 0:
+            return StepResult(ok=True, skipped=True, error="缺少视频时长，跳过弹幕")
+
+        try:
+            from .capabilities import DanmakuProvider
+        except Exception:
+            from tikhub_api.capabilities import DanmakuProvider
+        if not isinstance(fetcher, DanmakuProvider):
+            return StepResult(ok=True, skipped=True, error="平台不支持弹幕能力")
+
+        os.makedirs(video_dir, exist_ok=True)
+        data = fetcher.get_video_danmaku(video_id, duration)
+        if data:
+            danmaku_file_path = os.path.join(video_dir, "danmaku.json")
+            with open(danmaku_file_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            return StepResult(ok=True)
+        return StepResult(ok=False, error="未获取到弹幕")
+    except Exception as e:
+        return StepResult(ok=False, error=f"弹幕处理失败: {e}")
+
+
 
 
 def _step_download_video(fetcher, unified_post, video_id: str, video_dir: str) -> StepResult:
@@ -404,48 +435,105 @@ def _sync_replies_for_top_comment(fetcher, aweme_id: str, top_cid: str, video_po
     except Exception as e:
         print(f"⚠️ 同步楼中楼失败(top={top_cid}): {e}")
 
+# 便捷：按视频ID完整执行（详情获取+入库+公共流程）
+def run_video_full_by_id(platform: str, video_id: str, options: WorkflowOptions = WorkflowOptions()) -> WorkflowReport:
+    try:
+        f = create_fetcher(platform)
+        # 先落地详情（统一模型 + 入库）
+        details_res = _step_sync_details_and_upsert(f, video_id)
+        if not details_res.ok:
+            return WorkflowReport(platform=platform, video_id=video_id, steps={"details": details_res})
 
-# 可选：提供一个便捷函数，按默认全流程执行抖音
-# 如不需要保留也可删除
+        unified_post = details_res.output.get("unified_post")
+        post_id = details_res.output.get("post_id")
+        if unified_post is None:
+            return WorkflowReport(platform=platform, video_id=video_id, steps={"details": StepResult(ok=False, error="获取 PlatformPost 失败")})
+        # 将入库后的 id 回写到对象，便于后续评论落库
+        try:
+            if post_id is not None and getattr(unified_post, "id", None) is None:
+                setattr(unified_post, "id", post_id)
+        except Exception:
+            pass
 
-def run_douyin_full_workflow(aweme_id: str) -> WorkflowReport:
-    return run_video_workflow(
-        platform="douyin",
-        video_id=aweme_id,
-        options=WorkflowOptions(
-            sync_details=True,
-            sync_comments=True,
-            sync_danmaku=True,
-            download_video=True,
-        ),
-    )
+        report = run_video_workflow(unified_post, options)
+        # 覆盖 details 步为真实执行结果，并确保 post_id
+        if report is not None:
+            if report.post_id is None and post_id is not None:
+                report.post_id = post_id
+            report.steps["details"] = details_res
+        return report
+    except Exception as e:
+        r = WorkflowReport(platform=platform, video_id=video_id)
+        r.steps["details"] = StepResult(ok=False, error=str(e))
+        return r
+
+
+# 渠道入口：通过 fetcher 内置分页拿 PlatformPost 列表，然后逐条处理
+def run_video_workflow_channel(channel: str, options: WorkflowOptions = WorkflowOptions()):
+    try:
+        if channel != "douyin":
+            raise ValueError(f"未知渠道: {channel}")
+        try:
+            from .fetchers.douyin_video_fetcher import DouyinVideoFetcher
+        except Exception:
+            from tikhub_api.fetchers.douyin_video_fetcher import DouyinVideoFetcher
+        fetcher = DouyinVideoFetcher()
+        posts = fetcher.fetch_search_posts()
+        results: list[WorkflowReport] = []
+        for post in posts:
+            try:
+                platform = getattr(post, "platform", "douyin")
+                video_id = getattr(post, "platform_item_id", None) or ""
+                if not video_id:
+                    # 无法识别视频ID，直接记录失败
+                    results.append(WorkflowReport(platform=platform, video_id="", steps={"details": StepResult(ok=False, error="缺少 platform_item_id")}))
+                    continue
+
+                # 直接将搜索得到的 PlatformPost 入库（不再额外请求详情）
+                try:
+                    saved = PostRepository.upsert_post(post)
+                    # 回写 id 到对象，便于后续评论落库
+                    try:
+                        if getattr(post, "id", None) is None and getattr(saved, "id", None) is not None:
+                            setattr(post, "id", saved.id)
+                    except Exception:
+                        pass
+                    details_res = StepResult(ok=True, output={
+                        "post_id": getattr(saved, "id", None),
+                        "unified_post": post,
+                    })
+                except Exception as e:
+                    details_res = StepResult(ok=False, error=f"入库统一领域模型出错: {e}")
+
+                if not details_res.ok:
+                    results.append(WorkflowReport(platform=platform, video_id=video_id, steps={"details": details_res}))
+                    continue
+
+                rep = run_video_workflow(post, options)
+                if rep is not None:
+                    if rep.post_id is None and details_res.output.get("post_id") is not None:
+                        rep.post_id = details_res.output.get("post_id")
+                    rep.steps["details"] = details_res
+                results.append(rep)
+            except Exception as inner_e:
+                print(f"处理视频失败: {inner_e}")
+                results.append(WorkflowReport(platform=getattr(post, "platform", "douyin"), video_id=getattr(post, "platform_item_id", ""), steps={"details": StepResult(ok=False, error=str(inner_e))}))
+        return results
+    except Exception as e:
+        print(f"run_video_workflow_channel 失败: {e}")
+        return []
+
 
 
 def main():
-    """主函数示例"""
     print("=== 多平台视频下载工具 ===")
-    print(f"支持的平台: {get_supported_platforms()}")
-
-    # 示例视频 ID
-    test_cases = [
-        ("douyin", "7383012850161241385"),
-        ("douyin", "7499608775142608186"),
-        ("douyin", "7505583378596646180"),
-        ("douyin", "7497155954375494950"),
-        ("xiaohongshu", "685752ea000000000d01b8b2"),
-    ]
-
-    print("\n=== 完整下载流程示例（包含弹幕获取）===")
-    report = run_video_workflow(
-        platform="douyin",
-        video_id="7497155954375494950",
-        options=WorkflowOptions(
-            sync_details=True,
-            sync_comments=False,
-            sync_danmaku=False,
-            download_video=False,
-        ),
-    )
+   
+    run_video_workflow_channel("douyin",WorkflowOptions(
+        sync_details=False,
+        sync_comments=False,
+        sync_danmaku=False,
+        download_video=False,
+    ))
 
     print("\n☑️ 任务完成！")
 
