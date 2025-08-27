@@ -73,6 +73,7 @@ class VideoAnalysisV3(BaseModel):
 	sentiment: str
 	brand: str
 	brand_relevance: str | None = None  # "相关" | "疑似相关" | "无关"
+	relevance_evidence: str | None = None
 	risk_type_total: list[str]
 	key_points: list[str]
 	events: list[EventItem]

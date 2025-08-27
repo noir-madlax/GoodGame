@@ -149,8 +149,19 @@ export default function VideoPlayerCard({
             <div className="flex items-center gap-2 mb-2">
               <LinkIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span className="text-lg font-bold text-gray-900 dark:text-gray-100">相关性与证据</span>
-                <span className="inline-block ml-4 px-2 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">{brandRelevance}</span>
-              </div>
+              {brandRelevance && (
+                <span
+                  className={cn(
+                    "inline-block ml-4 px-2 py-1 rounded-full text-xs font-medium",
+                    brandRelevance.includes("疑似")
+                      ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                      : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                  )}
+                >
+                  {brandRelevance}
+                </span>
+              )}
+            </div>
             
             {relevanceEvidence && (
               <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">

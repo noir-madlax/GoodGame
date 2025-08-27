@@ -124,8 +124,11 @@ export default function VideoGridCard({
         {/* Left-top: Relevance badge (weak visual) */}
         {brandRelevance && (
           <div className="absolute top-2 left-2">
-            <span className="px-2 py-1 rounded-md bg-black/35 backdrop-blur-[2px] text-white/100 text-[10px] font-medium">
+            <span className="px-2 py-1 rounded-md bg-black/35 backdrop-blur-[2px] text-white/80 text-[10px] font-medium inline-flex items-center gap-1">
               {brandRelevance}
+              {brandRelevance.includes("疑似") && (
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden />
+              )}
             </span>
           </div>
         )}

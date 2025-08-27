@@ -17,20 +17,16 @@
 标注要求（强制，务必遵守）
 - 全片多时间点扫描：不得只输出单一事件。每一次出现的风险现象都要单独记录为一个 events 项；即使同一类型在不同时间反复出现，也要分别记录。
 - 每个 events 项必须具备：timestamp、risk_type、scene_description、audio_transcript、issue、evidence、source；确保在对应来源可直接定位复核。
--  risk_type_total和risk type字段，注意该字段内容只能使用风险类型示例中的类型，不能出现其他的类型。
+- risk_type_total和risk type字段，注意该字段内容只能使用风险类型示例中的类型，不能出现其他的类型。
 - 不得合并不同时间点或不同评论的现象为单条记录；跨多个非连续时间点/多条评论需分别记录。
-- 当证据不足以判断品牌相关性时，将 brand_relevance 标为“疑似相关”。并在 relevance_evidence 字段内用 1 句简述疑似的依据
+- relevance_evidence中必须用精炼的语言，全面的描述品牌相关性判定的证据和逻辑
 
 -输出要求（必须使用以下字段名，中文、简洁）：
 - summary: 用1-3句话客观概述视频与评论主要内容与出现的现象类型。
 - sentiment: 取值为 positive | neutral | negative。
 - brand: 固定为“海底捞”。
 - brand_relevance: 取值只有3种为 相关 | 疑似相关 | 无关 。
-- relevance_evidence: 根据brand_relevance的结果，这里补充简要的一句话，客观描述判定依据（如：画面出现清晰 Logo / 音频明确点名“海底捞”等）。
-  判定规则：
-  - 标注为“相关”时，必须有可核验且来自视频画面或音频的明确证据之一；并在某条 event 的 evidence.brand_assets 或 evidence.audio_quote 中体现，同时在 relevance_evidence 填写一句依据。
-  - 仅有弱线索（如评论或模糊画面、相似装潢但无法确认、口播不一致等）时，标注为“疑似相关”，并在 relevance_evidence 中用一句话说明疑似依据。
-  - 明确指向其他品牌/无品牌，或视频与评论线索相互矛盾且无法归因于海底捞时，标注为“无关”，并在 relevance_evidence 中用一句话说明依据。
+- relevance_evidence: 描述品牌相关性判定的证据，客观描述判定依据。
 - risk_type_total: 枚举。数组。顶层汇总本视频中出现过的所有 risk_type（去重；按照出现顺序或重要度排序）。只能使用风险类型示例的类型。
 - key_points: 数组。对 events 的精炼汇总；每条以“risk_type: 说明”形式呈现，不含时间戳与推断；按出现顺序或重要度排序；合并同类项；语言简洁（7-20字）。
 - events: 视频与评论中所有风险现象的数组。每条分别包含：
@@ -63,11 +59,11 @@
 - 全文中文、专业、简洁，事实与证据为主；summary 也仅做客观概述，避免主观与情绪化表述。
 - events 中的时间戳与证据要能让复核者在视频中直接定位与验证。
 
-品牌相关性判定指引（仅凭客观证据，不做推断）
-- 判为“相关”：需满足“视频画面或音频中可核验”的至少一项，并在 events.evidence 中对应体现（brand_assets 或 audio_quote）；brand_relevance 取“相关”，并在 relevance_evidence 写一句依据。评论文本单独出现不构成“相关”判定依据。
-- 判为“疑似相关”：出现可能属于海底捞但无法充分确认的线索（如相似装潢/服务流程、只在口播中含“捞”但未出现“海底捞”完整字样、画质不清导致Logo难辨），或线索彼此不自洽；brand_relevance 取“疑似相关”，并在 relevance_evidence 说明一句依据。
-- 判为“无关”：画面/音频未出现任何与海底捞可核验的线索，或明确指向其他品牌/无品牌；brand_relevance 取“无关”，并在 relevance_evidence 说明一句依据。
-- 当证据不足时，优先标注为“疑似相关”，避免臆测；并在 summary 中客观说明证据薄弱点（如“Logo模糊难辨”）。
+品牌相关性brand_relevance的判定指引（仅凭客观证据，不做推断）
+  - 标注为“相关”时，必须有可核验且来自视频画面或音频的明确证据之一
+  - 仅有弱线索（如评论或模糊画面、相似装潢但无法确认、口播不一致等）时，标注为“疑似相关”
+  - 明确指向其他品牌/无品牌，或视频与评论线索相互矛盾且无法归因于海底捞时，标注为“无关”
+  - relevance_evidence的字段，中必须用精炼的语言，全面的描述品牌相关性判定的证据和逻辑。
 
 风险类型枚举,即risk_type（可多选），只能用以下的枚举类型：
 - 用餐卫生：餐食异物/餐具不洁/地面污染
@@ -87,7 +83,7 @@
   "sentiment": "negative",
   "brand": "海底捞",
   "brand_relevance": "相关",
-  "relevance_evidence": "画面中清晰出现‘海底捞/海底捞火锅’字样，且音频中明确点名‘海底捞’。",
+  "relevance_evidence": "画面中清晰出现‘海底捞/海底捞火锅’字样，且音频中明确点名‘海底捞’，评论中也多次明确提到这是海底捞。",
   "risk_type_total": [
     "用餐卫生",
     "宠物进店",

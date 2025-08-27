@@ -1,0 +1,101 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "视频展示了一名衣着暴露的女性在婴儿床内与他人互动的场景，场景疑似私人空间。评论区存在大量低俗、物化女性的言论，并有用户将该场景与“海底捞母婴室”进行关联提问。",
+    "sentiment": "negative",
+    "brand": "海底捞",
+    "brand_relevance": "疑似相关",
+    "relevance_evidence": "视频的画面与音频中未出现任何与“海底捞”品牌相关的标识、装潢、员工或文字信息。品牌相关性的唯一线索来源于评论区，其中多条评论（如ID 28, 87）提及“海底捞母婴室”，将视频内容与品牌场景进行猜测性关联，此为弱线索，故判定为疑似相关。",
+    "risk_type_total": [
+      "色情低俗内容",
+      "引起其他顾客不适"
+    ],
+    "key_points": [
+      "色情低俗内容: 视频画面呈现衣着暴露女性在婴儿床内的不雅场景",
+      "色情低俗内容: 评论区含大量物化女性及有性暗示的低俗言论",
+      "引起其他顾客不适: 评论将不雅场景与品牌服务设施（母婴室）关联"
+    ],
+    "events": [
+      {
+        "timestamp": "00:00-00:12",
+        "scene_description": "在室内环境中，一名身穿黑色蕾丝内衣、短裙和长靴的女性躺在一个木制婴儿床内，先后有两名男性对其有推、抚摸后背等身体接触行为。",
+        "audio_transcript": "背景播放着嘈杂的电子舞曲。",
+        "issue": "视频内容呈现具有性暗示和低俗倾向的场景，一名成年女性在婴儿床内被他人触碰。",
+        "risk_type": [
+          "色情低俗内容"
+        ],
+        "evidence": [
+          {
+            "scene_area": "室内/私人空间",
+            "subject_type": "人",
+            "subject_behavior": "一名衣着暴露的女性躺在婴儿床内，并被他人触碰身体",
+            "objects_involved": "婴儿床",
+            "details": "视频画面晃动，光线昏暗。女性穿着暴露，场景中有多人互动。"
+          }
+        ],
+        "source": "video"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "评论区出现大量使用“你们老婆”、“谁的老婆”、“你们女儿”等称呼指代视频中女性的言论。",
+        "audio_transcript": "无",
+        "issue": "评论区使用物化、低俗的称呼，营造不友好的讨论氛围，可能引起其他用户不适。",
+        "risk_type": [
+          "色情低俗内容",
+          "引起其他顾客不适"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "使用“你们老婆 你们丈母娘”等物化女性的词语进行评论",
+            "audio_quote": "你们老婆 你们丈母娘",
+            "visibility": "文本清晰"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "27"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "一条评论内容为“执尸拉”。",
+        "audio_transcript": "无",
+        "issue": "评论使用粤语俚语“执尸”，该词语常带有与失去意识者发生不正当关系的强烈性暗示，内容低俗。",
+        "risk_type": [
+          "色情低俗内容"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "发布包含低俗性暗示俚语的评论",
+            "audio_quote": "执尸拉",
+            "visibility": "文本清晰"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "20"
+      },
+      {
+        "timestamp": "评论",
+        "scene_description": "评论内容为：“这是海底捞的母婴室嘛[泣不成声]”。另一条类似评论为：“海底捞母婴室？”。",
+        "audio_transcript": "无",
+        "issue": "用户评论将视频中的低俗内容与品牌特定服务设施（母婴室）相关联，可能引起其他用户对品牌环境的负面联想与不适。",
+        "risk_type": [
+          "引起其他顾客不适"
+        ],
+        "evidence": [
+          {
+            "scene_area": "评论/文本",
+            "subject_type": "评论内容",
+            "subject_behavior": "在评论中将不雅视频场景与“海底捞母婴室”进行关联提问",
+            "audio_quote": "这是海底捞的母婴室嘛[泣不成声]",
+            "visibility": "文本清晰"
+          }
+        ],
+        "source": "comment",
+        "comment_id": "28"
+      }
+    ]
+  }
+}
