@@ -12,13 +12,15 @@ from ..orm.models import PlatformPost
 class XiaohongshuFetcher(BaseFetcher):
     """小红书视频获取器，用于调用 TikHub API 获取小红书视频信息"""
 
-    # 搜索接口与默认配置
-    XHS_SEARCH_API = "/xiaohongshu/web/search_notes_v3"
+    # 搜索接口与默认配置（改为使用 app/search_notes）
+    # 参考示例：/api/v1/xiaohongshu/app/search_notes?keyword=海底捞&page=1&sort_type=general&filter_note_type=不限&filter_note_time=不限
+    XHS_SEARCH_API = "/xiaohongshu/app/search_notes"
     XHS_SEARCH_DEFAULT_PARAMS: Dict[str, Any] = {
         "keyword": "海底捞",
         "page": 1,
-        "sort": "general",
-        "noteType": "_0",  # _0: 不限；_1: 图文；_2: 视频（具体以 TikHub 文档为准）
+        "sort_type": "general",
+        "filter_note_type": "不限",
+        "filter_note_time": "一天内",
     }
     XHS_SEARCH_MAX_ITEMS: int = 10
 

@@ -130,66 +130,103 @@ class DouyinVideoAdapter:
 
 
 class XiaohongshuVideoAdapter:
-    """小红书视频数据 -> PlatformPost 适配器（适配 web_v2/fetch_feed_notes_v2）"""
+    """小红书视频数据 -> PlatformPost 适配器（兼容 web_v2/fetch_feed_notes_v2 与 app/search_notes）"""
 
     def to_post(self, details: Dict[str, Any]) -> PlatformPost:
-        # details 为 XiaohongshuFetcher.get_video_details 返回的 note_list[0]
+        # details 既可能是 web_v2 的 note_list[0]，也可能是 app/search_notes 的 note 对象
         raw = details or {}
 
         note_id = str(raw.get("id") or "")
         title = str(raw.get("title") or "").strip() or "无标题"
         content = raw.get("desc") or None
-        post_type = str(raw.get("type") or "").lower() or ("video" if raw.get("video") else "image")
+
+        # 原始分享链接（可能不存在于搜索结果）
         original_url = None
-        # 可从 share_info.link / mini_program_info/webpage_url 取分享链接
         share_info = raw.get("share_info") or {}
         if isinstance(share_info.get("link"), str) and share_info.get("link"):
             original_url = share_info.get("link")
         elif isinstance((raw.get("mini_program_info") or {}).get("webpage_url"), str):
             original_url = (raw.get("mini_program_info") or {}).get("webpage_url")
 
+        # 作者信息
         user = raw.get("user") or {}
         author_id = str(user.get("userid") or user.get("id") or "") or None
         author_name = user.get("nickname") or user.get("name") or None
 
-        play_count = int(raw.get("view_count") or 0)  # 有些返回为 0
+        # 互动数据
+        play_count = int(raw.get("view_count") or 0)  # 搜索页通常没有播放量
         like_count = int(raw.get("liked_count") or 0)
         comment_count = int(raw.get("comments_count") or 0)
         share_count = int(raw.get("shared_count") or 0)
 
+        # 解析视频/时长/封面
         video = raw.get("video") or {}
-        duration_val = video.get("duration")
-        duration_ms = int(duration_val * 1000) if isinstance(duration_val, (int, float)) else 0
-
-        # 取视频直链：优先 url_info_list，并进行可用性校验
+        video_info_v2 = raw.get("video_info_v2") or {}
+        duration_ms = 0
         video_url = None
-        candidates: List[str] = []
-        url_info_list = video.get("url_info_list") or []
-        if isinstance(url_info_list, list) and url_info_list:
-            for it in url_info_list:
-                if isinstance(it, dict) and isinstance(it.get("url"), str) and it.get("url"):
-                    candidates.append(it.get("url"))
-        if isinstance(video.get("url"), str) and video.get("url"):
-            candidates.append(video.get("url"))
-        valid_urls = filter_valid_video_urls(candidates)
-        video_url = valid_urls[0] if valid_urls else None
-
-        # 取封面
         cover_url = None
+
+        # 优先从 app/search_notes 的 video_info_v2 中取（含多码率）
+        if isinstance(video_info_v2, dict) and video_info_v2.get("media"):
+            media = video_info_v2.get("media") or {}
+            inner_video = media.get("video") or {}
+            duration_val = inner_video.get("duration")
+            if isinstance(duration_val, (int, float)):
+                duration_ms = int(duration_val * 1000)
+
+            # 组装候选直链（master_url 与 backup_urls）
+            candidates: List[str] = []
+            stream = media.get("stream") or {}
+            for key in ("h264", "h265", "av1", "h266"):
+                arr = stream.get(key) or []
+                if isinstance(arr, list):
+                    for it in arr:
+                        if not isinstance(it, dict):
+                            continue
+                        url = it.get("master_url") or it.get("main_url") or it.get("url")
+                        if isinstance(url, str) and url:
+                            candidates.append(url)
+                        backs = it.get("backup_urls") or []
+                        if isinstance(backs, list):
+                            for b in backs:
+                                if isinstance(b, str) and b:
+                                    candidates.append(b)
+            valid_urls = filter_valid_video_urls(candidates)
+            video_url = valid_urls[0] if valid_urls else None
+
+        # 回落到 web_v2 结构：video.url_info_list / video.url
+        if not video_url:
+            candidates: List[str] = []
+            url_info_list = video.get("url_info_list") or []
+            if isinstance(url_info_list, list) and url_info_list:
+                for it in url_info_list:
+                    if isinstance(it, dict) and isinstance(it.get("url"), str) and it.get("url"):
+                        candidates.append(it.get("url"))
+            if isinstance(video.get("url"), str) and video.get("url"):
+                candidates.append(video.get("url"))
+            valid_urls = filter_valid_video_urls(candidates)
+            video_url = valid_urls[0] if valid_urls else None
+
+        # 封面：优先图文首图；若没有尝试从视频字段兜底
         images = raw.get("images_list") or []
         if isinstance(images, list) and images:
             first = images[0] or {}
-            # web_v2 返回的图片字段
-            cover_url = first.get("url") or first.get("original") or first.get("thumb")
+            cover_url = first.get("url") or first.get("url_size_large") or first.get("original") or first.get("thumb")
         if not cover_url and isinstance(video.get("thumbnail_dim"), str):
             cover_url = video.get("thumbnail_dim")
 
-        # 发布时间（time 为 epoch 秒）
+        # 帖子类型：优先依据是否存在 video_info_v2 / video 字段
+        post_type = "video" if (video_info_v2 or video) else ("image" if images else (str(raw.get("type") or "").lower() or "image"))
+
+        # 发布时间：兼容 timestamp(秒)/time(秒)/update_time(毫秒)
         published_at = None
-        ts = raw.get("time")
+        ts = raw.get("timestamp") or raw.get("time") or raw.get("update_time")
         if isinstance(ts, (int, float)) and ts > 0:
             try:
-                published_at = datetime.fromtimestamp(ts)
+                if ts > 10**12:  # 毫秒
+                    published_at = datetime.fromtimestamp(ts / 1000.0)
+                else:
+                    published_at = datetime.fromtimestamp(ts)
             except Exception:
                 published_at = None
 
