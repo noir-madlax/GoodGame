@@ -2,7 +2,6 @@ from typing import Dict, Any, Optional, List
 from .base_fetcher import BaseFetcher
 
 
-from ..orm.models import PlatformPost
 from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider
 
 # ===== 抖音搜索（V3）默认配置常量（可由你后续修改） =====
@@ -108,17 +107,13 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             return None
 
     # ===== 抖音搜索能力 =====
-    def fetch_search_posts(self) -> List[PlatformPost]:
+    def fetch_search_posts(self) -> List[Dict[str, Any]]:
         """
         内置分页：基于 DOUYIN_SEARCH_DEFAULT_PAYLOAD 和 DOUYIN_SEARCH_MAX_ITEMS，
-        自动按 cursor/search_id 翻页，最终返回 PlatformPost 列表。
+        自动按 cursor/search_id 翻页，返回“原始详情”字典列表，供基类适配为 PlatformPost。
+        每个元素形如 {"aweme_detail": {...}}。
         """
-        try:
-            from ..adapters import to_posts_from_douyin_search
-        except Exception:
-            from tikhub_api.adapters import to_posts_from_douyin_search
-
-        gathered: List[PlatformPost] = []
+        gathered: List[Dict[str, Any]] = []
         cursor = 0
         search_id = ""
         has_more = 1
@@ -130,31 +125,59 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             payload["search_id"] = search_id
 
             url = f"{self.base_url}{DOUYIN_SEARCH_API}"
-            # 该接口要求 POST，因此这里用 POST 方式调用
             result = self._make_request(url, payload, method="POST")
             if not self._check_api_response(result):
                 print(f"搜索接口返回异常: {result}")
                 break
 
             data = result.get("data") or {}
-            posts = to_posts_from_douyin_search(data)
-            for p in posts:
+            # 兼容多种返回结构，解析出 items 列表
+            items = None
+            try:
+                if isinstance(data.get("data"), dict) and isinstance(data["data"].get("data"), list):
+                    items = data["data"]["data"]
+                elif isinstance(data.get("status_code"), (int, float)) and isinstance(data.get("data"), list):
+                    items = data["data"]
+                elif isinstance(data.get("data"), list):
+                    items = data["data"]
+                elif isinstance(data.get("aweme_list"), list):
+                    items = data["aweme_list"]
+                elif isinstance(data.get("items"), list):
+                    items = data["items"]
+            except Exception:
+                items = None
+
+            items = items or []
+            added_this_page = 0
+            for it in items:
                 if len(gathered) >= total_needed:
                     break
-                gathered.append(p)
+                try:
+                    if not isinstance(it, dict):
+                        continue
+                    if int(it.get("type") or 0) != 1:
+                        continue
+                    aweme = it.get("aweme_info") or {}
+                    if not isinstance(aweme, dict):
+                        continue
+                    details_like = {"aweme_detail": aweme}
+                    gathered.append(details_like)
+                    added_this_page += 1
+                except Exception:
+                    continue
 
-            # 翻页字段（参考示例文件，可按实际返回字段名调整）
+            # 翻页字段
             inner = data if isinstance(data, dict) else {}
             cursor = int(inner.get("cursor") or cursor)
             search_id = str(inner.get("search_id") or search_id)
-            has_more = int(inner.get("has_more") or (1 if len(posts) > 0 else 0))
+            has_more = int(inner.get("has_more") or (1 if added_this_page > 0 else 0))
             if cursor == payload["cursor"] and has_more == 1:
                 has_more = 0  # 防止死循环
 
         return gathered
 
-    # 兼容命名：对外也提供 fetch_search_page，返回 PlatformPost 列表
-    def fetch_search_page(self) -> List[PlatformPost]:
+    # 兼容命名
+    def fetch_search_page(self) -> List[Dict[str, Any]]:
         return self.fetch_search_posts()
 
 

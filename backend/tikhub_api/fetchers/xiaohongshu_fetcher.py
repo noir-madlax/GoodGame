@@ -6,9 +6,21 @@
 from typing import Dict, Any, Optional, List
 from .base_fetcher import BaseFetcher
 
+from ..orm.models import PlatformPost
+
 
 class XiaohongshuFetcher(BaseFetcher):
     """小红书视频获取器，用于调用 TikHub API 获取小红书视频信息"""
+
+    # 搜索接口与默认配置
+    XHS_SEARCH_API = "/xiaohongshu/web/search_notes_v3"
+    XHS_SEARCH_DEFAULT_PARAMS: Dict[str, Any] = {
+        "keyword": "海底捞",
+        "page": 1,
+        "sort": "general",
+        "noteType": "_0",  # _0: 不限；_1: 图文；_2: 视频（具体以 TikHub 文档为准）
+    }
+    XHS_SEARCH_MAX_ITEMS: int = 10
 
     @property
     def platform_name(self) -> str:
@@ -101,6 +113,59 @@ class XiaohongshuFetcher(BaseFetcher):
         except Exception as e:
             print(f"获取下载链接失败: {str(e)}")
             return None
+
+    # ===== 小红书搜索能力 =====
+    def fetch_search_posts(self) -> List[Dict[str, Any]]:
+        """
+        内置分页：基于 XHS_SEARCH_DEFAULT_PARAMS 和 XHS_SEARCH_MAX_ITEMS，
+        按 page 翻页，解析 data.data.items 中的 note，返回“原始详情”列表，供基类适配为 PlatformPost。
+        仅选择 model_type == "note" 的项。
+        """
+        gathered: List[Dict[str, Any]] = []
+        page = int(self.XHS_SEARCH_DEFAULT_PARAMS.get("page", 1) or 1)
+        total_needed = int(self.XHS_SEARCH_MAX_ITEMS)
+
+        while len(gathered) < total_needed:
+            params = dict(self.XHS_SEARCH_DEFAULT_PARAMS)
+            params["page"] = page
+            url = f"{self.base_url}{self.XHS_SEARCH_API}"
+            result = self._make_request(url, params, method="GET")
+            if not self._check_api_response(result):
+                print(f"搜索接口返回异常: {result}")
+                break
+
+            data = result.get("data") or {}
+            inner = data.get("data") or {}
+            items = inner.get("items") or []
+            if not isinstance(items, list) or not items:
+                break
+
+            for it in items:
+                if len(gathered) >= total_needed:
+                    break
+                try:
+                    if not isinstance(it, dict):
+                        continue
+                    if str(it.get("model_type") or "").lower() != "note":
+                        continue
+                    note = it.get("note") or {}
+                    if not isinstance(note, dict) or not note:
+                        continue
+                    gathered.append(note)
+                except Exception:
+                    continue
+
+            # 简单翻页：若本页有数据则继续下一页，否则停止
+            if items:
+                page += 1
+            else:
+                break
+
+        return gathered
+
+    # 兼容命名：fetch_search_page
+    def fetch_search_page(self) -> List[Dict[str, Any]]:
+        return self.fetch_search_posts()
 
     def fetch_video_danmaku(self, note_id: str, duration: int, start_time: int = 0, end_time: Optional[int] = None) -> Dict[str, Any]:
         """

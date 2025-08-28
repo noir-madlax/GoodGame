@@ -471,18 +471,15 @@ def run_video_full_by_id(platform: str, video_id: str, options: WorkflowOptions 
 # 渠道入口：通过 fetcher 内置分页拿 PlatformPost 列表，然后逐条处理
 def run_video_workflow_channel(channel: str, options: WorkflowOptions = WorkflowOptions()):
     try:
-        if channel != "douyin":
-            raise ValueError(f"未知渠道: {channel}")
-        try:
-            from .fetchers.douyin_video_fetcher import DouyinVideoFetcher
-        except Exception:
-            from tikhub_api.fetchers.douyin_video_fetcher import DouyinVideoFetcher
-        fetcher = DouyinVideoFetcher()
-        posts = fetcher.fetch_search_posts()
+        # 使用工厂方法，根据 channel 创建对应平台的 fetcher（如 douyin / xiaohongshu）
+        fetcher = create_fetcher(channel)
+        # 期望各平台 fetcher 实现统一的 fetch_search_posts 接口
+        # 通过基类统一入口进行适配（adapter 在 BaseFetcher 中调用）
+        posts = fetcher.get_search_posts()
         results: list[WorkflowReport] = []
         for post in posts:
             try:
-                platform = getattr(post, "platform", "douyin")
+                platform = getattr(post, "platform", channel)
                 video_id = getattr(post, "platform_item_id", None) or ""
                 if not video_id:
                     # 无法识别视频ID，直接记录失败
@@ -517,7 +514,7 @@ def run_video_workflow_channel(channel: str, options: WorkflowOptions = Workflow
                 results.append(rep)
             except Exception as inner_e:
                 print(f"处理视频失败: {inner_e}")
-                results.append(WorkflowReport(platform=getattr(post, "platform", "douyin"), video_id=getattr(post, "platform_item_id", ""), steps={"details": StepResult(ok=False, error=str(inner_e))}))
+                results.append(WorkflowReport(platform=getattr(post, "platform", channel), video_id=getattr(post, "platform_item_id", ""), steps={"details": StepResult(ok=False, error=str(inner_e))}))
         return results
     except Exception as e:
         print(f"run_video_workflow_channel 失败: {e}")

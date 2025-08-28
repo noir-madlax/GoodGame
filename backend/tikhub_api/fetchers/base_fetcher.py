@@ -86,6 +86,41 @@ class BaseFetcher(ABC):
         adapter = self.get_adapter()
         return adapter.to_post(details)
 
+    @abstractmethod
+    def fetch_search_posts(self):
+        """获取搜索结果的原始条目列表（供适配器消费）。
+        返回的每个元素应当是适配器 to_post 可直接处理的“详情数据结构”。
+        例如：
+        - 抖音：{"aweme_detail": { ... }}
+        - 小红书：note 字典本身
+        子类负责分页与去重，尽量只返回需要的数量。
+        """
+        pass
+
+    def get_search_posts(self):
+        """高层统一入口：获取搜索结果对应的 PlatformPost 列表。
+        - 调用子类实现的 fetch_search_posts() 获取“原始详情”列表
+        - 在基类里统一调用适配器进行领域模型转换
+        """
+        try:
+            raw_items = self.fetch_search_posts() or []
+        except Exception:
+            raw_items = []
+        posts = []
+        adapter = self.get_adapter()
+        for raw in raw_items:
+            try:
+                post = adapter.to_post(raw)
+                # 尽力附带原始详情，便于后续弹幕/排查
+                try:
+                    setattr(post, "raw_details", raw)
+                except Exception:
+                    pass
+                posts.append(post)
+            except Exception:
+                continue
+        return posts
+
 
     @abstractmethod
     def get_download_urls(self, video_id: str) -> Optional[List[str]]:
