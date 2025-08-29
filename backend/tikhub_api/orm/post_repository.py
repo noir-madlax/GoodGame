@@ -60,6 +60,35 @@ class PostRepository:
         return [PostRepository._row_to_model(r) for r in (resp.data or [])]
 
     @staticmethod
+    def list_by_status(status: str, limit: int = 50, offset: int = 0) -> List[PlatformPost]:
+        """List posts by analysis_status for screening pipeline."""
+        client = get_client()
+        resp = (
+            client.table(TABLE)
+            .select("*")
+            .eq("analysis_status", status)
+            .order("id", desc=True)
+            .range(offset, offset + max(limit - 1, 0))
+            .execute()
+        )
+        return [PostRepository._row_to_model(r) for r in (resp.data or [])]
+
+    @staticmethod
+    def update_analysis_status(post_id: int, status: str) -> Optional[PlatformPost]:
+        """Update analysis_status for a post by id.
+        一些 supabase-py 版本在 update() 链式后不支持 .select("*")，因此这里不强求返回更新后的行，成功即返回 None。
+        若需要读取，可单独再查一次。
+        """
+        client = get_client()
+        _ = (
+            client.table(TABLE)
+            .update({"analysis_status": status})
+            .eq("id", post_id)
+            .execute()
+        )
+        return None
+
+    @staticmethod
     def _row_to_model(row: Dict[str, Any]) -> PlatformPost:
         if not row:
             return PlatformPost()
