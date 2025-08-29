@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Literal
 from datetime import datetime
 
 from pydantic import BaseModel, Field, HttpUrl, constr
@@ -34,6 +34,12 @@ class PlatformPost(BaseModel):
 
     cover_url: Optional[HttpUrl] = None
     video_url: Optional[HttpUrl] = None
+
+    # 分析状态（方案二：TEXT + CHECK）。DB 默认 'init'。
+    analysis_status: Literal['init', 'no_value', 'pending', 'analyzed'] = Field(
+        default="init",
+        description="分析状态：init=初始化, no_value=没有分析价值, pending=待分析, analyzed=已分析",
+    )
 
     # 存储 get_video_details 返回的原始报文，便于排查
     raw_details: Optional[Dict[str, Any]] = None

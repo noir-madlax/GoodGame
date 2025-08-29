@@ -81,6 +81,7 @@ class PostRepository:
             comment_count=row.get("comment_count", 0),
             cover_url=row.get("cover_url"),
             video_url=row.get("video_url"),
+            analysis_status=row.get("analysis_status", "init"),
             raw_details=row.get("raw_details"),
             published_at=_parse_dt(row.get("published_at")),
             created_at=_parse_dt(row.get("created_at")),
