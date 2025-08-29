@@ -1,0 +1,78 @@
+{
+  "summary": {
+    "total_videos": 0,
+    "date_span": null,
+    "per_day_counts": {}
+  },
+  "extracted": [],
+  "__separator__": "----- raw below -----",
+  "code": 200,
+  "request_id": "d248e0b9-d241-4f8f-8473-4c886faa4664",
+  "router": "/api/v1/douyin/search/fetch_general_search_v3",
+  "params": {
+    "keyword": "呷哺呷哺 踩雷",
+    "cursor": 0,
+    "sort_type": "2",
+    "publish_time": "180",
+    "filter_duration": "0",
+    "content_type": "0",
+    "search_id": ""
+  },
+  "data": {
+    "status_code": 0,
+    "data": [],
+    "qc": "",
+    "cursor": 0,
+    "has_more": 0,
+    "extra": {
+      "now": 1756370983239,
+      "logid": "2025082816494368FBBF65ADF2068B35CE",
+      "fatal_item_ids": [],
+      "search_request_id": "",
+      "start_ms": 1756370983190,
+      "scenes": null
+    },
+    "log_pb": {
+      "impr_id": "2025082816494368FBBF65ADF2068B35CE",
+      "search_source": "homepage_recom_search",
+      "stab_extra": {
+        "NilInfoContext": {
+          "search_nil_type": "antispam_check",
+          "is_load_more": "first_flush",
+          "search_nil_item": "hit_whale",
+          "text_type": 50
+        },
+        "traffic_identification": "block"
+      }
+    },
+    "search_nil_info": {
+      "search_nil_type": "antispam_check",
+      "is_load_more": "first_flush",
+      "search_nil_item": "hit_whale",
+      "text_type": 50
+    },
+    "guide_search_words": null,
+    "global_doodle_config": {
+      "user_guide": {
+        "show_resp_guide": true,
+        "resp_second": 5,
+        "show_inflow_guide": true,
+        "inflow_second": 0,
+        "inflow_stop": 7
+      },
+      "keyword": "呷哺呷哺 踩雷",
+      "is_double_column_left": 0,
+      "extra_server_client_params": "{\"last_strong_style_card_idx\":0}",
+      "double_column_button_style": 2,
+      "search_pop_info": [],
+      "activity_tag": null,
+      "comment_config": {
+        "disable_comment_bar": true
+      }
+    },
+    "backtrace": "vfU0l84N1aNfLo/fpAlnqWbWcJxBwgdyq1vFK5cyuoTdONHen4PvAML74ifBpO0V+7/863mhZEAT3JdJjFpbNDjklICLj3jjUXa6cKapHzFuMVa8oJe6E8LWFSTZks0h5iD92uePU9eQJaNr20iZMSl41jAmV/v8vthCceLTszc7K022IushYcvhOSNk8tGA",
+    "polling_time": 3,
+    "ops": null,
+    "new_framework_single_column_card_count": 0
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "summary": {
+    "total_videos": 0,
+    "date_span": null,
+    "per_day_counts": {}
+  },
+  "extracted": [],
+  "__separator__": "----- raw below -----",
+  "code": 200,
+  "request_id": "699cab8f-2060-431b-8412-e122e6347e6a",
+  "router": "/api/v1/douyin/search/fetch_general_search_v3",
+  "params": {
+    "keyword": "西贝莜面村 踩雷",
+    "cursor": 0,
+    "sort_type": "2",
+    "publish_time": "180",
+    "filter_duration": "0",
+    "content_type": "0",
+    "search_id": ""
+  },
+  "data": {
+    "status_code": 0,
+    "data": [],
+    "qc": "",
+    "cursor": 0,
+    "has_more": 0,
+    "extra": {
+      "now": 1756371342323,
+      "logid": "20250828165542AD2997AFCB2090812833",
+      "fatal_item_ids": [],
+      "search_request_id": "",
+      "start_ms": 1756371342280,
+      "scenes": null
+    },
+    "log_pb": {
+      "impr_id": "20250828165542AD2997AFCB2090812833",
+      "search_source": "homepage_recom_search",
+      "stab_extra": {
+        "traffic_identification": "block",
+        "NilInfoContext": {
+          "search_nil_type": "antispam_check",
+          "is_load_more": "first_flush",
+          "search_nil_item": "hit_whale",
+          "text_type": 50
+        }
+      }
+    },
+    "search_nil_info": {
+      "search_nil_type": "antispam_check",
+      "is_load_more": "first_flush",
+      "search_nil_item": "hit_whale",
+      "text_type": 50
+    },
+    "guide_search_words": null,
+    "global_doodle_config": {
+      "activity_tag": null,
+      "comment_config": {
+        "disable_comment_bar": true
+      },
+      "is_double_column_left": 0,
+      "double_column_button_style": 2,
+      "user_guide": {
+        "show_resp_guide": true,
+        "resp_second": 5,
+        "show_inflow_guide": true,
+        "inflow_second": 0,
+        "inflow_stop": 7
+      },
+      "extra_server_client_params": "{\"last_strong_style_card_idx\":0}",
+      "keyword": "西贝莜面村 踩雷",
+      "search_pop_info": []
+    },
+    "backtrace": "DikH9gc8qNlVgU5CHPcIduKREDThnsnW77GKt3kRuJa2xyMVo/VUuzhGrvK4i8h1engMQpBQX+YygqWzmpatf33RbsUrTjdc7EB4XXDZt8Xc7X6ZujoZuIQvPYOd9EUvwp2hUDnABsZMIorbI+d9D1uYu+XacO0DKDtmtBVCIJAwVQa8IiWc+H/brmayELw2Q1e+LdZ7b1VtUl2gpqlQNg==",
+    "polling_time": 3,
+    "ops": null,
+    "new_framework_single_column_card_count": 0
+  }
+}

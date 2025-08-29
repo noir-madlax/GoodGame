@@ -1,0 +1,81 @@
+{
+  "summary": {
+    "total_videos": 0,
+    "date_span": null,
+    "per_day_counts": {}
+  },
+  "extracted": [],
+  "__separator__": "----- raw below -----",
+  "code": 200,
+  "request_id": "4dbf6822-2e84-4fac-950a-00e66038a9e5",
+  "router": "/api/v1/douyin/search/fetch_general_search_v3",
+  "params": {
+    "keyword": "呷哺呷哺 脏",
+    "cursor": 0,
+    "sort_type": "2",
+    "publish_time": "180",
+    "filter_duration": "0",
+    "content_type": "0",
+    "search_id": ""
+  },
+  "data": {
+    "status_code": 0,
+    "data": [],
+    "qc": "",
+    "cursor": 0,
+    "has_more": 0,
+    "ad_info": {},
+    "extra": {
+      "now": 1756370985373,
+      "logid": "2025082816494437AFAA4F7623508B4B96",
+      "fatal_item_ids": [],
+      "search_request_id": "",
+      "start_ms": 1756370984646,
+      "scenes": null
+    },
+    "log_pb": {
+      "impr_id": "2025082816494437AFAA4F7623508B4B96",
+      "search_source": "homepage_recom_search",
+      "stab_extra": {
+        "NilInfoContext": {
+          "search_nil_type": "service_empty",
+          "is_load_more": "first_flush",
+          "search_nil_item": "federation_empty",
+          "text_type": 70
+        },
+        "traffic_identification": "normal"
+      }
+    },
+    "search_nil_info": {
+      "search_nil_type": "service_empty",
+      "is_load_more": "first_flush",
+      "search_nil_item": "federation_empty",
+      "text_type": 70
+    },
+    "guide_search_words": null,
+    "global_doodle_config": {
+      "keyword": "呷哺呷哺 脏",
+      "ecom_intent": "intent_not_ecom",
+      "double_column_button_style": 2,
+      "double_column_layout_type": 3,
+      "user_guide": {
+        "show_resp_guide": true,
+        "resp_second": 5,
+        "show_inflow_guide": true,
+        "inflow_second": 0,
+        "inflow_stop": 7
+      },
+      "search_pop_info": [],
+      "activity_tag": null,
+      "comment_config": {
+        "disable_comment_bar": true
+      },
+      "is_double_column_left": 0,
+      "extra_server_client_params": "{\"last_strong_style_card_idx\":0}"
+    },
+    "backtrace": "4U6JkwgHCeipWpe6n/zrDG/p/XZ3KcM7drKmc9uLefNVSvctPOP9rzQqwpQpHcuFENX/JzqNxqaRpLaYN+4AK3qZFSbt+1tDadYlZgp4fi/m+avW6Tn0U0nVQpuLKZfGAVKy8S+2xVPpYIpbZgW8EIExvbOMWgraEp499X5HJokD07ogA5g+1II/03GYBbLwWORCLCLN+gG+anCptDF46w4JwPESqjza7JhszytDWNErR5IWOo1XCzy4pBYSej2eiWYYQ+Nlwyf2bOtkT492j/IK2qrXZjCM9L7eswDoA6thHsaCHDcQnyI0B82SQ8jn",
+    "polling_time": 3,
+    "ops": null,
+    "new_framework_single_column_card_count": 0
+  }
+}

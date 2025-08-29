@@ -8,15 +8,20 @@ from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProv
 # 接口路径占位：请根据实际文档更新
 DOUYIN_SEARCH_API = "/douyin/search/fetch_general_search_v3"
 
+#
+
+
+##
+
 # 默认请求体（仅占位示例）：首次请求 cursor=0, search_id=""
 DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
-    "keyword": "海底捞",
-    "cursor": 0,
-    "sort_type": "0",
-    "publish_time": "1",
-    "filter_duration": "0",
-    "content_type": "1",  # 0: 不限1: 视频2: 图片3: 文章
-    "search_id": "",
+    "keyword": "火锅", #搜索关键词，如 "猫咪"
+    "cursor": 0,  #翻页游标（首次请求传 0）
+    "sort_type": "2", #排序方式：0: 综合排序，1: 最多点赞，2: 最新发布
+    "publish_time": "7",#0: 不限，1: 最近一天，7: 最近一周，180: 最近半年
+    "filter_duration": "0", #0: 不限，0-1: 1分钟以内，1-5: 1-5分钟，5-10000: 5分钟以上
+    "content_type": "0",  # 0: 不限，1: 视频，2: 图片，3: 文章
+    "search_id": "", #搜索ID（分页时使用）
 }
 
 # 本次任务最多获取的结果条数（达到该数将停止翻页）

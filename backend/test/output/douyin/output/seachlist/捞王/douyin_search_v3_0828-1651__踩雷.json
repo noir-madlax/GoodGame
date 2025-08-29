@@ -1,0 +1,81 @@
+{
+  "summary": {
+    "total_videos": 0,
+    "date_span": null,
+    "per_day_counts": {}
+  },
+  "extracted": [],
+  "__separator__": "----- raw below -----",
+  "code": 200,
+  "request_id": "1b62f876-e5c8-4b5a-b91e-6b868d0c80c5",
+  "router": "/api/v1/douyin/search/fetch_general_search_v3",
+  "params": {
+    "keyword": "捞王 踩雷",
+    "cursor": 0,
+    "sort_type": "2",
+    "publish_time": "180",
+    "filter_duration": "0",
+    "content_type": "0",
+    "search_id": ""
+  },
+  "data": {
+    "status_code": 0,
+    "data": [],
+    "qc": "",
+    "cursor": 0,
+    "has_more": 0,
+    "ad_info": {},
+    "extra": {
+      "now": 1756371060136,
+      "logid": "202508281650598FFE73CCF9DCF2866E5C",
+      "fatal_item_ids": [],
+      "search_request_id": "",
+      "start_ms": 1756371059344,
+      "scenes": null
+    },
+    "log_pb": {
+      "impr_id": "202508281650598FFE73CCF9DCF2866E5C",
+      "search_source": "homepage_recom_search",
+      "stab_extra": {
+        "NilInfoContext": {
+          "search_nil_type": "service_empty",
+          "is_load_more": "first_flush",
+          "search_nil_item": "federation_empty",
+          "text_type": 70
+        },
+        "traffic_identification": "normal"
+      }
+    },
+    "search_nil_info": {
+      "search_nil_type": "service_empty",
+      "is_load_more": "first_flush",
+      "search_nil_item": "federation_empty",
+      "text_type": 70
+    },
+    "guide_search_words": null,
+    "global_doodle_config": {
+      "is_double_column_left": 0,
+      "extra_server_client_params": "{\"last_strong_style_card_idx\":0}",
+      "double_column_button_style": 2,
+      "double_column_layout_type": 3,
+      "comment_config": {
+        "disable_comment_bar": true
+      },
+      "ecom_intent": "intent_not_ecom",
+      "user_guide": {
+        "show_resp_guide": true,
+        "resp_second": 5,
+        "show_inflow_guide": true,
+        "inflow_second": 0,
+        "inflow_stop": 7
+      },
+      "keyword": "捞王 踩雷",
+      "search_pop_info": [],
+      "activity_tag": null
+    },
+    "backtrace": "5HhFBYL7CDd71EpM4E/ZLKMxUXkxQ4ds8BfUvsvKESrtRX+OdvMM3cVR9Nv/ZM7ngUR1NylXxNB5LWy6cDbJ+kVTr5SxMGGs54vZZgHfSCWo3qIai8cfRXge7xJC5x/GNxvgrob6CgwnRM5YSD2Wtd3PBnukcgyNItXx5xIX1ho9nbFTJri5sBSnnxhLycdOz6FrpB3Sr0IQmLIVBHGAeVuMb6eNjqSOrII6bV99DlcOgL79cp200iE92LzAt+NgcX6ZfFMg3fHq9xK6qkfAOro9akhGZy6emYtviPAW6to=",
+    "polling_time": 3,
+    "ops": null,
+    "new_framework_single_column_card_count": 0
+  }
+}
