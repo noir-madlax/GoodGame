@@ -1,3 +1,4 @@
+"""用来把数据库的评论弄成结构化的Json文件，然后才能给LLM和视频一起做分析"""
 import os
 import sys
 import subprocess

@@ -1,3 +1,7 @@
+"""搜索出来后，为了要做视频初筛的分析，决定要不要进一步处理，得输出一个本次search结果的摘要文件"""
+"""aweme_id": 和"desc":  "create_time":  "hashtags": 都得输出"""
+"""输出到extraced.json"""
+
 from typing import Dict, Any, Optional, List
 import os
 import json

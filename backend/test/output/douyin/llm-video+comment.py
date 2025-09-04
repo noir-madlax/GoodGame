@@ -1,3 +1,4 @@
+"""视频和评论一起给llm做分析，输入本地的video文件和comments.json文件给llm"""
 #!/usr/bin/env python3
 import os
 import json
