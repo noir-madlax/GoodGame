@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { RiskBadge } from "@/components/ui/risk-badge";
 // PlatformBadge no longer used on grid card after design update
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
+import { PlatformBadge } from "@/polymet/components/platform-badge";
 
 interface VideoGridCardProps {
   title: string;
@@ -127,6 +128,9 @@ export default function VideoGridCard({
             <span className="px-2 py-1 rounded-md bg-black/35 backdrop-blur-[2px] text-white/80 text-[10px] font-medium inline-flex items-center gap-1">
               {brandRelevance}
               {brandRelevance.includes("疑似") && (
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500" aria-hidden />
+              )}
+              {brandRelevance.includes("不相关") && (
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden />
               )}
             </span>
@@ -193,7 +197,7 @@ export default function VideoGridCard({
             </span>
           </div>
           <div className="flex items-center">
-            {renderPlatformLogo(platform || platformLabel)}
+            <PlatformBadge platform={(platform || platformLabel) as string} variant="panel" />
           </div>
         </div>
 

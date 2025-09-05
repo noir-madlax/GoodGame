@@ -8,6 +8,8 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
+import { fetchGlobalFilterEnums } from "@/polymet/lib/filters";
 
 interface FilterOption {
   id: string;
@@ -28,11 +30,11 @@ interface FilterBarProps {
   timeRange: "all" | "today" | "week" | "month";
   sentiment: SentimentValue;
   relevance: RelevanceValue;
-  riskOptions?: { id: string; label: string; count: number }[];
-  channelOptions?: { id: string; label: string; count?: number }[];
-  typeOptions?: { id: string; label: string; count?: number }[];
-  sentimentOptions?: { id: SentimentValue; label: string }[];
-  relevanceOptions?: { id: string; label: string }[];
+  riskOptions?: { id: string; label: string; count: number }[]; // optional external override
+  channelOptions?: { id: string; label: string; count?: number }[]; // optional external override
+  typeOptions?: { id: string; label: string; count?: number }[]; // optional external override
+  sentimentOptions?: { id: SentimentValue; label: string }[]; // optional external override
+  relevanceOptions?: { id: string; label: string }[]; // optional external override
   onChange: (next: {
     riskScenario?: RiskScenario;
     channel?: string;
@@ -49,30 +51,62 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
   const openInit: string | null = null;
   const [openMenu, setOpenMenu] = useState<string | null>(openInit);
 
+  // Local enum options loaded from gg_filter_enums when not provided by parent
+  const [enumLoaded, setEnumLoaded] = useState(false);
+  const [enumChannels, setEnumChannels] = useState<FilterOption[]>([]);
+  const [enumTypes, setEnumTypes] = useState<FilterOption[]>([]);
+  const [enumSentiments, setEnumSentiments] = useState<{ id: SentimentValue; label: string }[]>([]);
+  const [enumRelevances, setEnumRelevances] = useState<FilterOption[]>([]);
+  const [enumRisks, setEnumRisks] = useState<{ id: string; label: string; count: number }[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadEnums = async () => {
+      try {
+        if (!supabase) return;
+        const { channels, types, sentiments, relevances, risks } = await fetchGlobalFilterEnums(supabase);
+        if (!cancelled) {
+          setEnumChannels(channels);
+          setEnumTypes(types);
+          setEnumSentiments(sentiments as { id: SentimentValue; label: string }[]);
+          setEnumRelevances(relevances);
+          setEnumRisks(risks as { id: string; label: string; count: number }[]);
+          setEnumLoaded(true);
+        }
+      } finally {
+        // no-op
+      }
+    };
+    // only load if parent did not provide options
+    if (!riskOptions && !channelOptions && !typeOptions && !sentimentOptions && !relevanceOptions) {
+      loadEnums();
+    }
+    return () => { cancelled = true; };
+  }, [riskOptions, channelOptions, typeOptions, sentimentOptions, relevanceOptions]);
+
   const riskFilters: FilterOption[] = useMemo(() => {
     if (riskOptions && riskOptions.length > 0) return riskOptions;
+    if (enumLoaded) return enumRisks;
     return [{ id: "all", label: "全部场景", count: 0 }];
-  }, [riskOptions]);
+  }, [riskOptions, enumLoaded, enumRisks]);
 
   const channelFilters: FilterOption[] = useMemo(() => {
     if (channelOptions && channelOptions.length > 0) return channelOptions as FilterOption[];
+    if (enumLoaded) return enumChannels;
     return [{ id: "all", label: "全部渠道" }];
-  }, [channelOptions]);
+  }, [channelOptions, enumLoaded, enumChannels]);
 
   const typeFilters: FilterOption[] = useMemo(() => {
     if (typeOptions && typeOptions.length > 0) return typeOptions as FilterOption[];
-    return [
-      { id: "all", label: "全部类型" },
-    ];
-  }, [typeOptions]);
+    if (enumLoaded) return enumTypes;
+    return [{ id: "all", label: "全部类型" }];
+  }, [typeOptions, enumLoaded, enumTypes]);
 
   const relevanceFilters: FilterOption[] = useMemo(() => {
     if (relevanceOptions && relevanceOptions.length > 0) return relevanceOptions as FilterOption[];
-    return [
-      { id: "all", label: "全部相关性" },
-      { id: "相关", label: "相关" },
-    ];
-  }, [relevanceOptions]);
+    if (enumLoaded) return enumRelevances;
+    return [{ id: "all", label: "全部相关性" }];
+  }, [relevanceOptions, enumLoaded, enumRelevances]);
 
   const timeFilters: FilterOption[] = [
     { id: "all", label: "全部时间", count: 1250 },
@@ -131,13 +165,18 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
             "hover:bg-white/20 hover:border-white/30 transition-all duration-300",
             "shadow-lg hover:shadow-xl"
           )}
+          disabled={!enumLoaded && !options?.length}
         >
           <div className="text-gray-600 dark:text-gray-300">{icon}</div>
           <span className={cn(
-            "text-sm font-medium",
+            "text-sm font-medium flex items-center gap-2",
             selected.id !== "all" ? "text-blue-600 dark:text-blue-400" : "text-gray-700 dark:text-gray-200"
           )}>
-            {selected.label}
+            {(!enumLoaded && !options?.length) ? (
+              <span className="inline-block h-3 w-10 bg-gray-300/50 dark:bg-gray-600/50 rounded animate-pulse" />
+            ) : (
+              selected.label
+            )}
           </span>
           <ChevronDown
             className={cn(
@@ -266,11 +305,9 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
         />
 
         <FilterDropdown
-          options={(
-            sentimentOptions && sentimentOptions.length > 0
-              ? sentimentOptions
-              : ([{ id: "all", label: "全部情绪" }, { id: "positive", label: "正向" }, { id: "neutral", label: "中立" }, { id: "negative", label: "负面" }] as any)
-          ) as FilterOption[]}
+          options={(sentimentOptions && sentimentOptions.length > 0
+            ? (sentimentOptions as unknown as FilterOption[])
+            : (enumLoaded ? (enumSentiments as unknown as FilterOption[]) : ([{ id: "all", label: "全部情绪" }] as FilterOption[])))}
           icon={<Filter className="w-4 h-4" />}
           value={sentiment}
           menuId="sentiment"
