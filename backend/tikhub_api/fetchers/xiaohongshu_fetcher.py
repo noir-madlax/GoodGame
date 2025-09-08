@@ -117,11 +117,12 @@ class XiaohongshuFetcher(BaseFetcher):
             return None
 
     # ===== 小红书搜索能力 =====
-    def fetch_search_posts(self) -> List[Dict[str, Any]]:
+    def fetch_search_posts(self, keyword: str) -> List[Dict[str, Any]]:
         """
         内置分页：基于 XHS_SEARCH_DEFAULT_PARAMS 和 XHS_SEARCH_MAX_ITEMS，
         按 page 翻页，解析 data.data.items 中的 note，返回“原始详情”列表，供基类适配为 PlatformPost。
         仅选择 model_type == "note" 的项。
+        keyword 由上游传入，覆盖默认 params 中的 keyword。
         """
         gathered: List[Dict[str, Any]] = []
         page = int(self.XHS_SEARCH_DEFAULT_PARAMS.get("page", 1) or 1)
@@ -129,6 +130,7 @@ class XiaohongshuFetcher(BaseFetcher):
 
         while len(gathered) < total_needed:
             params = dict(self.XHS_SEARCH_DEFAULT_PARAMS)
+            params["keyword"] = keyword
             params["page"] = page
             url = f"{self.base_url}{self.XHS_SEARCH_API}"
             result = self._make_request(url, params, method="GET")

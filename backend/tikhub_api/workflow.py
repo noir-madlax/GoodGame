@@ -20,10 +20,12 @@ else:
     from .video_downloader import VideoDownloader
     from .orm.post_repository import PostRepository
 
+from jobs.logger import get_logger
+
 # 模块级默认下载根目录
 DEFAULT_BASE_DOWNLOAD_DIR = "downloads"
 
-
+log = get_logger(__name__)
 
 from dataclasses import dataclass, field
 from typing import Optional, Dict, Any, List
@@ -32,10 +34,10 @@ from typing import Optional, Dict, Any, List
 @dataclass
 class WorkflowOptions:
     # 四步可选，默认与原有逻辑一致：全部开启
-    sync_details: bool = True
-    sync_comments: bool = True
-    sync_danmaku: bool = True
-    download_video: bool = True
+    sync_details: bool = False
+    sync_comments: bool = False
+    sync_danmaku: bool = False
+    download_video: bool = False
     # 其他控制项
     force_refresh: bool = False
     page_size: int = 20
@@ -469,42 +471,27 @@ def run_video_full_by_id(platform: str, video_id: str, options: WorkflowOptions 
 
 
 # 渠道入口：通过 fetcher 内置分页拿 PlatformPost 列表，然后逐条处理
-def run_video_workflow_channel(channel: str, options: WorkflowOptions = WorkflowOptions()):
+def run_video_workflow_channel(channel: str, keyword: str, options: WorkflowOptions = WorkflowOptions()):
     try:
+        log.info("run_video_workflow_channel: channel=%s, keyword=%s", channel, keyword)
         # 使用工厂方法，根据 channel 创建对应平台的 fetcher（如 douyin / xiaohongshu）
         fetcher = create_fetcher(channel)
-        # 期望各平台 fetcher 实现统一的 fetch_search_posts 接口
-        # 通过基类统一入口进行适配（adapter 在 BaseFetcher 中调用）
-        posts = fetcher.get_search_posts()
+        # 通过基类统一入口进行适配+落库
+        posts = fetcher.get_search_posts(keyword)
         results: list[WorkflowReport] = []
         for post in posts:
             try:
                 platform = getattr(post, "platform", channel)
                 video_id = getattr(post, "platform_item_id", None) or ""
                 if not video_id:
-                    # 无法识别视频ID，直接记录失败
                     results.append(WorkflowReport(platform=platform, video_id="", steps={"details": StepResult(ok=False, error="缺少 platform_item_id")}))
                     continue
 
-                # 直接将搜索得到的 PlatformPost 入库（不再额外请求详情）
-                try:
-                    saved = PostRepository.upsert_post(post)
-                    # 回写 id 到对象，便于后续评论落库
-                    try:
-                        if getattr(post, "id", None) is None and getattr(saved, "id", None) is not None:
-                            setattr(post, "id", saved.id)
-                    except Exception:
-                        pass
-                    details_res = StepResult(ok=True, output={
-                        "post_id": getattr(saved, "id", None),
-                        "unified_post": post,
-                    })
-                except Exception as e:
-                    details_res = StepResult(ok=False, error=f"入库统一领域模型出错: {e}")
-
-                if not details_res.ok:
-                    results.append(WorkflowReport(platform=platform, video_id=video_id, steps={"details": details_res}))
-                    continue
+                # 详情步骤已在 get_search_posts 中完成入库并回填 id
+                details_res = StepResult(ok=True, output={
+                    "post_id": getattr(post, "id", None),
+                    "unified_post": post,
+                })
 
                 rep = run_video_workflow(post, options)
                 if rep is not None:
@@ -525,7 +512,7 @@ def run_video_workflow_channel(channel: str, options: WorkflowOptions = Workflow
 def main():
     print("=== 多平台视频下载工具 ===")
    
-    run_video_workflow_channel("douyin",WorkflowOptions(
+    run_video_workflow_channel("douyin", "火锅", WorkflowOptions(
         sync_details=False,
         sync_comments=False,
         sync_danmaku=False,

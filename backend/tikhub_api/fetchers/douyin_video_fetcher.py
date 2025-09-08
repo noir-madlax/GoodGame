@@ -3,6 +3,9 @@ from .base_fetcher import BaseFetcher
 
 
 from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider
+from jobs.logger import get_logger
+
+log = get_logger(__name__)
 
 # ===== 抖音搜索（V3）默认配置常量（可由你后续修改） =====
 # 接口路径占位：请根据实际文档更新
@@ -17,15 +20,13 @@ DOUYIN_SEARCH_API = "/douyin/search/fetch_general_search_v3"
 DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
     "keyword": "火锅", #搜索关键词，如 "猫咪"
     "cursor": 0,  #翻页游标（首次请求传 0）
-    "sort_type": "2", #排序方式：0: 综合排序，1: 最多点赞，2: 最新发布
+    "sort_type": "0", #排序方式：0: 综合排序，1: 最多点赞，2: 最新发布
     "publish_time": "7",#0: 不限，1: 最近一天，7: 最近一周，180: 最近半年
     "filter_duration": "0", #0: 不限，0-1: 1分钟以内，1-5: 1-5分钟，5-10000: 5分钟以上
     "content_type": "0",  # 0: 不限，1: 视频，2: 图片，3: 文章
     "search_id": "", #搜索ID（分页时使用）
 }
 
-# 本次任务最多获取的结果条数（达到该数将停止翻页）
-DOUYIN_SEARCH_MAX_ITEMS: int = 10
 
 
 class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider):
@@ -112,22 +113,25 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             return None
 
     # ===== 抖音搜索能力 =====
-    def fetch_search_posts(self) -> List[Dict[str, Any]]:
+    def fetch_search_posts(self, keyword: str) -> List[Dict[str, Any]]:
         """
-        内置分页：基于 DOUYIN_SEARCH_DEFAULT_PAYLOAD 和 DOUYIN_SEARCH_MAX_ITEMS，
-        自动按 cursor/search_id 翻页，返回“原始详情”字典列表，供基类适配为 PlatformPost。
+        内置分页：基于 DOUYIN_SEARCH_DEFAULT_PAYLOAD，
+        自动按 cursor/search_id 翻页，返回“原始详情”字典列表（全量抓取直到 has_more=0）。
         每个元素形如 {"aweme_detail": {...}}。
+        keyword 由上游传入，覆盖默认 payload 中的 keyword。
         """
         gathered: List[Dict[str, Any]] = []
         cursor = 0
         search_id = ""
         has_more = 1
-        total_needed = int(DOUYIN_SEARCH_MAX_ITEMS)
 
-        while has_more == 1 and len(gathered) < total_needed:
+        while has_more == 1:
             payload = dict(DOUYIN_SEARCH_DEFAULT_PAYLOAD)
+            payload["keyword"] = keyword
             payload["cursor"] = cursor
             payload["search_id"] = search_id
+
+            log.info("[Douyin] 开始请求 (keyword=%s, payload=%s)", keyword, str(payload))
 
             url = f"{self.base_url}{DOUYIN_SEARCH_API}"
             result = self._make_request(url, payload, method="POST")
@@ -136,27 +140,16 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
                 break
 
             data = result.get("data") or {}
-            # 兼容多种返回结构，解析出 items 列表
-            items = None
-            try:
-                if isinstance(data.get("data"), dict) and isinstance(data["data"].get("data"), list):
-                    items = data["data"]["data"]
-                elif isinstance(data.get("status_code"), (int, float)) and isinstance(data.get("data"), list):
-                    items = data["data"]
-                elif isinstance(data.get("data"), list):
-                    items = data["data"]
-                elif isinstance(data.get("aweme_list"), list):
-                    items = data["aweme_list"]
-                elif isinstance(data.get("items"), list):
-                    items = data["items"]
-            except Exception:
-                items = None
 
-            items = items or []
-            added_this_page = 0
+            # 打印本次请求 data.data 中的条目数（结构固定：data.status_code + data.data<List>）
+            inner_list = data.get("data")
+            count_this_page = len(inner_list) if isinstance(inner_list, list) else 0
+            log.info("[Douyin] 本次请求 data.data 数量: %d (keyword=%s, cursor=%s, search_id=%s)", count_this_page, keyword, str(cursor), search_id)
+
+            # 解析 items：结构固定为 data.status_code + data.data(list)
+            inner_list = data.get("data")
+            items = inner_list if isinstance(inner_list, list) else []
             for it in items:
-                if len(gathered) >= total_needed:
-                    break
                 try:
                     if not isinstance(it, dict):
                         continue
@@ -167,7 +160,6 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
                         continue
                     details_like = {"aweme_detail": aweme}
                     gathered.append(details_like)
-                    added_this_page += 1
                 except Exception:
                     continue
 
@@ -175,7 +167,7 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             inner = data if isinstance(data, dict) else {}
             cursor = int(inner.get("cursor") or cursor)
             search_id = str(inner.get("search_id") or search_id)
-            has_more = int(inner.get("has_more") or (1 if added_this_page > 0 else 0))
+            has_more = int(inner.get("has_more") or (1 if len(items) > 0 else 0))
             if cursor == payload["cursor"] and has_more == 1:
                 has_more = 0  # 防止死循环
 

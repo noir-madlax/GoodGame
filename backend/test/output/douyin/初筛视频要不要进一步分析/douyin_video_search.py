@@ -19,15 +19,17 @@ from tikhub_api.capabilities import (
     CommentsProvider,
 )
 from tikhub_api.orm.supabase_client import get_client
+from jobs.logger import get_logger
+
+
+log = get_logger(__name__)
 
 # ===== 抖音搜索（V3）默认配置常量（可由你后续修改） =====
 # 接口路径占位：请根据实际文档更新
 DOUYIN_SEARCH_API = "/douyin/search/fetch_general_search_v3"
 BRAND_LIMIT = 50
-#
 
 
-##
 
 # 默认请求体（仅占位示例）：首次请求 cursor=0, search_id=""
 DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
@@ -40,8 +42,7 @@ DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
     "search_id": "", #搜索ID（分页时使用）
 }
 
-# 本次任务最多获取的结果条数（达到该数将停止翻页）
-DOUYIN_SEARCH_MAX_ITEMS: int = 30
+
 
 
 class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider):
@@ -130,8 +131,8 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
     # ===== 抖音搜索能力 =====
     def fetch_search_posts(self) -> List[PlatformPost]:
         """
-        内置分页：基于 DOUYIN_SEARCH_DEFAULT_PAYLOAD 和 DOUYIN_SEARCH_MAX_ITEMS，
-        自动按 cursor/search_id 翻页，最终返回 PlatformPost 列表。
+        内置分页：基于 DOUYIN_SEARCH_DEFAULT_PAYLOAD，
+        自动按 cursor/search_id 翻页，最终返回 PlatformPost 列表（全量，直到 has_more=0）。
         """
         try:
             from tikhub_api.adapters import to_posts_from_douyin_search
@@ -142,9 +143,8 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
         cursor = 0
         search_id = ""
         has_more = 1
-        total_needed = int(DOUYIN_SEARCH_MAX_ITEMS)
 
-        while has_more == 1 and len(gathered) < total_needed:
+        while has_more == 1:
             payload = dict(DOUYIN_SEARCH_DEFAULT_PAYLOAD)
             payload["cursor"] = cursor
             payload["search_id"] = search_id
@@ -157,11 +157,23 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
                 break
 
             data = result.get("data") or {}
+
+            # 打印本次请求 data.data 中的条目数
+            try:
+                inner_data = None
+                if isinstance(data.get("data"), dict) and isinstance(data["data"].get("data"), list):
+                    inner_data = data["data"]["data"]
+                elif isinstance(data.get("status_code"), (int, float)) and isinstance(data.get("data"), list):
+                    inner_data = data["data"]
+                elif isinstance(data.get("data"), list):
+                    inner_data = data["data"]
+                count_this_page = len(inner_data or [])
+            except Exception:
+                count_this_page = 0
+            log.info("[Douyin-Test] 本次请求 data.data 数量: %d (cursor=%s, search_id=%s)", count_this_page, str(cursor), search_id)
+
             posts = to_posts_from_douyin_search(data)
-            for p in posts:
-                if len(gathered) >= total_needed:
-                    break
-                gathered.append(p)
+            gathered.extend(posts)
 
             # 翻页字段（参考示例文件，可按实际返回字段名调整）
             inner = data if isinstance(data, dict) else {}

@@ -9,6 +9,9 @@ import os
 import requests
 from dotenv import load_dotenv
 
+# 仓储用于落库统一领域模型
+from ..orm.post_repository import PostRepository
+
 # 加载环境变量
 load_dotenv()
 
@@ -87,8 +90,11 @@ class BaseFetcher(ABC):
         return adapter.to_post(details)
 
     @abstractmethod
-    def fetch_search_posts(self):
+    def fetch_search_posts(self, keyword: str):
         """获取搜索结果的原始条目列表（供适配器消费）。
+        参数：
+        - keyword: 搜索关键词（由上游传入，不再写死在子类默认配置）
+
         返回的每个元素应当是适配器 to_post 可直接处理的“详情数据结构”。
         例如：
         - 抖音：{"aweme_detail": { ... }}
@@ -97,13 +103,14 @@ class BaseFetcher(ABC):
         """
         pass
 
-    def get_search_posts(self):
-        """高层统一入口：获取搜索结果对应的 PlatformPost 列表。
-        - 调用子类实现的 fetch_search_posts() 获取“原始详情”列表
-        - 在基类里统一调用适配器进行领域模型转换
+    def get_search_posts(self, keyword: str):
+        """统一入口：按批查询→转换→落库，返回已落库的 PlatformPost 列表。
+        - 子类实现 fetch_search_posts(keyword) 负责分页抓取“原始详情”列表
+        - 这里统一调用 adapter.to_post 转为 PlatformPost
+        - 逐条 upsert 到仓库（PostRepository），并回填 id
         """
         try:
-            raw_items = self.fetch_search_posts() or []
+            raw_items = self.fetch_search_posts(keyword) or []
         except Exception:
             raw_items = []
         posts = []
@@ -116,7 +123,15 @@ class BaseFetcher(ABC):
                     setattr(post, "raw_details", raw)
                 except Exception:
                     pass
-                posts.append(post)
+                # 入库并返回保存后的对象（带 id）
+                saved = PostRepository.upsert_post(post)
+                # 若需要，尽力把 id 回写到原对象
+                try:
+                    if getattr(post, "id", None) is None and getattr(saved, "id", None) is not None:
+                        setattr(post, "id", saved.id)
+                except Exception:
+                    pass
+                posts.append(saved)
             except Exception:
                 continue
         return posts
