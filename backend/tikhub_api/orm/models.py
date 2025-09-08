@@ -78,3 +78,18 @@ class PlatformComment(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
+
+
+
+class MerchantBrand(BaseModel):
+    id: Optional[int] = Field(default=None, ge=1)
+    name: NonEmptyStr
+    created_at: Optional[datetime] = None
+    is_valid: bool = True
+
+
+
+class SearchKeyword(BaseModel):
+    id: Optional[int] = Field(default=None, ge=1)
+    keyword: NonEmptyStr
+    created_at: Optional[datetime] = None

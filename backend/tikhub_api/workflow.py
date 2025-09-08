@@ -525,7 +525,7 @@ def run_video_workflow_channel(channel: str, options: WorkflowOptions = Workflow
 def main():
     print("=== 多平台视频下载工具 ===")
    
-    run_video_workflow_channel("xiaohongshu",WorkflowOptions(
+    run_video_workflow_channel("douyin",WorkflowOptions(
         sync_details=False,
         sync_comments=False,
         sync_danmaku=False,
