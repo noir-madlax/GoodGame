@@ -7,8 +7,16 @@ import { Badge } from "@/components/ui/badge";
 import PlatformBadge from "@/polymet/components/platform-badge";
 import { normalizeCoverUrl } from "@/lib/media";
 import { DetailMainSkeleton, DetailSidebarSkeleton } from "@/polymet/components/loading-skeletons";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
+import SourcePanel from "@/polymet/components/source-panel";
+
+// 与 SourcePanel 保持一致的最小类型（仅用于本页状态）
+type CommentNode = { content: string; like_count?: number; reply_count?: number; replies?: CommentNode[] };
+type CommentsJson = { post?: { id?: number | string; title?: string }; comments?: CommentNode[] };
+type TranscriptSegment = { start: string; end?: string; text: string; speaker?: string };
+type TranscriptJson = { segments?: TranscriptSegment[] };
+type TimelineViewItem = { id: string; type: "trend" | "alert"; title: string; description: string; severity?: "low" | "medium" | "high"; riskBadges?: string[]; _ts?: string; _snippet?: string };
 
 type PostRow = {
   id: number;
@@ -43,8 +51,15 @@ type AnalysisRow = {
 export default function VideoAnalysisDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [post, setPost] = useState<PostRow | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisRow | null>(null);
+  const [commentsJson, setCommentsJson] = useState<CommentsJson | null>(null);
+  const [transcriptJson, setTranscriptJson] = useState<TranscriptJson | null>(null);
+  const [panelOpen, setPanelOpen] = useState(false);
+  // 本地锚点状态：避免仅依赖 URL 导致不刷新
+  const [anchorCommentPathState, setAnchorCommentPathState] = useState<string | null>(null);
+  const [anchorSegStartState, setAnchorSegStartState] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -67,9 +82,19 @@ export default function VideoAnalysisDetail() {
           .order("id", { ascending: false })
           .limit(1);
         const a = (aRows && (aRows[0] as AnalysisRow)) || null;
+        // 拉取溯源原始数据（comments_json, transcript_json）
+        const { data: srcRows } = await supabase
+          .from("gg_video_analysis")
+          .select("comments_json, transcript_json")
+          .eq("platform_item_id", id)
+          .order("id", { ascending: false })
+          .limit(1);
+        const src = (srcRows && (srcRows[0] as { comments_json?: CommentsJson | null; transcript_json?: TranscriptJson | null })) || {};
         if (!cancelled) {
           setPost(p);
           setAnalysis(a);
+          setCommentsJson(src.comments_json || null);
+          setTranscriptJson(src.transcript_json || null);
         }
       } catch (error) {
         console.error("Failed to load analysis detail", error);
@@ -110,24 +135,23 @@ export default function VideoAnalysisDetail() {
     });
   }, [analysis?.key_points]);
 
-  const timelineItems = useMemo(() => {
+  const timelineItems: TimelineViewItem[] = useMemo(() => {
     const raw = (analysis as { timeline?: { events?: unknown[] } | unknown[] | null } | null)?.timeline;
     const list = (raw && ((raw as { events?: unknown[] }).events || raw)) || [];
-    if (!Array.isArray(list)) return [] as { id: string; type: "trend" | "alert"; title: string; description: string; severity?: "low" | "medium" | "high"; riskBadges?: string[] }[];
+    if (!Array.isArray(list)) return [] as TimelineViewItem[];
     return (list as Record<string, unknown>[]).map((t, i: number) => {
       const severityNum = (t?.severity as number | undefined) || undefined;
-      const riskTypes = Array.isArray(t?.risk_type)
-        ? (t.risk_type as string[])
-        : (typeof t?.risk_type === "string" && t.risk_type
-            ? [t.risk_type]
-            : []);
+      const rawRisk = (t as { risk_type?: unknown }).risk_type;
+      const riskTypes: string[] = Array.isArray(rawRisk)
+        ? (rawRisk as unknown[]).map((x) => String(x))
+        : (typeof rawRisk === "string" && rawRisk ? [String(rawRisk)] : []);
 
       // Evidence exists but currently unused in UI; keep for future extension
 
       const lines: string[] = [];
-      if (t?.issue) lines.push(`问题概述：${t.issue}`);
-      if (t?.audio_transcript) lines.push(`音频/字幕：${t.audio_transcript}`);
-      if (t?.scene_description) lines.push(`场景详述：${t.scene_description}`);
+      if ((t as { issue?: string }).issue) lines.push(`问题概述：${(t as { issue?: string }).issue}`);
+      if ((t as { audio_transcript?: string }).audio_transcript) lines.push(`音频/字幕：${(t as { audio_transcript?: string }).audio_transcript}`);
+      if ((t as { scene_description?: string }).scene_description) lines.push(`场景详述：${(t as { scene_description?: string }).scene_description}`);
 
    
 
@@ -136,7 +160,7 @@ export default function VideoAnalysisDetail() {
       return {
         id: String(i + 1),
         type: severityNum && severityNum >= 4 ? ("alert" as const) : ("trend" as const),
-        title: `${t?.timestamp || ""}${severityNum ? ` - 风险等级：${severityNum}` : ""}`,
+        title: `${(t as { timestamp?: string }).timestamp || ""}${severityNum ? ` - 风险等级：${severityNum}` : ""}`,
         description: lines.join("\n"),
         severity: severityNum
           ? severityNum >= 4
@@ -144,9 +168,48 @@ export default function VideoAnalysisDetail() {
             : ("medium" as const)
           : undefined,
         riskBadges: riskTypes,
+        _ts: String((t as { timestamp?: string }).timestamp || ""),
+        _snippet: (t as { audio_transcript?: string; comment_text?: string }).audio_transcript || (t as { comment_text?: string }).comment_text || "",
       };
     });
   }, [analysis]);
+
+  // 在 comments 树中根据片段文本查找路径，如 "12-0-1"
+  const findCommentPathBySnippet = (root: CommentsJson | null, snippetRaw: string): string | null => {
+    if (!root || !root.comments || !snippetRaw) return null;
+    const snippet = snippetRaw.trim();
+    if (!snippet || snippet.length < 4) return null;
+    let hit: Array<number> | null = null;
+    const dfs = (nodes: CommentNode[], path: number[]) => {
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        if (String(n.content || "").includes(snippet)) {
+          hit = [...path, i];
+          return true;
+        }
+        const children = n.replies || [];
+        if (children.length > 0) {
+          if (dfs(children, [...path, i])) return true;
+        }
+      }
+      return false;
+    };
+    dfs(root.comments, []);
+    return Array.isArray(hit) ? (hit as number[]).map((n) => String(n)).join("-") : null;
+  };
+
+  // 读取锚点参数
+  const anchorCommentPath = searchParams.get("comment_path");
+  const anchorSegIndexRaw = searchParams.get("seg_index");
+  const anchorSegIndex = anchorSegIndexRaw ? parseInt(anchorSegIndexRaw, 10) : null;
+  const anchorSegStart = searchParams.get("seg_start");
+
+  // 初始化本地状态（仅在首渲染时同步一次）
+  useEffect(() => {
+    if (anchorCommentPath && !anchorCommentPathState) setAnchorCommentPathState(anchorCommentPath);
+    if (anchorSegStart && !anchorSegStartState) setAnchorSegStartState(anchorSegStart);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
@@ -206,6 +269,7 @@ export default function VideoAnalysisDetail() {
           ) : (
             <DetailMainSkeleton />
           )}
+          
         </div>
 
         {/* Quick Stats */}
@@ -281,14 +345,87 @@ export default function VideoAnalysisDetail() {
         </div>
       </div>
 
+      {/* 溯源 Panel */}
+      <SourcePanel
+        open={panelOpen}
+        onOpenChange={setPanelOpen}
+        commentsJson={commentsJson}
+        transcriptJson={transcriptJson}
+        anchorCommentPath={anchorCommentPathState || anchorCommentPath}
+        anchorSegmentIndex={Number.isFinite(anchorSegIndex as number) ? (anchorSegIndex as number) : null}
+        anchorSegmentStart={anchorSegStartState || anchorSegStart}
+        defaultTab="comments"
+      />
+
       {/* Timeline Analysis - Full Width */}
       <AnalysisSection
         title="时间轴分析"
-        icon={
-          <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-        }
+        icon={<Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />}
         items={timelineItems}
         className="w-full"
+        headerRight={(
+          <button
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
+            onClick={() => setPanelOpen(true)}
+          >
+            查看原始评论与字幕
+          </button>
+        )}
+        renderItemAction={(idx) => (
+          <button
+            className="px-2 py-1 rounded-lg text-xs bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition"
+            onClick={(e) => {
+              e.stopPropagation();
+              // 从 _ts 中提取 mm:ss
+              const raw = (timelineItems[idx] as TimelineViewItem)?._ts || "";
+              const mmssMatch = String(raw).match(/(\d{2}:\d{2})/);
+              const start = mmssMatch ? mmssMatch[1] : null;
+              // 若是评论型事件，尝试用片段匹配评论树，得到 comment_path
+              const snippet = (timelineItems[idx] as TimelineViewItem)?._snippet || "";
+              const commentPath = findCommentPathBySnippet(commentsJson, snippet);
+              setPanelOpen(true);
+              if (start) {
+                setAnchorSegStartState(start);
+                setAnchorCommentPathState(null);
+                const sp = new URLSearchParams(searchParams);
+                sp.set("seg_start", start);
+                setSearchParams(sp, { replace: true });
+              } else if (commentPath) {
+                setAnchorCommentPathState(commentPath);
+                setAnchorSegStartState(null);
+                const sp = new URLSearchParams(searchParams);
+                sp.set("comment_path", commentPath);
+                setSearchParams(sp, { replace: true });
+              }
+            }}
+            title="查看原文"
+            aria-label="查看原文"
+          >
+            查看原文
+          </button>
+        )}
+        onItemClick={(idx) => {
+          // 点击整行也触发：优先解析 _ts
+          const raw = (timelineItems[idx] as TimelineViewItem)?._ts || "";
+          const mmssMatch = String(raw).match(/(\d{2}:\d{2})/);
+          const start = mmssMatch ? mmssMatch[1] : null;
+          const snippet = (timelineItems[idx] as TimelineViewItem)?._snippet || "";
+          const commentPath = findCommentPathBySnippet(commentsJson, snippet);
+          setPanelOpen(true);
+          if (start) {
+            setAnchorSegStartState(start);
+            setAnchorCommentPathState(null);
+            const sp = new URLSearchParams(searchParams);
+            sp.set("seg_start", start);
+            setSearchParams(sp, { replace: true });
+          } else if (commentPath) {
+            setAnchorCommentPathState(commentPath);
+            setAnchorSegStartState(null);
+            const sp = new URLSearchParams(searchParams);
+            sp.set("comment_path", commentPath);
+            setSearchParams(sp, { replace: true });
+          }
+        }}
       />
     </div>
   );

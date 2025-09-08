@@ -1,0 +1,336 @@
+{
+  "request": {
+    "model_candidates": [
+      "gemini-2.5-pro"
+    ],
+    "video_file": "/Users/rigel/project/goodgame/backend/test/output/douyin/video/7505583378596646180.mp4",
+    "request_config": {
+      "temperature": 0.3,
+      "response_mime_type": "application/json",
+      "response_schema": "VideoAnalysisV3(pydantic)",
+      "video_metadata": {
+        "fps": 5
+      },
+      "contents_order": [
+        "video",
+        "text"
+      ]
+    }
+  },
+  "raw_response_type": "GenerateContentResponse",
+  "raw_response": {
+    "sdk_http_response": {
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "vary": "Origin, X-Origin, Referer",
+        "content-encoding": "gzip",
+        "date": "Fri, 05 Sep 2025 08:12:07 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "x-xss-protection": "0",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "server-timing": "gfet4t7; dur=58184",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "transfer-encoding": "chunked"
+      },
+      "body": null
+    },
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "video_metadata": null,
+              "thought": null,
+              "inline_data": null,
+              "file_data": null,
+              "thought_signature": null,
+              "code_execution_result": null,
+              "executable_code": null,
+              "function_call": null,
+              "function_response": null,
+              "text": "{\n  \"summary\": \"视频中，一名身穿疑似员工服饰的人员在疑似海底捞门店内，抱怨工作量大、新品过多、人手不足，并使用了“累死在海底捞”、“勾八玩意儿”等负面及粗俗言论。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"brand_relevance\": \"相关\",\n  \"relevance_evidence\": \"视频音频中，身穿疑似员工服饰的人员明确说出‘是想要我累死在海底捞吗？’（00:11），且视频背景中可见疑似‘海底捞火锅’的品牌招牌。\",\n  \"risk_type_total\": [\n    \"员工不当言论\",\n    \"内部管理混乱\"\n  ],\n  \"key_points\": [\n    \"员工不当言论: 员工抱怨称‘想我累死在海底捞’并使用粗俗词汇\",\n    \"内部管理混乱: 员工抱怨新品过多、人手不足、催单频繁\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00-00:05\",\n      \"scene_description\": \"一名头戴狮子头帽子、身穿白色制服、佩戴口罩的人员，在疑似餐厅的环境中对着镜头抱怨工作。\",\n      \"audio_transcript\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？\",\n      \"issue\": \"员工公开抱怨公司产品策略（新品过多）和人员配置问题（人手不足）。\",\n      \"risk_type\": [\n        \"内部管理混乱\",\n        \"员工不当言论\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"对镜头抱怨工作量大、新品过多、人手不足\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？\",\n          \"details\": \"视频主体情绪激动，通过夸张的表演方式表达不满。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"00:11\",\n      \"scene_description\": \"视频中的人员情绪激动地质问，并直接提到了品牌名称。\",\n      \"audio_transcript\": \"是想要我累死在海底捞吗？\",\n      \"issue\": \"员工在公开视频中发表极端负面言论，直接关联品牌，损害品牌形象。\",\n      \"risk_type\": [\n        \"员工不当言论\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"对镜头说出“是想要我累死在海底捞吗？”\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"是想要我累死在海底捞吗？\",\n          \"visibility\": \"音频清晰，品牌名称明确可辨。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"00:23\",\n      \"scene_description\": \"视频中的人员在抱怨制作餐品耗时时，使用了粗俗词汇。\",\n      \"audio_transcript\": \"我炸那些勾八玩意儿要不要时间？\",\n      \"issue\": \"员工在公开视频中使用粗俗语言，影响品牌专业形象。\",\n      \"risk_type\": [\n        \"员工不当言论\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"在抱怨工作时使用粗俗词汇“勾八玩意儿”\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"我炸那些勾八玩意儿要不要时间？\",\n          \"details\": \"该言论出现在描述工作内容的过程中。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"00:36-00:41\",\n      \"scene_description\": \"视频中的人员抱怨出餐流程和催单问题，指出内部协调存在问题。\",\n      \"audio_transcript\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单。\",\n      \"issue\": \"员工反映内部催单流程不合理，可能导致服务质量下降或员工压力过大。\",\n      \"risk_type\": [\n        \"内部管理混乱\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"抱怨催单时间不合理\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单。\",\n          \"details\": \"反映了前后场沟通或流程设置可能存在问题。\"\n        }\n      ],\n      \"source\": \"video\"\n    }\n  ],\n  \"transcript\": {\n    \"segments\": [\n      {\n        \"start\": \"00:00\",\n        \"end\": \"00:05\",\n        \"text\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:05\",\n        \"end\": \"00:06\",\n        \"text\": \"[音效] 嗯？\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:06\",\n        \"end\": \"00:08\",\n        \"text\": \"一直不断上新品，老的又不下架。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:08\",\n        \"end\": \"00:12\",\n        \"text\": \"现在小吃房这么多东西，是想要我累死在海底捞吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:12\",\n        \"end\": \"00:13\",\n        \"text\": \"[音效] 回答我！\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:13\",\n        \"end\": \"00:18\",\n        \"text\": \"近20种品类我还要给你们前堂炸薯条，炸鸡翅，炸蟹味棒。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:19\",\n        \"end\": \"00:21\",\n        \"text\": \"刚炸完小吃单就开始疯狂催单。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:21\",\n        \"end\": \"00:22\",\n        \"text\": \"[音效] 那我问你。\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:22\",\n        \"end\": \"00:25\",\n        \"text\": \"我炸那些勾八玩意儿要不要时间？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:25\",\n        \"end\": \"00:27\",\n        \"text\": \"东西是不是要一种一种去炸？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:27\",\n        \"end\": \"00:29\",\n        \"text\": \"[音效] 回答我！说话！\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:29\",\n        \"end\": \"00:31\",\n        \"text\": \"那些东西能自己变熟然后自己出品吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:31\",\n        \"end\": \"00:32\",\n        \"text\": \"[音效] 嗯？\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:32\",\n        \"end\": \"00:36\",\n        \"text\": \"每次客人问能不能炸一下的时候你们就，哎能能能。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:36\",\n        \"end\": \"00:41\",\n        \"text\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:41\",\n        \"end\": \"00:43\",\n        \"text\": \"还说小吃房怎么这么拉垮。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:43\",\n        \"end\": \"00:45\",\n        \"text\": \"我问你，我像孙悟空一样给你变出来吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:45\",\n        \"end\": \"00:52\",\n        \"text\": \"[音效] 回答我！look in my eyes, tell me why, why baby why.\",\n        \"speaker\": \"不确定\"\n      }\n    ],\n    \"speakers\": [\n      \"视频作者\",\n      \"不确定\"\n    ]\n  }\n}"
+            }
+          ],
+          "role": "model"
+        },
+        "citation_metadata": null,
+        "finish_message": null,
+        "token_count": null,
+        "finish_reason": "STOP",
+        "url_context_metadata": null,
+        "avg_logprobs": null,
+        "grounding_metadata": null,
+        "index": 0,
+        "logprobs_result": null,
+        "safety_ratings": null
+      }
+    ],
+    "create_time": null,
+    "model_version": "gemini-2.5-pro",
+    "prompt_feedback": null,
+    "response_id": "V5u6aKehFpCtqtsPkLmbuQ4",
+    "usage_metadata": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 2401,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 77198,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 3113
+        },
+        {
+          "modality": "VIDEO",
+          "token_count": 72325
+        },
+        {
+          "modality": "AUDIO",
+          "token_count": 1760
+        }
+      ],
+      "thoughts_token_count": 3135,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 82734,
+      "traffic_type": null
+    },
+    "automatic_function_calling_history": [],
+    "parsed": {
+      "summary": "视频中，一名身穿疑似员工服饰的人员在疑似海底捞门店内，抱怨工作量大、新品过多、人手不足，并使用了“累死在海底捞”、“勾八玩意儿”等负面及粗俗言论。",
+      "sentiment": "negative",
+      "brand": "海底捞",
+      "brand_relevance": "相关",
+      "relevance_evidence": "视频音频中，身穿疑似员工服饰的人员明确说出‘是想要我累死在海底捞吗？’（00:11），且视频背景中可见疑似‘海底捞火锅’的品牌招牌。",
+      "risk_type_total": [
+        "员工不当言论",
+        "内部管理混乱"
+      ],
+      "key_points": [
+        "员工不当言论: 员工抱怨称‘想我累死在海底捞’并使用粗俗词汇",
+        "内部管理混乱: 员工抱怨新品过多、人手不足、催单频繁"
+      ],
+      "events": [
+        {
+          "timestamp": "00:00-00:05",
+          "scene_description": "一名头戴狮子头帽子、身穿白色制服、佩戴口罩的人员，在疑似餐厅的环境中对着镜头抱怨工作。",
+          "audio_transcript": "是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？",
+          "issue": "员工公开抱怨公司产品策略（新品过多）和人员配置问题（人手不足）。",
+          "risk_type": [
+            "内部管理混乱",
+            "员工不当言论"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区/等候区",
+              "subject_type": "员工",
+              "subject_behavior": "对镜头抱怨工作量大、新品过多、人手不足",
+              "objects_involved": "员工工服",
+              "contact_path": null,
+              "brand_assets": "背景有红色发光字招牌，疑似“海底捞火锅”",
+              "audio_quote": "是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？",
+              "visibility": null,
+              "details": "视频主体情绪激动，通过夸张的表演方式表达不满。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "00:11",
+          "scene_description": "视频中的人员情绪激动地质问，并直接提到了品牌名称。",
+          "audio_transcript": "是想要我累死在海底捞吗？",
+          "issue": "员工在公开视频中发表极端负面言论，直接关联品牌，损害品牌形象。",
+          "risk_type": [
+            "员工不当言论"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区/等候区",
+              "subject_type": "员工",
+              "subject_behavior": "对镜头说出“是想要我累死在海底捞吗？”",
+              "objects_involved": "员工工服",
+              "contact_path": null,
+              "brand_assets": "背景有红色发光字招牌，疑似“海底捞火锅”",
+              "audio_quote": "是想要我累死在海底捞吗？",
+              "visibility": "音频清晰，品牌名称明确可辨。",
+              "details": null
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "00:23",
+          "scene_description": "视频中的人员在抱怨制作餐品耗时时，使用了粗俗词汇。",
+          "audio_transcript": "我炸那些勾八玩意儿要不要时间？",
+          "issue": "员工在公开视频中使用粗俗语言，影响品牌专业形象。",
+          "risk_type": [
+            "员工不当言论"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区/等候区",
+              "subject_type": "员工",
+              "subject_behavior": "在抱怨工作时使用粗俗词汇“勾八玩意儿”",
+              "objects_involved": "员工工服",
+              "contact_path": null,
+              "brand_assets": "背景有红色发光字招牌，疑似“海底捞火锅”",
+              "audio_quote": "我炸那些勾八玩意儿要不要时间？",
+              "visibility": null,
+              "details": "该言论出现在描述工作内容的过程中。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "00:36-00:41",
+          "scene_description": "视频中的人员抱怨出餐流程和催单问题，指出内部协调存在问题。",
+          "audio_transcript": "需要10分钟制作完成的鸡爪，8分钟就开始打催单。",
+          "issue": "员工反映内部催单流程不合理，可能导致服务质量下降或员工压力过大。",
+          "risk_type": [
+            "内部管理混乱"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区/等候区",
+              "subject_type": "员工",
+              "subject_behavior": "抱怨催单时间不合理",
+              "objects_involved": "员工工服",
+              "contact_path": null,
+              "brand_assets": "背景有红色发光字招牌，疑似“海底捞火锅”",
+              "audio_quote": "需要10分钟制作完成的鸡爪，8分钟就开始打催单。",
+              "visibility": null,
+              "details": "反映了前后场沟通或流程设置可能存在问题。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        }
+      ],
+      "transcript": {
+        "segments": [
+          {
+            "start": "00:00",
+            "end": "00:05",
+            "text": "是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:05",
+            "end": "00:06",
+            "text": "[音效] 嗯？",
+            "speaker": "不确定"
+          },
+          {
+            "start": "00:06",
+            "end": "00:08",
+            "text": "一直不断上新品，老的又不下架。",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:08",
+            "end": "00:12",
+            "text": "现在小吃房这么多东西，是想要我累死在海底捞吗？",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:12",
+            "end": "00:13",
+            "text": "[音效] 回答我！",
+            "speaker": "不确定"
+          },
+          {
+            "start": "00:13",
+            "end": "00:18",
+            "text": "近20种品类我还要给你们前堂炸薯条，炸鸡翅，炸蟹味棒。",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:19",
+            "end": "00:21",
+            "text": "刚炸完小吃单就开始疯狂催单。",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:21",
+            "end": "00:22",
+            "text": "[音效] 那我问你。",
+            "speaker": "不确定"
+          },
+          {
+            "start": "00:22",
+            "end": "00:25",
+            "text": "我炸那些勾八玩意儿要不要时间？",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:25",
+            "end": "00:27",
+            "text": "东西是不是要一种一种去炸？",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:27",
+            "end": "00:29",
+            "text": "[音效] 回答我！说话！",
+            "speaker": "不确定"
+          },
+          {
+            "start": "00:29",
+            "end": "00:31",
+            "text": "那些东西能自己变熟然后自己出品吗？",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:31",
+            "end": "00:32",
+            "text": "[音效] 嗯？",
+            "speaker": "不确定"
+          },
+          {
+            "start": "00:32",
+            "end": "00:36",
+            "text": "每次客人问能不能炸一下的时候你们就，哎能能能。",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:36",
+            "end": "00:41",
+            "text": "需要10分钟制作完成的鸡爪，8分钟就开始打催单。",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:41",
+            "end": "00:43",
+            "text": "还说小吃房怎么这么拉垮。",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:43",
+            "end": "00:45",
+            "text": "我问你，我像孙悟空一样给你变出来吗？",
+            "speaker": "视频作者"
+          },
+          {
+            "start": "00:45",
+            "end": "00:52",
+            "text": "[音效] 回答我！look in my eyes, tell me why, why baby why.",
+            "speaker": "不确定"
+          }
+        ],
+        "speakers": [
+          "视频作者",
+          "不确定"
+        ]
+      }
+    }
+  },
+  "raw_text": "{\n  \"summary\": \"视频中，一名身穿疑似员工服饰的人员在疑似海底捞门店内，抱怨工作量大、新品过多、人手不足，并使用了“累死在海底捞”、“勾八玩意儿”等负面及粗俗言论。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"brand_relevance\": \"相关\",\n  \"relevance_evidence\": \"视频音频中，身穿疑似员工服饰的人员明确说出‘是想要我累死在海底捞吗？’（00:11），且视频背景中可见疑似‘海底捞火锅’的品牌招牌。\",\n  \"risk_type_total\": [\n    \"员工不当言论\",\n    \"内部管理混乱\"\n  ],\n  \"key_points\": [\n    \"员工不当言论: 员工抱怨称‘想我累死在海底捞’并使用粗俗词汇\",\n    \"内部管理混乱: 员工抱怨新品过多、人手不足、催单频繁\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00-00:05\",\n      \"scene_description\": \"一名头戴狮子头帽子、身穿白色制服、佩戴口罩的人员，在疑似餐厅的环境中对着镜头抱怨工作。\",\n      \"audio_transcript\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？\",\n      \"issue\": \"员工公开抱怨公司产品策略（新品过多）和人员配置问题（人手不足）。\",\n      \"risk_type\": [\n        \"内部管理混乱\",\n        \"员工不当言论\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"对镜头抱怨工作量大、新品过多、人手不足\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？\",\n          \"details\": \"视频主体情绪激动，通过夸张的表演方式表达不满。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"00:11\",\n      \"scene_description\": \"视频中的人员情绪激动地质问，并直接提到了品牌名称。\",\n      \"audio_transcript\": \"是想要我累死在海底捞吗？\",\n      \"issue\": \"员工在公开视频中发表极端负面言论，直接关联品牌，损害品牌形象。\",\n      \"risk_type\": [\n        \"员工不当言论\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"对镜头说出“是想要我累死在海底捞吗？”\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"是想要我累死在海底捞吗？\",\n          \"visibility\": \"音频清晰，品牌名称明确可辨。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"00:23\",\n      \"scene_description\": \"视频中的人员在抱怨制作餐品耗时时，使用了粗俗词汇。\",\n      \"audio_transcript\": \"我炸那些勾八玩意儿要不要时间？\",\n      \"issue\": \"员工在公开视频中使用粗俗语言，影响品牌专业形象。\",\n      \"risk_type\": [\n        \"员工不当言论\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"在抱怨工作时使用粗俗词汇“勾八玩意儿”\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"我炸那些勾八玩意儿要不要时间？\",\n          \"details\": \"该言论出现在描述工作内容的过程中。\"\n        }\n      ],\n      \"source\": \"video\"\n    },\n    {\n      \"timestamp\": \"00:36-00:41\",\n      \"scene_description\": \"视频中的人员抱怨出餐流程和催单问题，指出内部协调存在问题。\",\n      \"audio_transcript\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单。\",\n      \"issue\": \"员工反映内部催单流程不合理，可能导致服务质量下降或员工压力过大。\",\n      \"risk_type\": [\n        \"内部管理混乱\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"用餐区/等候区\",\n          \"subject_type\": \"员工\",\n          \"subject_behavior\": \"抱怨催单时间不合理\",\n          \"objects_involved\": \"员工工服\",\n          \"brand_assets\": \"背景有红色发光字招牌，疑似“海底捞火锅”\",\n          \"audio_quote\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单。\",\n          \"details\": \"反映了前后场沟通或流程设置可能存在问题。\"\n        }\n      ],\n      \"source\": \"video\"\n    }\n  ],\n  \"transcript\": {\n    \"segments\": [\n      {\n        \"start\": \"00:00\",\n        \"end\": \"00:05\",\n        \"text\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:05\",\n        \"end\": \"00:06\",\n        \"text\": \"[音效] 嗯？\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:06\",\n        \"end\": \"00:08\",\n        \"text\": \"一直不断上新品，老的又不下架。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:08\",\n        \"end\": \"00:12\",\n        \"text\": \"现在小吃房这么多东西，是想要我累死在海底捞吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:12\",\n        \"end\": \"00:13\",\n        \"text\": \"[音效] 回答我！\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:13\",\n        \"end\": \"00:18\",\n        \"text\": \"近20种品类我还要给你们前堂炸薯条，炸鸡翅，炸蟹味棒。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:19\",\n        \"end\": \"00:21\",\n        \"text\": \"刚炸完小吃单就开始疯狂催单。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:21\",\n        \"end\": \"00:22\",\n        \"text\": \"[音效] 那我问你。\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:22\",\n        \"end\": \"00:25\",\n        \"text\": \"我炸那些勾八玩意儿要不要时间？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:25\",\n        \"end\": \"00:27\",\n        \"text\": \"东西是不是要一种一种去炸？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:27\",\n        \"end\": \"00:29\",\n        \"text\": \"[音效] 回答我！说话！\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:29\",\n        \"end\": \"00:31\",\n        \"text\": \"那些东西能自己变熟然后自己出品吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:31\",\n        \"end\": \"00:32\",\n        \"text\": \"[音效] 嗯？\",\n        \"speaker\": \"不确定\"\n      },\n      {\n        \"start\": \"00:32\",\n        \"end\": \"00:36\",\n        \"text\": \"每次客人问能不能炸一下的时候你们就，哎能能能。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:36\",\n        \"end\": \"00:41\",\n        \"text\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:41\",\n        \"end\": \"00:43\",\n        \"text\": \"还说小吃房怎么这么拉垮。\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:43\",\n        \"end\": \"00:45\",\n        \"text\": \"我问你，我像孙悟空一样给你变出来吗？\",\n        \"speaker\": \"视频作者\"\n      },\n      {\n        \"start\": \"00:45\",\n        \"end\": \"00:52\",\n        \"text\": \"[音效] 回答我！look in my eyes, tell me why, why baby why.\",\n        \"speaker\": \"不确定\"\n      }\n    ],\n    \"speakers\": [\n      \"视频作者\",\n      \"不确定\"\n    ]\n  }\n}"
+}
