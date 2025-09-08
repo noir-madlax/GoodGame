@@ -12,7 +12,15 @@ import { supabase } from "@/lib/supabase";
 import SourcePanel from "@/polymet/components/source-panel";
 
 // 与 SourcePanel 保持一致的最小类型（仅用于本页状态）
-type CommentNode = { content: string; like_count?: number; reply_count?: number; replies?: CommentNode[] };
+type CommentNode = {
+  content: string;
+  like_count?: number;
+  reply_count?: number;
+  author_name?: string | null;
+  author_avatar_url?: string | null;
+  published_at?: string | null;
+  replies?: CommentNode[];
+};
 type CommentsJson = { post?: { id?: number | string; title?: string }; comments?: CommentNode[] };
 type TranscriptSegment = { start: string; end?: string; text: string; speaker?: string };
 type TranscriptJson = { segments?: TranscriptSegment[] };
@@ -56,6 +64,8 @@ export default function VideoAnalysisDetail() {
   const [analysis, setAnalysis] = useState<AnalysisRow | null>(null);
   const [commentsJson, setCommentsJson] = useState<CommentsJson | null>(null);
   const [transcriptJson, setTranscriptJson] = useState<TranscriptJson | null>(null);
+  const [commentsLoading, setCommentsLoading] = useState<boolean>(false);
+  const [transcriptLoading, setTranscriptLoading] = useState<boolean>(false);
   const [panelOpen, setPanelOpen] = useState(false);
   // 本地锚点状态：避免仅依赖 URL 导致不刷新
   const [anchorCommentPathState, setAnchorCommentPathState] = useState<string | null>(null);
@@ -82,19 +92,12 @@ export default function VideoAnalysisDetail() {
           .order("id", { ascending: false })
           .limit(1);
         const a = (aRows && (aRows[0] as AnalysisRow)) || null;
-        // 拉取溯源原始数据（comments_json, transcript_json）
-        const { data: srcRows } = await supabase
-          .from("gg_video_analysis")
-          .select("comments_json, transcript_json")
-          .eq("platform_item_id", id)
-          .order("id", { ascending: false })
-          .limit(1);
-        const src = (srcRows && (srcRows[0] as { comments_json?: CommentsJson | null; transcript_json?: TranscriptJson | null })) || {};
         if (!cancelled) {
           setPost(p);
           setAnalysis(a);
-          setCommentsJson(src.comments_json || null);
-          setTranscriptJson(src.transcript_json || null);
+          // 初始不加载评论/字幕，按需加载
+          setCommentsJson(null);
+          setTranscriptJson(null);
         }
       } catch (error) {
         console.error("Failed to load analysis detail", error);
@@ -105,6 +108,89 @@ export default function VideoAnalysisDetail() {
       cancelled = true;
     };
   }, [id]);
+
+  // 异步预加载：进入页面即不阻塞主信息，后台并行加载评论与字幕
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      try {
+        if (!supabase || !id) return;
+        // 字幕
+        if (!transcriptJson) {
+          setTranscriptLoading(true);
+          const { data: srcRows } = await supabase
+            .from("gg_video_analysis")
+            .select("transcript_json")
+            .eq("platform_item_id", id)
+            .order("id", { ascending: false })
+            .limit(1);
+          const src = (srcRows && (srcRows[0] as { transcript_json?: TranscriptJson | null })) || {};
+          if (!cancelled) setTranscriptJson(src.transcript_json || null);
+        }
+        // 评论（仅当 post 已知）
+        if (post && !commentsJson) {
+          setCommentsLoading(true);
+          const { data: commentRows } = await supabase
+            .from("gg_platform_post_comments")
+            .select("id, parent_comment_id, content, like_count, reply_count, author_name, author_avatar_url, published_at")
+            .eq("post_id", post.id)
+            .order("published_at", { ascending: true, nullsFirst: true })
+            .order("id", { ascending: true });
+
+          let commentsFromRaw: CommentsJson | null = null;
+          if (Array.isArray(commentRows) && commentRows.length > 0) {
+            type Row = { id: number; parent_comment_id: number | null; content: string; like_count: number; reply_count: number; author_name?: string | null; author_avatar_url?: string | null; published_at?: string | null };
+            const nodeById = new Map<number, CommentNode & { _id: number; _parent?: number | null }>();
+            const roots: (CommentNode & { _id: number })[] = [];
+            (commentRows as Row[]).forEach((r) => {
+              nodeById.set(r.id, {
+                _id: r.id,
+                content: r.content || "",
+                like_count: r.like_count || 0,
+                reply_count: r.reply_count || 0,
+                author_name: r.author_name ?? null,
+                author_avatar_url: r.author_avatar_url ?? null,
+                published_at: r.published_at ?? null,
+                replies: [],
+                _parent: r.parent_comment_id ?? null,
+              });
+            });
+            nodeById.forEach((node) => {
+              if (node._parent) {
+                const parent = nodeById.get(node._parent);
+                if (parent) (parent.replies = parent.replies || []).push(node);
+              } else {
+                roots.push(node);
+              }
+            });
+            const strip = (n: CommentNode & { _id: number }): CommentNode => ({
+              content: n.content,
+              like_count: n.like_count,
+              reply_count: n.reply_count,
+              author_name: n.author_name,
+              author_avatar_url: n.author_avatar_url,
+              published_at: n.published_at,
+              replies: (n.replies || []).map((c) => strip(c as CommentNode & { _id: number })),
+            });
+            commentsFromRaw = { comments: roots.map((r) => strip(r)) };
+          }
+          if (!cancelled) setCommentsJson(commentsFromRaw);
+        }
+      } catch (error) {
+        console.error("Failed to load panel sources", error);
+      } finally {
+        if (!cancelled) {
+          setTranscriptLoading(false);
+          setCommentsLoading(false);
+        }
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, post]);
 
   const formatDuration = (ms: number) => {
     const total = Math.max(0, Math.round((ms || 0) / 1000));
@@ -351,6 +437,8 @@ export default function VideoAnalysisDetail() {
         onOpenChange={setPanelOpen}
         commentsJson={commentsJson}
         transcriptJson={transcriptJson}
+        commentsLoading={commentsLoading}
+        transcriptLoading={transcriptLoading}
         anchorCommentPath={anchorCommentPathState || anchorCommentPath}
         anchorSegmentIndex={Number.isFinite(anchorSegIndex as number) ? (anchorSegIndex as number) : null}
         anchorSegmentStart={anchorSegStartState || anchorSegStart}

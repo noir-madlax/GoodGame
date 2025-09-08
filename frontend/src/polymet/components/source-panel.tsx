@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { MessageCircle, Subtitles, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,9 @@ type CommentNode = {
   content: string;
   like_count?: number;
   reply_count?: number;
+  author_name?: string | null;
+  author_avatar_url?: string | null;
+  published_at?: string | null; // ISO
   replies?: CommentNode[];
 };
 
@@ -32,6 +35,9 @@ interface SourcePanelProps {
   onOpenChange: (next: boolean) => void;
   commentsJson?: CommentsJson | null;
   transcriptJson?: TranscriptJson | null;
+  // 新增：加载状态（用于骨架屏）
+  commentsLoading?: boolean;
+  transcriptLoading?: boolean;
   // 锚点：评论路径（如 "12-0-0"）与字幕索引或时间
   anchorCommentPath?: string | null;
   anchorSegmentIndex?: number | null;
@@ -66,6 +72,8 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
   onOpenChange,
   commentsJson,
   transcriptJson,
+  commentsLoading = false,
+  transcriptLoading = false,
   anchorCommentPath,
   anchorSegmentIndex,
   anchorSegmentStart,
@@ -74,6 +82,13 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
   const [activeTab, setActiveTab] = useState<"comments" | "transcript">("comments");
   const [searchQuery, setSearchQuery] = useState("");
   const segments = useMemo(() => (transcriptJson?.segments || []) as TranscriptSegment[], [transcriptJson]);
+  const normalizeAvatarUrl = (url?: string | null) => {
+    if (!url) return "";
+    const u = String(url).trim();
+    if (u.startsWith("//")) return `https:${u}`;
+    if (u.startsWith("http://") || u.startsWith("https://")) return u;
+    return u;
+  };
   // 解析评论锚点 id
   const commentAnchorId = useMemo(() => {
     if (!anchorCommentPath) return null;
@@ -148,6 +163,10 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-[820px] sm:w-[820px] max-w-[90vw] sm:max-w-none p-0 border-l bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl">
+        {/* Hidden title for accessibility to satisfy Radix Dialog requirement */}
+        <SheetHeader>
+          <SheetTitle className="sr-only">原始评论与字幕</SheetTitle>
+        </SheetHeader>
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/5 backdrop-blur-sm sticky top-0 z-20">
           <div className="flex items-center space-x-3">
@@ -182,7 +201,9 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
             <div className="flex items-center justify-center space-x-2">
               <MessageCircle className="w-4 h-4" />
               <span>评论</span>
-              <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">{(commentsJson?.comments || []).length}</span>
+              {(commentsLoading ? null : ((commentsJson?.comments || []).length > 0)) && (
+                <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">{(commentsJson?.comments || []).length}</span>
+              )}
             </div>
             {activeTab === "comments" && (
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600" />
@@ -200,7 +221,9 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
             <div className="flex items-center justify-center space-x-2">
               <Subtitles className="w-4 h-4" />
               <span>字幕</span>
-              <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">{segments.length}</span>
+              {(transcriptLoading ? null : (segments.length > 0)) && (
+                <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">{segments.length}</span>
+              )}
             </div>
             {activeTab === "transcript" && (
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-600" />
@@ -225,20 +248,49 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
         {/* Content */}
         <Tabs value={activeTab} className="w-full">
           <TabsContent value="comments" className={cn("px-6 pb-6 pt-4", activeTab === "comments" ? "block" : "hidden")}> 
-            {(commentsJson?.comments && (commentsJson.comments.length > 0)) ? (
+            {commentsLoading ? (
+              <div className="max-h-[70vh] overflow-auto pr-2 space-y-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 animate-pulse">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-8 rounded-full bg-gray-300/40" />
+                      <div className="flex-1">
+                        <div className="h-3 w-32 bg-gray-300/40 rounded" />
+                        <div className="h-3 w-24 bg-gray-200/30 rounded mt-2" />
+                      </div>
+                    </div>
+                    <div className="h-3 w-full bg-gray-300/30 rounded" />
+                    <div className="h-3 w-5/6 bg-gray-200/30 rounded mt-2" />
+                  </div>
+                ))}
+              </div>
+            ) : (commentsJson?.comments && (commentsJson.comments.length > 0)) ? (
               <div className="max-h-[70vh] overflow-auto pr-2 space-y-4">
                 {(filteredComments.length > 0 ? filteredComments : commentsJson.comments).map((c, idx) => (
                   <div key={idx} id={`c-${idx}`} className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium">评</div>
-                        <div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">评论</h4>
+                        {c.author_avatar_url ? (
+                          <img src={normalizeAvatarUrl(c.author_avatar_url)} alt="avatar" className="w-8 h-8 rounded-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                        ) : (
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium">评</div>
+                        )}
+                        <div className="leading-tight">
+                          <h4 className="font-medium text-gray-900 dark:text-white">{c.author_name || "评论"}</h4>
+                          {c.published_at && (
+                            <div className="text-xs text-gray-500 dark:text-gray-400">{String(c.published_at).replace("T"," ").slice(0,16)}</div>
+                          )}
                         </div>
                       </div>
                       {/* 右侧：评论ID + 情绪 Badge 右对齐 */}
                       <div className="flex items-center gap-2">
                         <span className="text-xs px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-white/10">评论ID: c-{idx}</span>
+                        {(typeof c.like_count === "number") && (
+                          <span className="text-xs px-2 py-0.5 rounded-full border bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800">赞 {c.like_count || 0}</span>
+                        )}
+                        {(typeof c.reply_count === "number") && (
+                          <span className="text-xs px-2 py-0.5 rounded-full border bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800">回复 {c.reply_count || 0}</span>
+                        )}
                         <span
                           className={cn(
                             "text-xs px-2 py-0.5 rounded-full border",
@@ -254,6 +306,17 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
                     <div className="whitespace-pre-wrap leading-relaxed text-gray-900 dark:text-gray-100">{c.content}</div>
                     {(c.replies || []).map((r, i) => (
                       <div key={i} className="mt-3 ml-4 pl-3 border-l">
+                        <div className="flex items-start gap-2 mb-1">
+                          {r.author_avatar_url ? (
+                            <img src={normalizeAvatarUrl(r.author_avatar_url)} alt="avatar" className="w-5 h-5 rounded-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                          ) : (
+                            <div className="w-5 h-5 rounded-full bg-blue-500 text-white text-[10px] flex items-center justify-center">评</div>
+                          )}
+                          <div className="text-xs text-gray-600 dark:text-gray-300">
+                            <span className="mr-2">{r.author_name || "用户"}</span>
+                            {r.published_at && <span className="text-gray-400">{String(r.published_at).replace("T"," ").slice(0,16)}</span>}
+                          </div>
+                        </div>
                         <div className="text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200">{r.content}</div>
                       </div>
                     ))}
@@ -266,7 +329,21 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
           </TabsContent>
 
           <TabsContent value="transcript" className={cn("px-6 pb-6 pt-4", activeTab === "transcript" ? "block" : "hidden")}> 
-            {segments.length > 0 ? (
+            {transcriptLoading ? (
+              <div className="max-h-[70vh] overflow-auto pr-2 space-y-3">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 animate-pulse">
+                    <div className="flex items-start space-x-3">
+                      <div className="px-10 py-3 rounded-full bg-gray-300/30" />
+                      <div className="flex-1">
+                        <div className="h-3 w-full bg-gray-300/30 rounded" />
+                        <div className="h-3 w-4/5 bg-gray-200/30 rounded mt-2" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : segments.length > 0 ? (
               <div className="max-h-[70vh] overflow-auto pr-2 space-y-3">
                 {(filteredSegments.length > 0 ? filteredSegments : segments).map((seg, idx) => (
                   <div key={idx} id={`t-${idx}`} className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300">
