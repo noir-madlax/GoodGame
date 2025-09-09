@@ -12,6 +12,7 @@ interface AnalysisItem {
   timestamp?: string;
   severity?: "low" | "medium" | "high";
   riskBadges?: string[];
+  _ts?: string; // 可选：用于外部锚点定位（例如 mm:ss）
 }
 
 interface AnalysisSectionProps {
@@ -19,6 +20,9 @@ interface AnalysisSectionProps {
   icon: React.ReactNode;
   items: AnalysisItem[];
   className?: string;
+  onItemClick?: (index: number) => void; // 可选：点击项回调
+  renderItemAction?: (index: number) => React.ReactNode; // 可选：悬浮操作（右上角）
+  headerRight?: React.ReactNode; // 可选：标题右侧操作
 }
 
 export default function AnalysisSection({
@@ -26,6 +30,9 @@ export default function AnalysisSection({
   icon,
   items,
   className,
+  onItemClick,
+  renderItemAction,
+  headerRight,
 }: AnalysisSectionProps) {
   const getTypeIcon = (type: AnalysisItem["type"]) => {
     switch (type) {
@@ -69,22 +76,35 @@ export default function AnalysisSection({
     >
       {/* Header */}
       <div className="p-6 border-b border-white/10">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-sm">
-            {icon}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-sm">
+              {icon}
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              {title}
+            </h3>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-            {title}
-          </h3>
+          {headerRight ? <div className="flex items-center">{headerRight}</div> : null}
         </div>
       </div>
 
       {/* Content */}
       <div className="p-6 space-y-4">
-        {items.map((item) => (
+        {items.map((item, idx) => (
           <div
             key={item.id}
             className="group p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+            role={onItemClick ? "button" : undefined}
+            tabIndex={onItemClick ? 0 : -1}
+            onClick={() => onItemClick?.(idx)}
+            onKeyDown={(e) => {
+              if (!onItemClick) return;
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onItemClick(idx);
+              }
+            }}
           >
             <div className="flex items-start space-x-3">
               {/* Type Icon */}
@@ -104,6 +124,11 @@ export default function AnalysisSection({
                     {item.title}
                   </h4>
                   <div className="flex items-center gap-2 flex-wrap justify-end">
+                    {renderItemAction && (
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        {renderItemAction(idx)}
+                      </div>
+                    )}
                     {(item.riskBadges || []).map((rb, i) => (
                       <RiskBadge
                         key={`${rb}-${i}`}
