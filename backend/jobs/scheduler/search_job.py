@@ -1,47 +1,17 @@
-from typing import List
-
 from jobs.logger import get_logger
 from jobs.config import Settings
-from tikhub_api.orm import (
-    MerchantBrandRepository,
-    SearchKeywordRepository,
-    MerchantBrand,
-    SearchKeyword,
-)
-from tikhub_api.workflow import run_video_workflow_channel
 
 log = get_logger(__name__)
 
 
 def run_search_once(settings) -> None:
     """
-    定时任务：查询有效品牌与关键词，按 brand_name+keyword 组合，固定渠道 douyin，
-    循环调用 run_video_workflow_channel 执行业务。
+    定时任务：关键词搜索 + upsert 入库（analysis_status=init）
+    TODO: 读取关键词列表、按平台调用 fetcher.get_search_posts(keyword)
+          使用 PostRepository.upsert_post 写入
     """
     log.info("[Scheduler] run_search_once: start")
-
-    # 1) 查询有效品牌（merchant_brands.is_valid = true）
-    brands: List[MerchantBrand] = MerchantBrandRepository.list_valid(limit=1000, offset=0)
-    log.info("有效品牌数量: %d", len(brands))
-
-    # 2) 查询所有关键词（search_keywords 全量）
-    keywords: List[SearchKeyword] = SearchKeywordRepository.list_all(limit=2000, offset=0)
-    log.info("关键词数量: %d", len(keywords))
-
-    # 3) 逐一组合并执行业务（不额外打印结果）
-    channel = "douyin"
-    total = 0
-    for b in brands:
-        brand_name = (b.name or "").strip()
-        for k in keywords:
-            kw = f"{brand_name}{k.keyword}"
-            try:
-                run_video_workflow_channel(channel, kw)
-            except Exception as e:
-                log.error("运行工作流失败: channel=%s, brand=%s, keyword=%s, err=%s", channel, brand_name, k.keyword, e)
-            total += 1
-
-    log.info("已触发工作流次数: %d", total)
+    # TODO: 实现业务逻辑
     log.info("[Scheduler] run_search_once: done")
 
 
