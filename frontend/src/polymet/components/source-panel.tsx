@@ -162,7 +162,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="w-[820px] sm:w-[820px] max-w-[90vw] sm:max-w-none p-0 border-l bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl">
+      <SheetContent hideCloseButton side="right" className="w-[820px] sm:w-[820px] max-w-[90vw] sm:max-w-none p-0 border-l bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl">
         {/* Hidden title for accessibility to satisfy Radix Dialog requirement */}
         <SheetHeader>
           <SheetTitle className="sr-only">原始评论与字幕</SheetTitle>
@@ -347,18 +347,15 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
               <div className="max-h-[70vh] overflow-auto pr-2 space-y-3">
                 {(filteredSegments.length > 0 ? filteredSegments : segments).map((seg, idx) => (
                   <div key={idx} id={`t-${idx}`} className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300">
-                    <div className="flex items-start space-x-3">
-                      <div className="flex-shrink-0">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 ">
                         <div className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-200/20 dark:border-purple-800/20">
                           <span className="text-xs font-mono text-purple-700 dark:text-purple-300">{seg.end ? `${seg.start}–${seg.end}` : seg.start}</span>
                         </div>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="sr-only">meta</span>
-                          <span className="text-xs px-2 py-0.5 rounded-full border bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800 ml-auto">中性</span>
-                        </div>
-                        <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">{seg.text}</p>
+                      <div className="flex-1 flex mt-1.5 items-start justify-between gap-3">
+                        <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-wrap m-0 flex-1">{seg.text}</p>
+                        <span className="text-xs px-2 py-0.5 rounded-full border bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800 flex-shrink-0 self-start">中性</span>
                       </div>
                     </div>
                   </div>

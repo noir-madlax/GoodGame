@@ -6,7 +6,7 @@ import { BarChart3, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import PlatformBadge from "@/polymet/components/platform-badge";
 import { normalizeCoverUrl } from "@/lib/media";
-import { DetailMainSkeleton, DetailSidebarSkeleton } from "@/polymet/components/loading-skeletons";
+import { DetailMainSkeleton, DetailSidebarSkeleton, SectionSkeleton } from "@/polymet/components/loading-skeletons";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import SourcePanel from "@/polymet/components/source-panel";
@@ -62,6 +62,7 @@ export default function VideoAnalysisDetail() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [post, setPost] = useState<PostRow | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisRow | null>(null);
+  const [analysisLoading, setAnalysisLoading] = useState<boolean>(false);
   const [commentsJson, setCommentsJson] = useState<CommentsJson | null>(null);
   const [transcriptJson, setTranscriptJson] = useState<TranscriptJson | null>(null);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(false);
@@ -76,6 +77,7 @@ export default function VideoAnalysisDetail() {
     const run = async () => {
       try {
         if (!supabase || !id) return;
+        setAnalysisLoading(true);
         const { data: postRows } = await supabase
           .from("gg_platform_post")
           .select(
@@ -101,6 +103,8 @@ export default function VideoAnalysisDetail() {
         }
       } catch (error) {
         console.error("Failed to load analysis detail", error);
+      } finally {
+        if (!cancelled) setAnalysisLoading(false);
       }
     };
     run();
@@ -421,13 +425,15 @@ export default function VideoAnalysisDetail() {
           )}
 
           {/* Sentiment Analysis Summary */}
-          <AnalysisSection
-            title="内容解析"
-            icon={
-              <BarChart3 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            }
-            items={keyPointItems}
-          />
+          {analysisLoading ? (
+            <SectionSkeleton rows={4} />
+          ) : (
+            <AnalysisSection
+              title="内容解析"
+              icon={<BarChart3 className="w-5 h-5 text-blue-600 dark:text-blue-400" />}
+              items={keyPointItems}
+            />
+          )}
         </div>
       </div>
 
@@ -446,29 +452,30 @@ export default function VideoAnalysisDetail() {
       />
 
       {/* Timeline Analysis - Full Width */}
-      <AnalysisSection
-        title="时间轴分析"
-        icon={<Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />}
-        items={timelineItems}
-        className="w-full"
-        headerRight={(
-          <button
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
-            onClick={() => setPanelOpen(true)}
-          >
-            查看原始评论与字幕
-          </button>
-        )}
-        renderItemAction={(idx) => (
+      {analysisLoading ? (
+        <SectionSkeleton rows={6} />
+      ) : (
+        <AnalysisSection
+          title="时间轴分析"
+          icon={<Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />}
+          items={timelineItems}
+          className="w-full"
+          headerRight={(
+            <button
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
+              onClick={() => setPanelOpen(true)}
+            >
+              查看原始评论与字幕
+            </button>
+          )}
+          renderItemAction={(idx) => (
           <button
             className="px-2 py-1 rounded-lg text-xs bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition"
-            onClick={(e) => {
+            onMouseEnter={(e) => {
               e.stopPropagation();
-              // 从 _ts 中提取 mm:ss
               const raw = (timelineItems[idx] as TimelineViewItem)?._ts || "";
               const mmssMatch = String(raw).match(/(\d{2}:\d{2})/);
               const start = mmssMatch ? mmssMatch[1] : null;
-              // 若是评论型事件，尝试用片段匹配评论树，得到 comment_path
               const snippet = (timelineItems[idx] as TimelineViewItem)?._snippet || "";
               const commentPath = findCommentPathBySnippet(commentsJson, snippet);
               setPanelOpen(true);
@@ -486,35 +493,20 @@ export default function VideoAnalysisDetail() {
                 setSearchParams(sp, { replace: true });
               }
             }}
+            onClick={(e) => {
+              // 点击不触发，避免文本选择后误触
+              e.preventDefault();
+              e.stopPropagation();
+            }}
             title="查看原文"
             aria-label="查看原文"
           >
             查看原文
           </button>
-        )}
-        onItemClick={(idx) => {
-          // 点击整行也触发：优先解析 _ts
-          const raw = (timelineItems[idx] as TimelineViewItem)?._ts || "";
-          const mmssMatch = String(raw).match(/(\d{2}:\d{2})/);
-          const start = mmssMatch ? mmssMatch[1] : null;
-          const snippet = (timelineItems[idx] as TimelineViewItem)?._snippet || "";
-          const commentPath = findCommentPathBySnippet(commentsJson, snippet);
-          setPanelOpen(true);
-          if (start) {
-            setAnchorSegStartState(start);
-            setAnchorCommentPathState(null);
-            const sp = new URLSearchParams(searchParams);
-            sp.set("seg_start", start);
-            setSearchParams(sp, { replace: true });
-          } else if (commentPath) {
-            setAnchorCommentPathState(commentPath);
-            setAnchorSegStartState(null);
-            const sp = new URLSearchParams(searchParams);
-            sp.set("comment_path", commentPath);
-            setSearchParams(sp, { replace: true });
-          }
-        }}
-      />
+          )}
+        // 取消整行点击触发，避免选择文本时误打开
+        />
+      )}
     </div>
   );
 }
