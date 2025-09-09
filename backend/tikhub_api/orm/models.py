@@ -82,6 +82,8 @@ class PlatformComment(BaseModel):
     like_count: int = Field(default=0, ge=0)
     reply_count: int = Field(default=0, ge=0)
 
+    floor: int = Field(default=0, ge=0)
+
     published_at: Optional[datetime] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None

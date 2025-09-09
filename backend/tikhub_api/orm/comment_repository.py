@@ -128,6 +128,7 @@ class CommentRepository:
             content=row.get("content", ""),
             like_count=row.get("like_count", 0),
             reply_count=row.get("reply_count", 0),
+            floor=row.get("floor", 0),
             published_at=_parse_dt(row.get("published_at")),
             created_at=_parse_dt(row.get("created_at")),
             updated_at=_parse_dt(row.get("updated_at")),
