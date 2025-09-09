@@ -3,6 +3,7 @@ from .post_repository import PostRepository
 from .comment_repository import CommentRepository
 from .merchant_brand_repository import MerchantBrandRepository
 from .search_keyword_repository import SearchKeywordRepository
+from .enums import AnalysisStatus, RelevantStatus
 
 __all__ = [
     "PlatformPost",
@@ -13,5 +14,7 @@ __all__ = [
     "CommentRepository",
     "MerchantBrandRepository",
     "SearchKeywordRepository",
+    "AnalysisStatus",
+    "RelevantStatus",
 ]
 

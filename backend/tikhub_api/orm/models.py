@@ -1,9 +1,10 @@
 from __future__ import annotations
-from typing import Optional, Dict, Any, Literal
+from typing import Optional, Dict, Any
 from datetime import datetime
 
 from pydantic import BaseModel, Field, HttpUrl, constr
 from pydantic import field_validator
+from .enums import AnalysisStatus, RelevantStatus
 
 
 # Pydantic models with validation constraints
@@ -35,15 +36,15 @@ class PlatformPost(BaseModel):
     cover_url: Optional[HttpUrl] = None
     video_url: Optional[HttpUrl] = None
 
-    # 分析状态（方案二：TEXT + CHECK）。DB 默认 'init'。
-    analysis_status: Literal['init', 'pending', 'analyzed'] = Field(
-        default="init",
+    # 分析状态（TEXT + CHECK）。DB 默认 'init'。建议使用枚举 AnalysisStatus 来引用。
+    analysis_status: AnalysisStatus = Field(
+        default=AnalysisStatus.INIT,
         description="分析状态：init=初始化, no_value=没有分析价值, pending=待分析, analyzed=已分析",
     )
 
-    # 相关性状态（TEXT + CHECK）。DB 默认 'unknown'。
-    relevant_status: Literal['unknown', 'no', 'yes', 'maybe'] = Field(
-        default="unknown",
+    # 相关性状态（TEXT + CHECK）。DB 默认 'unknown'。建议使用枚举 RelevantStatus 来引用。
+    relevant_status: RelevantStatus = Field(
+        default=RelevantStatus.UNKNOWN,
         description="相关性状态：unknown=未知, no=不相关, yes=相关, maybe=可能相关",
     )
 
