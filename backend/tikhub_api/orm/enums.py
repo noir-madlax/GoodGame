@@ -4,7 +4,6 @@ from enum import Enum
 
 class AnalysisStatus(str, Enum):
     INIT = "init"
-    NO_VALUE = "no_value"
     PENDING = "pending"
     ANALYZED = "analyzed"
 

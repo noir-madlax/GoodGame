@@ -1,17 +1,41 @@
+from typing import List
+
 from jobs.logger import get_logger
 from jobs.config import Settings
+from tikhub_api.orm import (
+    SearchKeywordRepository,
+    SearchKeyword,
+)
+from tikhub_api.workflow import run_video_workflow_channel
 
 log = get_logger(__name__)
 
 
 def run_search_once(settings) -> None:
     """
-    定时任务：关键词搜索 + upsert 入库（analysis_status=init）
-    TODO: 读取关键词列表、按平台调用 fetcher.get_search_posts(keyword)
-          使用 PostRepository.upsert_post 写入
+    定时任务：查询所有关键词，固定渠道 douyin，直接使用 SearchKeywordRepository 返回的 keyword，
+    逐一调用 run_video_workflow_channel 执行业务（不再与品牌名组合）。
     """
     log.info("[Scheduler] run_search_once: start")
-    # TODO: 实现业务逻辑
+
+    # 1) 查询所有关键词（search_keywords 全量）
+    keywords: List[SearchKeyword] = SearchKeywordRepository.list_all(limit=2000, offset=0)
+    log.info("关键词数量: %d", len(keywords))
+
+    # 2) 逐一执行业务（不额外打印结果）
+    channel = "douyin"
+    total = 0
+    for k in keywords:
+        kw = (k.keyword or "").strip()
+        if not kw:
+            continue
+        try:
+            run_video_workflow_channel(channel, kw)
+        except Exception as e:
+            log.error("运行工作流失败: channel=%s, keyword=%s, err=%s", channel, kw, e)
+        total += 1
+
+    log.info("已触发工作流次数: %d", total)
     log.info("[Scheduler] run_search_once: done")
 
 

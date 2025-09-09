@@ -39,7 +39,7 @@ class PlatformPost(BaseModel):
     # 分析状态（TEXT + CHECK）。DB 默认 'init'。建议使用枚举 AnalysisStatus 来引用。
     analysis_status: AnalysisStatus = Field(
         default=AnalysisStatus.INIT,
-        description="分析状态：init=初始化, no_value=没有分析价值, pending=待分析, analyzed=已分析",
+        description="分析状态：init=初始化, pending=待分析, analyzed=已分析",
     )
 
     # 相关性状态（TEXT + CHECK）。DB 默认 'unknown'。建议使用枚举 RelevantStatus 来引用。
