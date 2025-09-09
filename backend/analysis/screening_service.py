@@ -14,7 +14,7 @@ class ScreeningService:
 
     def fetch_candidates(self, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
         # 仅挑选 init 的内容，避免重复消耗
-        posts = PostRepository.list_by_status("init", limit=limit, offset=offset)
+        posts = PostRepository.list_by_analysis_status("init", limit=limit, offset=offset)
         # 转字典便于模板格式化
         return [p.model_dump(mode="json", exclude_none=True) for p in posts]  # type: ignore
 

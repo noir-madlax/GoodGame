@@ -36,10 +36,17 @@ class PlatformPost(BaseModel):
     video_url: Optional[HttpUrl] = None
 
     # 分析状态（方案二：TEXT + CHECK）。DB 默认 'init'。
-    analysis_status: Literal['init', 'no_value', 'pending', 'analyzed'] = Field(
+    analysis_status: Literal['init', 'pending', 'analyzed'] = Field(
         default="init",
         description="分析状态：init=初始化, no_value=没有分析价值, pending=待分析, analyzed=已分析",
     )
+
+    # 相关性状态（TEXT + CHECK）。DB 默认 'unknown'。
+    relevant_status: Literal['unknown', 'no', 'yes', 'maybe'] = Field(
+        default="unknown",
+        description="相关性状态：unknown=未知, no=不相关, yes=相关, maybe=可能相关",
+    )
+
 
     # 存储 get_video_details 返回的原始报文，便于排查
     raw_details: Optional[Dict[str, Any]] = None

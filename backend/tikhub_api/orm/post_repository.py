@@ -61,12 +61,31 @@ class PostRepository:
 
     @staticmethod
     def list_by_status(status: str, limit: int = 50, offset: int = 0) -> List[PlatformPost]:
-        """List posts by analysis_status for screening pipeline."""
+        """Deprecated: use list_by_analysis_status. Retained for backward compatibility."""
+        return PostRepository.list_by_analysis_status(status=status, limit=limit, offset=offset)
+
+    @staticmethod
+    def list_by_analysis_status(status: str, limit: int = 50, offset: int = 0) -> List[PlatformPost]:
+        """List posts by analysis_status."""
         client = get_client()
         resp = (
             client.table(TABLE)
             .select("*")
             .eq("analysis_status", status)
+            .order("id", desc=True)
+            .range(offset, offset + max(limit - 1, 0))
+            .execute()
+        )
+        return [PostRepository._row_to_model(r) for r in (resp.data or [])]
+
+    @staticmethod
+    def list_by_relevant_status(status: str, limit: int = 50, offset: int = 0) -> List[PlatformPost]:
+        """List posts by relevant_status."""
+        client = get_client()
+        resp = (
+            client.table(TABLE)
+            .select("*")
+            .eq("relevant_status", status)
             .order("id", desc=True)
             .range(offset, offset + max(limit - 1, 0))
             .execute()
@@ -83,6 +102,20 @@ class PostRepository:
         _ = (
             client.table(TABLE)
             .update({"analysis_status": status})
+            .eq("id", post_id)
+            .execute()
+        )
+        return None
+
+    @staticmethod
+    def update_relevant_status(post_id: int, status: str) -> Optional[PlatformPost]:
+        """Update relevant_status for a post by id.
+        与 update_analysis_status 相同，成功即返回 None，需要读取请再查一次。
+        """
+        client = get_client()
+        _ = (
+            client.table(TABLE)
+            .update({"relevant_status": status})
             .eq("id", post_id)
             .execute()
         )
@@ -111,6 +144,7 @@ class PostRepository:
             cover_url=row.get("cover_url"),
             video_url=row.get("video_url"),
             analysis_status=row.get("analysis_status", "init"),
+            relevant_status=row.get("relevant_status", "unknown"),
             raw_details=row.get("raw_details"),
             published_at=_parse_dt(row.get("published_at")),
             created_at=_parse_dt(row.get("created_at")),
