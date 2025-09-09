@@ -1,5 +1,6 @@
 import React from "react";
-import { BarChart3, Settings, TrendingUp, Filter, Search, BellRing } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { BarChart3, Settings, TrendingUp, Filter, Search, BellRing, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarItem {
@@ -16,13 +17,18 @@ interface ModernSidebarProps {
 }
 
 export default function ModernSidebar({ className }: ModernSidebarProps) {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const menuItems: SidebarItem[] = [
     {
       id: "content",
-      label: "舆情内容",
+      label: "全网舆情监控",
       icon: <BarChart3 className="w-5 h-5" />,
-
-      active: true,
+    },
+    {
+      id: "marks",
+      label: "标记内容与处理",
+      icon: <Bookmark className="w-5 h-5" />,
     },
     {
       id: "search-filter",
@@ -71,25 +77,34 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
 
       {/* Navigation */}
       <nav className="p-4 space-y-2">
-        {menuItems.map((item) => (
+        {menuItems.map((item) => {
+          const active =
+            (item.id === "content" && (pathname.startsWith("/dashboard") || pathname === "/" || pathname.startsWith("/detail"))) ||
+            (item.id === "marks" && pathname.startsWith("/marks"));
+          return (
           <button
             key={item.id}
             type="button"
             className={cn(
               "w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300",
               !item.disabled && "hover:bg-white/10 hover:backdrop-blur-sm hover:shadow-lg",
-              item.active
+              active
                 ? "bg-gradient-to-r from-blue-500/20 to-purple-600/20 backdrop-blur-sm border border-white/20 shadow-lg"
                 : !item.disabled && "hover:border hover:border-white/10",
               item.disabled && "opacity-50 cursor-not-allowed"
             )}
             disabled={item.disabled}
             aria-disabled={item.disabled}
+            onClick={() => {
+              if (item.disabled) return;
+              if (item.id === "content") navigate("/dashboard");
+              if (item.id === "marks") navigate("/marks");
+            }}
           >
             <div
               className={cn(
                 "flex items-center justify-center",
-                item.active
+                active
                   ? "text-blue-600 dark:text-blue-400"
                   : "text-gray-600 dark:text-gray-400"
               )}
@@ -99,7 +114,7 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
             <span
               className={cn(
                 "font-medium",
-                item.active
+                active
                   ? "text-blue-600 dark:text-blue-400"
                   : "text-gray-700 dark:text-gray-300"
               )}
@@ -112,7 +127,8 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
               </span>
             )}
           </button>
-        ))}
+          );
+        })}
       </nav>
 
       {/* Bottom Section 这个先隐藏，hidden注释掉*/}

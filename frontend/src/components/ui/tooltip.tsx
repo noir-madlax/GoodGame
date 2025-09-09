@@ -5,7 +5,10 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils"
 
-const TooltipProvider = TooltipPrimitive.Provider
+// 统一的 TooltipProvider：允许外部传入 delayDuration，默认 0
+const TooltipProvider = ({ children, delayDuration = 0 }: { children: React.ReactNode; delayDuration?: number }) => (
+  <TooltipPrimitive.Provider delayDuration={delayDuration}>{children}</TooltipPrimitive.Provider>
+)
 
 const Tooltip = TooltipPrimitive.Root
 

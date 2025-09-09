@@ -1,13 +1,9 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import ModernDashboardLayout from "@/polymet/layouts/modern-dashboard-layout";
 import ContentDashboard from "@/polymet/pages/content-dashboard";
 import VideoAnalysisDetail from "@/polymet/pages/video-analysis-detail";
+import MarkActionsPage from "@/polymet/pages/mark-actions";
 
 export default function ModernSentimentAnalysis() {
   return (
@@ -22,6 +18,16 @@ export default function ModernSentimentAnalysis() {
           element={
             <ModernDashboardLayout>
               <ContentDashboard />
+            </ModernDashboardLayout>
+          }
+        />
+
+        {/* Content Marks & Actions */}
+        <Route
+          path="/marks"
+          element={
+            <ModernDashboardLayout>
+              <MarkActionsPage />
             </ModernDashboardLayout>
           }
         />

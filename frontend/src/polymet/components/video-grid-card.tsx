@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { Heart, MessageCircle, Share2, ExternalLink, Bookmark } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 // import { Badge } from "@/components/ui/badge";
 import { RiskBadge } from "@/components/ui/risk-badge";
@@ -11,6 +12,7 @@ interface VideoGridCardProps {
   title: string;
   thumbnail: string;
   duration: string; // mm:ss
+  originalUrl?: string;
   likes: number;
   comments: number;
   shares: number;
@@ -23,12 +25,14 @@ interface VideoGridCardProps {
   publishDate: string; // YYYY-MM-DD
   className?: string;
   onClick?: () => void; // Optional click handler so parent can control navigation
+  isMarked?: boolean; // 是否已标记，用于左下角图标
 }
 
 export default function VideoGridCard({
   title,
   thumbnail,
   duration,
+  originalUrl,
   likes,
   comments,
   shares,
@@ -41,6 +45,7 @@ export default function VideoGridCard({
   publishDate,
   className,
   onClick,
+  isMarked,
 }: VideoGridCardProps) {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
 
@@ -115,11 +120,46 @@ export default function VideoGridCard({
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
+        {/* 左下角：已标记图标，仅图标显示 */}
+        {isMarked && (
+          <div className="absolute bottom-2 left-2 px-1.5 py-1 rounded-md bg-black/60 backdrop-blur-sm">
+            <Bookmark className="w-4 h-4 text-yellow-400" aria-label="已标记" />
+          </div>
+        )}
+
         {/* Play Button removed per requirement: do not show on hover */}
 
-        {/* Duration */}
-        <div className="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          {duration}
+        {/* Duration + 原内容图标（仅 hover 显示；点击仅图标生效） */}
+        <div className="absolute bottom-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          {originalUrl && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className="p-1 rounded-md bg-black/70 backdrop-blur-sm text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/40"
+                    aria-label="点击查看原内容"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(originalUrl, "_blank");
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (originalUrl) window.open(originalUrl, "_blank");
+                      }
+                    }}
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top">点击查看原内容</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+          <div className="px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-white text-xs font-medium">
+            {duration}
+          </div>
         </div>
 
         {/* Left-top: Relevance badge (weak visual) */}
@@ -197,7 +237,7 @@ export default function VideoGridCard({
             </span>
           </div>
           <div className="flex items-center">
-            <PlatformBadge platform={(platform || platformLabel) as string} variant="panel" />
+            {renderPlatformLogo(platform || platformLabel)}
           </div>
         </div>
 
