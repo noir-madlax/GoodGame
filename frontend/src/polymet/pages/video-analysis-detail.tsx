@@ -14,6 +14,7 @@ import { supabase } from "@/lib/supabase";
 import SourcePanel from "@/polymet/components/source-panel";
 import TimelineAnalysis, { TimelineItem as TLItem } from "@/polymet/components/timeline-analysis";
 import CommentsAnalysis, { CommentAnalysisItem } from "@/polymet/components/comments-analysis";
+import HandlingSuggestionsPanel from "@/polymet/components/handling-suggestions-panel";
 
 // 与 SourcePanel 保持一致的最小类型（仅用于本页状态）
 type CommentNode = {
@@ -78,6 +79,8 @@ export default function VideoAnalysisDetail() {
   // 标记提示文案与淡出效果（2 秒自动消失）
   const [markTip, setMarkTip] = useState<string | null>(null);
   const [markTipFading, setMarkTipFading] = useState<boolean>(false);
+  // 处理建议面板开关
+  const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false);
   // 处理建议（本地持久化，用于“内容标记和处理”页展示）
   const handleGenerateAdvice = () => {
     try {
@@ -102,7 +105,8 @@ export default function VideoAnalysisDetail() {
           .update({ process_status: "处理中" })
           .eq("platform_item_id", id);
       }
-      // 不弹窗
+      // 打开处理建议展示
+      setSuggestionsOpen(true);
     } catch (e) {
       console.error(e);
     }
@@ -663,6 +667,13 @@ export default function VideoAnalysisDetail() {
         anchorSegmentIndex={Number.isFinite(anchorSegIndex as number) ? (anchorSegIndex as number) : null}
         anchorSegmentStart={anchorSegStartState || anchorSegStart}
         defaultTab="comments"
+      />
+
+      {/* 处理建议面板 */}
+      <HandlingSuggestionsPanel
+        open={suggestionsOpen}
+        onClose={() => setSuggestionsOpen(false)}
+        postId={post?.id}
       />
 
       {/* 底部双 Tab：时间轴分析 / 评论分析 */}

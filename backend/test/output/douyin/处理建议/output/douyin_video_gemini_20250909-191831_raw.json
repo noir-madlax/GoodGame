@@ -1,0 +1,180 @@
+{
+  "request": {
+    "model_candidates": [
+      "gemini-2.5-pro"
+    ],
+    "video_file": "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7499608775142608186/7499608775142608186.mp4",
+    "request_config": {
+      "temperature": 0.3,
+      "response_mime_type": "application/json",
+      "response_schema": "VideoAnalysisV3(pydantic)",
+      "video_metadata": {
+        "fps": 5
+      },
+      "contents_order": [
+        "video",
+        "text"
+      ]
+    }
+  },
+  "raw_response_type": "GenerateContentResponse",
+  "raw_response": {
+    "sdk_http_response": {
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "vary": "Origin, X-Origin, Referer",
+        "content-encoding": "gzip",
+        "date": "Tue, 09 Sep 2025 11:19:14 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "x-xss-protection": "0",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "server-timing": "gfet4t7; dur=37378",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "transfer-encoding": "chunked"
+      },
+      "body": null
+    },
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "video_metadata": null,
+              "thought": null,
+              "inline_data": null,
+              "file_data": null,
+              "thought_signature": null,
+              "code_execution_result": null,
+              "executable_code": null,
+              "function_call": null,
+              "function_response": null,
+              "text": "{\n  \"summary\": \"视频展示了一名衣着暴露的女性在婴儿床内，并与他人有身体接触，内容带有性暗示，整体观感低俗。该视频内容与海底捞品牌无任何可识别的关联。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"brand_relevance\": \"无关\",\n  \"relevance_evidence\": \"视频的画面、音频及文字信息中均未出现任何与“海底捞”品牌相关的元素，如Logo、门店环境、员工制服或品牌名称。视频场景为室内私人空间，与餐饮经营场景无关。\",\n  \"risk_type_total\": [\n    \"色情低俗内容\"\n  ],\n  \"key_points\": [\n    \"色情低俗内容: 视频包含女性在婴儿床内进行性暗示的低俗画面\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00-00:12\",\n      \"scene_description\": \"在室内环境中，一名穿着黑色蕾丝内衣、短裙和长靴的女性在一个婴儿床内。一名男性最初将其放入婴儿床，随后有多只手触摸该女性的背部和身体。\",\n      \"audio_transcript\": \"动感的电子音乐\",\n      \"issue\": \"视频内容包含衣着暴露的女性在不适宜的场景（婴儿床）中进行具有性暗示的互动，属于低俗内容。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"室内/私人空间\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"女性穿着暴露躺/坐在婴儿床内，被他人触摸身体\",\n          \"objects_involved\": \"婴儿床\",\n          \"details\": \"女性穿着黑色蕾丝内衣和长靴，场景昏暗，镜头摇晃，背景为快节奏电子音乐。\"\n        }\n      ],\n      \"source\": \"video\",\n      \"comment_id\": null,\n      \"comment_index\": null\n    }\n  ],\n  \"handling_suggestions\": {\n    \"overview\": \"该视频内容低俗，与品牌完全无关。核心风险在于可能被恶意或无意地与品牌关联，造成品牌形象损害。建议监控该视频是否在提及海底捞的上下文中传播，并在出现关联时进行澄清或向平台举报。\",\n    \"severity\": \"high\",\n    \"priority\": \"P1\",\n    \"legal_risk_summary\": \"视频内容可能违反平台关于禁止传播色情、低俗信息的社区规范。若被恶意关联至品牌，可能构成对品牌商誉的侵害。\",\n    \"strategies\": [\n      {\n        \"tone\": \"strict\",\n        \"target\": \"平台\",\n        \"talk_track\": \"我们发现此视频（链接/ID）包含强烈的性暗示和低俗元素，违反了贵平台关于禁止传播色情低俗内容的社区规定。视频中女性衣着暴露，在婴儿床这一特殊场景中的行为极易引人不适。为维护网络环境的健康，我们请求平台立即对该视频进行审核并做下架处理。\",\n        \"incentives\": [\n          \"无\"\n        ],\n        \"legal_basis\": [],\n        \"platform_policy_basis\": [\n          {\n            \"policy_name\": \"平台社区规范（色情低俗内容）\",\n            \"clause\": \"禁止发布、传播含有性暗示、低俗趣味或引人不适的内容。\",\n            \"why_relevant\": \"视频中女性衣着暴露，在婴儿床这一特殊场景中进行带有性暗示的身体互动，完全符合低俗内容的定义。\"\n          }\n        ],\n        \"required_actions\": [\n          \"平台下架该违规视频\"\n        ],\n        \"escalation_path\": \"若平台初审未处理，可升级至平台法务或通过网信办等监管机构渠道进行举报。\"\n      }\n    ],\n    \"outreach_channels\": [\n      \"平台举报通道\"\n    ],\n    \"follow_up_checklist\": [\n      \"监控视频是否被删除\",\n      \"监控该视频或账号是否与其他提及海底捞的内容产生关联\"\n    ],\n    \"redact_suggestions\": [\n      \"无，该视频与品牌无关，但因其低俗性质，应由平台进行处理。\"\n    ]\n  }\n}"
+            }
+          ],
+          "role": "model"
+        },
+        "citation_metadata": null,
+        "finish_message": null,
+        "token_count": null,
+        "finish_reason": "STOP",
+        "url_context_metadata": null,
+        "avg_logprobs": null,
+        "grounding_metadata": null,
+        "index": 0,
+        "logprobs_result": null,
+        "safety_ratings": null
+      }
+    ],
+    "create_time": null,
+    "model_version": "gemini-2.5-pro",
+    "prompt_feedback": null,
+    "response_id": "Mg3AaOL4N8uumtkP-8KlyQM",
+    "usage_metadata": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 1002,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 25703,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 4151
+        },
+        {
+          "modality": "VIDEO",
+          "token_count": 21040
+        },
+        {
+          "modality": "AUDIO",
+          "token_count": 512
+        }
+      ],
+      "thoughts_token_count": 2223,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 28928,
+      "traffic_type": null
+    },
+    "automatic_function_calling_history": [],
+    "parsed": {
+      "summary": "视频展示了一名衣着暴露的女性在婴儿床内，并与他人有身体接触，内容带有性暗示，整体观感低俗。该视频内容与海底捞品牌无任何可识别的关联。",
+      "sentiment": "negative",
+      "brand": "海底捞",
+      "brand_relevance": "无关",
+      "relevance_evidence": "视频的画面、音频及文字信息中均未出现任何与“海底捞”品牌相关的元素，如Logo、门店环境、员工制服或品牌名称。视频场景为室内私人空间，与餐饮经营场景无关。",
+      "risk_type_total": [
+        "色情低俗内容"
+      ],
+      "key_points": [
+        "色情低俗内容: 视频包含女性在婴儿床内进行性暗示的低俗画面"
+      ],
+      "events": [
+        {
+          "timestamp": "00:00-00:12",
+          "scene_description": "在室内环境中，一名穿着黑色蕾丝内衣、短裙和长靴的女性在一个婴儿床内。一名男性最初将其放入婴儿床，随后有多只手触摸该女性的背部和身体。",
+          "audio_transcript": "动感的电子音乐",
+          "issue": "视频内容包含衣着暴露的女性在不适宜的场景（婴儿床）中进行具有性暗示的互动，属于低俗内容。",
+          "risk_type": [
+            "色情低俗内容"
+          ],
+          "evidence": [
+            {
+              "scene_area": "室内/私人空间",
+              "subject_type": "人",
+              "subject_behavior": "女性穿着暴露躺/坐在婴儿床内，被他人触摸身体",
+              "objects_involved": "婴儿床",
+              "contact_path": null,
+              "brand_assets": null,
+              "audio_quote": null,
+              "visibility": null,
+              "details": "女性穿着黑色蕾丝内衣和长靴，场景昏暗，镜头摇晃，背景为快节奏电子音乐。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        }
+      ],
+      "handling_suggestions": {
+        "overview": "该视频内容低俗，与品牌完全无关。核心风险在于可能被恶意或无意地与品牌关联，造成品牌形象损害。建议监控该视频是否在提及海底捞的上下文中传播，并在出现关联时进行澄清或向平台举报。",
+        "severity": "high",
+        "priority": "P1",
+        "legal_risk_summary": "视频内容可能违反平台关于禁止传播色情、低俗信息的社区规范。若被恶意关联至品牌，可能构成对品牌商誉的侵害。",
+        "strategies": [
+          {
+            "tone": "strict",
+            "target": "平台",
+            "talk_track": "我们发现此视频（链接/ID）包含强烈的性暗示和低俗元素，违反了贵平台关于禁止传播色情低俗内容的社区规定。视频中女性衣着暴露，在婴儿床这一特殊场景中的行为极易引人不适。为维护网络环境的健康，我们请求平台立即对该视频进行审核并做下架处理。",
+            "incentives": [
+              "无"
+            ],
+            "legal_basis": [],
+            "platform_policy_basis": [
+              {
+                "policy_name": "平台社区规范（色情低俗内容）",
+                "clause": "禁止发布、传播含有性暗示、低俗趣味或引人不适的内容。",
+                "why_relevant": "视频中女性衣着暴露，在婴儿床这一特殊场景中进行带有性暗示的身体互动，完全符合低俗内容的定义。"
+              }
+            ],
+            "required_actions": [
+              "平台下架该违规视频"
+            ],
+            "escalation_path": "若平台初审未处理，可升级至平台法务或通过网信办等监管机构渠道进行举报。"
+          }
+        ],
+        "outreach_channels": [
+          "平台举报通道"
+        ],
+        "follow_up_checklist": [
+          "监控视频是否被删除",
+          "监控该视频或账号是否与其他提及海底捞的内容产生关联"
+        ],
+        "redact_suggestions": [
+          "无，该视频与品牌无关，但因其低俗性质，应由平台进行处理。"
+        ]
+      }
+    }
+  },
+  "raw_text": "{\n  \"summary\": \"视频展示了一名衣着暴露的女性在婴儿床内，并与他人有身体接触，内容带有性暗示，整体观感低俗。该视频内容与海底捞品牌无任何可识别的关联。\",\n  \"sentiment\": \"negative\",\n  \"brand\": \"海底捞\",\n  \"brand_relevance\": \"无关\",\n  \"relevance_evidence\": \"视频的画面、音频及文字信息中均未出现任何与“海底捞”品牌相关的元素，如Logo、门店环境、员工制服或品牌名称。视频场景为室内私人空间，与餐饮经营场景无关。\",\n  \"risk_type_total\": [\n    \"色情低俗内容\"\n  ],\n  \"key_points\": [\n    \"色情低俗内容: 视频包含女性在婴儿床内进行性暗示的低俗画面\"\n  ],\n  \"events\": [\n    {\n      \"timestamp\": \"00:00-00:12\",\n      \"scene_description\": \"在室内环境中，一名穿着黑色蕾丝内衣、短裙和长靴的女性在一个婴儿床内。一名男性最初将其放入婴儿床，随后有多只手触摸该女性的背部和身体。\",\n      \"audio_transcript\": \"动感的电子音乐\",\n      \"issue\": \"视频内容包含衣着暴露的女性在不适宜的场景（婴儿床）中进行具有性暗示的互动，属于低俗内容。\",\n      \"risk_type\": [\n        \"色情低俗内容\"\n      ],\n      \"evidence\": [\n        {\n          \"scene_area\": \"室内/私人空间\",\n          \"subject_type\": \"人\",\n          \"subject_behavior\": \"女性穿着暴露躺/坐在婴儿床内，被他人触摸身体\",\n          \"objects_involved\": \"婴儿床\",\n          \"details\": \"女性穿着黑色蕾丝内衣和长靴，场景昏暗，镜头摇晃，背景为快节奏电子音乐。\"\n        }\n      ],\n      \"source\": \"video\",\n      \"comment_id\": null,\n      \"comment_index\": null\n    }\n  ],\n  \"handling_suggestions\": {\n    \"overview\": \"该视频内容低俗，与品牌完全无关。核心风险在于可能被恶意或无意地与品牌关联，造成品牌形象损害。建议监控该视频是否在提及海底捞的上下文中传播，并在出现关联时进行澄清或向平台举报。\",\n    \"severity\": \"high\",\n    \"priority\": \"P1\",\n    \"legal_risk_summary\": \"视频内容可能违反平台关于禁止传播色情、低俗信息的社区规范。若被恶意关联至品牌，可能构成对品牌商誉的侵害。\",\n    \"strategies\": [\n      {\n        \"tone\": \"strict\",\n        \"target\": \"平台\",\n        \"talk_track\": \"我们发现此视频（链接/ID）包含强烈的性暗示和低俗元素，违反了贵平台关于禁止传播色情低俗内容的社区规定。视频中女性衣着暴露，在婴儿床这一特殊场景中的行为极易引人不适。为维护网络环境的健康，我们请求平台立即对该视频进行审核并做下架处理。\",\n        \"incentives\": [\n          \"无\"\n        ],\n        \"legal_basis\": [],\n        \"platform_policy_basis\": [\n          {\n            \"policy_name\": \"平台社区规范（色情低俗内容）\",\n            \"clause\": \"禁止发布、传播含有性暗示、低俗趣味或引人不适的内容。\",\n            \"why_relevant\": \"视频中女性衣着暴露，在婴儿床这一特殊场景中进行带有性暗示的身体互动，完全符合低俗内容的定义。\"\n          }\n        ],\n        \"required_actions\": [\n          \"平台下架该违规视频\"\n        ],\n        \"escalation_path\": \"若平台初审未处理，可升级至平台法务或通过网信办等监管机构渠道进行举报。\"\n      }\n    ],\n    \"outreach_channels\": [\n      \"平台举报通道\"\n    ],\n    \"follow_up_checklist\": [\n      \"监控视频是否被删除\",\n      \"监控该视频或账号是否与其他提及海底捞的内容产生关联\"\n    ],\n    \"redact_suggestions\": [\n      \"无，该视频与品牌无关，但因其低俗性质，应由平台进行处理。\"\n    ]\n  }\n}"
+}
