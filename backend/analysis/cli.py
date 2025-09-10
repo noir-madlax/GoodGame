@@ -14,7 +14,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=5)
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--id", type=int, default=0, help="要初筛的帖子 id（配合 run-one 使用）")
-    parser.add_argument("--model", type=str, default=os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini"))
+    parser.add_argument("--model", type=str, default=os.getenv("OPENROUTER_MODEL", "google/gemini-2.5-pro"))
     args = parser.parse_args()
 
     svc = ScreeningService(model=args.model)

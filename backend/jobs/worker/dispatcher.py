@@ -13,11 +13,14 @@ class WorkerDispatcher:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
         self.pools = WorkerPools(settings)
-        self.lanes = [
-            EvaluateLane(settings, self.pools.eval_pool),
-            CommentsLane(settings, self.pools.comments_pool),
-            AnalyzeLane(settings, self.pools.analyze_pool),
-        ]
+        lanes = []
+        if self.settings.ENABLE_LANE_EVALUATE:
+            lanes.append(EvaluateLane(settings, self.pools.eval_pool))
+        if self.settings.ENABLE_LANE_COMMENTS:
+            lanes.append(CommentsLane(settings, self.pools.comments_pool))
+        if self.settings.ENABLE_LANE_ANALYZE:
+            lanes.append(AnalyzeLane(settings, self.pools.analyze_pool))
+        self.lanes = lanes
         self._stopping = False
 
     def run_forever(self) -> None:

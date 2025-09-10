@@ -22,9 +22,14 @@ def _getenv_str(name: str, default: str) -> str:
 
 @dataclass
 class Settings:
-    # Switches
+    # Switches (global)
     ENABLE_SCHEDULER: bool = True
     ENABLE_WORKER: bool = True
+
+    # Switches (per-lane)
+    ENABLE_LANE_EVALUATE: bool = True
+    ENABLE_LANE_COMMENTS: bool = True
+    ENABLE_LANE_ANALYZE: bool = True
 
     # Scheduler
     # Cron 表达式，默认每5分钟执行一次关键词搜索
@@ -46,6 +51,9 @@ class Settings:
         return Settings(
             ENABLE_SCHEDULER=_getenv_bool("ENABLE_SCHEDULER", True),
             ENABLE_WORKER=_getenv_bool("ENABLE_WORKER", True),
+            ENABLE_LANE_EVALUATE=_getenv_bool("ENABLE_LANE_EVALUATE", True),
+            ENABLE_LANE_COMMENTS=_getenv_bool("ENABLE_LANE_COMMENTS", True),
+            ENABLE_LANE_ANALYZE=_getenv_bool("ENABLE_LANE_ANALYZE", True),
             SCHED_SEARCH_CRON=_getenv_str("SCHED_SEARCH_CRON", "*/5 * * * *"),
             WORKER_POLL_INTERVAL_SEC=_getenv_int("WORKER_POLL_INTERVAL_SEC", 2),
             WORKER_EVAL_CONCURRENCY=_getenv_int("WORKER_EVAL_CONCURRENCY",1),

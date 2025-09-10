@@ -213,6 +213,44 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
         return StepResult(ok=False, error=f"评论同步失败: {e}")
 
 
+
+def sync_comments_for_post_id(post_id: int, page_size: int = 20) -> StepResult:
+    """公开方法：按 post_id 同步评论，成功后将 analysis_status 置为 pending。
+    封装 _step_sync_comments 以及状态回写逻辑，供 worker/CLI 复用。
+    """
+    try:
+        # 延迟导入，兼容作为模块或脚本运行
+        try:
+            from .orm.post_repository import PostRepository
+            from .orm.enums import AnalysisStatus
+        except Exception:
+            from tikhub_api.orm.post_repository import PostRepository
+            from tikhub_api.orm.enums import AnalysisStatus
+
+        post = PostRepository.get_by_id(int(post_id))
+        if not post:
+            return StepResult(ok=False, error=f"post not found: id={post_id}")
+        platform = getattr(post, "platform", None)
+        video_id = getattr(post, "platform_item_id", None)
+        if not platform or not video_id:
+            return StepResult(ok=False, error="missing platform or platform_item_id")
+
+        # 创建对应平台 fetcher 并调用内部实现
+        fetcher = create_fetcher(str(platform))
+        res = _step_sync_comments(fetcher, str(video_id), int(post_id), page_size=page_size)
+
+        # 成功且未跳过时，写回 analysis_status=pending
+        if getattr(res, "ok", False) and not getattr(res, "skipped", False):
+            try:
+                PostRepository.update_analysis_status(int(post_id), AnalysisStatus.PENDING.value)
+            except Exception:
+                # 状态写回失败不影响主流程结果
+                pass
+        return res
+    except Exception as e:
+        return StepResult(ok=False, error=f"sync_comments_for_post_id failed: {e}")
+
+
 def _step_sync_danmaku(fetcher, video_id: str, video_dir: str) -> StepResult:
     try:
         video_details = fetcher.get_video_details(video_id) or {}
@@ -511,7 +549,7 @@ def run_video_workflow_channel(channel: str, keyword: str, options: WorkflowOpti
 
 def main():
     print("=== 多平台视频下载工具 ===")
-   
+
     run_video_workflow_channel("douyin", "火锅", WorkflowOptions(
         sync_details=False,
         sync_comments=False,

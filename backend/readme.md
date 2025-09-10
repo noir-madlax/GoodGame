@@ -1,12 +1,9 @@
 ## 运行定时任务
 
 在 backend 目录下，先激活虚拟环境，再用 -m 运行模块：
-
 cd backend
 source .venv/bin/activate
 python -m jobs.scheduler.search_job
-
-
 
 ## 运行初筛
 请在项目根目录或 backend 目录下按模块方式运行，并确保先激活 backend 的虚拟环境。
@@ -20,3 +17,12 @@ python -m analysis.cli run-one --id 139
 cd backend
 source .venv/bin/activate
 python -m analysis.cli run --limit 5 --offset 0
+
+## 运行评论爬取
+- 方式 A：在项目根目录运行（推荐）
+  - source backend/.venv/bin/activate
+  - python -m backend.jobs.worker.lanes.comments --id 108
+- 方式 B：在 backend 目录运行
+  - cd backend
+  - source .venv/bin/activate
+  - python -m jobs.worker.lanes.comments --id 108

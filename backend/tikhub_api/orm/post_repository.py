@@ -106,6 +106,27 @@ class PostRepository:
         return [PostRepository._row_to_model(r) for r in (resp.data or [])]
 
     @staticmethod
+    def list_by_analysis_and_relevance(
+        analysis_status: str,
+        relevant_status: str,
+        limit: int = 50,
+        offset: int = 0,
+    ) -> List[PlatformPost]:
+        """List posts matching both analysis_status and relevant_status."""
+        client = get_client()
+        resp = (
+            client.table(TABLE)
+            .select("*")
+            .eq("analysis_status", analysis_status)
+            .eq("relevant_status", relevant_status)
+            .order("id", desc=True)
+            .range(offset, offset + max(limit - 1, 0))
+            .execute()
+        )
+        return [PostRepository._row_to_model(r) for r in (resp.data or [])]
+
+
+    @staticmethod
     def update_analysis_status(post_id: int, status: str, relevant_result: Optional[Dict[str, Any]] = None) -> Optional[PlatformPost]:
         """Update analysis_status (and optionally relevant_result JSON) by id.
         一些 supabase-py 版本在 update() 链式后不支持 .select("*")，因此这里不强求返回更新后的行，成功即返回 None。

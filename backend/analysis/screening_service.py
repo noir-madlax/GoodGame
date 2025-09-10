@@ -5,13 +5,9 @@ from tikhub_api.orm.post_repository import PostRepository
 from tikhub_api.orm.enums import RelevantStatus
 from .openrouter_client import OpenRouterClient
 from .text_builder import build_user_msg, SYSTEM_PROMPT
-from .heuristics import obviously_no_value
-
 from jobs.logger import get_logger
 
 log = get_logger(__name__)
-
-ALLOWED_STATUSES = {"init", "pending", "no_value", "analyzed"}
 
 class ScreeningService:
     def __init__(self, model: Optional[str] = None, api_key: Optional[str] = None) -> None:
@@ -34,6 +30,10 @@ class ScreeningService:
         #     return {"status": "no", "result": {"source": "heuristics", "reason": "低互动或低价值关键词"}}
         # 调用 LLM：现约定模型直接返回英文相关性枚举（yes/no/maybe），不再做本地映射
         user_msg = build_user_msg(row)
+
+        log.info({"post_id": row.get("id"), "event": "llm 请求参数如下",
+                  "llm_system_prompt": SYSTEM_PROMPT,
+                  "llm_user_msg": user_msg})
         result = self.client.classify_value(SYSTEM_PROMPT, user_msg)
         log.info({"post_id": row.get("id"),
                   "event":"llm 返回结果如下",
