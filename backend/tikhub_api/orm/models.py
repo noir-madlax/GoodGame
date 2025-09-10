@@ -106,3 +106,30 @@ class SearchKeyword(BaseModel):
     id: Optional[int] = Field(default=None, ge=1)
     keyword: NonEmptyStr
     created_at: Optional[datetime] = None
+
+
+
+class VideoAnalysis(BaseModel):
+    id: Optional[int] = Field(default=None, ge=1)
+
+    source_path: NonEmptyStr
+    source_platform: str = Field(default="douyin")
+
+    summary: NonEmptyStr
+    sentiment: NonEmptyStr
+    brand: Optional[str] = None
+
+    # JSONB 列：形态未固定，使用 Any 以兼容 dict/list 等
+    timeline: Any
+    key_points: Any
+    risk_types: Any
+
+    created_at: Optional[datetime] = None
+
+    platform_item_id: Optional[str] = None
+    analysis_detail: Optional[Dict[str, Any]] = None
+    post_id: Optional[int] = Field(default=None, ge=1)
+    brand_relevance: Optional[str] = None
+    relevance_evidence: Optional[str] = None
+    transcript_json: Optional[Dict[str, Any]] = None
+    handling_suggestions: Optional[Dict[str, Any]] = None
