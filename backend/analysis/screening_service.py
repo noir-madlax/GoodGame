@@ -3,7 +3,7 @@ from typing import List, Dict, Any, Optional
 
 from tikhub_api.orm.post_repository import PostRepository
 from tikhub_api.orm.enums import RelevantStatus
-from .openrouter_client import OpenRouterClient
+from .gemini_client import GeminiClient
 from .text_builder import build_user_msg, SYSTEM_PROMPT
 from jobs.logger import get_logger
 
@@ -11,7 +11,7 @@ log = get_logger(__name__)
 
 class ScreeningService:
     def __init__(self, model: Optional[str] = None, api_key: Optional[str] = None) -> None:
-        self.client = OpenRouterClient(model=model, api_key=api_key)
+        self.client = GeminiClient(model=model, api_key=api_key)
 
     def fetch_candidates(self, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
         # 仅挑选 relevant_status='unknown' 的内容；当前需求固定只取 1 条（硬编码）
@@ -31,9 +31,6 @@ class ScreeningService:
         # 调用 LLM：现约定模型直接返回英文相关性枚举（yes/no/maybe），不再做本地映射
         user_msg = build_user_msg(row)
 
-        log.info({"post_id": row.get("id"), "event": "llm 请求参数如下",
-                  "llm_system_prompt": SYSTEM_PROMPT,
-                  "llm_user_msg": user_msg})
         result = self.client.classify_value(SYSTEM_PROMPT, user_msg)
         log.info({"post_id": row.get("id"),
                   "event":"llm 返回结果如下",
