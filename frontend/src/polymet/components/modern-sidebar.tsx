@@ -68,9 +68,7 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
             <h1 className="text-lg font-bold text-gray-900 dark:text-white">
               海底捞舆情分析
             </h1>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              智能监控平台
-            </p>
+        
           </div>
         </div>
       </div>
@@ -80,7 +78,7 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
         {menuItems.map((item) => {
           const active =
             (item.id === "content" && (pathname.startsWith("/dashboard") || pathname === "/" || pathname.startsWith("/detail"))) ||
-            (item.id === "marks" && pathname.startsWith("/marks"));
+            (item.id === "marks" && (pathname.startsWith("/marks") || pathname.startsWith("/suggestions")));
           return (
           <button
             key={item.id}

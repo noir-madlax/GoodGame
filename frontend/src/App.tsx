@@ -4,6 +4,7 @@ import ModernDashboardLayout from "@/polymet/layouts/modern-dashboard-layout";
 import ContentDashboard from "@/polymet/pages/content-dashboard";
 import VideoAnalysisDetail from "@/polymet/pages/video-analysis-detail";
 import MarkActionsPage from "@/polymet/pages/mark-actions";
+import HandlingSuggestionsPage from "@/polymet/pages/handling-suggestions";
 
 export default function ModernSentimentAnalysis() {
   return (
@@ -38,6 +39,16 @@ export default function ModernSentimentAnalysis() {
           element={
             <ModernDashboardLayout>
               <VideoAnalysisDetail />
+            </ModernDashboardLayout>
+          }
+        />
+
+        {/* Handling Suggestions */}
+        <Route
+          path="/suggestions/:id"
+          element={
+            <ModernDashboardLayout>
+              <HandlingSuggestionsPage />
             </ModernDashboardLayout>
           }
         />

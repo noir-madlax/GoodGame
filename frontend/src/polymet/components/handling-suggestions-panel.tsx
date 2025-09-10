@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, Loader2 } from "lucide-react";
-import SampleHandlingSuggestions from "@/polymet/sample-code/sample";
+import HandlingSuggestionsView from "@/polymet/components/handling-suggestions-view";
 
 /**
  * 处理建议展示抽屉组件
@@ -187,5 +187,5 @@ export default function HandlingSuggestionsPanel({ open, onClose, analysisId, po
   }
 
   // 直接复用 sample 展示组件
-  return <SampleHandlingSuggestions data={data} isOpen={true} onClose={onClose} className={className} />;
+  return <HandlingSuggestionsView data={data} isOpen={true} onClose={onClose} className={className} />;
 }

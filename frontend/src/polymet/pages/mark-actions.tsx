@@ -249,7 +249,7 @@ export default function MarkActionsPage() {
                         </button>
                         <button
                           className="px-3 py-1 rounded-lg text-xs border border-purple-500/30 text-purple-600 hover:bg-purple-500/10"
-                          onClick={() => navigate(`/detail/${item.platform_item_id || item.id}?tab=advice`)}
+                          onClick={() => navigate(`/suggestions/${item.platform_item_id || item.id}`)}
                           aria-label="处理建议">处理建议</button>
                       </div>
                     </td>

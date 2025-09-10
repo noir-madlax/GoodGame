@@ -98,15 +98,11 @@ export default function VideoAnalysisDetail() {
       const arr = JSON.parse(localStorage.getItem(key) || "[]");
       arr.unshift(payload);
       localStorage.setItem(key, JSON.stringify(arr.slice(0, 200)));
-      // 同步数据库：置为处理中
       if (id && supabase) {
-        void supabase
-          .from("gg_platform_post")
-          .update({ process_status: "处理中" })
-          .eq("platform_item_id", id);
+        void supabase.from("gg_platform_post").update({ process_status: "处理中" }).eq("platform_item_id", id);
       }
-      // 打开处理建议展示
-      setSuggestionsOpen(true);
+      // 跳转到处理建议页面
+      navigate(`/suggestions/${id}`);
     } catch (e) {
       console.error(e);
     }
