@@ -1,5 +1,6 @@
 // no React import needed with JSX transform
-import { Heart, Share2, MessageCircle, Eye, Clock, FileText, Link as LinkIcon } from "lucide-react";
+import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as LinkIcon } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
 
@@ -19,6 +20,7 @@ interface VideoPlayerCardProps {
   className?: string;
   brandRelevance?: string;
   relevanceEvidence?: string;
+  onGenerateAdvice?: () => void;
 }
 
 export default function VideoPlayerCard({
@@ -37,6 +39,7 @@ export default function VideoPlayerCard({
   className,
   brandRelevance,
   relevanceEvidence,
+  onGenerateAdvice,
 }: VideoPlayerCardProps) {
   return (
     <div
@@ -69,9 +72,37 @@ export default function VideoPlayerCard({
 
         {/* Overlay gradient */}
 
-        {/* Duration */}
-        <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm text-white text-sm font-medium">
-          {duration}
+        {/* 原内容图标 + Duration 常显（仅点击图标跳原链） */}
+        <div className="absolute bottom-4 right-4 flex items-center gap-2">
+          {originalUrl && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className="p-2 rounded-full bg-black/60 text-white hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white/40"
+                    aria-label="点击查看原内容"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(originalUrl, "_blank");
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (originalUrl) window.open(originalUrl, "_blank");
+                      }
+                    }}
+                  >
+                    <LinkIcon className="w-4 h-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top">点击查看原内容</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+          <div className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm text-white text-sm font-medium">
+            {duration}
+          </div>
         </div>
       </div>
 
@@ -120,14 +151,12 @@ export default function VideoPlayerCard({
             </div>
           </div>
 
-          {originalUrl && (
-            <button
-              className="px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-              onClick={() => window.open(originalUrl, "_blank")}
-            >
-              查看原内容
-            </button>
-          )}
+          <button
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+            onClick={() => onGenerateAdvice && onGenerateAdvice()}
+          >
+            生成处理建议
+          </button>
         </div>
 
         {/* Summary Section moved below meta and actions */}

@@ -42,6 +42,7 @@ export default function ContentDashboard() {
     platform: string;
     platform_item_id: string;
     title: string;
+    original_url?: string | null;
     like_count: number;
     comment_count: number;
     share_count: number;
@@ -50,6 +51,7 @@ export default function ContentDashboard() {
     duration_ms: number;
     published_at: string | null;
     created_at: string;
+    is_marked?: boolean | null;
     /**
      * 中文设计说明：
      * 1) relevant_status 来源于 gg_platform_post，属于【初筛】结论；值域：yes/no/maybe/unknown。
@@ -79,7 +81,7 @@ export default function ContentDashboard() {
   const [sentiments, setSentiments] = useState<Record<string, string>>({}); // 映射：platform_item_id -> 情绪
   const [relevances, setRelevances] = useState<Record<string, string>>({}); // 映射：platform_item_id -> 品牌相关性（细分覆盖初筛后的最终值）
   // filter options are now loaded inside FilterBar from gg_filter_enums
-  const [riskOptions, setRiskOptions] = useState<{ id: string; label: string; count: number }[]>([]); // 风险场景 TopN 选项
+  const [riskOptions, setRiskOptions] = useState<{ id: string; label: string; count: number }[]>([]); // 风险场景 TopN 选项（保留供 FilterBar 覆盖使用）
   // label maps moved to FilterBar; keep page lean
   // filters（筛选器当前值）
   const [riskScenario, setRiskScenario] = useState<string>("all"); // 风险场景
@@ -139,7 +141,7 @@ export default function ContentDashboard() {
             .select(
               // NOTE: we also select relevant_status so that we can use it to
               // backfill brand_relevance when deep analysis is not available.
-              "id, platform, platform_item_id, title, like_count, comment_count, share_count, cover_url, author_name, duration_ms, published_at, created_at, relevant_status",
+              "id, platform, platform_item_id, title, original_url, like_count, comment_count, share_count, cover_url, author_name, duration_ms, published_at, created_at, relevant_status, is_marked",
               { count: "exact" }
             )
             .order("id", { ascending: false });
@@ -313,7 +315,7 @@ export default function ContentDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            内容监控结果
+            舆情监控结果
           </h2>
           <p className="text-gray-600 dark:text-gray-400 min-h-6">
             {loading ? (
@@ -393,6 +395,8 @@ export default function ContentDashboard() {
               sentiment={sentiments[p.platform_item_id]}
               brandRelevance={relevances[p.platform_item_id]}
               publishDate={(p.published_at || p.created_at).slice(0, 10)}
+              originalUrl={p.original_url || undefined}
+              isMarked={Boolean(p.is_marked)}
               onClick={() => navigate(`/detail/${p.platform_item_id}`)}
             />
           ))}

@@ -30,7 +30,7 @@ const platformMeta = (platform: PlatformKey) => {
 
 export const PlatformBadge: React.FC<PlatformBadgeProps> = ({ platform, className, size = "sm", variant = "panel" }) => {
   const meta = platformMeta(platform);
-  const baseSize = size === "sm" ? "text-xs px-2 py-1" : "text-sm px-3 py-1.5";
+  const baseSize = size === "sm" ? "text-xs px-2 py-1" : "text-sm px-1 py-1.5";
   if (variant === "overlay") {
     // On image: glass backdrop + small brand dot + white text
     return (
@@ -52,9 +52,8 @@ export const PlatformBadge: React.FC<PlatformBadgeProps> = ({ platform, classNam
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md",
-        "bg-gray-200/70 dark:bg-gray-800/70 text-gray-900 dark:text-gray-100",
-        "border border-black/10 dark:border-white/10",
+        "inline-flex items-center rounded-md",
+     
         baseSize,
         className
       )}

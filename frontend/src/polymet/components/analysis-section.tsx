@@ -94,7 +94,7 @@ export default function AnalysisSection({
         {items.map((item, idx) => (
           <div
             key={item.id}
-            className="group p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+            className="group p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 shadow-lg shadow-black/5 hover:shadow-2xl hover:shadow-black/15 hover:scale-[1.02]"
             role={onItemClick ? "button" : undefined}
             tabIndex={onItemClick ? 0 : -1}
             onClick={() => onItemClick?.(idx)}

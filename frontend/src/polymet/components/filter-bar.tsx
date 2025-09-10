@@ -228,7 +228,7 @@ export default function FilterBar({ className, riskScenario, channel, contentTyp
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-          舆情内容监控
+          舆情搜索与筛选
         </h2>
         <button
           onClick={() => {

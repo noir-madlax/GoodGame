@@ -1,0 +1,257 @@
+{
+  "request": {
+    "model_candidates": [
+      "gemini-2.5-pro"
+    ],
+    "video_file": "/Users/rigel/project/goodgame/backend/tikhub_api/downloads/douyin/7505583378596646180/7505583378596646180.mp4",
+    "request_config": {
+      "temperature": 0.3,
+      "response_mime_type": "application/json",
+      "response_schema": "VideoAnalysisV3(pydantic)",
+      "video_metadata": {
+        "fps": 5
+      },
+      "contents_order": [
+        "video",
+        "text"
+      ]
+    }
+  },
+  "raw_response_type": "GenerateContentResponse",
+  "raw_response": {
+    "sdk_http_response": {
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "vary": "Origin, X-Origin, Referer",
+        "content-encoding": "gzip",
+        "date": "Tue, 09 Sep 2025 11:21:45 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "x-xss-protection": "0",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "server-timing": "gfet4t7; dur=53473",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "transfer-encoding": "chunked"
+      },
+      "body": null
+    },
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "video_metadata": null,
+              "thought": null,
+              "inline_data": null,
+              "file_data": null,
+              "thought_signature": null,
+              "code_execution_result": null,
+              "executable_code": null,
+              "function_call": null,
+              "function_response": null,
+              "text": "{\n\"summary\": \"视频中，一名头戴狮子头饰、身穿疑似员工服的人在火锅店背景下，情绪激动地抱怨工作量大、新品过多、催单频繁，并直接点名“是想要我累死在海底捞吗？”，表达了对工作安排的强烈不满。\",\n\"sentiment\": \"negative\",\n\"brand\": \"海底捞\",\n\"brand_relevance\": \"相关\",\n\"relevance_evidence\": \"视频音频中，人物在00:11明确说出：“是想要我累死在海底捞吗？”，直接将抱怨内容与海底捞品牌关联。\",\n\"risk_type_total\": [\n\"员工不当言论\",\n\"内部管理混乱\"\n],\n\"key_points\": [\n\"员工不当言论: 员工公开抱怨称“想我累死在海底捞”\",\n\"内部管理混乱: 员工抱怨新品太多、旧品不下架导致工作繁重\",\n\"内部管理混乱: 员工抱怨出餐被频繁催单，指责管理流程不合理\"\n],\n\"events\": [\n{\n\"timestamp\": \"00:00-00:08\",\n\"scene_description\": \"一名头戴狮子头饰、戴着口罩的人在一家有红色“火锅”字样霓虹灯的店内，对着镜头抱怨。\",\n\"audio_transcript\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？...一直不断上新品，老的又不下架。\",\n\"issue\": \"视频发布者抱怨公司产品策略，称新品过多且旧品不下架，导致个人工作量过大。\",\n\"risk_type\": [\n\"员工不当言论\",\n\"内部管理混乱\"\n],\n\"evidence\": [\n{\n\"scene_area\": \"用餐区\",\n\"subject_type\": \"人\",\n\"subject_behavior\": \"对镜头抱怨公司产品策略和工作量问题\",\n\"objects_involved\": \"疑似员工服\",\n\"brand_assets\": \"背景有“火锅”字样的霓虹灯\",\n\"audio_quote\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？...一直不断上新品，老的又不下架。\",\n\"visibility\": \"人物面部被口罩遮挡，但表情和语气激动。\",\n\"details\": \"人物身穿白色上衣和黄色内搭，头戴红色为主的狮子头饰。\"\n}\n],\n\"source\": \"video\",\n\"comment_id\": null,\n\"comment_index\": null\n},\n{\n\"timestamp\": \"00:11\",\n\"scene_description\": \"同一场景，人物情绪激动地对着镜头说话。\",\n\"audio_transcript\": \"是想要我累死在海底捞吗？\",\n\"issue\": \"视频发布者在抱怨中直接点名“海底捞”，将负面情绪与品牌强关联。\",\n\"risk_type\": [\n\"员工不当言论\"\n],\n\"evidence\": [\n{\n\"scene_area\": \"用餐区\",\n\"subject_type\": \"人\",\n\"subject_behavior\": \"在抱怨工作劳累时直接说出品牌名称“海底捞”\",\n\"objects_involved\": \"疑似员工服\",\n\"brand_assets\": \"背景有“火锅”字样的霓虹灯\",\n\"audio_quote\": \"是想要我累死在海底捞吗？\",\n\"visibility\": \"音频清晰可辨识。\",\n\"details\": \"语气非常激动，带有强烈的负面情绪。\"\n}\n],\n\"source\": \"video\",\n\"comment_id\": null,\n\"comment_index\": null\n},\n{\n\"timestamp\": \"00:37-00:43\",\n\"scene_description\": \"同一场景，人物继续抱怨工作中的不合理情况。\",\n\"audio_transcript\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单，还说小吃房怎么这么拉胯。\",\n\"issue\": \"视频发布者抱怨后厨出餐流程不合理，未到标准制作时间就被催单，并被指责效率低下。\",\n\"risk_type\": [\n\"员工不当言论\",\n\"内部管理混乱\"\n],\n\"evidence\": [\n{\n\"scene_area\": \"用餐区\",\n\"subject_type\": \"人\",\n\"subject_behavior\": \"抱怨后厨催单流程不合理，以及被同事/管理者指责\",\n\"objects_involved\": \"疑似员工服\",\n\"brand_assets\": \"背景有“火锅”字样的霓虹灯\",\n\"audio_quote\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单，还说小吃房怎么这么拉胯。\",\n\"visibility\": \"音频清晰，情绪激动。\",\n\"details\": \"该言论暴露了可能的内部协作和管理问题。\"\n}\n],\n\"source\": \"video\",\n\"comment_id\": null,\n\"comment_index\": null\n}\n],\n\"handling_suggestions\": {\n\"overview\": \"该视频由一名疑似员工发布，公开激烈抱怨公司内部管理、产品策略及工作强度，并直接点名品牌。视频传播可能严重损害海底捞的雇主品牌形象，引发公众对公司劳工政策的负面讨论。建议立即启动内部核查与对外沟通，优先推动视频下架，并解决员工实际问题，防止事态扩大。\",\n\"severity\": \"high\",\n\"priority\": \"P1\",\n\"legal_risk_summary\": \"视频内容可能违反员工手册中关于社交媒体言论和公司信息保密的规定。虽然不直接构成法律风险，但可能成为劳动纠纷的证据，并对品牌商誉造成实质性损害。\",\n\"strategies\": [\n{\n\"tone\": \"good\",\n\"target\": \"发布者\",\n\"talk_track\": \"您好，我们是海底捞的员工关怀团队。我们看到了您发布的视频，非常理解您在工作中遇到的压力和委屈，也十分重视您提出的问题。您的声音对我们改进工作流程和员工体验至关重要。为了能更有效地帮助您解决问题，并保护您的个人隐私不受网络舆论的干扰，我们希望能与您进行一次坦诚的私下沟通。我们承诺会认真调查并处理您反映的情况。为避免情况复杂化，恳请您先将视频设置为私密或删除，非常感谢您的理解与配合。\",\n\"incentives\": [\n\"提供内部专属沟通渠道，承诺问题升级处理\",\n\"提供带薪休假或心理疏导支持\",\n\"承诺对反映的问题进行复盘和流程优化\"\n],\n\"legal_basis\": [],\n\"platform_policy_basis\": [],\n\"required_actions\": [\n\"删除或将视频设为私密\",\n\"与公司内部渠道进行沟通\"\n],\n\"escalation_path\": \"若发布者拒绝沟通，内部应迅速核实其员工身份。如确认，由HR部门介入，依据公司规定进行正式沟通。同时监控舆情，准备应对方案。\"\n},\n{\n\"tone\": \"strict\",\n\"target\": \"发布者\",\n\"talk_track\": \"您好，我们注意到您发布的关于在海底捞工作经历的视频。根据公司规定，公开发表影响公司声誉的言论可能违反了您的劳动合同/员工手册中的相关条款。我们希望与您正式沟通此事，了解您遇到的具体问题并寻求解决方案。请您立即删除相关视频，以避免对公司和您个人造成更进一步的负面影响。如您拒绝配合，公司将保留根据内部规章制度和相关法律法规采取进一步措施的权利。\",\n\"incentives\": [\n\"提供正式的内部申诉和调查渠道\"\n],\n\"legal_basis\": [\n{\n\"law_name\": \"《中华人民共和国劳动合同法》\",\n\"article\": \"第三十九条\",\n\"why_relevant\": \"若员工行为严重违反用人单位的规章制度，用人单位可以解除劳动合同。此条可作为内部处理的法律背景，但不建议在初次沟通时直接引用。\"\n}\n],\n\"platform_policy_basis\": [],\n\"required_actions\": [\n\"立即删除视频\",\n\"停止发布相关负面言论\",\n\"参与公司内部的正式调查沟通\"\n],\n\"escalation_path\": \"若沟通无效且视频持续发酵，法务部门介入，准备证据，并根据事态严重性评估是否需要发布官方声明或采取法律行动。同时，向平台申诉视频侵犯商誉。\"\n}\n],\n\"outreach_channels\": [\n\"平台私信（首选）\",\n\"通过内部HR系统联系（若能确定员工身份）\"\n],\n\"follow_up_checklist\": [\n\"视频是否已删除或设为私密\",\n\"发布者账号是否发布新的相关内容\",\n\"网络上是否出现视频的二次传播或发酵\",\n\"内部相关部门是否已启动对所反映问题的调查和改进\"\n],\n\"redact_suggestions\": [\n\"由于视频核心内容为负面抱怨，局部修改（如打码、静音）无法消除其负面影响，唯一有效的整改建议是删除整个视频。\"\n]\n}\n}"
+            }
+          ],
+          "role": "model"
+        },
+        "citation_metadata": null,
+        "finish_message": null,
+        "token_count": null,
+        "finish_reason": "STOP",
+        "url_context_metadata": null,
+        "avg_logprobs": null,
+        "grounding_metadata": null,
+        "index": 0,
+        "logprobs_result": null,
+        "safety_ratings": null
+      }
+    ],
+    "create_time": null,
+    "model_version": "gemini-2.5-pro",
+    "prompt_feedback": null,
+    "response_id": "yQ3AaPXAOcqsz7IPmLaayQQ",
+    "usage_metadata": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 2066,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 78286,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 4201
+        },
+        {
+          "modality": "VIDEO",
+          "token_count": 72325
+        },
+        {
+          "modality": "AUDIO",
+          "token_count": 1760
+        }
+      ],
+      "thoughts_token_count": 2288,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 82640,
+      "traffic_type": null
+    },
+    "automatic_function_calling_history": [],
+    "parsed": {
+      "summary": "视频中，一名头戴狮子头饰、身穿疑似员工服的人在火锅店背景下，情绪激动地抱怨工作量大、新品过多、催单频繁，并直接点名“是想要我累死在海底捞吗？”，表达了对工作安排的强烈不满。",
+      "sentiment": "negative",
+      "brand": "海底捞",
+      "brand_relevance": "相关",
+      "relevance_evidence": "视频音频中，人物在00:11明确说出：“是想要我累死在海底捞吗？”，直接将抱怨内容与海底捞品牌关联。",
+      "risk_type_total": [
+        "员工不当言论",
+        "内部管理混乱"
+      ],
+      "key_points": [
+        "员工不当言论: 员工公开抱怨称“想我累死在海底捞”",
+        "内部管理混乱: 员工抱怨新品太多、旧品不下架导致工作繁重",
+        "内部管理混乱: 员工抱怨出餐被频繁催单，指责管理流程不合理"
+      ],
+      "events": [
+        {
+          "timestamp": "00:00-00:08",
+          "scene_description": "一名头戴狮子头饰、戴着口罩的人在一家有红色“火锅”字样霓虹灯的店内，对着镜头抱怨。",
+          "audio_transcript": "是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？...一直不断上新品，老的又不下架。",
+          "issue": "视频发布者抱怨公司产品策略，称新品过多且旧品不下架，导致个人工作量过大。",
+          "risk_type": [
+            "员工不当言论",
+            "内部管理混乱"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区",
+              "subject_type": "人",
+              "subject_behavior": "对镜头抱怨公司产品策略和工作量问题",
+              "objects_involved": "疑似员工服",
+              "contact_path": null,
+              "brand_assets": "背景有“火锅”字样的霓虹灯",
+              "audio_quote": "是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？...一直不断上新品，老的又不下架。",
+              "visibility": "人物面部被口罩遮挡，但表情和语气激动。",
+              "details": "人物身穿白色上衣和黄色内搭，头戴红色为主的狮子头饰。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "00:11",
+          "scene_description": "同一场景，人物情绪激动地对着镜头说话。",
+          "audio_transcript": "是想要我累死在海底捞吗？",
+          "issue": "视频发布者在抱怨中直接点名“海底捞”，将负面情绪与品牌强关联。",
+          "risk_type": [
+            "员工不当言论"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区",
+              "subject_type": "人",
+              "subject_behavior": "在抱怨工作劳累时直接说出品牌名称“海底捞”",
+              "objects_involved": "疑似员工服",
+              "contact_path": null,
+              "brand_assets": "背景有“火锅”字样的霓虹灯",
+              "audio_quote": "是想要我累死在海底捞吗？",
+              "visibility": "音频清晰可辨识。",
+              "details": "语气非常激动，带有强烈的负面情绪。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        },
+        {
+          "timestamp": "00:37-00:43",
+          "scene_description": "同一场景，人物继续抱怨工作中的不合理情况。",
+          "audio_transcript": "需要10分钟制作完成的鸡爪，8分钟就开始打催单，还说小吃房怎么这么拉胯。",
+          "issue": "视频发布者抱怨后厨出餐流程不合理，未到标准制作时间就被催单，并被指责效率低下。",
+          "risk_type": [
+            "员工不当言论",
+            "内部管理混乱"
+          ],
+          "evidence": [
+            {
+              "scene_area": "用餐区",
+              "subject_type": "人",
+              "subject_behavior": "抱怨后厨催单流程不合理，以及被同事/管理者指责",
+              "objects_involved": "疑似员工服",
+              "contact_path": null,
+              "brand_assets": "背景有“火锅”字样的霓虹灯",
+              "audio_quote": "需要10分钟制作完成的鸡爪，8分钟就开始打催单，还说小吃房怎么这么拉胯。",
+              "visibility": "音频清晰，情绪激动。",
+              "details": "该言论暴露了可能的内部协作和管理问题。"
+            }
+          ],
+          "source": "video",
+          "comment_id": null,
+          "comment_index": null
+        }
+      ],
+      "handling_suggestions": {
+        "overview": "该视频由一名疑似员工发布，公开激烈抱怨公司内部管理、产品策略及工作强度，并直接点名品牌。视频传播可能严重损害海底捞的雇主品牌形象，引发公众对公司劳工政策的负面讨论。建议立即启动内部核查与对外沟通，优先推动视频下架，并解决员工实际问题，防止事态扩大。",
+        "severity": "high",
+        "priority": "P1",
+        "legal_risk_summary": "视频内容可能违反员工手册中关于社交媒体言论和公司信息保密的规定。虽然不直接构成法律风险，但可能成为劳动纠纷的证据，并对品牌商誉造成实质性损害。",
+        "strategies": [
+          {
+            "tone": "good",
+            "target": "发布者",
+            "talk_track": "您好，我们是海底捞的员工关怀团队。我们看到了您发布的视频，非常理解您在工作中遇到的压力和委屈，也十分重视您提出的问题。您的声音对我们改进工作流程和员工体验至关重要。为了能更有效地帮助您解决问题，并保护您的个人隐私不受网络舆论的干扰，我们希望能与您进行一次坦诚的私下沟通。我们承诺会认真调查并处理您反映的情况。为避免情况复杂化，恳请您先将视频设置为私密或删除，非常感谢您的理解与配合。",
+            "incentives": [
+              "提供内部专属沟通渠道，承诺问题升级处理",
+              "提供带薪休假或心理疏导支持",
+              "承诺对反映的问题进行复盘和流程优化"
+            ],
+            "legal_basis": [],
+            "platform_policy_basis": [],
+            "required_actions": [
+              "删除或将视频设为私密",
+              "与公司内部渠道进行沟通"
+            ],
+            "escalation_path": "若发布者拒绝沟通，内部应迅速核实其员工身份。如确认，由HR部门介入，依据公司规定进行正式沟通。同时监控舆情，准备应对方案。"
+          },
+          {
+            "tone": "strict",
+            "target": "发布者",
+            "talk_track": "您好，我们注意到您发布的关于在海底捞工作经历的视频。根据公司规定，公开发表影响公司声誉的言论可能违反了您的劳动合同/员工手册中的相关条款。我们希望与您正式沟通此事，了解您遇到的具体问题并寻求解决方案。请您立即删除相关视频，以避免对公司和您个人造成更进一步的负面影响。如您拒绝配合，公司将保留根据内部规章制度和相关法律法规采取进一步措施的权利。",
+            "incentives": [
+              "提供正式的内部申诉和调查渠道"
+            ],
+            "legal_basis": [
+              {
+                "law_name": "《中华人民共和国劳动合同法》",
+                "article": "第三十九条",
+                "why_relevant": "若员工行为严重违反用人单位的规章制度，用人单位可以解除劳动合同。此条可作为内部处理的法律背景，但不建议在初次沟通时直接引用。"
+              }
+            ],
+            "platform_policy_basis": [],
+            "required_actions": [
+              "立即删除视频",
+              "停止发布相关负面言论",
+              "参与公司内部的正式调查沟通"
+            ],
+            "escalation_path": "若沟通无效且视频持续发酵，法务部门介入，准备证据，并根据事态严重性评估是否需要发布官方声明或采取法律行动。同时，向平台申诉视频侵犯商誉。"
+          }
+        ],
+        "outreach_channels": [
+          "平台私信（首选）",
+          "通过内部HR系统联系（若能确定员工身份）"
+        ],
+        "follow_up_checklist": [
+          "视频是否已删除或设为私密",
+          "发布者账号是否发布新的相关内容",
+          "网络上是否出现视频的二次传播或发酵",
+          "内部相关部门是否已启动对所反映问题的调查和改进"
+        ],
+        "redact_suggestions": [
+          "由于视频核心内容为负面抱怨，局部修改（如打码、静音）无法消除其负面影响，唯一有效的整改建议是删除整个视频。"
+        ]
+      }
+    }
+  },
+  "raw_text": "{\n\"summary\": \"视频中，一名头戴狮子头饰、身穿疑似员工服的人在火锅店背景下，情绪激动地抱怨工作量大、新品过多、催单频繁，并直接点名“是想要我累死在海底捞吗？”，表达了对工作安排的强烈不满。\",\n\"sentiment\": \"negative\",\n\"brand\": \"海底捞\",\n\"brand_relevance\": \"相关\",\n\"relevance_evidence\": \"视频音频中，人物在00:11明确说出：“是想要我累死在海底捞吗？”，直接将抱怨内容与海底捞品牌关联。\",\n\"risk_type_total\": [\n\"员工不当言论\",\n\"内部管理混乱\"\n],\n\"key_points\": [\n\"员工不当言论: 员工公开抱怨称“想我累死在海底捞”\",\n\"内部管理混乱: 员工抱怨新品太多、旧品不下架导致工作繁重\",\n\"内部管理混乱: 员工抱怨出餐被频繁催单，指责管理流程不合理\"\n],\n\"events\": [\n{\n\"timestamp\": \"00:00-00:08\",\n\"scene_description\": \"一名头戴狮子头饰、戴着口罩的人在一家有红色“火锅”字样霓虹灯的店内，对着镜头抱怨。\",\n\"audio_transcript\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？...一直不断上新品，老的又不下架。\",\n\"issue\": \"视频发布者抱怨公司产品策略，称新品过多且旧品不下架，导致个人工作量过大。\",\n\"risk_type\": [\n\"员工不当言论\",\n\"内部管理混乱\"\n],\n\"evidence\": [\n{\n\"scene_area\": \"用餐区\",\n\"subject_type\": \"人\",\n\"subject_behavior\": \"对镜头抱怨公司产品策略和工作量问题\",\n\"objects_involved\": \"疑似员工服\",\n\"brand_assets\": \"背景有“火锅”字样的霓虹灯\",\n\"audio_quote\": \"是哪个大聪明研发的这么多套餐和新品，小吃房就我一个人能忙的过来吗？...一直不断上新品，老的又不下架。\",\n\"visibility\": \"人物面部被口罩遮挡，但表情和语气激动。\",\n\"details\": \"人物身穿白色上衣和黄色内搭，头戴红色为主的狮子头饰。\"\n}\n],\n\"source\": \"video\",\n\"comment_id\": null,\n\"comment_index\": null\n},\n{\n\"timestamp\": \"00:11\",\n\"scene_description\": \"同一场景，人物情绪激动地对着镜头说话。\",\n\"audio_transcript\": \"是想要我累死在海底捞吗？\",\n\"issue\": \"视频发布者在抱怨中直接点名“海底捞”，将负面情绪与品牌强关联。\",\n\"risk_type\": [\n\"员工不当言论\"\n],\n\"evidence\": [\n{\n\"scene_area\": \"用餐区\",\n\"subject_type\": \"人\",\n\"subject_behavior\": \"在抱怨工作劳累时直接说出品牌名称“海底捞”\",\n\"objects_involved\": \"疑似员工服\",\n\"brand_assets\": \"背景有“火锅”字样的霓虹灯\",\n\"audio_quote\": \"是想要我累死在海底捞吗？\",\n\"visibility\": \"音频清晰可辨识。\",\n\"details\": \"语气非常激动，带有强烈的负面情绪。\"\n}\n],\n\"source\": \"video\",\n\"comment_id\": null,\n\"comment_index\": null\n},\n{\n\"timestamp\": \"00:37-00:43\",\n\"scene_description\": \"同一场景，人物继续抱怨工作中的不合理情况。\",\n\"audio_transcript\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单，还说小吃房怎么这么拉胯。\",\n\"issue\": \"视频发布者抱怨后厨出餐流程不合理，未到标准制作时间就被催单，并被指责效率低下。\",\n\"risk_type\": [\n\"员工不当言论\",\n\"内部管理混乱\"\n],\n\"evidence\": [\n{\n\"scene_area\": \"用餐区\",\n\"subject_type\": \"人\",\n\"subject_behavior\": \"抱怨后厨催单流程不合理，以及被同事/管理者指责\",\n\"objects_involved\": \"疑似员工服\",\n\"brand_assets\": \"背景有“火锅”字样的霓虹灯\",\n\"audio_quote\": \"需要10分钟制作完成的鸡爪，8分钟就开始打催单，还说小吃房怎么这么拉胯。\",\n\"visibility\": \"音频清晰，情绪激动。\",\n\"details\": \"该言论暴露了可能的内部协作和管理问题。\"\n}\n],\n\"source\": \"video\",\n\"comment_id\": null,\n\"comment_index\": null\n}\n],\n\"handling_suggestions\": {\n\"overview\": \"该视频由一名疑似员工发布，公开激烈抱怨公司内部管理、产品策略及工作强度，并直接点名品牌。视频传播可能严重损害海底捞的雇主品牌形象，引发公众对公司劳工政策的负面讨论。建议立即启动内部核查与对外沟通，优先推动视频下架，并解决员工实际问题，防止事态扩大。\",\n\"severity\": \"high\",\n\"priority\": \"P1\",\n\"legal_risk_summary\": \"视频内容可能违反员工手册中关于社交媒体言论和公司信息保密的规定。虽然不直接构成法律风险，但可能成为劳动纠纷的证据，并对品牌商誉造成实质性损害。\",\n\"strategies\": [\n{\n\"tone\": \"good\",\n\"target\": \"发布者\",\n\"talk_track\": \"您好，我们是海底捞的员工关怀团队。我们看到了您发布的视频，非常理解您在工作中遇到的压力和委屈，也十分重视您提出的问题。您的声音对我们改进工作流程和员工体验至关重要。为了能更有效地帮助您解决问题，并保护您的个人隐私不受网络舆论的干扰，我们希望能与您进行一次坦诚的私下沟通。我们承诺会认真调查并处理您反映的情况。为避免情况复杂化，恳请您先将视频设置为私密或删除，非常感谢您的理解与配合。\",\n\"incentives\": [\n\"提供内部专属沟通渠道，承诺问题升级处理\",\n\"提供带薪休假或心理疏导支持\",\n\"承诺对反映的问题进行复盘和流程优化\"\n],\n\"legal_basis\": [],\n\"platform_policy_basis\": [],\n\"required_actions\": [\n\"删除或将视频设为私密\",\n\"与公司内部渠道进行沟通\"\n],\n\"escalation_path\": \"若发布者拒绝沟通，内部应迅速核实其员工身份。如确认，由HR部门介入，依据公司规定进行正式沟通。同时监控舆情，准备应对方案。\"\n},\n{\n\"tone\": \"strict\",\n\"target\": \"发布者\",\n\"talk_track\": \"您好，我们注意到您发布的关于在海底捞工作经历的视频。根据公司规定，公开发表影响公司声誉的言论可能违反了您的劳动合同/员工手册中的相关条款。我们希望与您正式沟通此事，了解您遇到的具体问题并寻求解决方案。请您立即删除相关视频，以避免对公司和您个人造成更进一步的负面影响。如您拒绝配合，公司将保留根据内部规章制度和相关法律法规采取进一步措施的权利。\",\n\"incentives\": [\n\"提供正式的内部申诉和调查渠道\"\n],\n\"legal_basis\": [\n{\n\"law_name\": \"《中华人民共和国劳动合同法》\",\n\"article\": \"第三十九条\",\n\"why_relevant\": \"若员工行为严重违反用人单位的规章制度，用人单位可以解除劳动合同。此条可作为内部处理的法律背景，但不建议在初次沟通时直接引用。\"\n}\n],\n\"platform_policy_basis\": [],\n\"required_actions\": [\n\"立即删除视频\",\n\"停止发布相关负面言论\",\n\"参与公司内部的正式调查沟通\"\n],\n\"escalation_path\": \"若沟通无效且视频持续发酵，法务部门介入，准备证据，并根据事态严重性评估是否需要发布官方声明或采取法律行动。同时，向平台申诉视频侵犯商誉。\"\n}\n],\n\"outreach_channels\": [\n\"平台私信（首选）\",\n\"通过内部HR系统联系（若能确定员工身份）\"\n],\n\"follow_up_checklist\": [\n\"视频是否已删除或设为私密\",\n\"发布者账号是否发布新的相关内容\",\n\"网络上是否出现视频的二次传播或发酵\",\n\"内部相关部门是否已启动对所反映问题的调查和改进\"\n],\n\"redact_suggestions\": [\n\"由于视频核心内容为负面抱怨，局部修改（如打码、静音）无法消除其负面影响，唯一有效的整改建议是删除整个视频。\"\n]\n}\n}"
+}

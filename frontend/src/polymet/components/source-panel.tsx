@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { MessageCircle, Subtitles, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import parseEmojiAliases from "@/polymet/lib/emoji";
 
 type CommentNode = {
   content: string;
@@ -303,7 +304,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
                         </span>
                       </div>
                     </div>
-                    <div className="whitespace-pre-wrap leading-relaxed text-gray-900 dark:text-gray-100">{c.content}</div>
+                    <div className="whitespace-pre-wrap leading-relaxed text-gray-900 dark:text-gray-100">{parseEmojiAliases(String(c.content || ""))}</div>
                     {(c.replies || []).map((r, i) => (
                       <div key={i} className="mt-3 ml-4 pl-3 border-l">
                         <div className="flex items-start gap-2 mb-1">
@@ -317,7 +318,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
                             {r.published_at && <span className="text-gray-400">{String(r.published_at).replace("T"," ").slice(0,16)}</span>}
                           </div>
                         </div>
-                        <div className="text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200">{r.content}</div>
+                        <div className="text-sm whitespace-pre-wrap text-gray-800 dark:text-gray-200">{parseEmojiAliases(String(r.content || ""))}</div>
                       </div>
                     ))}
                   </div>
