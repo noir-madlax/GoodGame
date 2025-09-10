@@ -28,7 +28,7 @@ if 'OPENROUTER_API_KEY' not in os.environ and load_dotenv:
     except Exception:
         pass
 
-DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")
+DEFAULT_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gemini-2.5-pro")
 API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 
 class OpenRouterClient:

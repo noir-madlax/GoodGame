@@ -12,6 +12,19 @@ class PostRepository:
     """CRUD(light) for gg_platform_post: add and query only."""
 
     @staticmethod
+    def get_by_id(post_id: int) -> Optional[PlatformPost]:
+        client = get_client()
+        resp = (
+            client.table(TABLE)
+            .select("*")
+            .eq("id", post_id)
+            .limit(1)
+            .execute()
+        )
+        row = resp.data[0] if resp.data else None
+        return PostRepository._row_to_model(row) if row else None
+
+    @staticmethod
     def upsert_post(post: PlatformPost) -> PlatformPost:
         """Upsert a post by (platform, platform_item_id) unique constraint.
         Returns the stored row.
@@ -93,29 +106,35 @@ class PostRepository:
         return [PostRepository._row_to_model(r) for r in (resp.data or [])]
 
     @staticmethod
-    def update_analysis_status(post_id: int, status: str) -> Optional[PlatformPost]:
-        """Update analysis_status for a post by id.
+    def update_analysis_status(post_id: int, status: str, relevant_result: Optional[Dict[str, Any]] = None) -> Optional[PlatformPost]:
+        """Update analysis_status (and optionally relevant_result JSON) by id.
         一些 supabase-py 版本在 update() 链式后不支持 .select("*")，因此这里不强求返回更新后的行，成功即返回 None。
         若需要读取，可单独再查一次。
         """
         client = get_client()
+        payload: Dict[str, Any] = {"analysis_status": status}
+        if relevant_result is not None:
+            payload["relevant_result"] = relevant_result
         _ = (
             client.table(TABLE)
-            .update({"analysis_status": status})
+            .update(payload)
             .eq("id", post_id)
             .execute()
         )
         return None
 
     @staticmethod
-    def update_relevant_status(post_id: int, status: str) -> Optional[PlatformPost]:
-        """Update relevant_status for a post by id.
-        与 update_analysis_status 相同，成功即返回 None，需要读取请再查一次。
+    def update_relevant_status(post_id: int, status: str, relevant_result: Optional[Dict[str, Any]] = None) -> Optional[PlatformPost]:
+        """Update relevant_status（并可选更新 relevant_result JSON）for a post by id.
+        成功即返回 None，需要读取请再查一次。
         """
         client = get_client()
+        payload: Dict[str, Any] = {"relevant_status": status}
+        if relevant_result is not None:
+            payload["relevant_result"] = relevant_result
         _ = (
             client.table(TABLE)
-            .update({"relevant_status": status})
+            .update(payload)
             .eq("id", post_id)
             .execute()
         )
@@ -145,6 +164,7 @@ class PostRepository:
             video_url=row.get("video_url"),
             analysis_status=row.get("analysis_status", "init"),
             relevant_status=row.get("relevant_status", "unknown"),
+            relevant_result=row.get("relevant_result"),
             raw_details=row.get("raw_details"),
             published_at=_parse_dt(row.get("published_at")),
             created_at=_parse_dt(row.get("created_at")),

@@ -49,6 +49,9 @@ class PlatformPost(BaseModel):
     )
 
 
+    # LLM/规则判定的详细结果（JSON 存档）
+    relevant_result: Optional[Dict[str, Any]] = None
+
     # 存储 get_video_details 返回的原始报文，便于排查
     raw_details: Optional[Dict[str, Any]] = None
 
