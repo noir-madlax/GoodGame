@@ -4,17 +4,33 @@
 // - 被 FilterBar 用于加载全量枚举（来自 gg_filter_enums）
 // - 本文件不包含任何 React 代码，便于在 hooks/服务端/组件中复用
 
-// 中文说明：相关性标签统一枚举；
+// 中文说明：相关性标签统一枚举（新版语义）：
+// yes -> 相关；maybe -> 需人工介入；no -> 可忽略
 // 使用位置：VideoGridCard 左上角角标文案与筛选值
-export type RelevanceLabel = "相关" | "疑似相关" | "不相关";
+export type RelevanceLabel = "相关" | "需人工介入" | "可忽略" | "尚未初筛";
 
 // 功能：将初筛 relevant_status(y/n/maybe) 映射为品牌相关性风格标签
 // 使用位置：ContentDashboard 在没有 brand_relevance 时回填最终相关性
 export const mapRelevantStatus = (status?: string | null): RelevanceLabel | "" => {
   const raw = String(status || "").toLowerCase();
   if (raw === "yes") return "相关";
-  if (raw === "maybe") return "疑似相关";
-  if (raw === "no") return "不相关";
+  if (raw === "maybe") return "需人工介入";
+  if (raw === "no") return "可忽略";
+  if (raw === "unknown") return "尚未初筛";
+  return "";
+};
+
+// 功能：将数据库或旧值的 brand_relevance 文案归一到新版标签
+// 旧值："相关" | "疑似相关" | "不相关"
+// 新值："相关" | "需人工介入" | "可忽略"
+export const normalizeBrandRelevance = (value?: string | null): RelevanceLabel | "" => {
+  const v = String(value || "").trim();
+  if (!v) return "";
+  if (v === "相关") return "相关";
+  if (v === "疑似相关") return "需人工介入";
+  if (v === "不相关") return "可忽略";
+  // 若传入的本就是新文案
+  if (v === "需人工介入" || v === "可忽略") return v as RelevanceLabel;
   return "";
 };
 
@@ -38,7 +54,7 @@ export const backfillRelevance = (
 
 export interface AnalysisFilters {
   sentiment: string; // all | positive | neutral | negative
-  relevance: string; // all | 相关 | 疑似相关 | 不相关
+  relevance: string; // all | 相关 | 需人工介入 | 可忽略
   riskScenario: string; // all | scenario text
 }
 
@@ -61,7 +77,10 @@ export const buildRelevanceWhitelist = async (
     .limit(20000);
   (aRows || []).forEach((r: { platform_item_id: string; risk_types?: any; sentiment?: string | null; brand_relevance?: string | null }) => {
     const okSent = sentiment === "all" || r.sentiment === sentiment;
-    const okRel = relevance === "all" || r.brand_relevance === relevance;
+    // 说明：当选择“尚未初筛”时，brand_relevance 不参与筛选（该状态来自初筛表 relevant_status=unknown）
+    const okRel = relevance === "all"
+      ? true
+      : (relevance === "尚未初筛" ? true : normalizeBrandRelevance(r.brand_relevance) === relevance);
     let okRisk = true;
     if (riskScenario !== "all") {
       const raw = r.risk_types as any;
@@ -85,7 +104,15 @@ export const buildRelevanceWhitelist = async (
 
   // 2) union from screening when relevance is explicitly chosen
   if (relevance !== "all") {
-    const statusWanted = relevance === "相关" ? "yes" : relevance === "疑似相关" ? "maybe" : relevance === "不相关" ? "no" : null;
+    const statusWanted = relevance === "相关"
+      ? "yes"
+      : relevance === "需人工介入"
+      ? "maybe"
+      : relevance === "可忽略"
+      ? "no"
+      : relevance === "尚未初筛"
+      ? "unknown"
+      : null;
     if (statusWanted) {
       const { data: sRows } = await sb
         .from("gg_platform_post")
@@ -127,8 +154,20 @@ export const fetchGlobalFilterEnums = async (sb: any) => {
   const byKind = (kind: string) => rows.filter((r) => r.kind === kind);
   const channels = byKind("platform").map((r) => ({ id: r.value, label: normalizeLabel("platform", r.value, r.label) }));
   const types = byKind("post_type").map((r) => ({ id: r.value, label: normalizeLabel("post_type", r.value, r.label) }));
-  const sentiments = byKind("sentiment").map((r) => ({ id: r.value, label: normalizeLabel("sentiment", r.value, r.label) }));
-  const relevances = byKind("brand_relevance").map((r) => ({ id: r.value, label: normalizeLabel("brand_relevance", r.value, r.label) }));
+  // 情绪：兜底保证三态存在（positive/neutral/negative）
+  const sentimentsRaw = byKind("sentiment").map((r) => ({ id: r.value, label: normalizeLabel("sentiment", r.value, r.label) }));
+  const sentimentIds = new Set(sentimentsRaw.map((s) => s.id));
+  if (!sentimentIds.has("positive")) sentimentsRaw.push({ id: "positive", label: "正向" });
+  if (!sentimentIds.has("neutral")) sentimentsRaw.push({ id: "neutral", label: "中立" });
+  if (!sentimentIds.has("negative")) sentimentsRaw.push({ id: "negative", label: "负面" });
+  const sentiments = sentimentsRaw;
+  // 将数据库里的旧值（疑似相关/不相关）统一为新文案，并额外加入“尚未初筛”
+  const relevances = byKind("brand_relevance").map((r) => {
+    const normalized = normalizeBrandRelevance(r.value || r.label || "");
+    return { id: normalized || (r.value || ""), label: normalized || normalizeLabel("brand_relevance", r.value, r.label) };
+  });
+  // 注入“尚未初筛”选项（用于筛选 relevant_status=unknown）
+  relevances.push({ id: "尚未初筛", label: "尚未初筛" });
   const risks = byKind("risk_scenario").map((r) => ({ id: r.value, label: r.label || r.value }));
 
   return {
@@ -203,9 +242,11 @@ export const buildAnalysisMaps = (rows: AnalysisRow[]) => {
       sentimentSet.add(String(r.sentiment));
     }
     if (r.brand_relevance) {
-      const rel = String(r.brand_relevance);
-      relevanceMap[r.platform_item_id] = rel;
-      relevanceSet.add(rel);
+      const rel = normalizeBrandRelevance(String(r.brand_relevance));
+      if (rel) {
+        relevanceMap[r.platform_item_id] = rel;
+        relevanceSet.add(rel);
+      }
     }
   });
 

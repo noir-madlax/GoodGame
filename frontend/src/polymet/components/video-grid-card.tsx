@@ -167,12 +167,12 @@ export default function VideoGridCard({
           <div className="absolute top-2 left-2">
             <span className="px-2 py-1 rounded-md bg-black/35 backdrop-blur-[2px] text-white/80 text-[10px] font-medium inline-flex items-center gap-1">
               {brandRelevance}
-              {brandRelevance.includes("疑似") && (
+              {brandRelevance.includes("疑似") || brandRelevance.includes("需人工介入") ? (
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500" aria-hidden />
-              )}
-              {brandRelevance.includes("不相关") && (
+              ) : null}
+              {brandRelevance.includes("不相关") || brandRelevance.includes("可忽略") ? (
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden />
-              )}
+              ) : null}
             </span>
           </div>
         )}
