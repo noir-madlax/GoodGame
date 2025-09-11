@@ -1,8 +1,9 @@
 from __future__ import annotations
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, BinaryIO, IO, Union
 import os
 import json
 import time
+import io
 
 from jobs.logger import get_logger
 
@@ -58,6 +59,7 @@ class GeminiClient:
     与 OpenRouterClient 对齐的最小封装：
     - classify_value(system_prompt, user_text, max_tokens=200, temperature=0.2) -> Dict[str, Any]
     - 使用 google genai 的 generate_content，要求返回 JSON
+    - 新增：upload_file(file_stream, display_name=None, mime_type=None, ...) 上传文件流至 Files API
     """
 
     def __init__(self, model: Optional[str] = None, api_key: Optional[str] = None, timeout: int = 30) -> None:
@@ -71,6 +73,63 @@ class GeminiClient:
         if not self.api_key:
             raise RuntimeError("GEMINI_API_KEY is required")
         self.client = genai.Client(api_key=self.api_key)
+
+    def _wait_file_active(self, name: str, timeout_sec: int = 120) -> None:
+        """轮询文件状态，直到 ACTIVE 或超时。"""
+        start = time.time()
+        while True:
+            info = self.client.files.get(name=name)
+            state = getattr(info, "state", None)
+            if str(state).endswith("ACTIVE") or str(state) == "ACTIVE":
+                return
+            if time.time() - start > timeout_sec:
+                raise TimeoutError(f"File {name} not ACTIVE after {timeout_sec}s (state={state})")
+            time.sleep(2)
+
+    def upload_file(
+        self,
+        file_stream: Union[BinaryIO, IO[bytes], bytes],
+        display_name: Optional[str] = None,
+        mime_type: Optional[str] = None,
+        wait_active: bool = True,
+        timeout_sec: int = 120,
+    ) -> Dict[str, Any]:
+        """上传文件流到 Gemini Files（google-genai >= 1.33.0，支持直接上传 IO 流）。
+
+        - 若传入的是 IO 流，SDK 要求必须提供 config.mime_type；本方法通过 mime_type 参数传入。
+        - 若传入的是 bytes/bytearray，会封装为 io.BytesIO（可 seek）。
+        - display_name 仅用于传递给 UploadFileConfig 以便在控制台/日志中展示。
+        """
+        # 统一构造 IOBase，确保可 seek
+        if isinstance(file_stream, (bytes, bytearray)):
+            upload_io: IO[bytes] = io.BytesIO(bytes(file_stream))
+        else:
+            upload_io = file_stream  # BinaryIO / IO[bytes]
+
+        # 当使用 IO 流时，必须提供 mime_type
+        if mime_type is None:
+            raise ValueError("mime_type is required when uploading from an IO stream (e.g., 'video/mp4')")
+
+        upload_config = types.UploadFileConfig(
+            mime_type=mime_type,
+            display_name=display_name,
+        )
+        file_obj = self.client.files.upload(file=upload_io, config=upload_config)
+
+        name = getattr(file_obj, "name", None)
+        if wait_active and name:
+            self._wait_file_active(name, timeout_sec=timeout_sec)
+
+        file_uri = getattr(file_obj, "uri", None) or getattr(file_obj, "file_uri", None)
+        result = {
+            "name": name,
+            "mime_type": getattr(file_obj, "mime_type", None) or mime_type,
+            "uri": file_uri,
+            "raw": file_obj,
+            "display_name": display_name,
+        }
+        log.info({"uploaded_file": {k: v for k, v in result.items() if k != "raw"}})
+        return result
 
     def classify_value(
         self,

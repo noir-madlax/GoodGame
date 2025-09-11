@@ -1,5 +1,4 @@
 ## 运行定时任务
-
 在 backend 目录下，先激活虚拟环境，再用 -m 运行模块：
 cd backend
 source .venv/bin/activate
@@ -26,3 +25,8 @@ python -m analysis.cli run --limit 5 --offset 0
   - cd backend
   - source .venv/bin/activate
   - python -m jobs.worker.lanes.comments --id 108
+
+## 运行分析
+cd backend
+source .venv/bin/activate
+python -m analysis.cli analyze --id 292
