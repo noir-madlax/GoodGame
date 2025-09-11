@@ -150,6 +150,56 @@ class BaseFetcher(ABC):
         """
         pass
 
+    def get_preferred_download_url(self, video_id: str) -> Optional[str]:
+        """
+        便捷方法：返回一个可下载的视频 URL（单条）。
+        - 默认策略：调用 get_download_urls(video_id) 并返回第一个非空 URL
+        - 子类可重写以实现平台特定的“无水印/高清优先”等策略
+
+        Args:
+            video_id (str): 平台视频 ID
+
+        Returns:
+            Optional[str]: 可下载的视频 URL，失败返回 None
+        """
+        try:
+            self._validate_video_id(video_id)
+            urls = self.get_download_urls(video_id) or []
+            for u in urls:
+                if isinstance(u, str) and u.strip():
+                    return u
+            return None
+        except Exception:
+            return None
+
+    def get_download_url_by_post_id(self, post_id: int) -> Optional[str]:
+        """
+        便捷方法：根据 post_id 返回一个可下载的视频 URL。
+        始终调用平台接口获取最新下载地址（通过 platform_item_id -> get_preferred_download_url）。
+
+        Args:
+            post_id (int): 平台帖子在本地数据库中的主键 ID
+
+        Returns:
+            Optional[str]: 可下载的视频 URL，失败返回 None
+        """
+        try:
+            if not isinstance(post_id, int) or post_id <= 0:
+                raise ValueError("post_id 必须为正整数")
+
+            post = PostRepository.get_by_id(post_id)
+            if not post:
+                return None
+
+            platform_item_id = getattr(post, "platform_item_id", None)
+            if not platform_item_id:
+                return None
+
+            return self.get_preferred_download_url(platform_item_id)
+        except Exception:
+            return None
+
+
 
 
     def _make_request(self, url: str, params: Dict[str, Any], method: str = "GET") -> Dict[str, Any]:

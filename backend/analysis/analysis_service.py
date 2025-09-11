@@ -11,6 +11,8 @@ from tikhub_api.orm.post_repository import PostRepository
 from tikhub_api.orm.models import PlatformPost
 from tikhub_api.orm.video_analysis_repository import VideoAnalysisRepository
 from tikhub_api.video_downloader import VideoDownloader
+from tikhub_api.fetchers import create_fetcher
+
 
 try:
     from google.genai import types  # type: ignore
@@ -33,15 +35,24 @@ class AnalysisService:
     def analyze_post(self, post_id: int) -> Dict[str, Any]:
         log.info(f"开始处理帖子 post_id={post_id}：准备读取帖子信息")
         post = self._get_post(post_id)
-        log.info(f"读取帖子完成：post_id={post_id}，video_url={post.video_url}")
-        if not post.video_url:
-            raise ValueError(f"post {post_id} 缺少 video_url")
+
+        # 1) 调用 fetcher 获取最新下载地址
+        try:
+            fetcher = create_fetcher(str(post.platform))
+            video_url = fetcher.get_download_url_by_post_id(post_id)
+        except Exception as e:
+            video_url = None
+            log.error(f"创建 fetcher 或获取下载地址失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}")
+
+        log.info(f"读取帖子完成：post_id={post_id}，video_url={video_url}")
+        if not video_url:
+            raise ValueError(f"post {post_id} 获取下载地址失败")
 
         # 2) 下载视频为字节流
-        log.info(f"开始下载视频：post_id={post_id}，url={post.video_url}")
-        data = self.downloader.download_video_as_bytes_with_retry(str(post.video_url))
+        log.info(f"开始下载视频：post_id={post_id}，url={video_url}")
+        data = self.downloader.download_video_as_bytes_with_retry(str(video_url))
         if data is None:
-            raise RuntimeError(f"下载视频失败：{post.video_url}")
+            raise RuntimeError(f"下载视频失败：{video_url}")
         log.info(f"下载完成：post_id={post_id}，大小={len(data)} 字节")
 
         # 推断 mime 与 display name
