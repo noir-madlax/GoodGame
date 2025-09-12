@@ -33,108 +33,124 @@ class AnalysisService:
         self.downloader = VideoDownloader()
 
     def analyze_post(self, post_id: int) -> Dict[str, Any]:
+        from tikhub_api.orm.enums import AnalysisStatus
         log.info(f"开始处理帖子 post_id={post_id}：准备读取帖子信息")
-        post = self._get_post(post_id)
-
-        # 1) 调用 fetcher 获取最新下载地址
         try:
-            fetcher = create_fetcher(str(post.platform))
-            video_url = fetcher.get_download_url_by_post_id(post_id)
-        except Exception as e:
-            video_url = None
-            log.error(f"创建 fetcher 或获取下载地址失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}")
+            post = self._get_post(post_id)
 
-        log.info(f"读取帖子完成：post_id={post_id}，video_url={video_url}")
-        if not video_url:
-            raise ValueError(f"post {post_id} 获取下载地址失败")
-
-        # 2) 下载视频为字节流
-        log.info(f"开始下载视频：post_id={post_id}，url={video_url}")
-        data = self.downloader.download_video_as_bytes_with_retry(str(video_url))
-        if data is None:
-            raise RuntimeError(f"下载视频失败：{video_url}")
-        log.info(f"下载完成：post_id={post_id}，大小={len(data)} 字节")
-
-        # 推断 mime 与 display name
-        mime_type = "video/mp4"  # 默认
-        display_name = f"post_{post.id or 'unknown'}.mp4"
-
-        # 3) 上传字节流至 Gemini Files
-        log.info(f"开始上传到 Gemini：post_id={post_id}，文件名={display_name}")
-        upload = self.gemini.upload_file(data, display_name=display_name, mime_type=mime_type)
-        file_uri = upload.get("uri")
-        log.info(f"上传完成：post_id={post_id}，name={upload.get('name')}，uri={file_uri}")
-        if not file_uri:
-            raise RuntimeError("Gemini 文件上传未返回 uri")
-
-        # 4) 构建视频 Part（目前仅视频，未来可追加更多内容）
-        if types is None:
-            raise RuntimeError("google-genai SDK 未正确安装")
-        video_part = types.Part(
-            file_data=types.FileData(file_uri=file_uri, mime_type=mime_type),
-            video_metadata=types.VideoMetadata(fps=5),
-        )
-
-        # 5) 构建 prompt 与调用 generate_content
-        log.info(f"开始调用 Gemini 生成内容：post_id={post_id}")
-        system_prompt = get_system_prompt()
-        config = types.GenerateContentConfig(
-            temperature=0.3,
-            response_mime_type="application/json",
-            system_instruction=system_prompt,
-        )
-        resp = self.gemini.client.models.generate_content(
-            model=self.gemini.model,
-            contents=[video_part],
-            config=config,
-        )
-        # 打印大模型的原始返回，便于排查
-        try:
-            text_raw = getattr(resp, "text", None) or getattr(resp, "output_text", None)
-            log.info(f"Gemini 返回文本：{text_raw}")
-            cands = getattr(resp, "candidates", None)
-            if cands is not None:
-                log.info(f"Gemini 返回候选数：{len(cands)}")
-        except Exception as _e:
-            log.info(f"打印模型返回文本失败：{_e}")
-
-        log.info(f"生成完成：post_id={post_id}，model={getattr(resp, 'model_version', self.gemini.model)}")
-
-        text = getattr(resp, "text", None) or getattr(resp, "output_text", None)
-        result: Dict[str, Any]
-        if text:
+            # 1) 调用 fetcher 获取最新下载地址
             try:
-                import json
-                result = json.loads(text)
-            except Exception:
-                result = {"raw_text": text}
-        else:
-            # 兜底：尽量序列化 resp
-            def _to_jsonable(obj):
-                if obj is None or isinstance(obj, (str, int, float, bool)):
-                    return obj
+                fetcher = create_fetcher(str(post.platform))
+                video_url = fetcher.get_download_url_by_post_id(post_id)
+            except Exception as e:
+                video_url = None
+                log.error(f"创建 fetcher 或获取下载地址失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}")
+
+            log.info(f"读取帖子完成：post_id={post_id}，video_url={video_url}")
+            if not video_url:
+                raise ValueError(f"post {post_id} 获取下载地址失败")
+
+            # 2) 下载视频为字节流
+            log.info(f"开始下载视频：post_id={post_id}，url={video_url}")
+            data = self.downloader.download_video_as_bytes_with_retry(str(video_url))
+            if data is None:
+                raise RuntimeError(f"下载视频失败：{video_url}")
+            log.info(f"下载完成：post_id={post_id}，大小={len(data)} 字节")
+
+            # 推断 mime 与 display name
+            mime_type = "video/mp4"  # 默认
+            display_name = f"post_{post.id or 'unknown'}.mp4"
+
+            # 3) 上传字节流至 Gemini Files
+            log.info(f"开始上传到 Gemini：post_id={post_id}，文件名={display_name}")
+            upload = self.gemini.upload_file(data, display_name=display_name, mime_type=mime_type)
+            file_uri = upload.get("uri")
+            log.info(f"上传完成：post_id={post_id}，name={upload.get('name')}，uri={file_uri}")
+            if not file_uri:
+                raise RuntimeError("Gemini 文件上传未返回 uri")
+
+            # 4) 构建视频 Part（目前仅视频，未来可追加更多内容）
+            if types is None:
+                raise RuntimeError("google-genai SDK 未正确安装")
+            video_part = types.Part(
+                file_data=types.FileData(file_uri=file_uri, mime_type=mime_type),
+                video_metadata=types.VideoMetadata(fps=5),
+            )
+
+            # 5) 构建 prompt 与调用 generate_content
+            log.info(f"开始调用 Gemini 生成内容：post_id={post_id}")
+            system_prompt = get_system_prompt()
+            config = types.GenerateContentConfig(
+                temperature=0.3,
+                response_mime_type="application/json",
+                system_instruction=system_prompt,
+            )
+            resp = self.gemini.client.models.generate_content(
+                model=self.gemini.model,
+                contents=[video_part],
+                config=config,
+            )
+            # 打印大模型的原始返回，便于排查
+            try:
+                text_raw = getattr(resp, "text", None) or getattr(resp, "output_text", None)
+                log.info(f"Gemini 返回文本：{text_raw}")
+                cands = getattr(resp, "candidates", None)
+                if cands is not None:
+                    log.info(f"Gemini 返回候选数：{len(cands)}")
+            except Exception as _e:
+                log.info(f"打印模型返回文本失败：{_e}")
+
+            log.info(f"生成完成：post_id={post_id}，model={getattr(resp, 'model_version', self.gemini.model)}")
+
+            text = getattr(resp, "text", None) or getattr(resp, "output_text", None)
+            result: Dict[str, Any]
+            if text:
                 try:
                     import json
-                    json.dumps(obj)
-                    return obj
+                    result = json.loads(text)
                 except Exception:
-                    pass
-                try:
-                    return obj.__dict__
-                except Exception:
-                    return str(obj)
-            result = {"raw_response": _to_jsonable(resp)}
+                    result = {"raw_text": text}
+            else:
+                # 兜底：尽量序列化 resp
+                def _to_jsonable(obj):
+                    if obj is None or isinstance(obj, (str, int, float, bool)):
+                        return obj
+                    try:
+                        import json
+                        json.dumps(obj)
+                        return obj
+                    except Exception:
+                        pass
+                    try:
+                        return obj.__dict__
+                    except Exception:
+                        return str(obj)
+                result = {"raw_response": _to_jsonable(resp)}
 
-        # 6) 字段映射并保存（source_path 使用上传完成后的文件 URI）
-        payload = self._map_result_to_video_analysis(post, result, source_path=file_uri or f"post:{post.id}")
-        saved = VideoAnalysisRepository.upsert(payload)
-        # 返回可 JSON 序列化的结果（避免 datetime 等导致 json.dumps 失败）
-        try:
-            if hasattr(saved, "model_dump"):
-                return saved.model_dump(mode="json", exclude_none=True)  # pydantic v2
-        except Exception:
-            pass
-        return payload
+            # 6) 字段映射并保存（source_path 使用上传完成后的文件 URI）
+            payload = self._map_result_to_video_analysis(post, result, source_path=file_uri or f"post:{post.id}")
+            saved = VideoAnalysisRepository.upsert(payload)
+            # 标记分析完成
+            try:
+                PostRepository.update_analysis_status(post_id, AnalysisStatus.ANALYZED.value)
+                log.info(f"分析成功，已更新状态为 ANALYZED：post_id={post_id}")
+            except Exception as ue:
+                log.exception("更新 ANALYZED 状态失败：post_id=%s, err=%s", post_id, ue)
+
+            # 返回可 JSON 序列化的结果（避免 datetime 等导致 json.dumps 失败）
+            try:
+                if hasattr(saved, "model_dump"):
+                    return saved.model_dump(mode="json", exclude_none=True)  # pydantic v2
+            except Exception:
+                pass
+            return payload
+        except Exception as e:
+            try:
+                PostRepository.update_analysis_status(post_id, AnalysisStatus.ANALYSIS_FAILED.value)
+                log.error(f"分析失败，已更新状态为 ANALYSIS_FAILED：post_id={post_id}, err={e}")
+            except Exception as ue:
+                log.exception("更新 ANALYSIS_FAILED 状态失败：post_id=%s, err=%s", post_id, ue)
+            raise
 
     def _get_post(self, post_id: int) -> PlatformPost:
         post = PostRepository.get_by_id(post_id)

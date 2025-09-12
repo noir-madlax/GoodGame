@@ -18,10 +18,7 @@ source .venv/bin/activate
 python -m analysis.cli run --limit 5 --offset 0
 
 ## 运行评论爬取
-- 方式 A：在项目根目录运行（推荐）
-  - source backend/.venv/bin/activate
-  - python -m backend.jobs.worker.lanes.comments --id 108
-- 方式 B：在 backend 目录运行
+- 在 backend 目录运行
   - cd backend
   - source .venv/bin/activate
   - python -m jobs.worker.lanes.comments --id 108

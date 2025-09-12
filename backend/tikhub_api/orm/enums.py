@@ -6,6 +6,9 @@ class AnalysisStatus(str, Enum):
     INIT = "init"
     PENDING = "pending"
     ANALYZED = "analyzed"
+    SCREENING_FAILED = "screening_failed"
+    COMMENTS_FAILED = "comments_failed"
+    ANALYSIS_FAILED = "analysis_failed"
 
 
 class RelevantStatus(str, Enum):

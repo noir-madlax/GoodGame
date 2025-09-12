@@ -239,15 +239,32 @@ def sync_comments_for_post_id(post_id: int, page_size: int = 20) -> StepResult:
         fetcher = create_fetcher(str(platform))
         res = _step_sync_comments(fetcher, str(video_id), int(post_id), page_size=page_size)
 
-        # 成功且未跳过时，写回 analysis_status=pending
+        # 成功且未跳过时，写回 analysis_status=pending；失败则写回 comments_failed
         if getattr(res, "ok", False) and not getattr(res, "skipped", False):
             try:
                 PostRepository.update_analysis_status(int(post_id), AnalysisStatus.PENDING.value)
             except Exception:
                 # 状态写回失败不影响主流程结果
                 pass
+        elif not getattr(res, "ok", False):
+            try:
+                PostRepository.update_analysis_status(int(post_id), AnalysisStatus.COMMENTS_FAILED.value)
+            except Exception:
+                # 状态写回失败不影响主流程结果
+                pass
         return res
     except Exception as e:
+        try:
+            # 异常时也标记为 comments_failed（使用局部别名避免遮蔽外层导入）
+            try:
+                from .orm.post_repository import PostRepository as _PR
+                from .orm.enums import AnalysisStatus as _AS
+            except Exception:
+                from tikhub_api.orm.post_repository import PostRepository as _PR
+                from tikhub_api.orm.enums import AnalysisStatus as _AS
+            _PR.update_analysis_status(int(post_id), _AS.COMMENTS_FAILED.value)
+        except Exception:
+            pass
         return StepResult(ok=False, error=f"sync_comments_for_post_id failed: {e}")
 
 

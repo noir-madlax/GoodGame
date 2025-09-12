@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import List, Dict, Any, Optional
 
 from tikhub_api.orm.post_repository import PostRepository
-from tikhub_api.orm.enums import RelevantStatus
+from tikhub_api.orm.enums import RelevantStatus, AnalysisStatus
 from .gemini_client import GeminiClient
 from .text_builder import build_user_msg, SYSTEM_PROMPT
 from jobs.logger import get_logger
@@ -59,19 +59,38 @@ class ScreeningService:
             if not post_id:
                 counters["skipped"] += 1
                 continue
-            decision = self.decide_status(row)  # {status, result}
-            relevant_status = decision.get("status", "unknown")
-            relevant_result = decision.get("result")
-            # 若模型未能给出明确结论，保守标记为 unknown
-            allowed = {e.value for e in RelevantStatus}
-            if relevant_status not in allowed:
-                log.error({"post_id": post_id, "error": f"invalid relevant_status: {relevant_status}"})
+            try:
+                decision = self.decide_status(row)  # {status, result}
+                relevant_status = decision.get("status", "unknown")
+                relevant_result = decision.get("result")
+                # 若模型未能给出明确结论，保守标记为 unknown
+                allowed = {e.value for e in RelevantStatus}
+                if relevant_status not in allowed:
+                    log.error({"post_id": post_id, "error": f"invalid relevant_status: {relevant_status}"})
+                    # 执行失败，标记为 SCREENING_FAILED
+                    try:
+                        PostRepository.update_analysis_status(post_id, AnalysisStatus.SCREENING_FAILED.value)
+                    except Exception as ue:
+                        log.exception("更新 SCREENING_FAILED 状态失败：post_id=%s, err=%s", post_id, ue)
+                    counters["skipped"] += 1
+                    continue
+                # 回写 relevant_status + relevant_result
+                PostRepository.update_relevant_status(post_id, relevant_status, relevant_result)
+                # 计数
+                if relevant_status in counters:
+                    counters[relevant_status] += 1
+                else:
+                    counters["skipped"] += 1
+                log.info({"post_id": post_id, "updated_relevant_status": relevant_status})
+            except Exception as e:
+                # 任一执行步骤失败则直接标记为 SCREENING_FAILED
+                log.exception("筛选执行失败，将标记为 SCREENING_FAILED：post_id=%s, err=%s", post_id, e)
+                try:
+                    PostRepository.update_analysis_status(post_id, AnalysisStatus.SCREENING_FAILED.value)
+                except Exception as ue:
+                    log.exception("更新 SCREENING_FAILED 状态失败：post_id=%s, err=%s", post_id, ue)
                 counters["skipped"] += 1
                 continue
-            # 回写 relevant_status + relevant_result
-            PostRepository.update_relevant_status(post_id, relevant_status, relevant_result)
-            counters[relevant_status] += 1
-            log.info({"post_id": post_id, "updated_relevant_status": relevant_status})
         return counters
 
     def process_one_by_id(self, post_id: int) -> Dict[str, Any]:
