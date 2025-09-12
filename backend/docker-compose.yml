@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    # 生产环境：由 Portainer 注入环境变量；此处不设置默认值，仅声明需要传递的键名
+    environment:
+      - SUPABASE_URL
+      - SUPABASE_KEY
+      - OPENROUTER_API_KEY
+      - OPENROUTER_MODEL
+      - GEMINI_API_KEY
+      - tikhub_API_KEY
+      - ENABLE_SCHEDULER
+      - ENABLE_WORKER
+      - ENABLE_LANE_EVALUATE
+      - ENABLE_LANE_COMMENTS
+      - ENABLE_LANE_ANALYZE
+      - SCHED_SEARCH_CRON
+      - WORKER_POLL_INTERVAL_SEC
+      - WORKER_EVAL_CONCURRENCY
+      - WORKER_COMMENTS_CONCURRENCY
+      - WORKER_ANALYZE_CONCURRENCY
+      - MAX_ATTEMPTS
+      - RUNNING_TIMEOUT_MIN
+      - LOG_LEVEL
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./downloads:/app/backend/downloads
+    restart: unless-stopped
