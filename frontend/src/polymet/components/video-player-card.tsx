@@ -155,7 +155,7 @@ export default function VideoPlayerCard({
             className="px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
             onClick={() => onGenerateAdvice && onGenerateAdvice()}
           >
-            生成处理建议
+            查看处理建议
           </button>
         </div>
 
