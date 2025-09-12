@@ -7,14 +7,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 /**
  * 中文说明：
  * 页面：`/marks` 内容标记和处理
- * 作用：聚合两类数据（均来自 localStorage），支持跳转与清理。
- *  - gg_marked_contents：用户在详情页点击“书签”后记录的待关注内容
- *  - gg_action_advices：用户点击“生成处理建议”后记录的建议项
+ * 作用：聚合数据库中的“已标记内容”，并展示处理状态。已移除对 localStorage 的依赖。
  * 使用位置：左侧导航 `内容标记和处理`
  */
 
 type MarkItem = {
-  id?: string | null;
+  id?: number | null;
   platform_item_id?: string | null;
   title?: string;
   platform?: string;
@@ -24,22 +22,9 @@ type MarkItem = {
   published_at?: string | null;
 };
 
-type AdviceItem = MarkItem & {
-  summary?: string;
-  sentiment?: string;
-  risk_types?: string[];
-};
+// 兼容历史：已移除本地 advices 的读取
 
-const readJson = <T,>(key: string, fallback: T): T => {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return fallback;
-    const arr = JSON.parse(raw);
-    return Array.isArray(arr) ? (arr as T) : fallback;
-  } catch {
-    return fallback;
-  }
-};
+// 已删除本地读取工具
 
 // 迷你折线图（mock）：用于展示“热度趋势”
 const Sparkline: React.FC<{ values: number[]; color?: string; width?: number; height?: number }> = ({ values, color = "#3b82f6", width = 120, height = 32 }) => {
@@ -67,7 +52,6 @@ export default function MarkActionsPage() {
   // 合并后的单一数据列表：包含标记内容与处理建议两种来源
   const [marks, setMarks] = useState<MarkItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const advices = useMemo<AdviceItem[]>(() => readJson<AdviceItem[]>("gg_action_advices", []), []);
 
   useEffect(() => {
     let cancelled = false;
@@ -76,12 +60,13 @@ export default function MarkActionsPage() {
         if (!supabase) return;
         const { data } = await supabase
           .from("gg_platform_post")
-          .select("platform_item_id, title, platform, created_at, published_at, is_marked, process_status")
+          .select("id, platform_item_id, title, platform, created_at, published_at, is_marked, process_status")
           .eq("is_marked", true)
           .order("id", { ascending: false })
           .limit(200);
         if (!cancelled) {
-          const rows = (data || []).map((r: { platform_item_id: string; title: string; platform: string; created_at: string; published_at?: string | null }) => ({
+          const rows = (data || []).map((r: { id: number; platform_item_id: string; title: string; platform: string; created_at: string; published_at?: string | null }) => ({
+            id: r.id,
             platform_item_id: r.platform_item_id,
             title: r.title,
             platform: r.platform,
@@ -106,21 +91,7 @@ export default function MarkActionsPage() {
 
   // 合并两类来源为单一渲染行，并计算热度趋势与日/周变化
   const rows = useMemo(() => {
-    const mixed: (AdviceItem | MarkItem)[] = [];
-    // 标记内容（数据库 is_marked）
-    mixed.push(...marks);
-    // 本地处理建议
-    mixed.push(...advices);
-    // 去重：同一 platform_item_id 仅保留一条（保留第一来源）
-    const seen = new Set<string>();
-    const unique = mixed.filter((it) => {
-      const key = String(it.platform_item_id || it.id || "");
-      if (!key) return true;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-
+    const unique = marks;
     return unique.map((item, index) => {
       // 四种不同的 mock 形态：上升、波动、峰值、下降
       const variant = index % 4; // 0..3
@@ -147,12 +118,11 @@ export default function MarkActionsPage() {
       const len = heat.length;
       const dayDelta = len >= 2 ? heat[len - 1] - heat[len - 2] : 0;
       const weekDelta = len >= 8 ? heat[len - 1] - heat[len - 8] : dayDelta;
-      // 状态：若来源于 advices 视为“有建议”，否则“已标记”
-      const isAdvice = (item as AdviceItem)?.summary !== undefined || (item as AdviceItem)?.risk_types !== undefined;
-      const status = isAdvice ? "有建议" : "已标记";
+      // 状态：直接使用数据库的 process_status；若为空显示“已标记”
+      const status = (item as any).process_status || "已标记";
       return { item, heat, dayDelta, weekDelta, status };
     });
-  }, [advices, marks]);
+  }, [marks]);
 
   return (
     <div className="space-y-6">
@@ -242,15 +212,15 @@ export default function MarkActionsPage() {
                       <div className="flex items-center gap-2 justify-end whitespace-nowrap">
                         <button
                           className="px-3 py-1 rounded-lg text-xs border border-blue-500/30 text-blue-600 hover:bg-blue-500/10"
-                          onClick={() => navigate(`/detail/${item.platform_item_id || item.id}`)}
+                          onClick={() => navigate(`/detail/${item.id}`)}
                           aria-label="内容分析"
                         >
                           内容分析
                         </button>
                         <button
                           className="px-3 py-1 rounded-lg text-xs border border-purple-500/30 text-purple-600 hover:bg-purple-500/10"
-                          onClick={() => navigate(`/suggestions/${item.platform_item_id || item.id}`)}
-                          aria-label="处理建议">处理建议</button>
+                          onClick={() => navigate(`/suggestions/${item.id}`)}
+                          aria-label="查看建议">查看建议</button>
                       </div>
                     </td>
                   </tr>

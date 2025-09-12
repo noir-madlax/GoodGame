@@ -1,0 +1,95 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "视频拍摄于一家海底捞门店内，画面显示两只大型犬（金毛和哈士奇）与顾客一同坐在用餐区的卡座上，并使用印有“海底捞火锅”字样的碗在餐桌上进食。",
+    "sentiment": "negative",
+    "brand": "海底捞",
+    "brand_relevance": "相关",
+    "relevance_evidence": "视频画面中清晰可见餐桌上的白色碗印有红色的“海底捞火锅”字样及“Hi” logo，这是海底捞的明确品牌标识。",
+    "risk_type_total": [
+      "宠物进店",
+      "用餐卫生"
+    ],
+    "key_points": [
+      "宠物进店: 两只大型犬在用餐区卡座就坐",
+      "用餐卫生: 宠物在餐桌上使用品牌餐具进食"
+    ],
+    "events": [
+      {
+        "timestamp": "00:00-00:27",
+        "scene_description": "在餐厅的用餐区，两只大型犬（一只金毛和一只哈士奇）坐在顾客用餐的卡座沙发上，与三位顾客同桌。",
+        "audio_transcript": "[背景音乐：中文儿歌]",
+        "issue": "允许大型宠物进入用餐区并与顾客一同坐在餐位上，违反了常规的食品安全和门店管理规定。",
+        "risk_type": [
+          "宠物进店"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "宠物",
+            "subject_behavior": "两只大型犬并排坐在卡座的沙发座位上",
+            "objects_involved": "卡座沙发、餐桌",
+            "brand_assets": "带有“海底捞火锅”字样的碗",
+            "visibility": "清晰，持续整个视频",
+            "details": "一只金毛犬头戴黄色充气头饰，旁边是一只哈士奇。它们与人类顾客共同围坐在一个火锅餐桌旁。"
+          }
+        ],
+        "source": "video"
+      },
+      {
+        "timestamp": "00:10-00:26",
+        "scene_description": "餐桌上，金毛犬和哈士奇正在低头食用放置在桌上的、印有“海底捞火锅”字样的白色纸碗里的食物。",
+        "audio_transcript": "[背景音乐：中文儿歌]",
+        "issue": "宠物在餐桌上使用门店提供的餐具进食，存在严重的交叉污染风险，不符合卫生标准。",
+        "risk_type": [
+          "宠物进店",
+          "用餐卫生"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "宠物",
+            "subject_behavior": "用嘴接触并食用印有品牌Logo的碗内的食物",
+            "objects_involved": "带有“海底捞火锅”字样的碗",
+            "contact_path": "动物口腔→品牌碗",
+            "brand_assets": "印有“海底捞火锅”字样的碗",
+            "visibility": "清晰，有特写镜头",
+            "details": "顾客用手扶着碗，方便宠物进食。碗被直接放置在餐桌台面上。"
+          }
+        ],
+        "source": "video"
+      }
+    ],
+    "transcript": {
+      "segments": [
+        {
+          "start": "00:00",
+          "end": "00:01",
+          "text": "[狗叫声效]",
+          "speaker": "不确定"
+        },
+        {
+          "start": "00:01",
+          "end": "00:23",
+          "text": "[背景音乐：中文儿歌]",
+          "speaker": "不确定"
+        },
+        {
+          "start": "00:23",
+          "end": "00:24",
+          "text": "他们两个孩子都饿了。",
+          "speaker": "不确定"
+        },
+        {
+          "start": "00:25",
+          "end": "00:26",
+          "text": "故意的。",
+          "speaker": "不确定"
+        }
+      ],
+      "speakers": [
+        "不确定"
+      ]
+    }
+  }
+}

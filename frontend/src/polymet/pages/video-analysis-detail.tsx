@@ -81,31 +81,10 @@ export default function VideoAnalysisDetail() {
   const [markTipFading, setMarkTipFading] = useState<boolean>(false);
   // 处理建议面板开关
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false);
-  // 处理建议（本地持久化，用于“内容标记和处理”页展示）
-  const handleGenerateAdvice = () => {
-    try {
-      const payload = {
-        id,
-        title: post?.title || "",
-        platform: post?.platform || "",
-        platform_item_id: post?.platform_item_id || id,
-        summary: analysis?.summary || "",
-        sentiment: analysis?.sentiment || "",
-        risk_types: analysis?.risk_types || [],
-        created_at: new Date().toISOString(),
-      };
-      const key = "gg_action_advices";
-      const arr = JSON.parse(localStorage.getItem(key) || "[]");
-      arr.unshift(payload);
-      localStorage.setItem(key, JSON.stringify(arr.slice(0, 200)));
-      if (id && supabase) {
-        void supabase.from("gg_platform_post").update({ process_status: "处理中" }).eq("platform_item_id", id);
-      }
-      // 跳转到处理建议页面
-      navigate(`/suggestions/${id}`);
-    } catch (e) {
-      console.error(e);
-    }
+  // 查看处理建议（只读跳转，不做写入）
+  const handleViewAdvice = () => {
+    if (!post?.id) return;
+    navigate(`/suggestions/${post.id}`);
   };
 
   const handleMarkContent = async () => {
@@ -119,7 +98,7 @@ export default function VideoAnalysisDetail() {
       const { error } = await supabase
         .from("gg_platform_post")
         .update(nextMarked ? { is_marked: true, process_status: "已标记" } : { is_marked: false, process_status: null })
-        .eq("platform_item_id", id);
+        .eq("id", id);
       if (error) {
         // 回滚本地
         setPost((prev) => (prev ? { ...prev, is_marked: currentlyMarked, process_status: currentlyMarked ? "已标记" : null } : prev));
@@ -161,14 +140,14 @@ export default function VideoAnalysisDetail() {
           .select(
             "id, platform, platform_item_id, title, cover_url, original_url, author_name, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status"
           )
-          .eq("platform_item_id", id)
+          .eq("id", id)
           .limit(1);
         if (!postRows || !postRows[0]) return;
         const p = postRows[0] as unknown as PostRow;
         const { data: aRows } = await supabase
           .from("gg_video_analysis")
           .select("summary, sentiment, brand, key_points, risk_types, timeline, brand_relevance, relevance_evidence")
-          .eq("platform_item_id", id)
+          .eq("platform_item_id", p.platform_item_id)
           .order("id", { ascending: false })
           .limit(1);
         const a = (aRows && (aRows[0] as AnalysisRow)) || null;
@@ -565,7 +544,7 @@ export default function VideoAnalysisDetail() {
               brandRelevance={analysis?.brand_relevance || undefined}
               relevanceEvidence={analysis?.relevance_evidence || undefined}
               className="h-fit"
-              onGenerateAdvice={handleGenerateAdvice}
+              onGenerateAdvice={handleViewAdvice}
             />
           ) : (
             <DetailMainSkeleton />

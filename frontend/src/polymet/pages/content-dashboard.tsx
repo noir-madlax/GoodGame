@@ -1,16 +1,23 @@
  
-import FilterBar, { SentimentValue } from "@/polymet/components/filter-bar";
-import VideoGridCard from "@/polymet/components/video-grid-card";
-// PlatformBadge used inside child; keep import removed
-import { normalizeCoverUrl } from "@/lib/media";
-import { Grid, List, SortAsc, MoreHorizontal } from "lucide-react";
-import { cn } from "@/lib/utils";
+// 说明：旧 FilterBar 暂停在本页使用，保留组件文件供其他页面复用。
+// import FilterBar, { SentimentValue } from "@/polymet/components/filter-bar";
+import FilterSection, { FiltersState } from "@/polymet/components/analytics/filter-section";
+import KPIOverview from "@/polymet/components/analytics/kpi-overview";
+import ContentAnalysisSection from "@/polymet/components/analytics/content-analysis-section";
+// 卡片渲染已抽到 MonitoringResults 内部
+// import VideoGridCard from "@/polymet/components/video-grid-card";
+// import { normalizeCoverUrl } from "@/lib/media";
+// import { Grid, List, SortAsc, MoreHorizontal } from "lucide-react";
+// import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 // Skeleton replaced by shared loading skeletons
-import { DashboardCardSkeleton } from "@/polymet/components/loading-skeletons";
+// 骨架已在 MonitoringResults 内部使用
+// import { DashboardCardSkeleton } from "@/polymet/components/loading-skeletons";
+import MonitoringResults from "@/polymet/components/monitoring/monitoring-results";
 import { backfillRelevance, buildRelevanceWhitelist, resolveStartAt, filterByTime, sortByPublished, buildAnalysisMaps, buildTopRiskOptions } from "@/polymet/lib/filters";
+import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
@@ -81,15 +88,27 @@ export default function ContentDashboard() {
   const [sentiments, setSentiments] = useState<Record<string, string>>({}); // 映射：platform_item_id -> 情绪
   const [relevances, setRelevances] = useState<Record<string, string>>({}); // 映射：platform_item_id -> 品牌相关性（细分覆盖初筛后的最终值）
   // filter options are now loaded inside FilterBar from gg_filter_enums
-  const [riskOptions, setRiskOptions] = useState<{ id: string; label: string; count: number }[]>([]); // 风险场景 TopN 选项（保留供 FilterBar 覆盖使用）
+  // 说明：保留占位，后续如需在筛选条中加入“风险场景”可直接使用此 state。
+  const [, setRiskOptions] = useState<{ id: string; label: string; count: number }[]>([]);
   // label maps moved to FilterBar; keep page lean
   // filters（筛选器当前值）
-  const [riskScenario, setRiskScenario] = useState<string>("all"); // 风险场景
-  const [channel, setChannel] = useState<string>("all"); // 渠道/平台
-  const [contentType, setContentType] = useState<string>("all"); // 内容类型（视频/图文等）
-  const [timeRange, setTimeRange] = useState<"all" | "today" | "week" | "month">("all"); // 时间范围
-  const [sentiment, setSentiment] = useState<SentimentValue>("all"); // 情绪
-  const [relevance, setRelevance] = useState<string>("all"); // 品牌相关性
+  // 新顶层筛选（与设计稿一致）
+  // 默认时间改为“全部时间”
+  const [filters, setFilters] = useState<FiltersState>({ timeRange: "全部时间", relevance: [], priority: [], creatorTypes: [], platforms: [] });
+  // 为保持旧数据加载逻辑，这里映射出必要的旧筛选位
+  const riskScenario = "all"; // 本页一期不暴露风险场景选择；保留旧变量
+  const channel = filters.platforms.length === 1 ? (filters.platforms[0] === "抖音" ? "douyin" : filters.platforms[0] === "小红书" ? "xiaohongshu" : "all") : "all";
+  const contentType = "all";
+  const timeRange: "all" | "today" | "week" | "month" = (() => {
+    const m = filters.timeRange;
+    if (m === "今天") return "today";
+    if (m === "昨天" || m === "前天") return "today"; // 实际过滤在下方自定义逻辑补充
+    if (m === "近7天") return "week";
+    if (m === "近15天" || m === "近30天") return "month";
+    return "all";
+  })();
+  const sentiment = "all" as const; // 本版先不提供情绪筛选入口
+  const relevance = filters.relevance[0] || "all";
   const [oldestFirst, setOldestFirst] = useState(false); // 排序方向（false=最新优先，true=最旧优先）
   const sentinelRef = useRef<HTMLDivElement | null>(null); // 无限滚动的哨兵元素
 
@@ -162,8 +181,31 @@ export default function ContentDashboard() {
         const postsSafe = (postData || []) as unknown as PostRow[];
 
         // 前端时间范围过滤（优先使用 published_at，否则使用 created_at）
-        const startAt = resolveStartAt(timeRange);
-        const filteredByTime = filterByTime(postsSafe, startAt);
+        // 时间过滤：支持 今天/昨天/前天/近7/15/30/全部
+        const baseStartAt = resolveStartAt(timeRange);
+        let filteredByTime = filterByTime(postsSafe, baseStartAt);
+        if (filters.timeRange === "昨天") {
+          const today = new Date();
+          const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+          filteredByTime = filteredByTime.filter((p) => {
+            const t = new Date((p.published_at || p.created_at));
+            return t >= start && t < end;
+          });
+        }
+        if (filters.timeRange === "前天") {
+          const today = new Date();
+          const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
+          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+          filteredByTime = filteredByTime.filter((p) => {
+            const t = new Date((p.published_at || p.created_at));
+            return t >= start && t < end;
+          });
+        }
+        if (filters.timeRange === "近15天") {
+          const d = new Date(); d.setDate(d.getDate() - 15);
+          filteredByTime = filterByTime(postsSafe, d);
+        }
 
         // 动态统计（示例保留）：从当前页数据统计平台与类型集合
         const platformSet = new Set<string>();
@@ -193,14 +235,26 @@ export default function ContentDashboard() {
         if (ids.length > 0) {
           const riskQuery = sb
             .from("gg_video_analysis")
-            .select("platform_item_id, risk_types, sentiment, brand_relevance")
+            .select("platform_item_id, risk_types, sentiment, brand_relevance, severity, \"creatorTypes\"")
             .in("platform_item_id", ids);
           // 不在这里按 sentiment 过滤，以便枚举选项不受当前筛选影响
           const { data: riskData } = await riskQuery;
-          const maps = buildAnalysisMaps((riskData || []) as unknown as { platform_item_id: string; risk_types?: unknown; sentiment?: string | null; brand_relevance?: string | null }[]);
+          const mapsRaw = (riskData || []) as unknown as { platform_item_id: string; risk_types?: unknown; sentiment?: string | null; brand_relevance?: string | null; severity?: string | null; creatorTypes?: string | null }[];
+          const maps = buildAnalysisMaps(mapsRaw);
           risksMap = { ...risksMap, ...maps.risksMap };
           sentimentsMap = { ...sentimentsMap, ...maps.sentimentsMap };
           relevanceMap = { ...relevanceMap, ...maps.relevanceMap };
+          // 构建严重度与创作者类型映射（用于图表/KPI）
+          const sevMap: Record<string, string> = {};
+          const ctMap: Record<string, string> = {};
+          mapsRaw.forEach((r) => {
+            if (r.platform_item_id) {
+              sevMap[r.platform_item_id] = mapDbSeverityToCn(r.severity || "");
+              const ct = String(r.creatorTypes || "").trim();
+              ctMap[r.platform_item_id] = ct || "未标注";
+            }
+          });
+          setExtraMaps({ severityMap: sevMap, creatorTypeMap: ctMap });
           // ignore counts/sets in page scope
           setRiskOptions(buildTopRiskOptions(maps.riskCountMap, 8));
         }
@@ -261,7 +315,7 @@ export default function ContentDashboard() {
     setHasMore(true);
     fetchBatch(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channel, contentType, sentiment, relevance, riskScenario, timeRange, oldestFirst]);
+  }, [channel, contentType, sentiment, relevance, riskScenario, timeRange, oldestFirst, filters.timeRange]);
 
   /**
    * 功能：触发下一页加载（被滚动观察器调用）。
@@ -291,122 +345,107 @@ export default function ContentDashboard() {
 
   const totalCountText = useMemo(() => (totalCount || posts.length).toLocaleString(), [totalCount, posts.length]);
 
+  // —— 新增：图表与 KPI（全库统计版本） ——
+  const [extraMaps, setExtraMaps] = useState<{ severityMap: Record<string, string>; creatorTypeMap: Record<string, string> }>({ severityMap: {}, creatorTypeMap: {} });
+  const [globalLoading, setGlobalLoading] = useState(false);
+  const [globalPostsLite, setGlobalPostsLite] = useState<{ id: number; platform: string; platform_item_id: string }[]>([]);
+  const [globalMaps, setGlobalMaps] = useState<AnalysisMaps>({ relevanceMap: {}, severityMap: {} as any, creatorTypeMap: {} });
+
+  // 根据筛选项加载“全库统计”数据集（独立于分页列表）
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      try {
+        if (!supabase) return;
+        setGlobalLoading(true);
+        const ds = await loadGlobalDataset(supabase, {
+          timeRange: filters.timeRange,
+          platforms: filters.platforms,
+          relevance: filters.relevance,
+          priority: filters.priority,
+          creatorTypes: filters.creatorTypes,
+        });
+        if (!cancelled) {
+          setGlobalPostsLite(ds.posts);
+          setGlobalMaps(ds.maps);
+        }
+      } finally {
+        if (!cancelled) setGlobalLoading(false);
+      }
+    };
+    run();
+    return () => { cancelled = true; };
+  }, [filters, supabase]);
+
+  const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
+  const relevanceChart = useMemo(() => buildRelevanceChartData(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
+  const [chartState, setChartState] = useState<{ level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string }>({ level: "primary" });
+  const severityData = useMemo(() => chartState.level === "secondary" && chartState.selectedRelevance ? buildSeverityGroups(chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
+  const severityDetail = useMemo(() => (chartState.level === "tertiary" && chartState.selectedRelevance && chartState.selectedSeverity) ? buildSeverityDetail(chartState.selectedSeverity as any, chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
+  const [chartsLoading, setChartsLoading] = useState(false);
+
+  const handleRelevanceClick = (name: string) => {
+    setChartsLoading(true);
+    setChartState({ level: "secondary", selectedRelevance: name });
+    setFilters({ ...filters, relevance: [name], priority: [] });
+    setTimeout(() => setChartsLoading(false), 300);
+  };
+  const handleBackToPrimary = () => {
+    setChartsLoading(true);
+    setChartState({ level: "primary" });
+    setFilters({ timeRange: "全部时间", relevance: [], priority: [], creatorTypes: [], platforms: [] });
+    setTimeout(() => setChartsLoading(false), 300);
+  };
+  const handleBackToSecondary = () => {
+    setChartsLoading(true);
+    setChartState({ level: "secondary", selectedRelevance: chartState.selectedRelevance });
+    setFilters({ ...filters, relevance: chartState.selectedRelevance ? [chartState.selectedRelevance] : [], priority: [] });
+    setTimeout(() => setChartsLoading(false), 300);
+  };
+  const handleSeverityClick = (sev: string) => {
+    setChartsLoading(true);
+    setChartState({ level: "tertiary", selectedRelevance: chartState.selectedRelevance, selectedSeverity: sev });
+    setFilters({ ...filters, priority: [sev] });
+    setTimeout(() => setChartsLoading(false), 300);
+  };
+
   return (
     <div className="space-y-8">
-      {/* Filter Bar */}
-      <FilterBar
-        riskScenario={riskScenario}
-        channel={channel}
-        contentType={contentType}
-        timeRange={timeRange}
-        sentiment={sentiment}
-        relevance={relevance}
-        onChange={(next) => {
-          if (next.riskScenario !== undefined) setRiskScenario(next.riskScenario);
-          if (next.channel !== undefined) setChannel(next.channel);
-          if (next.contentType !== undefined) setContentType(next.contentType);
-          if (next.timeRange !== undefined) setTimeRange(next.timeRange);
-          if (next.sentiment !== undefined) setSentiment(next.sentiment);
-          if (next.relevance !== undefined) setRelevance(next.relevance);
-        }}
+      {/* 顶部筛选（新） */}
+      <FilterSection filters={filters} onFiltersChange={setFilters} />
+
+      {/* KPI */}
+      <KPIOverview data={kpi} loading={loading || globalLoading} />
+
+      {/* 图表：一级/二级/三级联动 */}
+      <ContentAnalysisSection
+        chartState={chartState}
+        relevanceData={relevanceChart}
+        severityData={severityData as any}
+        severityDetailData={severityDetail as any}
+        loading={loading || chartsLoading || globalLoading}
+        onRelevanceClick={handleRelevanceClick}
+        onBackToPrimary={handleBackToPrimary}
+        onBackToSecondary={handleBackToSecondary}
+        onSeverityClick={handleSeverityClick}
       />
 
-      {/* Content Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            舆情监控结果
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 min-h-6">
-            {loading ? (
-              <span className="inline-block h-4 w-24 bg-gray-300/50 dark:bg-gray-600/50 rounded animate-pulse" />
-            ) : (
-              <>共找到 {totalCountText} 条相关内容</>
-            )}
-          </p>
-        </div>
-
-        {/* View Controls */}
-        <div className="flex items-center space-x-4">
-          {/* Sort Button */}
-          <button
-            onClick={() => setOldestFirst((v) => !v)}
-            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-100/40 dark:bg-gray-800/30 backdrop-blur-xl border border-white/20 text-gray-700 dark:text-gray-200 transition-all duration-300 hover:bg-gray-100/60 dark:hover:bg-gray-800/50"
-            aria-label="Sort by time"
-            title="Sort by time"
-          >
-            <SortAsc className={cn("w-4 h-4 transition-transform", oldestFirst && "rotate-180")} />
-            <span className="text-sm font-medium">
-              按时间排序
-            </span>
-          </button>
-
-          {/* View Mode Toggle */}
-          <div className="flex items-center rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 p-1">
-            <button className="p-2 rounded-lg text-gray-400 bg-transparent cursor-not-allowed" disabled aria-disabled>
-              <Grid className="w-4 h-4" />
-            </button>
-            <button className="p-2 rounded-lg text-gray-400 bg-transparent cursor-not-allowed" disabled aria-disabled>
-              <List className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* More Options */}
-          <button
-            className="p-2 rounded-xl bg-gray-100/40 dark:bg-gray-800/30 backdrop-blur-xl border border-white/20 text-gray-400 cursor-not-allowed"
-            disabled
-            aria-disabled
-            title="Not implemented yet"
-          >
-            <MoreHorizontal className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-          </button>
-        </div>
-      </div>
-
-      {/* Content Grid */}
-      <div
-        className={cn(
-          "grid gap-6 transition-all duration-500 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        )}
-      >
-        {loading && Array.from({ length: 8 }).map((_, i) => <DashboardCardSkeleton key={i} />)}
-
-        {!loading && posts.length === 0 && !loadingMore && (
-          <div className="col-span-full flex items-center justify-center text-gray-500 dark:text-gray-400 py-16">
-            暂无内容
-          </div>
-        )}
-
-        {!loading &&
-          posts.map((p) => (
-            <VideoGridCard
-              key={p.id}
-              title={p.title}
-              platform={normalizePlatform(p.platform)}
-              thumbnail={normalizeCoverUrl(p.cover_url)}
-              duration={formatDuration(p.duration_ms)}
-              likes={p.like_count || 0}
-              comments={p.comment_count || 0}
-              shares={p.share_count || 0}
-              author={p.author_name || ""}
-              // Platform badge is rendered inside card; keep for alignment
-              platformLabel={normalizePlatform(p.platform)}
-              riskTags={risks[p.platform_item_id] || []}
-              sentiment={sentiments[p.platform_item_id]}
-              brandRelevance={relevances[p.platform_item_id]}
-              publishDate={(p.published_at || p.created_at).slice(0, 10)}
-              originalUrl={p.original_url || undefined}
-              isMarked={Boolean(p.is_marked)}
-              onClick={() => navigate(`/detail/${p.platform_item_id}`)}
-            />
-          ))}
-
-        {loadingMore && Array.from({ length: 8 }).map((_, i) => <DashboardCardSkeleton key={`more-${i}`} />)}
-      </div>
-      {(!hasMore && !loading && posts.length > 0) && (
-        <div className="text-center text-gray-500 dark:text-gray-400 py-6">已到末尾</div>
-      )}
-      <div ref={sentinelRef} aria-hidden className="h-6" />
+      <MonitoringResults
+        posts={posts}
+        loading={loading}
+        loadingMore={loadingMore}
+        hasMore={hasMore}
+        totalCountText={totalCountText}
+        oldestFirst={oldestFirst}
+        onToggleSort={() => setOldestFirst((v) => !v)}
+        sentinelRef={sentinelRef}
+        onCardClick={(id) => navigate(`/detail/${id}`)}
+        risks={risks}
+        sentiments={sentiments}
+        relevances={relevances}
+        formatDuration={formatDuration}
+        normalizePlatform={normalizePlatform}
+      />
     </div>
   );
 }
