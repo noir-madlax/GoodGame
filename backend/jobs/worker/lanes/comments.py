@@ -16,7 +16,6 @@ class CommentsLane(BaseLane):
         self._lock = threading.Lock()
 
     def claim_and_submit_batch(self) -> int:
-        log.info("[CommentsLane] claim_and_submit_batch: start")
         with self._lock:
             if self._busy:
                 log.debug("[CommentsLane] busy, skipping this round")

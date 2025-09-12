@@ -81,14 +81,14 @@ def run_video_workflow(
     """
     platform = unified_post.platform
     video_id = unified_post.platform_item_id
-    print(f"🎬 开始处理 {platform} 视频: {video_id}")
+    log.info("开始处理视频：平台=%s，视频ID=%s", platform, video_id)
 
     report = WorkflowReport(platform=platform, video_id=video_id)
 
     # 1. 平台校验
     if platform not in get_supported_platforms():
         err = f"不支持的平台: {platform}，支持的平台: {get_supported_platforms()}"
-        print(f"❌ {err}")
+        log.error("%s", err)
         report.steps["details"] = StepResult(ok=False, error=err)
         return report
 
@@ -135,9 +135,9 @@ def run_video_workflow(
 
     # 结束
     if report.succeeded():
-        print(f"🎉 完成：{report.file_path}")
+        log.info("视频处理完成，文件已保存：%s", report.file_path)
     else:
-        print("⚠️ 工作流未成功下载文件（如已跳过下载则忽略）")
+        log.warning("工作流未成功下载文件（如已跳过下载则忽略）")
 
     return report
 
@@ -151,7 +151,7 @@ def _step_sync_details_and_upsert(fetcher, video_id: str) -> StepResult:
         if unified_post is None:
             return StepResult(ok=False, error="未能生成统一领域模型 PlatformPost")
         saved = PostRepository.upsert_post(unified_post)
-        print(f"🧩 统一模型已入库: id={saved.id} platform={saved.platform} item={saved.platform_item_id}")
+        log.info("统一模型已入库：post_id=%s，平台=%s，视频ID=%s", saved.id, saved.platform, saved.platform_item_id)
         return StepResult(ok=True, output={
             "post_id": getattr(saved, "id", None),
             "unified_post": unified_post,
@@ -178,7 +178,7 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
         cursor = 0
         total_top = 0
         id_map: dict[str, int] = {}
-        print("💬 开始同步顶层评论...")
+        log.info("开始同步顶层评论：视频ID=%s，post_id=%s", video_id, post_id)
         while True:
             page = fetcher.get_video_comments(video_id, cursor, page_size) or {}
             comments = page.get("comments") or []
@@ -186,7 +186,7 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
             has_more = int(page.get("has_more") or 0)
 
             if not comments:
-                print("📭 本页无评论，结束顶层评论同步。")
+                log.info("本页无评论，视频ID=%s，post_id=%s，结束顶层评论同步：cursor=%s",video_id, post_id ,cursor)
                 break
 
             models = DouyinCommentAdapter.to_comment_list(comments, post_id)
@@ -198,9 +198,9 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
                     if int(getattr(saved_c, "reply_count", 0) or 0) > 0:
                         _sync_replies_for_top_comment(fetcher, video_id, str(saved_c.platform_comment_id), int(post_id), id_map)
                 except Exception as e:
-                    print(f"⚠️ 顶层评论入库失败: {e}")
+                    log.warning("视频ID=%s，post_id=%s，顶层评论入库失败：%s",video_id, post_id, e)
             total_top += len(models)
-            print(f"💬 顶层评论累计入库: {total_top}")
+            log.info("视频ID=%s，post_id=%s，顶层评论累计入库：%s 条",video_id, post_id, total_top)
 
             if has_more == 1 and next_cursor != cursor:
                 cursor = next_cursor
@@ -335,12 +335,12 @@ def _step_download_video(fetcher, unified_post, video_id: str, video_dir: str) -
         if not download_urls:
             return StepResult(ok=False, error="未找到下载链接")
 
-        print(f"🔗 找到 {len(download_urls)} 个下载链接")
+        log.info("找到下载链接：共 %s 个", len(download_urls))
         video_filename = f"{video_id}.mp4"
         downloader = VideoDownloader(video_dir)
         file_path = _download_with_multiple_urls(downloader, download_urls, video_filename)
         if file_path:
-            print(f"🎉 视频下载完成: {file_path}")
+            log.info("视频下载完成：路径=%s", file_path)
             return StepResult(ok=True, output={"file_path": file_path})
         return StepResult(ok=False, error="所有下载链接都失败了")
     except Exception as e:
@@ -360,25 +360,25 @@ def _download_with_multiple_urls(downloader, download_urls: list, filename: str)
         str: 下载成功返回文件路径，失败返回 None
     """
     for i, url in enumerate(download_urls, 1):
-        print(f"🔗 尝试第 {i}/{len(download_urls)} 个下载链接...")
+        log.info("尝试第 %s/%s 个下载链接", i, len(download_urls))
         url_str = str(url)
-        print(f"   链接: {url_str[:80]}...")
+        log.info("下载链接预览（前80字符）：%s...", url_str[:80])
 
         try:
             # 尝试下载
             file_path = downloader.download_video_with_retry(url_str, filename, max_retries=2)
 
             if file_path:
-                print(f"✅ 第 {i} 个链接下载成功！")
+                log.info("第 %s 个链接下载成功", i)
                 return file_path
             else:
-                print(f"❌ 第 {i} 个链接下载失败，尝试下一个...")
+                log.warning("第 %s 个链接下载失败，尝试下一个", i)
 
         except Exception as e:
-            print(f"❌ 第 {i} 个链接下载异常: {str(e)}")
+            log.warning("第 %s 个链接下载异常：%s", i, e)
             continue
 
-    print("❌ 所有下载链接都尝试失败")
+    log.error("所有下载链接都尝试失败")
     return None
 
 
@@ -396,7 +396,7 @@ def _fetch_and_save_danmaku(fetcher, video_id: str, video_details: dict, video_d
         video_dir (str): 视频保存目录
     """
     try:
-        print("🎭 正在获取弹幕信息...")
+        log.info("开始获取弹幕：视频ID=%s", video_id)
 
         # 从视频详细信息中获取视频时长
         aweme_detail = video_details.get('aweme_detail', {})
@@ -404,10 +404,10 @@ def _fetch_and_save_danmaku(fetcher, video_id: str, video_details: dict, video_d
         duration = video_info.get('duration', 0)  # 时长单位为毫秒
 
         if duration <= 0:
-            print("⚠️ 无法获取视频时长，跳过弹幕获取")
+            log.warning("无法获取视频时长，跳过弹幕获取：视频ID=%s", video_id)
             return
 
-        print(f"📏 视频时长: {duration / 1000:.1f} 秒")
+        log.info("视频时长：%.1f 秒", duration / 1000)
 
         # 获取弹幕信息
         danmaku_data = fetcher.get_video_danmaku(video_id, duration)
@@ -417,12 +417,12 @@ def _fetch_and_save_danmaku(fetcher, video_id: str, video_details: dict, video_d
             danmaku_file_path = os.path.join(video_dir, "danmaku.json")
             with open(danmaku_file_path, 'w', encoding='utf-8') as f:
                 json.dump(danmaku_data, f, ensure_ascii=False, indent=2)
-            print(f"🎭 弹幕信息已保存: {danmaku_file_path}")
+            log.info("弹幕信息已保存：%s", danmaku_file_path)
         else:
-            print("⚠️ 未获取到弹幕信息")
+            log.warning("未获取到弹幕信息：视频ID=%s", video_id)
 
     except Exception as e:
-        print(f"⚠️ 获取弹幕信息时出错: {str(e)}")
+        log.error("获取弹幕信息出错：视频ID=%s，错误=%s", video_id, e)
 
 
 
@@ -460,7 +460,7 @@ def _sync_replies_for_top_comment(fetcher, aweme_id: str, top_cid: str, video_po
                         id_map[str(saved.platform_comment_id)] = int(saved.id)
                     synced += 1
                 except Exception as e:
-                    print(f"⚠️ 楼中楼入库失败: {e}")
+                    log.warning("楼中楼入库失败：top_cid=%s，错误=%s", top_cid, e)
 
             # 第二趟：对 reply_to_reply_id != '0' 的项尝试修正 parent_comment_id
             for raw in replies:
@@ -481,16 +481,16 @@ def _sync_replies_for_top_comment(fetcher, aweme_id: str, top_cid: str, video_po
                             post_id=video_post_id,
                         )
                 except Exception as e:
-                    print(f"⚠️ 楼中楼父子修正失败: {e}")
+                    log.warning("楼中楼父子修正失败：top_cid=%s，错误=%s", top_cid, e)
 
             if has_more == 1 and next_cursor != cursor:
                 cursor = next_cursor
                 continue
             else:
                 break
-        print(f"💬 顶层 {top_cid} 的楼中楼同步完成：页数={page_count}，新增/更新={synced}")
+        log.info("视频ID=%s，post_id=%s，顶层评论回复同步完成：top_cid=%s，页数=%s，新增/更新=%s", aweme_id, video_post_id,top_cid, page_count, synced)
     except Exception as e:
-        print(f"⚠️ 同步楼中楼失败(top={top_cid}): {e}")
+        log.error("同步楼中楼失败：top_cid=%s，错误=%s", top_cid, e)
 
 # 便捷：按视频ID完整执行（详情获取+入库+公共流程）
 def run_video_full_by_id(platform: str, video_id: str, options: WorkflowOptions = WorkflowOptions()) -> WorkflowReport:
@@ -555,17 +555,17 @@ def run_video_workflow_channel(channel: str, keyword: str, options: WorkflowOpti
                     rep.steps["details"] = details_res
                 results.append(rep)
             except Exception as inner_e:
-                print(f"处理视频失败: {inner_e}")
+                log.error("处理视频失败：平台=%s，视频ID=%s，错误=%s", getattr(post, "platform", channel), getattr(post, "platform_item_id", ""), inner_e)
                 results.append(WorkflowReport(platform=getattr(post, "platform", channel), video_id=getattr(post, "platform_item_id", ""), steps={"details": StepResult(ok=False, error=str(inner_e))}))
         return results
     except Exception as e:
-        print(f"run_video_workflow_channel 失败: {e}")
+        log.error("run_video_workflow_channel 失败：channel=%s，keyword=%s，错误=%s", channel, keyword, e)
         return []
 
 
 
 def main():
-    print("=== 多平台视频下载工具 ===")
+    log.info("启动多平台视频下载工具")
 
     run_video_workflow_channel("douyin", "火锅", WorkflowOptions(
         sync_details=False,
@@ -574,7 +574,7 @@ def main():
         download_video=False,
     ))
 
-    print("\n☑️ 任务完成！")
+    log.info("任务完成")
 
 
 if __name__ == "__main__":
