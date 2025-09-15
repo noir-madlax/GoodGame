@@ -2,9 +2,12 @@ from __future__ import annotations
 from typing import List, Dict, Any, Optional
 
 from tikhub_api.orm.post_repository import PostRepository
-from tikhub_api.orm.enums import RelevantStatus, AnalysisStatus
+from tikhub_api.orm.enums import RelevantStatus, AnalysisStatus, PromptName
 from .gemini_client import GeminiClient
+from .text_builder import build_user_msg, SYSTEM_PROMPT as DEFAULT_SYSTEM_PROMPT
+from tikhub_api.orm.prompt_template_repository import PromptTemplateRepository
 from .text_builder import build_user_msg, SYSTEM_PROMPT
+
 from jobs.logger import get_logger
 
 log = get_logger(__name__)
@@ -31,7 +34,9 @@ class ScreeningService:
         # 调用 LLM：现约定模型直接返回英文相关性枚举（yes/no/maybe），不再做本地映射
         user_msg = build_user_msg(row)
 
-        result = self.client.classify_value(SYSTEM_PROMPT, user_msg)
+        system_prompt = PromptTemplateRepository.get_active_by_name(PromptName.PRELIMINARY_SCREENING.value)
+
+        result = self.client.classify_value(system_prompt.content, user_msg)
         log.info({"post_id": row.get("id"),
                   "event":"llm 返回结果如下",
                   "llm_result": result})

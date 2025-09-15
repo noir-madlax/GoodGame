@@ -24,9 +24,17 @@ class Channel(str, Enum):
     DOUYIN = "douyin"
     XIAOHONGSHU = "xiaohongshu"
 
+
+
+class PromptName(str, Enum):
+    PRELIMINARY_SCREENING = "PRELIMINARY_SCREENING"
+    ANALYZE_VIDEO = "ANALYZE_VIDEO"
+    ANALYZE_PICTURE = "ANALYZE_PICTURE"
+
 __all__ = [
     "AnalysisStatus",
     "RelevantStatus",
     "Channel",
+    "PromptName",
 ]
 

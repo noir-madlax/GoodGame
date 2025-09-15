@@ -133,3 +133,18 @@ class VideoAnalysis(BaseModel):
     relevance_evidence: Optional[str] = None
     transcript_json: Optional[Dict[str, Any]] = None
     handling_suggestions: Optional[Dict[str, Any]] = None
+
+
+
+class PromptTemplate(BaseModel):
+    id: Optional[str] = None
+    name: NonEmptyStr
+    description: Optional[str] = None
+    notes: Optional[str] = None
+    version: NonEmptyStr
+    method_name: NonEmptyStr
+    is_active: bool = False
+    content: NonEmptyStr
+
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
