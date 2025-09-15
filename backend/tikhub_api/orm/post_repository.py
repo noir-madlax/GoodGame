@@ -45,6 +45,38 @@ class PostRepository:
         data = resp.data[0] if resp.data else None
         return PostRepository._row_to_model(data) if data else model
 
+
+    @staticmethod
+    def upsert_posts(posts: List["PlatformPost"]) -> List["PlatformPost"]:
+        """批量 Upsert 多条帖子，按 (platform, platform_item_id) 作为唯一键。
+        返回 upsert 后的行（尽力而为，若后端不返回则回落为空列表）。
+        """
+        client = get_client()
+        raw_payload: List[Dict[str, Any]] = []
+        for p in posts:
+            model = p if isinstance(p, PlatformPost) else PlatformPost(**p)  # type: ignore[arg-type]
+            row: Dict[str, Any] = model.model_dump(mode="json", exclude_none=True)  # type: ignore[attr-defined]
+            # id=None 时移除，避免主键插入冲突，走唯一键 on_conflict
+            if row.get("id") is None:
+                row.pop("id", None)
+            raw_payload.append(row)
+        if not raw_payload:
+            return []
+        # 去重：按 (platform, platform_item_id) 过滤同一批中的重复，避免 PG 21000 错误
+        seen: set[tuple[str | None, str | None]] = set()
+        payload: List[Dict[str, Any]] = []
+        for row in raw_payload:
+            key = (row.get("platform"), row.get("platform_item_id"))
+            if key in seen:
+                continue
+            seen.add(key)
+            payload.append(row)
+        if not payload:
+            return []
+        resp = client.table(TABLE).upsert(payload, on_conflict="platform,platform_item_id").execute()
+        data = resp.data or []
+        return [PostRepository._row_to_model(r) for r in data]
+
     @staticmethod
     def get_by_platform_item(platform: str, platform_item_id: str) -> Optional[PlatformPost]:
         client = get_client()

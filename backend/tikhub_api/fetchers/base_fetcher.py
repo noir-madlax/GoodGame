@@ -4,10 +4,11 @@
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Iterable
 import os
 import requests
 from dotenv import load_dotenv
+from jobs.logger import get_logger
 
 # 仓储用于落库统一领域模型
 from ..orm.post_repository import PostRepository
@@ -15,6 +16,7 @@ from ..orm.post_repository import PostRepository
 # 加载环境变量
 load_dotenv()
 
+log = get_logger(__name__)
 
 class BaseFetcher(ABC):
     """视频获取器基础抽象类"""
@@ -103,37 +105,55 @@ class BaseFetcher(ABC):
         """
         pass
 
-    def get_search_posts(self, keyword: str):
-        """统一入口：按批查询→转换→落库，返回已落库的 PlatformPost 列表。
-        - 子类实现 fetch_search_posts(keyword) 负责分页抓取“原始详情”列表
-        - 这里统一调用 adapter.to_post 转为 PlatformPost
-        - 逐条 upsert 到仓库（PostRepository），并回填 id
+    def iter_fetch_search_pages(self, keyword: str):
+        """
+        默认实现：一次性获取并以单批返回；子类可重写为真正的分页按页 yield。
         """
         try:
             raw_items = self.fetch_search_posts(keyword) or []
         except Exception:
             raw_items = []
-        posts = []
+        if raw_items:
+            yield raw_items
+
+    def iter_search_posts(self, keyword: str, batch_size: int = 20):
+        """
+        统一入口（流式）：按批查询→转换→批量落库，逐批 yield 已落库的 PlatformPost 列表。
+        - 子类可重写 iter_fetch_search_pages(keyword) 以真正分页产生原始详情批次
+        - 这里统一调用 adapter.to_post 转为 PlatformPost
+        - 批量 upsert 到仓库（PostRepository.upsert_posts）
+        """
         adapter = self.get_adapter()
-        for raw in raw_items:
-            try:
-                post = adapter.to_post(raw)
-                # 尽力附带原始详情，便于后续弹幕/排查
+        buffer = []
+        for raw_batch in self.iter_fetch_search_pages(keyword):
+            for raw in (raw_batch or []):
                 try:
-                    setattr(post, "raw_details", raw)
+                    post = adapter.to_post(raw)
+                    log.info(f"[{self.platform_name}] 正在转换条目:%s",post.platform_item_id)
+                    # 尽力附带原始详情，便于后续弹幕/排查
+                    try:
+                        setattr(post, "raw_details", raw)
+                    except Exception:
+                        log.error(f"[{self.platform_name}] 附加 raw_details 失败: {post.platform_item_id}")
+                        pass
+                    buffer.append(post)
+                    if len(buffer) >= batch_size:
+                        saved = PostRepository.upsert_posts(buffer)
+                        yield saved
+                        buffer = []
                 except Exception:
-                    pass
-                # 入库并返回保存后的对象（带 id）
-                saved = PostRepository.upsert_post(post)
-                # 若需要，尽力把 id 回写到原对象
-                try:
-                    if getattr(post, "id", None) is None and getattr(saved, "id", None) is not None:
-                        setattr(post, "id", saved.id)
-                except Exception:
-                    pass
-                posts.append(saved)
-            except Exception:
-                continue
+                    continue
+        if buffer:
+            saved = PostRepository.upsert_posts(buffer)
+            yield saved
+
+    def get_search_posts(self, keyword: str):
+        """
+        兼容入口：消费迭代批次并合并为列表返回。
+        """
+        posts = []
+        for batch in self.iter_search_posts(keyword, batch_size=50):
+            posts.extend(batch)
         return posts
 
 

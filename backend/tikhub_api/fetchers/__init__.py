@@ -8,7 +8,12 @@ from .base_fetcher import BaseFetcher
 
 # 平台特定获取器
 from .douyin_video_fetcher import DouyinVideoFetcher, fetch_douyin_video
-from .xiaohongshu_fetcher import XiaohongshuFetcher, fetch_xiaohongshu_video
+try:
+    from .xiaohongshu_fetcher import XiaohongshuFetcher, fetch_xiaohongshu_video
+except Exception:
+    XiaohongshuFetcher = None
+    def fetch_xiaohongshu_video(*args, **kwargs):
+        raise ImportError("xiaohongshu_fetcher import failed")
 
 # 工厂模式组件
 from .fetcher_factory import (

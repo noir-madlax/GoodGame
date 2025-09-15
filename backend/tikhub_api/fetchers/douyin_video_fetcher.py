@@ -4,6 +4,8 @@ from .base_fetcher import BaseFetcher
 
 from ..capabilities import VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider
 from jobs.logger import get_logger
+import json
+
 
 log = get_logger(__name__)
 
@@ -23,7 +25,7 @@ DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
     "sort_type": "0", #排序方式：0: 综合排序，1: 最多点赞，2: 最新发布
     "publish_time": "7",#0: 不限，1: 最近一天，7: 最近一周，180: 最近半年
     "filter_duration": "0", #0: 不限，0-1: 1分钟以内，1-5: 1-5分钟，5-10000: 5分钟以上
-    "content_type": "0",  # 0: 不限，1: 视频，2: 图片，3: 文章
+    "content_type": "1",  # 0: 不限，1: 视频，2: 图片，3: 文章
     "search_id": "", #搜索ID（分页时使用）
 }
 
@@ -131,7 +133,7 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             payload["cursor"] = cursor
             payload["search_id"] = search_id
 
-            log.info("[Douyin] 开始请求 (keyword=%s, payload=%s)", keyword, str(payload))
+            log.info("[Douyin] 开始请求 (keyword=%s) JSON body=\n%s", keyword, json.dumps(payload, ensure_ascii=False, indent=2))
 
             url = f"{self.base_url}{DOUYIN_SEARCH_API}"
             result = self._make_request(url, payload, method="POST")
@@ -163,15 +165,82 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
                 except Exception:
                     continue
 
-            # 翻页字段
+            # 翻页字段（抖音返回路径修正）
             inner = data if isinstance(data, dict) else {}
-            cursor = int(inner.get("cursor") or cursor)
-            search_id = str(inner.get("search_id") or search_id)
-            has_more = int(inner.get("has_more") or (1 if len(items) > 0 else 0))
-            if cursor == payload["cursor"] and has_more == 1:
-                has_more = 0  # 防止死循环
+            # $.data.cursor
+            next_cursor = int(inner.get("cursor") or cursor)
+            # $.data.extra.logid  -> 作为下一次请求的 search_id
+            extra = inner.get("extra") or {}
+            search_id_val = extra.get("logid")
+            if search_id_val:
+                search_id = str(search_id_val)
+            # $.data.has_more
+            has_more = 1 if int(inner.get("has_more") or 0) == 1 else 0
+            if next_cursor == payload["cursor"] and has_more == 1:
+                # 防止服务端错误导致死循环
+                has_more = 0
+            cursor = next_cursor
 
         return gathered
+
+    def iter_fetch_search_pages(self, keyword: str):
+        """
+        按页迭代抖音搜索结果：每次 yield 一页解析后的“原始详情”列表（形如 {"aweme_detail": {...}}）。
+        """
+        cursor = 0
+        search_id = ""
+        has_more = 1
+        while has_more == 1:
+            payload = dict(DOUYIN_SEARCH_DEFAULT_PAYLOAD)
+            payload["keyword"] = keyword
+            payload["cursor"] = cursor
+            payload["search_id"] = search_id
+
+            log.info("[Douyin] 开始请求 (keyword=%s) JSON body=\n%s", keyword, json.dumps(payload, ensure_ascii=False, indent=2))
+
+            url = f"{self.base_url}{DOUYIN_SEARCH_API}"
+            result = self._make_request(url, payload, method="POST")
+            if not self._check_api_response(result):
+                print(f"搜索接口返回异常: {result}")
+                break
+
+            data = result.get("data") or {}
+            inner_list = data.get("data")
+            items = inner_list if isinstance(inner_list, list) else []
+
+            # 组装本页 batch
+            page_batch: List[Dict[str, Any]] = []
+            for it in items:
+                try:
+                    if not isinstance(it, dict):
+                        continue
+                    aweme = it.get("aweme_info") or {}
+                    if not isinstance(aweme, dict):
+                        continue
+                    page_batch.append({"aweme_detail": aweme})
+                except Exception:
+                    continue
+
+            log.info("[Douyin] 本页条目: %d (keyword=%s, cursor=%s, search_id=%s)", len(page_batch), keyword, str(cursor), search_id)
+            if page_batch:
+                yield page_batch
+
+            # 翻页字段（抖音返回路径修正）
+            inner = data if isinstance(data, dict) else {}
+            # $.data.cursor
+            next_cursor = int(inner.get("cursor") or cursor)
+            # $.data.extra.logid  -> 作为下一次请求的 search_id
+            extra = inner.get("extra") or {}
+            search_id_val = extra.get("logid")
+            if search_id_val:
+                search_id = str(search_id_val)
+            # $.data.has_more
+            has_more = 1 if int(inner.get("has_more") or 0) == 1 else 0
+            if next_cursor == payload["cursor"] and has_more == 1:
+                # 防止服务端错误导致死循环
+                has_more = 0
+            cursor = next_cursor
+            log.info("[Douyin] 下一页 (has_more=%s, keyword=%s, cursor=%s, search_id=%s)", inner.get("has_more"), keyword, str(cursor), search_id)
 
     # 兼容命名
     def fetch_search_page(self) -> List[Dict[str, Any]]:

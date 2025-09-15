@@ -33,14 +33,17 @@ from typing import Optional, Dict, Any, List
 
 @dataclass
 class WorkflowOptions:
-    # 四步可选，默认与原有逻辑一致：全部开启
+    # 步骤开关（默认与原有逻辑一致）
     sync_details: bool = False
     sync_comments: bool = False
     sync_danmaku: bool = False
     download_video: bool = False
     # 其他控制项
     force_refresh: bool = False
-    page_size: int = 20
+    page_size: int = 20  # 评论分页等用途
+    # 批处理控制
+    batch_size: int = 20  # 搜索结果按批落库大小
+    concurrency: int = 1  # 处理并发：当前按 1 顺序处理，后续只需改数字即可
 
 
 @dataclass
@@ -525,54 +528,31 @@ def run_video_full_by_id(platform: str, video_id: str, options: WorkflowOptions 
         return r
 
 
-# 渠道入口：通过 fetcher 内置分页拿 PlatformPost 列表，然后逐条处理
-def run_video_workflow_channel(channel: str, keyword: str, options: WorkflowOptions = WorkflowOptions()):
+# 渠道入口（仅查询并落库）：按批抓取→适配→批量 upsert，不触发后续工作流
+# 返回处理的帖子总数（尽力统计）
+def run_channel_search_and_upsert(channel: str, keyword: str) -> int:
     try:
-        log.info("run_video_workflow_channel: channel=%s, keyword=%s", channel, keyword)
-        # 使用工厂方法，根据 channel 创建对应平台的 fetcher（如 douyin / xiaohongshu）
+        log.info("run_channel_search_and_upsert: channel=%s, keyword=%s", channel, keyword)
         fetcher = create_fetcher(channel)
-        # 通过基类统一入口进行适配+落库
-        posts = fetcher.get_search_posts(keyword)
-        results: list[WorkflowReport] = []
-        for post in posts:
-            try:
-                platform = getattr(post, "platform", channel)
-                video_id = getattr(post, "platform_item_id", None) or ""
-                if not video_id:
-                    results.append(WorkflowReport(platform=platform, video_id="", steps={"details": StepResult(ok=False, error="缺少 platform_item_id")}))
-                    continue
 
-                # 详情步骤已在 get_search_posts 中完成入库并回填 id
-                details_res = StepResult(ok=True, output={
-                    "post_id": getattr(post, "id", None),
-                    "unified_post": post,
-                })
-
-                rep = run_video_workflow(post, options)
-                if rep is not None:
-                    if rep.post_id is None and details_res.output.get("post_id") is not None:
-                        rep.post_id = details_res.output.get("post_id")
-                    rep.steps["details"] = details_res
-                results.append(rep)
-            except Exception as inner_e:
-                log.error("处理视频失败：平台=%s，视频ID=%s，错误=%s", getattr(post, "platform", channel), getattr(post, "platform_item_id", ""), inner_e)
-                results.append(WorkflowReport(platform=getattr(post, "platform", channel), video_id=getattr(post, "platform_item_id", ""), steps={"details": StepResult(ok=False, error=str(inner_e))}))
-        return results
+        total = 0
+        # 由 BaseFetcher.iter_search_posts 负责组装领域模型并批量 upsert
+        for saved_batch in fetcher.iter_search_posts(keyword, batch_size=20):
+            batch_n = len(saved_batch) if isinstance(saved_batch, list) else 0
+            total += batch_n
+            log.info("本批已落库：size=%s，累计=%s", batch_n, total)
+        log.info("完成：channel=%s, keyword=%s，总计=%s", channel, keyword, total)
+        return total
     except Exception as e:
-        log.error("run_video_workflow_channel 失败：channel=%s，keyword=%s，错误=%s", channel, keyword, e)
-        return []
+        log.error("run_channel_search_and_upsert 失败：channel=%s，keyword=%s，错误=%s", channel, keyword, e)
+        return 0
 
 
 
 def main():
     log.info("启动多平台视频下载工具")
 
-    run_video_workflow_channel("douyin", "火锅", WorkflowOptions(
-        sync_details=False,
-        sync_comments=False,
-        sync_danmaku=False,
-        download_video=False,
-    ))
+    run_channel_search_and_upsert("douyin", "火锅")
 
     log.info("任务完成")
 

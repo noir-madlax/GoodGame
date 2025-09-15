@@ -18,8 +18,15 @@ class RelevantStatus(str, Enum):
     MAYBE = "maybe"
 
 
+
+
+class Channel(str, Enum):
+    DOUYIN = "douyin"
+    XIAOHONGSHU = "xiaohongshu"
+
 __all__ = [
     "AnalysisStatus",
     "RelevantStatus",
+    "Channel",
 ]
 

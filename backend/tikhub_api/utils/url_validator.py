@@ -78,6 +78,6 @@ def filter_valid_video_urls(urls: Iterable[Optional[str]], timeout: int = _DEFAU
         if _head_ok(u, timeout) or _range_get_ok(u, timeout):
             valid.append(u)
     invalid_count = max(len(candidates) - len(valid), 0)
-    print(f"URL有效性校验: 输入=%d, 无效=%d, 有效=%d", len(candidates), invalid_count, len(valid))
+    logger.info("URL 有效性校验完成：输入=%d，判定无效=%d，有效=%d", len(candidates), invalid_count, len(valid))
     return valid
 

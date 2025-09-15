@@ -1,12 +1,13 @@
 from typing import List
 
+from tikhub_api.orm.enums import Channel
 from jobs.logger import get_logger
 from jobs.config import Settings
 from tikhub_api.orm import (
     SearchKeywordRepository,
     SearchKeyword,
 )
-from tikhub_api.workflow import run_video_workflow_channel
+from tikhub_api.workflow import run_channel_search_and_upsert
 
 log = get_logger(__name__)
 
@@ -23,16 +24,16 @@ def run_search_once(settings) -> None:
     log.info("关键词数量: %d", len(keywords))
 
     # 2) 逐一执行业务（不额外打印结果）
-    channel = "douyin"
+    channel = Channel.DOUYIN
     total = 0
     for k in keywords:
         kw = (k.keyword or "").strip()
         if not kw:
             continue
         try:
-            run_video_workflow_channel(channel, kw)
+            run_channel_search_and_upsert(channel, kw)
         except Exception as e:
-            log.error("运行工作流失败: channel=%s, keyword=%s, err=%s", channel, kw, e)
+            log.error("运行搜索落库失败: channel=%s, keyword=%s, err=%s", channel, kw, e)
         total += 1
 
     log.info("已触发工作流次数: %d", total)
