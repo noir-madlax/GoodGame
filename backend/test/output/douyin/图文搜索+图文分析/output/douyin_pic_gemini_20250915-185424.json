@@ -1,0 +1,42 @@
+{
+  "model": "gemini-2.5-pro",
+  "result": {
+    "summary": "图文内容包含一张身穿海底捞工服并使用夸张滤镜自拍的员工照片，以及两张与品牌无关的个人骑摩托车的照片。标题文本为“欢迎光临海底捞”。",
+    "sentiment": "neutral",
+    "brand": "海底捞",
+    "brand_relevance": "相关",
+    "relevance_evidence": "第一张图片中，人物身穿的工服胸口处有清晰可辨的红色“海底捞火锅”字样及海底捞“Hi”标志。标题文本也明确提及“海底捞”。",
+    "risk_type_total": [
+      "员工不当动作"
+    ],
+    "key_points": [
+      "员工不当动作: 员工身穿工服使用搞怪滤镜自拍，可能影响品牌专业形象"
+    ],
+    "events": [
+      {
+        "timestamp": "图片",
+        "scene_description": "第一张图片中，一名身穿海底捞员工工服的人，脸部被施加了夸张的大眼特效滤镜，正在进行自拍。",
+        "issue": "员工身着工服使用搞怪特效自拍，其形象可能被认为不专业，有损品牌形象。",
+        "risk_type": [
+          "员工不当动作"
+        ],
+        "evidence": [
+          {
+            "scene_area": "用餐区/卡座",
+            "subject_type": "员工",
+            "subject_behavior": "员工身穿工服使用大眼特效滤镜自拍",
+            "objects_involved": "员工工服",
+            "contact_path": null,
+            "brand_assets": "员工工服、胸口Logo、胸口品牌文字",
+            "audio_quote": null,
+            "visibility": "特写清晰，图1",
+            "details": "人物头戴黑色鸭舌帽，工服为浅色，胸口有红色品牌文字“海底捞火锅”和带“Hi”的Logo。照片带有抖音号水印：yj__06。"
+          }
+        ],
+        "source": "image",
+        "comment_id": null,
+        "comment_index": null
+      }
+    ]
+  }
+}
