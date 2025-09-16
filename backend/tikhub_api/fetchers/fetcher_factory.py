@@ -7,10 +7,8 @@ from typing import Dict, Type, Optional
 from enum import Enum
 from .base_fetcher import BaseFetcher
 from .douyin_video_fetcher import DouyinVideoFetcher
-try:
-    from .xiaohongshu_fetcher import XiaohongshuFetcher
-except Exception:
-    XiaohongshuFetcher = None
+from .xiaohongshu_fetcher import XiaohongshuFetcher
+
 
 
 class Platform(Enum):
@@ -36,12 +34,11 @@ class Platform(Enum):
 class FetcherFactory:
     """视频获取器工厂类"""
 
-    # 平台与获取器类的映射（XiaohongshuFetcher 可能不可用，按需注册）
+    # 平台与获取器类的映射
     _fetcher_registry: Dict[Platform, Type[BaseFetcher]] = {
         Platform.DOUYIN: DouyinVideoFetcher,
+        Platform.XIAOHONGSHU: XiaohongshuFetcher,
     }
-    if 'XiaohongshuFetcher' in globals() and XiaohongshuFetcher is not None:
-        _fetcher_registry[Platform.XIAOHONGSHU] = XiaohongshuFetcher
 
     @classmethod
     def create_fetcher(cls, platform: str) -> BaseFetcher:
