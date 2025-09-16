@@ -1,5 +1,5 @@
 // no React import needed with JSX transform
-import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as LinkIcon } from "lucide-react";
+import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as LinkIcon, BadgeCheck } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
@@ -15,6 +15,7 @@ interface VideoPlayerCardProps {
   shares?: number;
   timestamp: string;
   author: string;
+  authorFollowerCount?: number;
   originalUrl?: string;
   videoUrl?: string;
   className?: string;
@@ -34,6 +35,7 @@ export default function VideoPlayerCard({
   shares = 0,
   timestamp,
   author,
+  authorFollowerCount = 0,
   originalUrl,
   videoUrl,
   className,
@@ -127,8 +129,11 @@ export default function VideoPlayerCard({
               <span>{timestamp}</span>
             </span>
           </div>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
-            @{author}
+          <span className="text-sm text-gray-500 dark:text-gray-400 inline-flex items-center gap-1">
+            <span>{String(author || "").replace(/^@+/, "")}</span>
+            {authorFollowerCount > 1000 && (
+              <BadgeCheck className="w-4 h-4 text-blue-500" aria-label="大V" />
+            )}
           </span>
         </div>
 

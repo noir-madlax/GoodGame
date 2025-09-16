@@ -16,6 +16,7 @@ export interface PostRowLite {
   share_count: number;
   cover_url: string | null;
   author_name: string | null;
+  author_follower_count?: number | null;
   duration_ms: number;
   published_at: string | null;
   created_at: string;
@@ -94,6 +95,7 @@ export default function MonitoringResults({
             comments={p.comment_count || 0}
             shares={p.share_count || 0}
             author={p.author_name || ""}
+            authorFollowerCount={p.author_follower_count || 0}
             platformLabel={normalizePlatform(p.platform)}
             riskTags={risks[p.platform_item_id] || []}
             sentiment={sentiments[p.platform_item_id]}

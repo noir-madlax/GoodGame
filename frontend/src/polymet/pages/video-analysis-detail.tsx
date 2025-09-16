@@ -40,6 +40,7 @@ type PostRow = {
   original_url: string | null;
   video_url?: string | null;
   author_name: string | null;
+  author_follower_count?: number | null;
   like_count: number;
   comment_count: number;
   share_count: number;
@@ -138,7 +139,7 @@ export default function VideoAnalysisDetail() {
         const { data: postRows } = await supabase
           .from("gg_platform_post")
           .select(
-            "id, platform, platform_item_id, title, cover_url, original_url, author_name, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status"
+            "id, platform, platform_item_id, title, cover_url, original_url, author_name, author_follower_count, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status"
           )
           .eq("id", id)
           .limit(1);
@@ -539,6 +540,7 @@ export default function VideoAnalysisDetail() {
               shares={post.share_count || 0}
               timestamp={(post.published_at || post.created_at).slice(0, 19).replace("T", " ")}
               author={post.author_name || ""}
+              authorFollowerCount={post.author_follower_count || 0}
               originalUrl={post.original_url || undefined}
               videoUrl={post.video_url || undefined}
               brandRelevance={analysis?.brand_relevance || undefined}

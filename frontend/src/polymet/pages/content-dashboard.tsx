@@ -55,6 +55,7 @@ export default function ContentDashboard() {
     share_count: number;
     cover_url: string | null;
     author_name: string | null;
+    author_follower_count?: number | null;
     duration_ms: number;
     published_at: string | null;
     created_at: string;
@@ -160,7 +161,7 @@ export default function ContentDashboard() {
             .select(
               // NOTE: we also select relevant_status so that we can use it to
               // backfill brand_relevance when deep analysis is not available.
-              "id, platform, platform_item_id, title, original_url, like_count, comment_count, share_count, cover_url, author_name, duration_ms, published_at, created_at, relevant_status, is_marked",
+              "id, platform, platform_item_id, title, original_url, like_count, comment_count, share_count, cover_url, author_name, author_follower_count, duration_ms, published_at, created_at, relevant_status, is_marked",
               { count: "exact" }
             )
             .order("id", { ascending: false });

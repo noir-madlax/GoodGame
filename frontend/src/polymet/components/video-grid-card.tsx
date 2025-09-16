@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, MessageCircle, Share2, ExternalLink, Bookmark } from "lucide-react";
+import { Heart, MessageCircle, Share2, ExternalLink, Bookmark, BadgeCheck } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 // import { Badge } from "@/components/ui/badge";
@@ -17,6 +17,7 @@ interface VideoGridCardProps {
   comments: number;
   shares: number;
   author: string;
+  authorFollowerCount?: number;
   platformLabel: string; // 平台 key，用于兼容旧调用
   platform?: string; // 新：平台 key（douyin/xiaohongshu/...）
   riskTags: string[]; // 来自 gg_video_analysis.risk_types
@@ -37,6 +38,7 @@ export default function VideoGridCard({
   comments,
   shares,
   author,
+  authorFollowerCount = 0,
   platformLabel,
   platform,
   riskTags,
@@ -243,8 +245,11 @@ export default function VideoGridCard({
 
         {/* Author & Time */}
         <div className="flex items-center justify-between text-xs">
-          <span className="text-gray-600 dark:text-gray-300 font-medium">
-            @{author}
+          <span className="text-gray-600 dark:text-gray-300 font-medium inline-flex items-center gap-1">
+            <span>{String(author || "").replace(/^@+/, "")}</span>
+            {authorFollowerCount > 1000 && (
+              <BadgeCheck className="w-3.5 h-3.5 text-blue-500" aria-label="大V" />
+            )}
           </span>
           <span className="text-gray-500 dark:text-gray-400">
             {publishDate}
