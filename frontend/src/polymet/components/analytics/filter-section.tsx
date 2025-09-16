@@ -87,7 +87,7 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* 相关性 */}
+        {/* 相关性 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -115,7 +115,7 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* 优先级 */}
+        {/* 优先级 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -143,7 +143,7 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* 作者类型 */}
+        {/* 作者类型 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

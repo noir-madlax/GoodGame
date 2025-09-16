@@ -88,6 +88,9 @@ class VideoAnalysisV3(BaseModel):
 	brand: str
 	brand_relevance: str | None = None  # "相关" | "疑似相关" | "无关"
 	relevance_evidence: str | None = None
+	# 新增：整篇内容严重性及其判定理由（与 prompt 对齐，必填）
+	total_risk: str  # 取值：高 | 中 | 低
+	total_risk_reason: str  # 判定为高/中/低的精炼客观依据
 	risk_type_total: list[str]
 	key_points: list[str]
 	events: list[EventItem]

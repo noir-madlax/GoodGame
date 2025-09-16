@@ -347,7 +347,7 @@ export default function ContentDashboard() {
   const totalCountText = useMemo(() => (totalCount || posts.length).toLocaleString(), [totalCount, posts.length]);
 
   // —— 新增：图表与 KPI（全库统计版本） ——
-  const [extraMaps, setExtraMaps] = useState<{ severityMap: Record<string, string>; creatorTypeMap: Record<string, string> }>({ severityMap: {}, creatorTypeMap: {} });
+  const [, setExtraMaps] = useState<{ severityMap: Record<string, string>; creatorTypeMap: Record<string, string> }>({ severityMap: {}, creatorTypeMap: {} });
   const [globalLoading, setGlobalLoading] = useState(false);
   const [globalPostsLite, setGlobalPostsLite] = useState<{ id: number; platform: string; platform_item_id: string }[]>([]);
   const [globalMaps, setGlobalMaps] = useState<AnalysisMaps>({ relevanceMap: {}, severityMap: {} as any, creatorTypeMap: {} });
@@ -380,6 +380,45 @@ export default function ContentDashboard() {
 
   const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
   const relevanceChart = useMemo(() => buildRelevanceChartData(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
+
+  // 新增：为 KPI 概览准备细分统计数据（总视频 -> 相关性；相关视频 -> 严重度；高优先级 -> 创作者）
+  const kpiBreakdown = useMemo(() => {
+    // 总视频数：相关/疑似相关/不相关（不含营销）
+    const relData = buildRelevanceChartData(globalPostsLite, globalMaps);
+    const pickRel = (name: string) => relData.find((d: any) => d.name === name)?.value || 0;
+    const totalCount = globalPostsLite.length;
+
+    // 相关视频：严重度分布（高/中/低），来自 “相关” 的二级统计
+    const sevGroups = buildSeverityGroups("相关", globalPostsLite, globalMaps);
+    const findSev = (name: string) => {
+      const item = (sevGroups?.data || []).find((x: any) => x.severity === name);
+      return { count: item?.total || 0, percentage: item?.percentage || 0 };
+    };
+
+    // 高优先级视频：创作者分布（达人/素人），在所有帖子中 severity=高 的子集中统计
+    let highCreator = { 达人: 0, 素人: 0 } as { [k: string]: number };
+    // 高优先级视频：平台分布（抖音/小红书）
+    let highPlatforms = { 抖音: 0, 小红书: 0 } as { [k: string]: number };
+    if (globalPostsLite.length > 0) {
+      globalPostsLite.forEach((p) => {
+        if (globalMaps.severityMap[p.platform_item_id] === "高") {
+          const ct = String(globalMaps.creatorTypeMap[p.platform_item_id] || "未标注");
+          if (ct === "达人") highCreator.达人 += 1;
+          if (ct === "素人") highCreator.素人 += 1;
+          const plat = String(p.platform || "").toLowerCase();
+          if (plat === "douyin") highPlatforms.抖音 += 1;
+          if (plat === "xiaohongshu") highPlatforms.小红书 += 1;
+        }
+      });
+    }
+
+    return {
+      totalRelevance: { 相关: pickRel("相关"), 疑似相关: pickRel("疑似相关"), 不相关: pickRel("不相关"), total: totalCount },
+      relevantSeverity: { 高: findSev("高"), 中: findSev("中"), 低: findSev("低") },
+      highCreators: { 达人: highCreator.达人, 素人: highCreator.素人 },
+      highPlatforms,
+    };
+  }, [globalPostsLite, globalMaps]);
   const [chartState, setChartState] = useState<{ level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string }>({ level: "primary" });
   const severityData = useMemo(() => chartState.level === "secondary" && chartState.selectedRelevance ? buildSeverityGroups(chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const severityDetail = useMemo(() => (chartState.level === "tertiary" && chartState.selectedRelevance && chartState.selectedSeverity) ? buildSeverityDetail(chartState.selectedSeverity as any, chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
@@ -387,26 +426,29 @@ export default function ContentDashboard() {
 
   const handleRelevanceClick = (name: string) => {
     setChartsLoading(true);
+    // 仅更新图表联动，不改动顶部筛选；KPI 只受筛选影响
     setChartState({ level: "secondary", selectedRelevance: name });
-    setFilters({ ...filters, relevance: [name], priority: [] });
     setTimeout(() => setChartsLoading(false), 300);
   };
   const handleBackToPrimary = () => {
     setChartsLoading(true);
+    // 返回一级：只重置图表层级，不修改顶部筛选
     setChartState({ level: "primary" });
-    setFilters({ timeRange: "全部时间", relevance: [], priority: [], creatorTypes: [], platforms: [] });
     setTimeout(() => setChartsLoading(false), 300);
   };
   const handleBackToSecondary = () => {
     setChartsLoading(true);
+    // 返回二级：保持已选相关性，仅更新图表层级
     setChartState({ level: "secondary", selectedRelevance: chartState.selectedRelevance });
-    setFilters({ ...filters, relevance: chartState.selectedRelevance ? [chartState.selectedRelevance] : [], priority: [] });
     setTimeout(() => setChartsLoading(false), 300);
   };
-  const handleSeverityClick = (sev: string) => {
+  // 扩展：支持可选创作者类型，若传入则进入第三级并设置创作者过滤
+  const handleSeverityClick = (sev: string, _creatorType?: string) => {
     setChartsLoading(true);
-    setChartState({ level: "tertiary", selectedRelevance: chartState.selectedRelevance, selectedSeverity: sev });
-    setFilters({ ...filters, priority: [sev] });
+    // 约定：从 KPI 或二级图进入严重度/作者分布时，均以“相关”语境展示，不串联先前的“疑似相关”点击
+    const selectedRel = "相关";
+    setChartState({ level: "tertiary", selectedRelevance: selectedRel, selectedSeverity: sev });
+    // 不改动顶部筛选；仅用于图表展示
     setTimeout(() => setChartsLoading(false), 300);
   };
 
@@ -416,7 +458,13 @@ export default function ContentDashboard() {
       <FilterSection filters={filters} onFiltersChange={setFilters} />
 
       {/* KPI */}
-      <KPIOverview data={kpi} loading={loading || globalLoading} />
+      <KPIOverview
+        data={kpi}
+        loading={loading || globalLoading}
+        breakdown={kpiBreakdown as any}
+        onRelevanceClick={handleRelevanceClick}
+        onSeverityClick={handleSeverityClick}
+      />
 
       {/* 图表：一级/二级/三级联动 */}
       <ContentAnalysisSection
