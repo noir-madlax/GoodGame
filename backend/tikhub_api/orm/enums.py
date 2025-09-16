@@ -31,10 +31,17 @@ class PromptName(str, Enum):
     ANALYZE_VIDEO = "ANALYZE_VIDEO"
     ANALYZE_PICTURE = "ANALYZE_PICTURE"
 
+
+class PostType(str, Enum):
+    VIDEO = "video"
+    IMAGE = "image"
+
+
 __all__ = [
     "AnalysisStatus",
     "RelevantStatus",
     "Channel",
     "PromptName",
+    "PostType",
 ]
 

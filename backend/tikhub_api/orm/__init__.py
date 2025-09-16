@@ -5,7 +5,7 @@ from .merchant_brand_repository import MerchantBrandRepository
 from .search_keyword_repository import SearchKeywordRepository
 from .video_analysis_repository import VideoAnalysisRepository
 from .prompt_template_repository import PromptTemplateRepository
-from .enums import AnalysisStatus, RelevantStatus, PromptName
+from .enums import AnalysisStatus, RelevantStatus, PromptName, PostType
 
 __all__ = [
     "PlatformPost",
@@ -23,5 +23,6 @@ __all__ = [
     "AnalysisStatus",
     "RelevantStatus",
     "PromptName",
+    "PostType",
 ]
 

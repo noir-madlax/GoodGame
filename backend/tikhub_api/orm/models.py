@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field, HttpUrl, constr
 from pydantic import field_validator
-from .enums import AnalysisStatus, RelevantStatus
+from .enums import AnalysisStatus, RelevantStatus, PostType
 
 
 # Pydantic models with validation constraints
@@ -22,7 +22,7 @@ class PlatformPost(BaseModel):
     content: Optional[str] = None
 
     # 新增：帖子类型/原始链接/作者信息/转发数/时长（毫秒）
-    post_type: str = Field(default="video")
+    post_type: PostType = Field(default=PostType.VIDEO)
     original_url: Optional[HttpUrl] = None
     author_id: Optional[str] = None
     author_name: Optional[str] = None

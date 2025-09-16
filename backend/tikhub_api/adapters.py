@@ -3,6 +3,7 @@ from typing import Protocol, Optional, Dict, Any, runtime_checkable, List
 from datetime import datetime
 
 from .orm.models import PlatformPost, PlatformComment
+from .orm import PostType
 from .utils.url_validator import filter_valid_video_urls
 
 # ===== 搜索结果 -> PlatformPost 列表适配器 =====
@@ -100,7 +101,7 @@ class DouyinVideoAdapter:
                 published_at = None
 
         # 新增字段映射
-        post_type = "video"  # 抖音此接口以视频为主，后续如检测到图文可调整
+        post_type = PostType.VIDEO  # 抖音此接口以视频为主，后续如检测到图文可调整
         original_url = aweme_detail.get('share_url') or (aweme_detail.get('share_info') or {}).get('share_url')
         author = aweme_detail.get('author', {}) or {}
         author_id = str(author.get('uid') or '') or None
@@ -215,8 +216,8 @@ class XiaohongshuVideoAdapter:
         if not cover_url and isinstance(video.get("thumbnail_dim"), str):
             cover_url = video.get("thumbnail_dim")
 
-        # 帖子类型：优先依据是否存在 video_info_v2 / video 字段
-        post_type = "video" if (video_info_v2 or video) else ("image" if images else (str(raw.get("type") or "").lower() or "image"))
+        # 帖子类型：仅保留两类：video / image
+        post_type = PostType.VIDEO if (video_info_v2 or video) else PostType.IMAGE
 
         # 发布时间：兼容 timestamp(秒)/time(秒)/update_time(毫秒)
         published_at = None
