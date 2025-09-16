@@ -130,10 +130,10 @@ export default function VideoPlayerCard({
             </span>
           </div>
           <span className="text-sm text-gray-500 dark:text-gray-400 inline-flex items-center gap-1">
-            <span>{String(author || "").replace(/^@+/, "")}</span>
             {authorFollowerCount > 1000 && (
-              <BadgeCheck className="w-4 h-4 text-blue-500" aria-label="大V" />
+              <img src="/v-badge.svg" alt="大V" className="w-4 h-4" aria-hidden />
             )}
+            <span>{String(author || "").replace(/^@+/, "")}</span>
           </span>
         </div>
 

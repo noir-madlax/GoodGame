@@ -246,10 +246,10 @@ export default function VideoGridCard({
         {/* Author & Time */}
         <div className="flex items-center justify-between text-xs">
           <span className="text-gray-600 dark:text-gray-300 font-medium inline-flex items-center gap-1">
-            <span>{String(author || "").replace(/^@+/, "")}</span>
             {authorFollowerCount > 1000 && (
-              <BadgeCheck className="w-3.5 h-3.5 text-blue-500" aria-label="大V" />
+              <img src="/v-badge.svg" alt="大V" className="w-3.5 h-3.5" aria-hidden />
             )}
+            <span>{String(author || "").replace(/^@+/, "")}</span>
           </span>
           <span className="text-gray-500 dark:text-gray-400">
             {publishDate}
