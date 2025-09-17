@@ -37,13 +37,13 @@ export default function SeverityAnalysis({
 
   const chartData = data.map((item) => ({ severity: item.severity || "未知", total: item.total || 0, percentage: item.percentage || 0, ...item.creators }));
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { payload: { total: number; percentage?: number; [k: string]: unknown } }[]; label?: string }) => {
     if (active && payload && payload.length) {
       const severityData = payload[0].payload;
       if (!severityData || severityData.total === undefined || severityData.percentage === undefined) return null;
       return (
         <div className="bg-white/95 backdrop-blur-xl border border-white/20 rounded-xl p-4 shadow-2xl max-w-xs">
-          <div className="flex items-center gap-2 mb-3">{getSeverityIcon(label)}<h4 className="font-semibold text-gray-900">{label}</h4></div>
+          <div className="flex items-center gap-2 mb-3">{getSeverityIcon(String(label || ""))}<h4 className="font-semibold text-gray-900">{String(label || "")}</h4></div>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between"><span className="text-gray-600">总数:</span><span className="font-medium text-gray-900">{severityData.total}</span></div>
             <div className="flex justify-between"><span className="text-gray-600">占比:</span><span className="font-medium text-gray-900">{severityData.percentage}%</span></div>
@@ -70,7 +70,7 @@ export default function SeverityAnalysis({
     return null;
   };
 
-  const handleBarClick = (d: any) => {
+  const handleBarClick = (d: { severity: string }) => {
     setSelectedSeverity(d.severity);
     onSeverityClick?.(d.severity);
   };
@@ -84,7 +84,7 @@ export default function SeverityAnalysis({
               <Button variant="secondary" size="sm" onClick={onBack} className="bg-gray-100 text-gray-900 border-gray-200 hover:bg-gray-200 dark:bg-white/10 dark:text-white dark:border-white/20 dark:hover:bg-white/20"><ArrowLeft className="w-4 h-4 mr-2" />返回</Button>
               <div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white">"{relevanceType}" 的内容</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">点击柱状图查看对应内容列表</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">共 {totalCount} 条内容</p>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function SeverityAnalysis({
                 <XAxis dataKey="severity" stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} />
                 <YAxis stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="total" radius={[4, 4, 0, 0]} onClick={handleBarClick} className="cursor-pointer" label={{ position: "inside", fill: "#ffffff", fontSize: 12, fontWeight: "bold", formatter: (value: number, entry: any) => (entry && entry.percentage !== undefined ? `${entry.percentage}%` : `${value}`) }}>
+                <Bar dataKey="total" radius={[4, 4, 0, 0]} onClick={handleBarClick} className="cursor-pointer" label={{ position: "inside", fill: "#ffffff", fontSize: 12, fontWeight: "bold", formatter: (value: number, entry: { percentage?: number }) => (entry && entry.percentage !== undefined ? `${entry.percentage}%` : `${value}`) }}>
                   {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={severityColors[entry.severity as keyof typeof severityColors]} stroke={selectedSeverity === entry.severity ? "#ffffff" : "透明"} strokeWidth={selectedSeverity === entry.severity ? 2 : 0} />
                   ))}

@@ -40,6 +40,9 @@ export default function MonitoringResults({
   priorityReasonMap,
   formatDuration,
   normalizePlatform,
+  influencerMap,
+  currentFilters,
+  matchCount,
 }: {
   posts: PostRowLite[];
   loading: boolean;
@@ -57,12 +60,16 @@ export default function MonitoringResults({
   priorityReasonMap: Record<string, string>;
   formatDuration: (ms: number) => string;
   normalizePlatform: (k: string) => string;
+  influencerMap?: Record<string, boolean>;
+  currentFilters?: { relevance: string | null; priority: string | null };
+  matchCount?: number;
 }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">舆情监控结果</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">舆情监控结果</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">共 {(matchCount ?? posts.length)} 条内容</p>
         </div>
         <div className="flex items-center space-x-4">
           <button onClick={onToggleSort} className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-100/40 dark:bg-gray-800/30 backdrop-blur-xl border border-white/20 text-gray-700 dark:text-gray-200 transition-all duration-300 hover:bg-gray-100/60 dark:hover:bg-gray-800/50" aria-label="Sort by time" title="Sort by time">
@@ -100,6 +107,7 @@ export default function MonitoringResults({
             shares={p.share_count || 0}
             author={p.author_name || ""}
             authorFollowerCount={p.author_follower_count || 0}
+            isInfluencer={Boolean(influencerMap && influencerMap[p.platform_item_id])}
             platformLabel={normalizePlatform(p.platform)}
             riskTags={risks[p.platform_item_id] || []}
             sentiment={sentiments[p.platform_item_id]}

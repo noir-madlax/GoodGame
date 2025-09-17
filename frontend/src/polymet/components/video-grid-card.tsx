@@ -18,6 +18,7 @@ interface VideoGridCardProps {
   shares: number;
   author: string;
   authorFollowerCount?: number;
+  isInfluencer?: boolean; // 是否达人（≥10万粉丝，帖子或作者任一满足）
   platformLabel: string; // 平台 key，用于兼容旧调用
   platform?: string; // 新：平台 key（douyin/xiaohongshu/...）
   riskTags: string[]; // 来自 gg_video_analysis.risk_types
@@ -42,6 +43,7 @@ export default function VideoGridCard({
   shares,
   author,
   authorFollowerCount = 0,
+  isInfluencer,
   platformLabel,
   platform,
   riskTags,
@@ -278,8 +280,21 @@ export default function VideoGridCard({
         {/* Author & Time */}
         <div className="flex items-center justify-between text-xs">
           <span className="text-gray-600 dark:text-gray-300 font-medium inline-flex items-center gap-1">
-            {authorFollowerCount > 1000 && (
-              <img src="/v-badge.svg" alt="大V" className="w-3.5 h-3.5" aria-hidden />
+            {(isInfluencer || authorFollowerCount >= 100000) && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <img
+                      src="/v-badge.svg"
+                      alt="达人"
+                      className="w-3.5 h-3.5"
+                      tabIndex={0}
+                      aria-label="达人"
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>达人拥有10万粉丝以上</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             )}
             <span>{String(author || "").replace(/^@+/, "")}</span>
           </span>

@@ -356,7 +356,7 @@ export function buildSeverityDetail(severity: SeverityLevel, selectedRelevance: 
     };
   });
 
-  return { severityLevel: severity, relevanceType: selectedRelevance, totalCount: total, data };
+  return { severityLevel: severity, relevanceType: selectedRelevance, totalCount: total, relevanceTotal: onRel.length, data };
 }
 
 

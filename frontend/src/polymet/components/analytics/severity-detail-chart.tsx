@@ -1,6 +1,6 @@
  
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { ArrowLeft, Users, Smartphone } from "lucide-react";
+import { ArrowLeft, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SeverityDetailData {
@@ -14,6 +14,7 @@ export default function SeverityDetailChart({
   relevanceType,
   data,
   totalCount,
+  relevanceTotal,
   onBack,
   className = "",
 }: {
@@ -21,6 +22,7 @@ export default function SeverityDetailChart({
   relevanceType: string;
   data: SeverityDetailData[];
   totalCount: number;
+  relevanceTotal?: number;
   onBack: () => void;
   className?: string;
 }) {
@@ -59,7 +61,7 @@ export default function SeverityDetailChart({
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
               <Button variant="secondary" size="sm" onClick={onBack} className="bg-gray-100 text-gray-900 border-gray-200 hover:bg-gray-200 dark:bg-white/10 dark:text-white dark:border-white/20 dark:hover:bg-white/20"><ArrowLeft className="w-4 h-4 mr-2" />返回</Button>
-              <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">"{relevanceType}"且“优先级{severityLevel}”的内容</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">创作者类型与平台分布</p></div>
+              <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">"{relevanceType}"且“优先级{severityLevel}”的内容</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">共 {totalCount} 条内容</p></div>
             </div>
           </div>
           <div className="h-80 w-full"><ResponsiveContainer width="100%" height="100%"><BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}><CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" /><XAxis dataKey="creatorType" stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} /><YAxis stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} /><Tooltip content={<CustomTooltip />} /><Bar dataKey="抖音" stackId="platform" fill={platformColors.抖音} radius={[0, 0, 0, 0]} /><Bar dataKey="小红书" stackId="platform" fill={platformColors.小红书} radius={[4, 4, 0, 0]} /></BarChart></ResponsiveContainer></div>

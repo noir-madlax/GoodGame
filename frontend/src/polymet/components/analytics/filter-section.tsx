@@ -1,5 +1,5 @@
-import React from "react";
-import { ChevronDown, Settings, X } from "lucide-react";
+import React from "react"; // 保留默认导入以兼容可能的 JSX 运行时配置
+import { ChevronDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -38,9 +38,6 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
   };
 
   const timeRangeOptions = ["今天", "昨天", "前天", "近7天", "近15天", "近30天", "全部时间"] as const;
-  const relevanceOptions = ["相关", "疑似相关", "不相关", "营销"];
-  const priorityOptions = ["高", "中", "低", "未标注"];
-  const creatorTypeOptions = ["达人", "素人", "未标注"];
   const platformOptions = ["抖音", "小红书"];
 
   const handleTimeRangeSelect = (timeRange: FiltersState["timeRange"]) => {
@@ -59,11 +56,9 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
 
   return (
     <div className={`space-y-4 ${className}`}>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center gap-10 ">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">内容筛选</h2>
-        <Button variant="outline" size="sm" onClick={handleReset} className="bg-blue-600 text-white border-blue-600 hover:bg-blue-700">
-          <Settings className="w-4 h-4 mr-2" />重置筛选
-        </Button>
+       
       </div>
 
       <div className="flex flex-wrap gap-3">
@@ -198,6 +193,16 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
             )}
           </DropdownMenuContent>
         </DropdownMenu>
+        <span
+          role="button"
+          tabIndex={0}
+          aria-label="重置筛选"
+          onClick={handleReset}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleReset(); }}
+          className="text-xs mt-4 text-gray-500 hover:text-gray-900 cursor-pointer select-none"
+        >
+          重置筛选
+        </span>
       </div>
     </div>
   );

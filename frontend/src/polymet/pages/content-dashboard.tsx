@@ -48,6 +48,7 @@ export default function ContentDashboard() {
     id: number;
     platform: string;
     platform_item_id: string;
+    author_id?: string | null;
     title: string;
     original_url?: string | null;
     like_count: number;
@@ -94,6 +95,8 @@ export default function ContentDashboard() {
   // 基于 total_risk 的优先级映射（中文）与理由
   const [totalRiskCn, setTotalRiskCn] = useState<Record<string, string>>({});
   const [totalRiskReason, setTotalRiskReason] = useState<Record<string, string>>({});
+  // 达人映射：platform_item_id -> 是否达人
+  const [influencerMap, setInfluencerMap] = useState<Record<string, boolean>>({});
   // label maps moved to FilterBar; keep page lean
   // filters（筛选器当前值）
   // 新顶层筛选（与设计稿一致）
@@ -164,10 +167,14 @@ export default function ContentDashboard() {
             .select(
               // NOTE: we also select relevant_status so that we can use it to
               // backfill brand_relevance when deep analysis is not available.
-              "id, platform, platform_item_id, title, original_url, like_count, comment_count, share_count, cover_url, author_name, author_follower_count, duration_ms, published_at, created_at, relevant_status, is_marked",
+              "id, platform, platform_item_id, author_id, title, original_url, like_count, comment_count, share_count, cover_url, author_name, author_follower_count, duration_ms, published_at, created_at, relevant_status, is_marked",
               { count: "exact" }
             )
-            .order("id", { ascending: false });
+            // 与前端展示排序保持一致：按发布时间为主键，空值时回退创建时间，再用 id 保证稳定顺序
+            // PostgREST 支持多重 order，无法直接使用表达式 coalesce，这里通过级联排序达到相同效果
+            .order("published_at", { ascending: oldestFirst, nullsFirst: oldestFirst })
+            .order("created_at", { ascending: oldestFirst })
+            .order("id", { ascending: oldestFirst });
           if (channel !== "all") q = q.eq("platform", channel);
           if (contentType !== "all") q = q.eq("post_type", contentType);
           if (idWhitelist && idWhitelist.length > 0) q = q.in("platform_item_id", idWhitelist);
@@ -232,6 +239,41 @@ export default function ContentDashboard() {
         }
 
         const ids = filteredByTime.map((p) => p.platform_item_id).filter(Boolean); // 本页涉及的平台内容主键集合
+        // —— 新增：达人判定（帖子 author_follower_count 或 gg_authors.follower_count 任一≥10万） ——
+        const influencerMapLocal: Record<string, boolean> = {};
+        if (filteredByTime.length > 0) {
+          // 先用帖子字段进行快速判定
+          filteredByTime.forEach((p) => {
+            if (Number(p.author_follower_count || 0) >= 100000) {
+              influencerMapLocal[p.platform_item_id] = true;
+            }
+          });
+          // 收集作者 id 与平台集合
+          const authorIds = Array.from(new Set((filteredByTime.map((p) => String(p.author_id || "")).filter(Boolean)) as string[]));
+          const platforms = Array.from(new Set((filteredByTime.map((p) => String(p.platform || "")).filter(Boolean)) as string[]));
+          if (authorIds.length > 0) {
+            // 查询 gg_authors 的粉丝数
+            let q = sb
+              .from("gg_authors")
+              .select("platform, platform_author_id, follower_count")
+              .in("platform_author_id", authorIds);
+            if (platforms.length > 0 && platforms.length <= 5) {
+              q = q.in("platform", platforms);
+            }
+            const { data: rowsAuthors } = await q;
+            const authorsMap: Record<string, number> = {};
+            (rowsAuthors || []).forEach((r: { platform: string; platform_author_id: string; follower_count: number }) => {
+              if (!r || !r.platform_author_id) return;
+              authorsMap[r.platform_author_id] = Number(r.follower_count || 0);
+            });
+            filteredByTime.forEach((p) => {
+              const aid = String(p.author_id || "");
+              if (!aid) return;
+              const fc = Number(authorsMap[aid] || 0);
+              if (fc >= 100000) influencerMapLocal[p.platform_item_id] = true;
+            });
+          }
+        }
         let risksMap: Record<string, string[]> = { ...risks };
         let sentimentsMap: Record<string, string> = { ...sentiments };
         let relevanceMap: Record<string, string> = { ...relevances };
@@ -278,7 +320,7 @@ export default function ContentDashboard() {
         // yes->相关；maybe->疑似相关；no->不相关；unknown/null->忽略。
         const relevanceMapBackfilled = backfillRelevance(relevanceMap, filteredByTime);
 
-        // 合并新页数据到累计行，用于在前端统一再筛选/排序
+        // 合并新页数据到累计行（服务端已按发布时间排序）；默认仅追加不重排，确保“稳定追加”体验
         const mergedRows = batchIndex === 0 ? filteredByTime : [...allRows, ...filteredByTime];
 
         // 在累计行上应用筛选条件（情绪 / 风险场景 / 品牌相关性）
@@ -293,8 +335,9 @@ export default function ContentDashboard() {
           postsAfterFilters = postsAfterFilters.filter((p) => (relevanceMapBackfilled[p.platform_item_id] || "") === relevance);
         }
 
-        // 最终按时间排序（优先 published_at，否则 created_at）
-        const postsSorted = sortByPublished(postsAfterFilters, oldestFirst);
+        // 最终排序：仅当选择“最旧优先”时在客户端按时间正序排序；
+        // 默认“最新优先”保持服务端顺序，避免新批次被插入到列表中部
+        const postsSorted = oldestFirst ? sortByPublished(postsAfterFilters, true) : postsAfterFilters;
 
         // options are loaded by FilterBar from gg_filter_enums; page no longer sets them
 
@@ -305,6 +348,7 @@ export default function ContentDashboard() {
           setRisks(risksMap);
           setSentiments(sentimentsMap);
           setRelevances(relevanceMapBackfilled);
+          setInfluencerMap((prev) => ({ ...prev, ...influencerMapLocal }));
           // no-op: totalRisk maps 已通过 setTotalRiskCn/Reason 维护
           // no-op: options handled by FilterBar
         }
@@ -319,7 +363,7 @@ export default function ContentDashboard() {
     return () => {
       cancelled = true;
     };
-  }, [allRows, channel, contentType, oldestFirst, relevance, riskScenario, sentiment, timeRange, risks, sentiments, relevances]);
+  }, [allRows, channel, contentType, oldestFirst, relevance, riskScenario, sentiment, timeRange, risks, sentiments, relevances, filters.timeRange]);
 
   // 首屏加载与筛选/排序变化时：重置分页与累计数据，并拉取第一页
   useEffect(() => {
@@ -436,9 +480,47 @@ export default function ContentDashboard() {
   const severityDetail = useMemo(() => (chartState.level === "tertiary" && chartState.selectedRelevance && chartState.selectedSeverity) ? buildSeverityDetail(chartState.selectedSeverity as any, chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const [chartsLoading, setChartsLoading] = useState(false);
 
+  // —— 列表联动与数量统计 ——
+  // 有效筛选：若在二/三级图表，则使用图表选择；否则使用顶部筛选
+  const effectiveRelevance = useMemo(() => {
+    if (chartState.level === "secondary" || chartState.level === "tertiary") return chartState.selectedRelevance || null;
+    return filters.relevance[0] || null;
+  }, [chartState, filters.relevance]);
+  const effectiveSeverity = useMemo(() => {
+    if (chartState.level === "tertiary") return chartState.selectedSeverity || null;
+    return null;
+  }, [chartState]);
+
+  // 监控结果展示的“匹配总数”：不受分页影响，使用全库数据集或已计算的二/三级统计
+  const monitoringMatchCount = useMemo(() => {
+    if (chartState.level === "tertiary") return severityDetail?.totalCount || 0;
+    if (chartState.level === "secondary") return severityData?.totalCount || 0;
+    // 一级：全库数据集长度（已受顶部筛选控制）
+    return globalPostsLite.length;
+  }, [chartState, severityDetail, severityData, globalPostsLite.length]);
+
+  // 监控结果列表联动：在当前已按顶部筛选过滤后的 posts 上，再应用“有效筛选”
+  const visiblePosts = useMemo(() => {
+    const mapChartRelToBackfilled = (val: string | null) => {
+      if (!val) return val;
+      if (val === "疑似相关") return "需人工介入";
+      if (val === "不相关") return "可忽略";
+      return val;
+    };
+    let arr = posts;
+    const relWanted = mapChartRelToBackfilled(effectiveRelevance);
+    if (relWanted && relWanted !== "all") {
+      arr = arr.filter((p) => (relevances[p.platform_item_id] || "") === relWanted);
+    }
+    if (effectiveSeverity) {
+      arr = arr.filter((p) => (totalRiskCn[p.platform_item_id] || "未标注") === effectiveSeverity);
+    }
+    return arr;
+  }, [posts, effectiveRelevance, effectiveSeverity, relevances, totalRiskCn]);
+
   const handleRelevanceClick = (name: string) => {
     setChartsLoading(true);
-    // 仅更新图表联动，不改动顶部筛选；KPI 只受筛选影响
+    // 按你的要求：点击仅联动图表层级，不修改全局筛选
     setChartState({ level: "secondary", selectedRelevance: name });
     setTimeout(() => setChartsLoading(false), 300);
   };
@@ -457,10 +539,9 @@ export default function ContentDashboard() {
   // 扩展：支持可选创作者类型，若传入则进入第三级并设置创作者过滤
   const handleSeverityClick = (sev: string, _creatorType?: string) => {
     setChartsLoading(true);
-    // 约定：从 KPI 或二级图进入严重度/作者分布时，均以“相关”语境展示，不串联先前的“疑似相关”点击
+    // 按你的要求：点击仅联动图表层级，不修改全局筛选
     const selectedRel = "相关";
     setChartState({ level: "tertiary", selectedRelevance: selectedRel, selectedSeverity: sev });
-    // 不改动顶部筛选；仅用于图表展示
     setTimeout(() => setChartsLoading(false), 300);
   };
 
@@ -492,7 +573,7 @@ export default function ContentDashboard() {
       />
 
       <MonitoringResults
-        posts={posts}
+        posts={visiblePosts}
         loading={loading}
         loadingMore={loadingMore}
         hasMore={hasMore}
@@ -508,6 +589,8 @@ export default function ContentDashboard() {
         priorityReasonMap={totalRiskReason}
         formatDuration={formatDuration}
         normalizePlatform={normalizePlatform}
+        influencerMap={influencerMap}
+        matchCount={monitoringMatchCount}
       />
     </div>
   );

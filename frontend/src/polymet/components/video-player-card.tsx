@@ -3,6 +3,7 @@ import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as Lin
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
+import AuthorTooltip, { AuthorTooltipData, formatFollowersCn } from "@/components/ui/author-tooltip";
 
 interface VideoPlayerCardProps {
   title: string;
@@ -16,6 +17,8 @@ interface VideoPlayerCardProps {
   timestamp: string;
   author: string;
   authorFollowerCount?: number;
+  isInfluencer?: boolean; // 是否达人（≥10万粉丝，帖子或作者任一满足）
+  authorTooltipData?: AuthorTooltipData;
   originalUrl?: string;
   videoUrl?: string;
   className?: string;
@@ -36,6 +39,8 @@ export default function VideoPlayerCard({
   timestamp,
   author,
   authorFollowerCount = 0,
+  isInfluencer,
+  authorTooltipData,
   originalUrl,
   videoUrl,
   className,
@@ -120,22 +125,32 @@ export default function VideoPlayerCard({
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
             <span className="flex items-center space-x-1">
-              <Eye className="w-4 h-4" />
-
-              <span>{views.toLocaleString()}</span>
-            </span>
-            <span className="flex items-center space-x-1">
               <Clock className="w-4 h-4" />
 
               <span>{timestamp}</span>
             </span>
           </div>
-          <span className="text-sm text-gray-500 dark:text-gray-400 inline-flex items-center gap-1">
-            {authorFollowerCount > 1000 && (
-              <img src="/v-badge.svg" alt="大V" className="w-4 h-4" aria-hidden />
-            )}
-            <span>{String(author || "").replace(/^@+/, "")}</span>
-          </span>
+          <AuthorTooltip
+            data={{
+              authorName: authorTooltipData?.authorName || String(author || "").replace(/^@+/, ""),
+              followerCount: authorTooltipData?.followerCount ?? authorFollowerCount,
+              avatarUrl: authorTooltipData?.avatarUrl,
+              shareUrl: authorTooltipData?.shareUrl,
+              signature: authorTooltipData?.signature,
+              location: authorTooltipData?.location,
+              accountCertInfo: authorTooltipData?.accountCertInfo,
+              verificationType: authorTooltipData?.verificationType,
+              nickname: authorTooltipData?.nickname,
+            }}
+          >
+            <span className="text-sm text-gray-500 dark:text-gray-400 inline-flex items-center gap-2">
+              {(isInfluencer || authorFollowerCount >= 100000) && (
+                <img src="/v-badge.svg" alt="达人" className="w-4 h-4" aria-hidden />
+              )}
+              <span>{authorTooltipData?.nickname || String(author || "").replace(/^@+/, "")}</span>
+              <span className="text-gray-600 dark:text-gray-300 inline-flex items-center gap-1"><img src="/follower.svg" alt="粉丝" className="w-3.5 h-3.5" aria-hidden />{formatFollowersCn(authorTooltipData?.followerCount ?? authorFollowerCount)}</span>
+            </span>
+          </AuthorTooltip>
         </div>
 
         {/* Actions */}
@@ -209,3 +224,5 @@ export default function VideoPlayerCard({
     </div>
   );
 }
+
+// 粉丝格式化已在 AuthorTooltip 内导出 formatFollowersCn

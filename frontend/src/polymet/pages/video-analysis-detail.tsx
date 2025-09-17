@@ -15,6 +15,7 @@ import SourcePanel from "@/polymet/components/source-panel";
 import TimelineAnalysis, { TimelineItem as TLItem } from "@/polymet/components/timeline-analysis";
 import CommentsAnalysis, { CommentAnalysisItem } from "@/polymet/components/comments-analysis";
 import HandlingSuggestionsPanel from "@/polymet/components/handling-suggestions-panel";
+import type { AuthorTooltipData } from "@/components/ui/author-tooltip";
 
 // 与 SourcePanel 保持一致的最小类型（仅用于本页状态）
 type CommentNode = {
@@ -35,6 +36,7 @@ type PostRow = {
   id: number;
   platform: string;
   platform_item_id: string;
+  author_id?: string | null;
   title: string;
   cover_url: string | null;
   original_url: string | null;
@@ -51,6 +53,17 @@ type PostRow = {
   created_at: string;
   is_marked?: boolean;
   process_status?: string | null;
+};
+
+type AuthorProfile = {
+  nickname?: string | null;
+  avatar_url?: string | null;
+  share_url?: string | null;
+  follower_count?: number | null;
+  signature?: string | null;
+  location?: string | null;
+  account_cert_info?: string | null;
+  verification_type?: number | null;
 };
 
 type AnalysisRow = {
@@ -78,12 +91,14 @@ export default function VideoAnalysisDetail() {
   const [commentsLoading, setCommentsLoading] = useState<boolean>(false);
   const [transcriptLoading, setTranscriptLoading] = useState<boolean>(false);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [isInfluencer, setIsInfluencer] = useState<boolean>(false);
   const [activeBottomTab, setActiveBottomTab] = useState<"timeline" | "comments">("timeline");
   // 标记提示文案与淡出效果（2 秒自动消失）
   const [markTip, setMarkTip] = useState<string | null>(null);
   const [markTipFading, setMarkTipFading] = useState<boolean>(false);
   // 处理建议面板开关
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false);
+  const [authorProfile, setAuthorProfile] = useState<AuthorProfile | null>(null);
   // 查看处理建议（只读跳转，不做写入）
   const handleViewAdvice = () => {
     if (!post?.id) return;
@@ -141,12 +156,33 @@ export default function VideoAnalysisDetail() {
         const { data: postRows } = await supabase
           .from("gg_platform_post")
           .select(
-            "id, platform, platform_item_id, title, cover_url, original_url, author_name, author_follower_count, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status"
+            "id, platform, platform_item_id, author_id, title, cover_url, original_url, author_name, author_follower_count, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status"
           )
           .eq("id", id)
           .limit(1);
         if (!postRows || !postRows[0]) return;
         const p = postRows[0] as unknown as PostRow;
+        // 计算达人：先看帖子粉丝数，再看 gg_authors
+        let infl = Number(p.author_follower_count || 0) >= 100000;
+        if (!infl && p.author_id) {
+          const { data: aRows } = await supabase
+            .from("gg_authors")
+            .select("follower_count")
+            .eq("platform_author_id", p.author_id)
+            .limit(1);
+          const fc = Array.isArray(aRows) && aRows[0] ? Number((aRows[0] as { follower_count?: number }).follower_count || 0) : 0;
+          if (fc >= 100000) infl = true;
+        }
+        // 加载作者资料用于 Tooltip 展示
+        let profile: AuthorProfile | null = null;
+        if (p.author_id) {
+          const { data: profRows } = await supabase
+            .from("gg_authors")
+            .select("nickname, avatar_url, share_url, follower_count, signature, location, account_cert_info, verification_type")
+            .eq("platform_author_id", p.author_id)
+            .limit(1);
+          profile = (profRows && (profRows[0] as AuthorProfile)) || null;
+        }
         const { data: aRows } = await supabase
           .from("gg_video_analysis")
           .select("summary, sentiment, brand, key_points, risk_types, timeline, brand_relevance, relevance_evidence, total_risk, total_risk_reason")
@@ -157,6 +193,8 @@ export default function VideoAnalysisDetail() {
         if (!cancelled) {
           setPost(p);
           setAnalysis(a);
+          setAuthorProfile(profile);
+          setIsInfluencer(infl);
           // 初始不加载评论/字幕，按需加载
           setCommentsJson(null);
           setTranscriptJson(null);
@@ -542,7 +580,20 @@ export default function VideoAnalysisDetail() {
               shares={post.share_count || 0}
               timestamp={(post.published_at || post.created_at).slice(0, 19).replace("T", " ")}
               author={post.author_name || ""}
-              authorFollowerCount={post.author_follower_count || 0}
+              authorFollowerCount={(authorProfile?.follower_count ?? post.author_follower_count) || 0}
+              isInfluencer={isInfluencer}
+              authorTooltipData={{
+                authorName: authorProfile?.nickname || post.author_name || "作者",
+                followerCount: authorProfile?.follower_count ?? post.author_follower_count ?? 0,
+                avatarUrl: authorProfile?.avatar_url || null,
+                shareUrl: authorProfile?.share_url || null,
+                signature: authorProfile?.signature || null,
+                location: authorProfile?.location || null,
+                accountCertInfo: authorProfile?.account_cert_info || null,
+                verificationType: authorProfile?.verification_type || null,
+                nickname: authorProfile?.nickname || null,
+                isInfluencer: isInfluencer,
+              } as AuthorTooltipData}
               originalUrl={post.original_url || undefined}
               videoUrl={post.video_url || undefined}
               brandRelevance={analysis?.brand_relevance || undefined}

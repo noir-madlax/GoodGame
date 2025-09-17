@@ -21,7 +21,7 @@ export default function ContentAnalysisSection({
   chartState: { level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string };
   relevanceData: any[];
   severityData?: { relevanceType: string; totalCount: number; data: any[] } | null;
-  severityDetailData?: { severityLevel: string; relevanceType: string; totalCount: number; data: any[] } | null;
+  severityDetailData?: { severityLevel: string; relevanceType: string; totalCount: number; relevanceTotal?: number; data: any[] } | null;
   onRelevanceClick: (name: string) => void;
   onBackToPrimary: () => void;
   onBackToSecondary: () => void;
@@ -98,6 +98,7 @@ export default function ContentAnalysisSection({
               relevanceType={severityDetailData.relevanceType}
               data={severityDetailData.data as any}
               totalCount={severityDetailData.totalCount}
+              relevanceTotal={severityDetailData.relevanceTotal}
               onBack={onBackToSecondary}
             />
           )}
