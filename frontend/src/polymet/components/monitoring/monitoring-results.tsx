@@ -36,6 +36,8 @@ export default function MonitoringResults({
   risks,
   sentiments,
   relevances,
+  priorityMapCn,
+  priorityReasonMap,
   formatDuration,
   normalizePlatform,
 }: {
@@ -51,6 +53,8 @@ export default function MonitoringResults({
   risks: Record<string, string[]>;
   sentiments: Record<string, string>;
   relevances: Record<string, string>;
+  priorityMapCn: Record<string, string>;
+  priorityReasonMap: Record<string, string>;
   formatDuration: (ms: number) => string;
   normalizePlatform: (k: string) => string;
 }) {
@@ -100,6 +104,8 @@ export default function MonitoringResults({
             riskTags={risks[p.platform_item_id] || []}
             sentiment={sentiments[p.platform_item_id]}
             brandRelevance={relevances[p.platform_item_id]}
+            totalRiskCn={priorityMapCn[p.platform_item_id] || "未标注"}
+            totalRiskReason={priorityReasonMap[p.platform_item_id] || ""}
             publishDate={(p.published_at || p.created_at).slice(0, 10)}
             originalUrl={p.original_url || undefined}
             isMarked={Boolean(p.is_marked)}

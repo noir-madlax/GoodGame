@@ -23,6 +23,9 @@ interface VideoGridCardProps {
   riskTags: string[]; // 来自 gg_video_analysis.risk_types
   sentiment?: string; // negative | neutral | positive
   brandRelevance?: string;
+  // 新增：基于 total_risk 的中文优先级与理由
+  totalRiskCn?: string; // 高/中/低/未标注
+  totalRiskReason?: string;
   publishDate: string; // YYYY-MM-DD
   className?: string;
   onClick?: () => void; // Optional click handler so parent can control navigation
@@ -44,6 +47,8 @@ export default function VideoGridCard({
   riskTags,
   sentiment,
   brandRelevance,
+  totalRiskCn,
+  totalRiskReason,
   publishDate,
   className,
   onClick,
@@ -178,6 +183,31 @@ export default function VideoGridCard({
             </span>
           </div>
         )}
+
+        {/* Right-top: total_risk 徽标（高/中/低/未标注），hover 展示 reason */}
+        <div className="absolute top-2 right-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span
+                  className={cn(
+                    "px-2 py-1 rounded-md text-white text-[10px] font-semibold",
+                    totalRiskCn === "高" ? "bg-red-600" : totalRiskCn === "中" ? "bg-amber-500" : totalRiskCn === "低" ? "bg-emerald-600" : "bg-gray-500"
+                  )}
+                >
+                  {totalRiskCn || "未标注"}
+                </span>
+              </TooltipTrigger>
+              {totalRiskReason ? (
+                <TooltipContent side="left" className="max-w-xs whitespace-pre-wrap">
+                  {totalRiskReason}
+                </TooltipContent>
+              ) : (
+                <TooltipContent side="left">无判定理由</TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
+        </div>
 
         {/* Sentiment Badge */}
         {sentiment && (

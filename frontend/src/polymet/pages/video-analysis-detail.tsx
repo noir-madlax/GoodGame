@@ -62,6 +62,8 @@ type AnalysisRow = {
   timeline?: { events?: unknown[] } | unknown[] | null;
   brand_relevance?: string | null;
   relevance_evidence?: string | null;
+  total_risk?: string | null;
+  total_risk_reason?: string | null;
 };
 
 export default function VideoAnalysisDetail() {
@@ -147,7 +149,7 @@ export default function VideoAnalysisDetail() {
         const p = postRows[0] as unknown as PostRow;
         const { data: aRows } = await supabase
           .from("gg_video_analysis")
-          .select("summary, sentiment, brand, key_points, risk_types, timeline, brand_relevance, relevance_evidence")
+          .select("summary, sentiment, brand, key_points, risk_types, timeline, brand_relevance, relevance_evidence, total_risk, total_risk_reason")
           .eq("platform_item_id", p.platform_item_id)
           .order("id", { ascending: false })
           .limit(1);
@@ -576,6 +578,39 @@ export default function VideoAnalysisDetail() {
               ))}
             </div>
             <div className="space-y-4">
+              {/* total_risk 徽标与理由 */}
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600 dark:text-gray-400">优先级</span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span
+                        className={cn(
+                          "px-3 py-1 rounded-full text-white text-sm font-medium",
+                          (String(analysis?.total_risk || "").toLowerCase() === "high")
+                            ? "bg-red-600"
+                            : (String(analysis?.total_risk || "").toLowerCase() === "medium")
+                            ? "bg-amber-500"
+                            : (String(analysis?.total_risk || "").toLowerCase() === "low")
+                            ? "bg-emerald-600"
+                            : "bg-gray-500"
+                        )}
+                      >
+                        {String(analysis?.total_risk || "").toLowerCase() === "high"
+                          ? "高"
+                          : String(analysis?.total_risk || "").toLowerCase() === "medium"
+                          ? "中"
+                          : String(analysis?.total_risk || "").toLowerCase() === "low"
+                          ? "低"
+                          : "未标注"}
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs whitespace-pre-wrap">
+                      {analysis?.total_risk_reason || "无判定理由"}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">舆情状态</span>
                 <span className={

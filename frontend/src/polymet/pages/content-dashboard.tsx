@@ -91,6 +91,9 @@ export default function ContentDashboard() {
   // filter options are now loaded inside FilterBar from gg_filter_enums
   // 说明：保留占位，后续如需在筛选条中加入“风险场景”可直接使用此 state。
   const [, setRiskOptions] = useState<{ id: string; label: string; count: number }[]>([]);
+  // 基于 total_risk 的优先级映射（中文）与理由
+  const [totalRiskCn, setTotalRiskCn] = useState<Record<string, string>>({});
+  const [totalRiskReason, setTotalRiskReason] = useState<Record<string, string>>({});
   // label maps moved to FilterBar; keep page lean
   // filters（筛选器当前值）
   // 新顶层筛选（与设计稿一致）
@@ -236,11 +239,11 @@ export default function ContentDashboard() {
         if (ids.length > 0) {
           const riskQuery = sb
             .from("gg_video_analysis")
-            .select("platform_item_id, risk_types, sentiment, brand_relevance, severity, \"creatorTypes\"")
+            .select("platform_item_id, risk_types, sentiment, brand_relevance, total_risk, total_risk_reason, severity, \"creatorTypes\"")
             .in("platform_item_id", ids);
           // 不在这里按 sentiment 过滤，以便枚举选项不受当前筛选影响
           const { data: riskData } = await riskQuery;
-          const mapsRaw = (riskData || []) as unknown as { platform_item_id: string; risk_types?: unknown; sentiment?: string | null; brand_relevance?: string | null; severity?: string | null; creatorTypes?: string | null }[];
+          const mapsRaw = (riskData || []) as unknown as { platform_item_id: string; risk_types?: unknown; sentiment?: string | null; brand_relevance?: string | null; total_risk?: string | null; total_risk_reason?: string | null; severity?: string | null; creatorTypes?: string | null }[];
           const maps = buildAnalysisMaps(mapsRaw);
           risksMap = { ...risksMap, ...maps.risksMap };
           sentimentsMap = { ...sentimentsMap, ...maps.sentimentsMap };
@@ -248,14 +251,22 @@ export default function ContentDashboard() {
           // 构建严重度与创作者类型映射（用于图表/KPI）
           const sevMap: Record<string, string> = {};
           const ctMap: Record<string, string> = {};
+          const trMap: Record<string, string> = {};
+          const trReason: Record<string, string> = {};
           mapsRaw.forEach((r) => {
             if (r.platform_item_id) {
+              // 兼容旧 severity；但优先在列表图标使用 total_risk
               sevMap[r.platform_item_id] = mapDbSeverityToCn(r.severity || "");
+              const t = String(r.total_risk || "").toLowerCase();
+              trMap[r.platform_item_id] = t === "high" ? "高" : t === "medium" ? "中" : t === "low" ? "低" : "未标注";
+              if (r.total_risk_reason) trReason[r.platform_item_id] = String(r.total_risk_reason);
               const ct = String(r.creatorTypes || "").trim();
               ctMap[r.platform_item_id] = ct || "未标注";
             }
           });
           setExtraMaps({ severityMap: sevMap, creatorTypeMap: ctMap });
+          setTotalRiskCn((prev) => ({ ...prev, ...trMap }));
+          setTotalRiskReason((prev) => ({ ...prev, ...trReason }));
           // ignore counts/sets in page scope
           setRiskOptions(buildTopRiskOptions(maps.riskCountMap, 8));
         }
@@ -294,6 +305,7 @@ export default function ContentDashboard() {
           setRisks(risksMap);
           setSentiments(sentimentsMap);
           setRelevances(relevanceMapBackfilled);
+          // no-op: totalRisk maps 已通过 setTotalRiskCn/Reason 维护
           // no-op: options handled by FilterBar
         }
       } finally {
@@ -492,6 +504,8 @@ export default function ContentDashboard() {
         risks={risks}
         sentiments={sentiments}
         relevances={relevances}
+        priorityMapCn={totalRiskCn}
+        priorityReasonMap={totalRiskReason}
         formatDuration={formatDuration}
         normalizePlatform={normalizePlatform}
       />

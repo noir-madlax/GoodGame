@@ -16,7 +16,7 @@ export interface PostLite {
 export interface AnalysisMaps {
   // 品牌相关性最终值：优先 gg_video_analysis.brand_relevance；否则回填自 relevant_status
   relevanceMap: Record<string, string | undefined>;
-  // 严重程度（P0/P1/P2/... -> 高/中/低/未标注）
+  // 严重程度（此处改为使用 gg_video_analysis.total_risk -> 高/中/低/未标注）
   severityMap: Record<string, SeverityLevel>;
   // 创作者类型（达人/素人/未标注）
   creatorTypeMap: Record<string, string>;
@@ -130,7 +130,7 @@ export const loadGlobalDataset = async (
     timeFiltered = filterByTime(timeFiltered, d);
   }
 
-  // 2) 拉取分析映射（brand_relevance/severity/creatorTypes）
+  // 2) 拉取分析映射（brand_relevance/total_risk/creatorTypes）
   const ids = Array.from(new Set(timeFiltered.map((p) => p.platform_item_id).filter(Boolean)));
   let severityMap: Record<string, SeverityLevel> = {};
   let creatorTypeMap: Record<string, string> = {};
@@ -138,13 +138,13 @@ export const loadGlobalDataset = async (
   if (ids.length > 0) {
     const { data: aRows } = await sb
       .from("gg_video_analysis")
-      .select("platform_item_id, brand_relevance, severity, \"creatorTypes\"")
+      .select("platform_item_id, brand_relevance, total_risk, total_risk_reason, \"creatorTypes\"")
       .in("platform_item_id", ids);
-    type ARow = { platform_item_id: string; brand_relevance?: string | null; severity?: string | null; creatorTypes?: string | null };
+    type ARow = { platform_item_id: string; brand_relevance?: string | null; total_risk?: string | null; total_risk_reason?: string | null; creatorTypes?: string | null };
     (aRows || []).forEach((r: ARow) => {
       if (!r.platform_item_id) return;
       if (r.brand_relevance) relevanceMapRaw[r.platform_item_id] = String(r.brand_relevance);
-      severityMap[r.platform_item_id] = mapDbSeverityToCn(r.severity || "");
+      severityMap[r.platform_item_id] = mapTotalRiskToCn(r.total_risk || "");
       creatorTypeMap[r.platform_item_id] = String(r.creatorTypes || "未标注") || "未标注";
     });
   }
@@ -182,6 +182,18 @@ export const mapDbSeverityToCn = (val?: string | null): SeverityLevel => {
   if (raw === "P0") return "高";
   if (raw === "P1") return "中";
   if (raw === "P2") return "低";
+  return "未标注";
+};
+
+/**
+ * 将 total_risk 英文枚举映射为中文等级。
+ * 允许输入：high/medium/low；其他与空值 -> 未标注。
+ */
+export const mapTotalRiskToCn = (val?: string | null): SeverityLevel => {
+  const raw = String(val || "").trim().toLowerCase();
+  if (raw === "high") return "高";
+  if (raw === "medium") return "中";
+  if (raw === "low") return "低";
   return "未标注";
 };
 
