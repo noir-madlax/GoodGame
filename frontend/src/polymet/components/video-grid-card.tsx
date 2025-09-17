@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Heart, MessageCircle, Share2, ExternalLink, Bookmark, BadgeCheck } from "lucide-react";
+import { Heart, MessageCircle, Share2, ExternalLink, Bookmark } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 // import { Badge } from "@/components/ui/badge";
 import { RiskBadge } from "@/components/ui/risk-badge";
 // PlatformBadge no longer used on grid card after design update
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
-import { PlatformBadge } from "@/polymet/components/platform-badge";
+// import { PlatformBadge } from "@/polymet/components/platform-badge";
 
 interface VideoGridCardProps {
   title: string;
@@ -101,6 +101,7 @@ export default function VideoGridCard({
             src={thumbnail}
             alt=""
             aria-hidden
+            referrerPolicy="no-referrer"
             className="absolute inset-0 w-full h-full object-cover blur-xl scale-110 opacity-60"
           />
         )}
@@ -109,6 +110,7 @@ export default function VideoGridCard({
           src={normalizeCoverUrl(thumbnail)}
           alt={title}
           loading="lazy"
+          referrerPolicy="no-referrer"
           onLoad={(e) => {
             const el = e.currentTarget;
             setIsPortrait(el.naturalHeight > el.naturalWidth);

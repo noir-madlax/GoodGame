@@ -1,5 +1,5 @@
 // no React import needed with JSX transform
-import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as LinkIcon, BadgeCheck } from "lucide-react";
+import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as LinkIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
@@ -66,6 +66,7 @@ export default function VideoPlayerCard({
             src={normalizeCoverUrl(thumbnail)}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+            referrerPolicy="no-referrer"
             onError={onImageErrorSetPlaceholder}
           />
         )}

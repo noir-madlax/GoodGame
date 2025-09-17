@@ -6,15 +6,23 @@ const PLACEHOLDER_DATA_URL = `data:image/svg+xml;charset=UTF-8,${encodeURICompon
 export const normalizeCoverUrl = (url: string | null | undefined): string => {
   if (!url) return PLACEHOLDER_DATA_URL;
   let u = url.trim();
-  // XHS often returns HEIF/HEIC thumbnails which browsers can't display widely; force jpg
-  // common patterns: imageView2/2/.../format/heif or imageMogr2/format/heif
+
+  // 针对小红书 xhscdn：
+  // 1) 统一升级为 https
+  // 2) 不截断管道参数（| 后参数保留）
+  // 3) 仅在 xhscdn 链接上，将 heif/heic 原位替换为 jpg，避免不可显示
+  const isXhsCdn = /(^|\.)xhscdn\.com\//i.test(u);
+  if (isXhsCdn) {
+    u = u.replace(/^http:\/\//i, "https://");
+    u = u.replace(/format\/(heif|heic)/gi, "format/jpg");
+    return u;
+  }
+
+  // 其他域：保持原有保守处理
   u = u.replace(/format\/(heif|heic)/gi, "format/jpg");
-  // Remove any redImage/frame params that may break cross-origin processing after pipe
-  // and keep the first segment before a pipe if present
   if (u.includes("|")) {
     u = u.split("|")[0];
   }
-  // If url lacks a known format directive, append a safe query to request jpg
   const hasFormat = /format\/(jpg|jpeg|png|webp)/i.test(u);
   if (!hasFormat) {
     const joiner = u.includes("?") ? "&" : "?";
