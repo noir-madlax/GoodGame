@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Literal
 from datetime import datetime
 
 from pydantic import BaseModel, Field, HttpUrl, constr
@@ -123,6 +123,14 @@ class VideoAnalysis(BaseModel):
     timeline: Any
     key_points: Any
     risk_types: Any
+
+    # 总体风险等级：high/medium/low
+    total_risk: Optional[Literal["high", "medium", "low"]] = Field(
+        default=None,
+        description="整篇内容的严重性：high/medium/low",
+    )
+    # 风险等级判定理由（简洁、可复核）
+    total_risk_reason: Optional[str] = None
 
     created_at: Optional[datetime] = None
 

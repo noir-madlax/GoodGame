@@ -128,6 +128,8 @@ class VideoAnalysisRepository:
             timeline=row.get("timeline"),
             key_points=row.get("key_points"),
             risk_types=row.get("risk_types"),
+            total_risk=row.get("total_risk"),
+            total_risk_reason=row.get("total_risk_reason"),
             created_at=_parse_dt(row.get("created_at")),
             platform_item_id=row.get("platform_item_id"),
             analysis_detail=row.get("analysis_detail"),

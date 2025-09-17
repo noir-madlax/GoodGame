@@ -300,6 +300,8 @@ class AnalysisService:
         brand_relevance = result.get("brand_relevance")
         relevance_evidence = result.get("relevance_evidence")
         handling_suggestions = result.get("handling_suggestions")
+        total_risk = result.get("total_risk")
+        total_risk_reason = result.get("total_risk_reason")
 
         payload: Dict[str, Any] = {
             "source_path": source_path,
@@ -327,6 +329,10 @@ class AnalysisService:
             payload["relevance_evidence"] = relevance_evidence
         if handling_suggestions is not None:
             payload["handling_suggestions"] = handling_suggestions
+        if total_risk is not None:
+            payload["total_risk"] = total_risk
+        if total_risk_reason is not None:
+            payload["total_risk_reason"] = total_risk_reason
 
         # 若缺少 summary/sentiment 等必填，保持最小插入由仓库兜底
         return payload
