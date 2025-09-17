@@ -20,19 +20,27 @@ PROMPT_FILE = os.path.join(
 )
 
 
-def get_system_prompt(custom_path: Optional[str] = None) -> str:
+def get_system_prompt(name: PromptName = PromptName.ANALYZE_VIDEO, custom_path: Optional[str] = None) -> str:
     """
-    获取“视频分析”系统提示词：优先从数据库 prompt_templates 表读取当前激活版本
-    （name=ANALYZE_VIDEO），若未配置则回落到本地文件。
-
-    可通过 custom_path 覆盖本地文件路径。
+    根据 PromptName 返回系统提示词：
+    - 优先从数据库 prompt_templates 表读取激活版本（name = name.value）
+    - 若未配置则回落到本地文件（若提供 custom_path 则优先使用 custom_path）
     """
     # 1) 优先从 DB 读取激活模板
     try:
-        tpl = PromptTemplateRepository.get_active_by_name(PromptName.ANALYZE_VIDEO.value)
+        tpl = PromptTemplateRepository.get_active_by_name(name.value)
         if tpl and getattr(tpl, "content", None):
             return str(tpl.content)
     except Exception:
-        log.error(f"从数据库读取 prompt 模板失败：{repr(e)}")
-        return ""
+        log.exception("从数据库读取 prompt 模板失败")
+
+    # 2) 回落到本地文件
+    path = custom_path or PROMPT_FILE
+    try:
+        if path and os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return f.read()
+    except Exception:
+        log.exception("读取本地 prompt 文件失败")
+    return ""
 

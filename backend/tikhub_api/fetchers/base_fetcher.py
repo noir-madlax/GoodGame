@@ -220,6 +220,19 @@ class BaseFetcher(ABC):
             return None
 
 
+    def get_image_urls_by_post_id(self, post_id: int) -> Optional[List[str]]:
+        """
+        新增占位：根据 post_id 返回图文帖的图片 URL 列表。
+        默认返回空列表，具体平台后续覆盖实现。
+        """
+        try:
+            if not isinstance(post_id, int) or post_id <= 0:
+                return []
+            return []
+        except Exception:
+            return []
+
+
 
 
     def _make_request(self, url: str, params: Dict[str, Any], method: str = "GET") -> Dict[str, Any]:
