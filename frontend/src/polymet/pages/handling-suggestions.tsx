@@ -99,7 +99,7 @@ export default function HandlingSuggestionsPage() {
               <TooltipTrigger asChild>
                 <button
                   className="p-3 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
-                  aria-label="标记该视频为需处理"
+                  aria-label="标记该内容为需处理"
                   onClick={async () => {
                     try {
                       if (!id || !supabase) return;
@@ -126,7 +126,7 @@ export default function HandlingSuggestionsPage() {
                   <BellRing className={"w-5 h-5 " + (processStatus === "处理中" ? "text-red-600 dark:text-red-400" : "text-gray-700 dark:text-gray-300")} />
                 </button>
               </TooltipTrigger>
-              <TooltipContent>标记该视频为需处理</TooltipContent>
+              <TooltipContent>标记该内容为需处理</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>

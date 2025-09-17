@@ -26,6 +26,7 @@
 - summary: 用1-3句话客观概述视频与评论主要内容与出现的现象类型。
 - sentiment: 取值为 positive | neutral | negative。
 - brand: 固定为“海底捞”。
+- total_risk:描述整篇内容的严重性。分为高、中、低，三种取值。
 - brand_relevance: 取值只有3种为 相关 | 疑似相关 | 无关 。
 - relevance_evidence: 描述品牌相关性判定的证据，客观描述判定依据。
 - risk_type_total: 枚举。数组。顶层汇总本视频中出现过的所有 risk_type（去重；按照出现顺序或重要度排序）。只能使用风险类型示例的类型。
