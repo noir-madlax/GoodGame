@@ -1,0 +1,433 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "method": "GET",
+  "params": {
+    "sec_user_id": "MS4wLjABAAAA0XYDGdylDyDP8Y0O-j5mBESef2okd6YsZHMTYDwoKE8"
+  },
+  "data": {
+    "code": 200,
+    "request_id": "195bafef-17da-4103-97d5-8bb41dd5eeb2",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-16 03:13:52",
+    "time_stamp": 1758017632,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-App-V3-API/handler_user_profile_api_v1_douyin_app_v3_handler_user_profile_get",
+    "router": "/api/v1/douyin/app/v3/handler_user_profile",
+    "params": {
+      "sec_user_id": "MS4wLjABAAAA0XYDGdylDyDP8Y0O-j5mBESef2okd6YsZHMTYDwoKE8"
+    },
+    "data": {
+      "extra": {
+        "fatal_item_ids": null,
+        "logid": "20250917141949AEB5F87C60ED3F1079DA",
+        "now": 1758089989000,
+        "search_request_id": null
+      },
+      "log_pb": {
+        "impr_id": "20250917141949AEB5F87C60ED3F1079DA"
+      },
+      "status_code": 0,
+      "status_msg": null,
+      "user": {
+        "account_cert_info": "{\"label_style\":3,\"label_text\":\"执业律师\"}",
+        "anchor_info": {
+          "scheduled_master_switch": true,
+          "scheduled_profile_switch": false,
+          "scheduled_time_text": "7月25日 00:00"
+        },
+        "apple_account": 0,
+        "avatar_168x168": {
+          "height": 720,
+          "uri": "aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70",
+          "url_list": [
+            "https://p3.douyinpic.com/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~tplv-dy-shrink-adapter:282:282.heic?from=2956013662",
+            "https://p3.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_168x168.heic?from=2956013662",
+            "https://p9.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_168x168.heic?from=2956013662",
+            "https://p6.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_168x168.heic?from=2956013662",
+            "https://p3.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_168x168.jpeg?from=2956013662"
+          ],
+          "width": 720
+        },
+        "avatar_300x300": {
+          "height": 720,
+          "uri": "aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70",
+          "url_list": [
+            "https://p3.douyinpic.com/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~tplv-dy-shrink-adapter:282:282.heic?from=2956013662",
+            "https://p3.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_300x300.heic?from=2956013662",
+            "https://p9.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_300x300.heic?from=2956013662",
+            "https://p6.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_300x300.heic?from=2956013662",
+            "https://p3.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~c5_300x300.jpeg?from=2956013662"
+          ],
+          "width": 720
+        },
+        "avatar_is_digged": false,
+        "avatar_larger": {
+          "height": 720,
+          "uri": "aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70",
+          "url_list": [
+            "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.jpeg?from=2956013662"
+          ],
+          "width": 720
+        },
+        "avatar_medium": {
+          "height": 720,
+          "uri": "aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70",
+          "url_list": [
+            "https://p3.douyinpic.com/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~tplv-dy-shrink-adapter:282:282.heic?from=2956013662",
+            "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.jpeg?from=2956013662"
+          ],
+          "width": 720
+        },
+        "avatar_thumb": {
+          "height": 720,
+          "uri": "aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70",
+          "url_list": [
+            "https://p3.douyinpic.com/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70~tplv-dy-shrink-adapter:282:282.heic?from=2956013662",
+            "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.heic?from=2956013662",
+            "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_f40873a1bf3b1ec3c36d034139b09c70.jpeg?from=2956013662"
+          ],
+          "width": 720
+        },
+        "aweme_count": 363,
+        "aweme_count_correction_threshold": -1,
+        "birthday": "",
+        "birthday_hide_level": 1,
+        "can_set_item_cover": false,
+        "can_show_group_card": 1,
+        "card_entries": [
+          {
+            "card_data": "{\"AuthorContentFeedUpdateSec\":\"0\",\"IsSubscribeMember\":\"false\",\"UserLatestInteractMsgSec\":\"0\"}",
+            "goto_url": "sslocal://webcast_redirect?entry=user_panel_v2_fullscreen&url_query=request_page%3Dprofile%26author_id%3D222523945658104%26anchor_id%3D222523945658104%26out_room%3D1",
+            "icon_dark": {
+              "uri": "obj/eden-cn/bouhd/subscribe_icon_dark.png",
+              "url_list": [
+                "https://p26-sign.douyinpic.com/obj/eden-cn/bouhd/subscribe_icon_dark.png.jpeg?lk3s=93de098e&x-expires=1758110400&x-signature=TmfdBFP0zWvNOAh9DxbkpvFqsfY%3D&from=2480802190",
+                "https://p3-sign.douyinpic.com/obj/eden-cn/bouhd/subscribe_icon_dark.png.jpeg?lk3s=93de098e&x-expires=1758110400&x-signature=%2FOdogBgbpzVkouS1ich1%2FnVZmE0%3D&from=2480802190",
+                "https://p11-sign.douyinpic.com/obj/eden-cn/bouhd/subscribe_icon_dark.png.jpeg?lk3s=93de098e&x-expires=1758110400&x-signature=5z3gopg1dl0AkXKVPr0HqDyytIo%3D&from=2480802190"
+              ]
+            },
+            "icon_light": {
+              "uri": "obj/eden-cn/bouhd/member_subscribe_icon.png",
+              "url_list": [
+                "https://p3-sign.douyinpic.com/obj/eden-cn/bouhd/member_subscribe_icon.png.jpeg?lk3s=93de098e&x-expires=1758110400&x-signature=ZBVqUCdFUE160WYF5hQl4v4dxGs%3D&from=2480802190",
+                "https://p11-sign.douyinpic.com/obj/eden-cn/bouhd/member_subscribe_icon.png.jpeg?lk3s=93de098e&x-expires=1758110400&x-signature=9mXokBrsXDeGYdPjZIZ%2FiNJf48c%3D&from=2480802190",
+                "https://p26-sign.douyinpic.com/obj/eden-cn/bouhd/member_subscribe_icon.png.jpeg?lk3s=93de098e&x-expires=1758110400&x-signature=%2FfZuBhjG4CY2ihvPUgFSQ3wU8%2Bo%3D&from=2480802190"
+              ]
+            },
+            "sub_title": "39人加入",
+            "title": "专属会员",
+            "type": 38
+          }
+        ],
+        "city": "",
+        "close_friend_type": 0,
+        "commerce_info": {
+          "challenge_list": null,
+          "head_image_list": null,
+          "offline_info_list": null,
+          "smart_phone_list": null,
+          "task_list": null
+        },
+        "commerce_user_info": {
+          "ad_revenue_rits": null,
+          "has_ads_entry": true,
+          "show_star_atlas_cooperation": true,
+          "star_atlas": 1
+        },
+        "commerce_user_level": 0,
+        "country": "",
+        "cover_and_head_image_info": {
+          "cover_list": null,
+          "profile_cover_list": [
+            {
+              "cover_url": {
+                "uri": "douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469",
+                "url_list": [
+                  "https://p3-sign.douyinpic.com/douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469~tplv-dy-shrink:1125:633.jpeg?lk3s=93de098e&x-expires=1758261600&x-signature=ihuE%2FGbMQ5%2BVYm4GWdFYSBWfpxM%3D&from=2480802190&s=profile&se=true&sh=1125_633&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA",
+                  "https://p3-sign.douyinpic.com/obj/douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469?lk3s=93de098e&x-expires=1758261600&x-signature=gXk0X2l%2BTyEK%2Fqd8VaLUaIgjSz0%3D&from=2480802190&s=profile&se=false&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA"
+                ]
+              },
+              "dark_cover_color": "#FF111d45",
+              "light_cover_color": "#FF111d45"
+            }
+          ]
+        },
+        "cover_colour": "#03373EE5",
+        "cover_url": [
+          {
+            "uri": "douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469",
+            "url_list": [
+              "https://p3-sign.douyinpic.com/douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469~tplv-dy-shrink:1125:633.jpeg?lk3s=93de098e&x-expires=1758261600&x-signature=ihuE%2FGbMQ5%2BVYm4GWdFYSBWfpxM%3D&from=2480802190&s=profile&se=true&sh=1125_633&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA",
+              "https://p3-sign.douyinpic.com/obj/douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469?lk3s=93de098e&x-expires=1758261600&x-signature=gXk0X2l%2BTyEK%2Fqd8VaLUaIgjSz0%3D&from=2480802190&s=profile&se=false&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA"
+            ]
+          },
+          {
+            "uri": "c8510002be9a3a61aad2",
+            "url_list": [
+              "https://p3-sign.douyinpic.com/c8510002be9a3a61aad2~tplv-dy-shrink:1125:633.jpeg?lk3s=93de098e&x-expires=1758261600&x-signature=2tSXVWHRbbnQ4Hj4XN7GwXGTySg%3D&from=2480802190&s=profile&se=true&sh=1125_633&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA",
+              "https://p3-sign.douyinpic.com/obj/c8510002be9a3a61aad2?lk3s=93de098e&x-expires=1758261600&x-signature=hdJyJbyWPkFCnAqFgRUcLZcIvfo%3D&from=2480802190&s=profile&se=false&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA"
+            ]
+          }
+        ],
+        "custom_verify": "",
+        "district": "",
+        "dongtai_count": 0,
+        "dynamic_cover": {},
+        "elfemoji_status": -1,
+        "enable_ai_double": 0,
+        "enable_wish": false,
+        "endorsement_info_list": [
+          {
+            "action": "aweme://webview/?url=https%3A%2F%2Ffe.amemv.com%2Ffalcon%2Faccount_react%2Fpages%2Fqualification_cert_info%2Findex.html%3Fhide_nav_bar%3D1%26to_user_id%3D222523945658104",
+            "dark_icon_url": "https://lf3-static.bytednsdoc.com/obj/eden-cn/oqj/ic_s_s_medel_outlined_16_dark_3x.png",
+            "endorsement_type": 7,
+            "light_icon_url": "https://lf3-static.bytednsdoc.com/obj/eden-cn/oqj/ic_s_s_medel_outlined_16_light_3x.png",
+            "line_break_type": 1,
+            "link_type": "qualification",
+            "text": "执业律师"
+          }
+        ],
+        "enterprise_user_info": "{\"commerce_info\":{\"offline_info_list\":[],\"challenge_list\":null,\"task_list\":null,\"head_image_list\":null,\"smart_phone_list\":null},\"homepage_bottom_toast\":null,\"permissions\":[{\"Id\":5,\"Key\":\"UserShop\",\"Name\":\"个人橱窗\",\"AppId\":1128,\"Status\":1,\"Parent\":1,\"CreateTime\":1758089989,\"UpdateTime\":1758089989}],\"tab_ceiling_toast\":null,\"limiters\":null,\"attic_info\":null,\"profile_edit_button\":null,\"elite_center\":null,\"enterprise_card_visibility\":false,\"blue_label_edit_jump_url\":\"aweme://webview/?url=https%3A%2F%2Fapi.amemv.com%2Finsights%2Flite%2FcontactSetting%3Fhide_nav_bar%3D1%26title%3D%25E8%2581%2594%25E7%25B3%25BB%25E6%2596%25B9%25E5%25BC%258F%26enter_from%3Dcustomized_tab\\u0026hide_nav_bar=1\\u0026title=%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F\\u0026rn_schema=aweme%3A%2F%2Freactnative%2F%3Fchannel_name%3Drn_patch%26bundle_name%3Dbusiness%26module_name%3Dpage_e_lite_contactSetting%26force_h5%3D1%26hide_nav_bar%3D1%26bundle_url%3D%26title%3D%25E8%2581%2594%25E7%25B3%25BB%25E6%2596%25B9%25E5%25BC%258F%26enter_from%3Dcustomized_tab\"}",
+        "enterprise_verify_reason": "",
+        "familiar_confidence": 0,
+        "favorite_permission": 1,
+        "favoriting_count": 0,
+        "follow_guide": true,
+        "follow_status": 0,
+        "follower_count": 430326,
+        "follower_request_status": 0,
+        "follower_status": 0,
+        "followers_detail": [
+          {
+            "app_name": "aweme",
+            "apple_id": "1142110895",
+            "download_url": "https://d.douyin.com/JsvN/",
+            "fans_count": 430326,
+            "icon": "https://p3.douyinpic.com/aweme-server-static-resource/follower_douyin_icon.png~tplv-obj.image",
+            "name": "抖音",
+            "open_url": "snssdk1128://user/profile/222523945658104?",
+            "package_name": "com.ss.android.ugc.aweme"
+          },
+          {
+            "app_name": "news_article",
+            "apple_id": "529092160",
+            "download_url": "https://d.toutiao.com/YjjY/",
+            "fans_count": 47777,
+            "icon": "https://p3.douyinpic.com/aweme-server-static-resource/follower_toutiao_icon.png~tplv-obj.image",
+            "name": "头条",
+            "open_url": "snssdk143://profile?uid=1014174117016512",
+            "package_name": "com.ss.android.article.news"
+          },
+          {
+            "app_name": "live_stream",
+            "apple_id": "1086047750",
+            "download_url": "http://d.huoshanzhibo.com/eFvB/",
+            "fans_count": 0,
+            "icon": "https://p3.douyinpic.com/aweme-server-static-resource/follower_hotsoon_icon.png~tplv-obj.image",
+            "name": "抖音火山版",
+            "open_url": "snssdk1112://profile?id=0",
+            "package_name": "com.ss.android.ugc.live"
+          }
+        ],
+        "following_count": 31,
+        "forward_count": 0,
+        "gender": 0,
+        "general_permission": {
+          "fans_page_toast": 0,
+          "following_follower_list_toast": 1,
+          "is_hit_active_fans_grayed": false
+        },
+        "has_e_account_role": false,
+        "has_subscription": false,
+        "hide_request_update": 0,
+        "im_primary_role_id": 8,
+        "im_role_ids": [
+          8,
+          19,
+          9,
+          10
+        ],
+        "image_send_exempt": false,
+        "ins_id": "",
+        "ip_location": "IP属地：江西",
+        "is_activity_user": false,
+        "is_ban": false,
+        "is_block": false,
+        "is_blocked": false,
+        "is_effect_artist": false,
+        "is_gov_media_vip": false,
+        "is_im_oversea_user": 0,
+        "is_mix_user": true,
+        "is_not_show": false,
+        "is_series_user": false,
+        "is_sharing_profile_user": 1,
+        "is_star": false,
+        "life_story_block": {
+          "life_story_block": false
+        },
+        "live_commerce": false,
+        "live_status": 0,
+        "location": "",
+        "mate_add_permission": 1,
+        "mate_relation": {
+          "mate_apply_forward": 0,
+          "mate_apply_reverse": 0,
+          "mate_status": 0
+        },
+        "max_follower_count": 430336,
+        "message_chat_entry": true,
+        "mix_count": 2,
+        "mplatform_followers_count": 478103,
+        "nickname": "183的冯律师",
+        "official_cooperation": {
+          "schema": "aweme://lynxview/?url=https%3A%2F%2Flf-dy-gr-sourcecdn.bytegecko.com%2Fobj%2Fbyte-gurd-source-gr%2Fdouyin_creator%2Flynx_h5%2Fresource%2Fcreator_lynx_h5%2Fofficial-cooperation%2Fmain%2Ftemplate.js&hide_nav_bar=1&should_full_screen=1&trans_status_bar=1&hybrid_sdk_version=bullet&use_bdx=1&awe_falcon=sh&author_id=MS4wLjABAAAA0XYDGdylDyDP8Y0O-j5mBESef2okd6YsZHMTYDwoKE8",
+          "text": "找我官方合作",
+          "track_type": "official"
+        },
+        "original_musician": {
+          "digg_count": 0,
+          "music_count": 0,
+          "music_used_count": 0
+        },
+        "personal_tag_list": [
+          {
+            "personal_tag_type": 2,
+            "text": "IP：江西"
+          }
+        ],
+        "pigeon_daren_status": "",
+        "pigeon_daren_warn_tag": "",
+        "profile_mob_params": [
+          {
+            "event_key": "enter_personal_tab",
+            "mob_params": "{\"landing_reason\":\"Server_User_Switch_Off_Default_Post\"}"
+          }
+        ],
+        "profile_show": {
+          "identify_auth_infos": null
+        },
+        "profile_tab_info": {
+          "profile_landing_tab": 0,
+          "profile_tab_list": null,
+          "profile_tab_list_v2": [
+            {
+              "id": 0,
+              "name_en": "output"
+            }
+          ]
+        },
+        "profile_tab_type": 0,
+        "province": "",
+        "public_collects_count": 0,
+        "publish_landing_tab": 3,
+        "r_fans_group_info": {},
+        "recommend_reason_relation": "",
+        "recommend_user_reason_source": 0,
+        "risk_notice_text": "",
+        "role_id": "00976,00144",
+        "room_id": 0,
+        "room_id_str": "0",
+        "sec_uid": "MS4wLjABAAAA0XYDGdylDyDP8Y0O-j5mBESef2okd6YsZHMTYDwoKE8",
+        "secret": 0,
+        "series_count": 0,
+        "share_info": {
+          "bool_persist": 1,
+          "life_share_ext": "{\"life_share_id\":\"a8c79dc39c464fe0bc78e2501267a70d\"}",
+          "share_desc": "长按复制此条消息，打开抖音搜索，查看TA的更多作品。",
+          "share_image_url": {
+            "url_list": null
+          },
+          "share_qrcode_url": {
+            "uri": "",
+            "url_list": []
+          },
+          "share_title": "快来加入抖音，让你发现最有趣的我！",
+          "share_url": "www.iesdouyin.com/share/user/MS4wLjABAAAA0XYDGdylDyDP8Y0O-j5mBESef2okd6YsZHMTYDwoKE8?with_sec_did=1&sec_uid=MS4wLjABAAAA0XYDGdylDyDP8Y0O-j5mBESef2okd6YsZHMTYDwoKE8&from_ssr=1&from_aid=1128&did=MS4wLjABAAAApWf2UX8vCNlcTRaQFhRAS2nJEvn0plFiuwjO_RNo4qU&iid=MS4wLjABAAAA7ECnH4bqf3DuVMsIknQC2-Y_PwMEa3IAAtetCKfwzIenPZdBO28z7t-67CrwZzJV",
+          "share_weibo_desc": "长按复制此条消息，打开抖音搜索，查看TA的更多作品。"
+        },
+        "short_id": "0",
+        "show_favorite_list": false,
+        "show_subscription": false,
+        "signature": "🧑🏻‍🎓华东政法大学法学学士\n👩🏻‍🎓华东政法大学民商法硕士\n🇨🇳出身律师家庭，父亲执业32年\n💃🏻身高183，律界女巨人（对未来给“予希”望）\n👩🏻‍⚖️擅长刑事辩护、建设工程、婚姻家事、交通事故、合同纠纷，全国办案;代写起诉状，律师函等法律文书\n⚖️法律业务请私信或+合集名字(咨询不免费）",
+        "signature_display_lines": 5,
+        "signature_language": "un",
+        "social_real_relation_type": 0,
+        "special_follow_status": 0,
+        "story_ring": {
+          "story_rings": null,
+          "version": 1758089989
+        },
+        "story_tab_empty": false,
+        "sync_to_toutiao": 1,
+        "tab_settings": {
+          "private_tab": {
+            "private_tab_style": 1,
+            "show_private_tab": false
+          }
+        },
+        "template_count": 0,
+        "total_favorited": 6770162,
+        "total_favorited_correction_threshold": -1,
+        "twitter_id": "",
+        "twitter_name": "",
+        "uid": "222523945658104",
+        "unique_id": "28049453438",
+        "urge_detail": {
+          "ctl_map": "{\"next_urge_type\":\"default\",\"button_text\":\"求更新\",\"toast\":\"✅作者已收到“求更新”提醒～\",\"button_background_url\":\"https://p11-webcast.douyinpic.com/img/webcast/urge_update.png~tplv-obj.image\",\"urge_type\":\"\",\"dispose_to_moment\":\"0\"}",
+          "user_urged": 0
+        },
+        "user_age": -1,
+        "user_not_see": 0,
+        "user_not_show": 1,
+        "user_permissions": [
+          {
+            "key": "douplus_user_type",
+            "value": "1"
+          }
+        ],
+        "verification_type": 0,
+        "video_cover": {},
+        "video_icon": {
+          "height": 720,
+          "uri": "",
+          "url_list": [],
+          "width": 720
+        },
+        "watch_status": false,
+        "white_cover_url": [
+          {
+            "uri": "douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469",
+            "url_list": [
+              "https://p3-sign.douyinpic.com/douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469~tplv-dy-shrink:1125:633.jpeg?lk3s=93de098e&x-expires=1758261600&x-signature=ihuE%2FGbMQ5%2BVYm4GWdFYSBWfpxM%3D&from=2480802190&s=profile&se=true&sh=1125_633&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA",
+              "https://p3-sign.douyinpic.com/obj/douyin-user-image-file/0ed6b450cfb5df788ed62af82011c469?lk3s=93de098e&x-expires=1758261600&x-signature=gXk0X2l%2BTyEK%2Fqd8VaLUaIgjSz0%3D&from=2480802190&s=profile&se=false&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA"
+            ]
+          },
+          {
+            "uri": "318f1000413827e122102",
+            "url_list": [
+              "https://p3-sign.douyinpic.com/318f1000413827e122102~tplv-dy-shrink:1125:633.jpeg?lk3s=93de098e&x-expires=1758261600&x-signature=i9i4RYS8VSgjesA7BojYRivCye0%3D&from=2480802190&s=profile&se=true&sh=1125_633&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA",
+              "https://p3-sign.douyinpic.com/obj/318f1000413827e122102?lk3s=93de098e&x-expires=1758261600&x-signature=Ru2klcPULwWCpLTkv6RVMnAjyHM%3D&from=2480802190&s=profile&se=false&sc=cover&l=20250917141949AEB5F87C60ED3F1079DA"
+            ]
+          }
+        ],
+        "with_commerce_enterprise_tab_entry": false,
+        "with_commerce_entry": true,
+        "with_fusion_shop_entry": false,
+        "with_new_goods": false,
+        "youtube_channel_id": "",
+        "youtube_channel_title": ""
+      }
+    }
+  }
+}
