@@ -41,7 +41,7 @@ class XiaohongshuFetcher(BaseFetcher):
     def api_endpoint(self) -> str:
         """API 端点路径"""
         # 切换为 TikHub 小红书 Web v2 feed 接口，数据更完整
-        return "/xiaohongshu/web_v2/fetch_feed_notes_v2"
+        return "/xiaohongshu/app/get_note_info_v2"
 
     def fetch_video_info(self, note_id: str) -> Dict[str, Any]:
         """
@@ -65,30 +65,30 @@ class XiaohongshuFetcher(BaseFetcher):
 
     def get_video_details(self, note_id: str) -> Optional[Dict[str, Any]]:
         """
-        获取视频详细信息（返回 data.note_list[0]）
-
-        Args:
-            note_id (str): 小红书笔记 ID
-
-        Returns:
-            Optional[Dict[str, Any]]: 单条笔记详情字典（note_list[0]）
+        获取笔记详细信息：
+        - 优先适配 /xiaohongshu/app/get_note_info_v2 返回的 data.data
+        - 兼容旧结构 data.note_list[0]
         """
         try:
             result = self.fetch_video_info(note_id)
 
             if self._check_api_response(result):
                 payload = result.get("data") or {}
+                # 新结构：data.data 即为笔记详情
+                details = payload.get("data") or {}
+                if isinstance(details, dict) and details:
+                    return details
+                # 兼容旧结构：data.note_list[0]
                 note_list = payload.get("note_list") or []
                 if isinstance(note_list, list) and note_list:
                     return note_list[0]
-                else:
-                    return None
+                return None
             else:
-                print(f"API 返回信息: {result}")
+                log.info(f"API 返回信息异常: {result}")
                 return None
 
         except Exception as e:
-            print(f"获取视频信息失败: {str(e)}")
+            log.error(f"获取视频信息失败: {str(e)}")
             return None
 
     def get_download_urls(self, note_id: str) -> Optional[List[str]]:
@@ -118,6 +118,27 @@ class XiaohongshuFetcher(BaseFetcher):
         except Exception as e:
             print(f"获取下载链接失败: {str(e)}")
             return None
+
+
+    def get_image_urls_by_platform_id(self, note_id: str) -> Optional[List[str]]:
+        """
+        根据 platform_item_id 返回图文帖的图片 URL 列表。
+        """
+        try:
+            details = self.get_video_details(note_id) or {}
+            if not isinstance(details, dict) or not details:
+                return []
+            images = details.get("imagesList") or details.get("images_list") or []
+            urls: List[str] = []
+            if isinstance(images, list):
+                for it in images:
+                    if isinstance(it, dict):
+                        u = it.get("url")
+                        if isinstance(u, str) and u.strip():
+                            urls.append(u)
+            return urls
+        except Exception:
+            return []
 
     # ===== 小红书搜索能力 =====
     def fetch_search_posts(self, keyword: str) -> List[Dict[str, Any]]:

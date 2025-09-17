@@ -66,9 +66,27 @@ class AnalysisService:
                 response_mime_type="application/json",
                 system_instruction=system_prompt,
             )
+
+            # 构建最终 contents 顺序：Title -> Content -> Media 标注 -> 媒体 Parts
+            full_parts: List[Any] = []
+            title_text = getattr(post, "title", None)
+            if title_text:
+                full_parts.append(types.Part(text=f"[Post Title]\n{str(title_text)}"))
+            content_text = getattr(post, "content", None)
+            if content_text:
+                full_parts.append(types.Part(text=f"[Post Content]\n{str(content_text)}"))
+            if post.post_type == PostType.VIDEO:
+                full_parts.append(types.Part(text="[Media] Video file attached below."))
+            else:
+                try:
+                    full_parts.append(types.Part(text=f"[Media] Images attached below. Count={len(parts)}"))
+                except Exception:
+                    full_parts.append(types.Part(text="[Media] Images attached below."))
+            full_parts.extend(parts)
+
             resp = self.gemini.client.models.generate_content(
                 model=self.gemini.model,
-                contents=parts,
+                contents=full_parts,
                 config=config,
             )
             # 打印大模型的原始返回，便于排查
@@ -200,7 +218,7 @@ class AnalysisService:
             try:
                 r = requests.get(str(url), timeout=30)
                 if getattr(r, "status_code", 0) != 200:
-                    log.warning(f"下载图片失败：status={getattr(r, 'status_code', None)} url={url}")
+                    log.warning(f"下载图片失败：post_id={post_id}，status={getattr(r, 'status_code', None)}，url={url}")
                     continue
                 data = r.content
                 ctype = r.headers.get("Content-Type") or ""
@@ -225,11 +243,11 @@ class AnalysisService:
                 uri = upload.get("uri")
                 if uri:
                     uploaded.append((str(uri), mime))
-                    log.info(f"图片上传完成：idx={idx}，uri={uri}")
+                    log.info(f"图片上传完成：post_id={post_id}，idx={idx}，uri={uri}")
                 else:
-                    log.warning(f"图片上传未返回 uri：idx={idx}, url={url}")
+                    log.warning(f"图片上传未返回 uri：post_id={post_id}，idx={idx}，url={url}")
             except Exception as ue:
-                log.warning(f"图片处理失败：idx={idx}, url={url}, err={ue}")
+                log.warning(f"图片处理失败：post_id={post_id}，idx={idx}，url={url}，err={ue}")
                 continue
 
         if not uploaded:
@@ -239,12 +257,6 @@ class AnalysisService:
             raise RuntimeError("google-genai SDK 未正确安装")
 
         parts: List[Any] = []
-        caption = getattr(post, "content", None)
-        if caption:
-            try:
-                parts.append(types.Part(text=str(caption)))
-            except Exception:
-                pass
 
         for uri, mime in uploaded:
             parts.append(

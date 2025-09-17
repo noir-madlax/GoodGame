@@ -222,17 +222,34 @@ class BaseFetcher(ABC):
 
     def get_image_urls_by_post_id(self, post_id: int) -> Optional[List[str]]:
         """
-        新增占位：根据 post_id 返回图文帖的图片 URL 列表。
-        默认返回空列表，具体平台后续覆盖实现。
+        根据 post_id 获取图文帖的图片 URL 列表：
+        - 先从仓库读取 Post，提取 platform_item_id
+        - 再调用平台级的 get_image_urls_by_platform_id
         """
         try:
             if not isinstance(post_id, int) or post_id <= 0:
                 return []
-            return []
+            post = PostRepository.get_by_id(post_id)
+            if not post:
+                return []
+            platform_item_id = getattr(post, "platform_item_id", None)
+            if not platform_item_id:
+                return []
+            return self.get_image_urls_by_platform_id(str(platform_item_id))
         except Exception:
             return []
 
-
+    def get_image_urls_by_platform_id(self, platform_item_id: str) -> Optional[List[str]]:
+        """
+        占位方法：根据平台侧的 item_id 返回图文帖的图片 URL 列表。
+        - 各平台 fetcher 应覆盖此方法实现自身逻辑。
+        """
+        try:
+            if not platform_item_id or not isinstance(platform_item_id, str):
+                return []
+            return []
+        except Exception:
+            return []
 
 
     def _make_request(self, url: str, params: Dict[str, Any], method: str = "GET") -> Dict[str, Any]:
