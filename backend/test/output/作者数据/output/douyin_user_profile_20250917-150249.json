@@ -1,0 +1,46 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "method": "GET",
+  "params": {
+    "sec_user_id": "MS4wLjABAAAA98ckppIaacUB56n1KCkZaosc8syCMILuh8Urtktfu9AwGRWBle--OQhV8oURLxxo"
+  },
+  "data": {
+    "code": 200,
+    "request_id": "e0815926-0dd8-480d-b681-45e993763119",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-16 03:13:58",
+    "time_stamp": 1758017638,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-App-V3-API/handler_user_profile_api_v1_douyin_app_v3_handler_user_profile_get",
+    "router": "/api/v1/douyin/app/v3/handler_user_profile",
+    "params": {
+      "sec_user_id": "MS4wLjABAAAA98ckppIaacUB56n1KCkZaosc8syCMILuh8Urtktfu9AwGRWBle--OQhV8oURLxxo"
+    },
+    "data": {
+      "extra": {
+        "fatal_item_ids": null,
+        "logid": "202509171502486B09B1A78E97D313C653",
+        "now": 1758092569000,
+        "search_request_id": null
+      },
+      "log_pb": {
+        "impr_id": "202509171502486B09B1A78E97D313C653"
+      },
+      "status_code": 0,
+      "status_msg": null,
+      "user": {
+        "nickname": "用户4557639020789",
+        "special_state_info": {
+          "content": "用户已将自己账号注销，所属内容已无法查看",
+          "special_state": 1,
+          "title": "账号已经注销"
+        },
+        "uid": "2449332397409262",
+        "user_deleted": true
+      }
+    }
+  }
+}
