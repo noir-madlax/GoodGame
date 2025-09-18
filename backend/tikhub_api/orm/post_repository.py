@@ -159,7 +159,7 @@ class PostRepository:
 
 
     @staticmethod
-    def update_analysis_status(post_id: int, status: str, relevant_result: Optional[Dict[str, Any]] = None) -> Optional[PlatformPost]:
+    def update_analysis_status(post_id: int, status: str, relevant_result: Optional[Any] = None) -> Optional[PlatformPost]:
         """Update analysis_status (and optionally relevant_result JSON) by id.
         一些 supabase-py 版本在 update() 链式后不支持 .select("*")，因此这里不强求返回更新后的行，成功即返回 None。
         若需要读取，可单独再查一次。
@@ -177,7 +177,7 @@ class PostRepository:
         return None
 
     @staticmethod
-    def update_relevant_status(post_id: int, status: str, relevant_result: Optional[Dict[str, Any]] = None) -> Optional[PlatformPost]:
+    def update_relevant_status(post_id: int, status: str, relevant_result: Optional[Any] = None) -> Optional[PlatformPost]:
         """Update relevant_status（并可选更新 relevant_result JSON）for a post by id.
         成功即返回 None，需要读取请再查一次。
         """

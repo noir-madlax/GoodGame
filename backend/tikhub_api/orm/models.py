@@ -49,8 +49,8 @@ class PlatformPost(BaseModel):
     )
 
 
-    # LLM/规则判定的详细结果（JSON 存档）
-    relevant_result: Optional[Dict[str, Any]] = None
+    # LLM/规则判定的详细结果（JSON 存档，形态不固定：可能为 dict/list/str），使用 Any 以兼容
+    relevant_result: Optional[Any] = None
 
     # 存储 get_video_details 返回的原始报文，便于排查
     raw_details: Optional[Dict[str, Any]] = None
@@ -125,7 +125,7 @@ class VideoAnalysis(BaseModel):
     risk_types: Any
 
     # 总体风险等级：high/medium/low
-    total_risk: Optional[Literal["high", "medium", "low"]] = Field(
+    total_risk: Optional[Literal["high", "medium", "low","低","中","高"]] = Field(
         default=None,
         description="整篇内容的严重性：high/medium/low",
     )
@@ -149,10 +149,10 @@ class PromptTemplate(BaseModel):
     name: NonEmptyStr
     description: Optional[str] = None
     notes: Optional[str] = None
-    version: NonEmptyStr
-    method_name: NonEmptyStr
+    version: Optional[str] = None
+    method_name: Optional[str] = None
     is_active: bool = False
-    content: NonEmptyStr
+    content: Optional[str] = None
 
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
