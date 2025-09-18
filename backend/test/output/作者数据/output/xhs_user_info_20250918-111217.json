@@ -1,0 +1,180 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "method": "GET",
+  "params": {
+    "user_id": "59699f425e87e71130535afa"
+  },
+  "data": {
+    "code": 200,
+    "request_id": "b4f8919a-e7b7-44d5-afb8-ded7b807418e",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-17 18:33:04",
+    "time_stamp": 1758159184,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Xiaohongshu-App-API/get_user_info_api_v1_xiaohongshu_app_get_user_info_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/b4f8919a-e7b7-44d5-afb8-ded7b807418e?sign=64fad9f6e46ed42f9e6f2508ecd39abb6ac8113bdfec8e80aabcb6388ececc94",
+    "router": "/api/v1/xiaohongshu/app/get_user_info",
+    "params": {
+      "user_id": "59699f425e87e71130535afa"
+    },
+    "data": {
+      "code": 0,
+      "success": true,
+      "msg": "成功",
+      "data": {
+        "seller_info": {
+          "is_tab_goods_first": true,
+          "tab_goods_api_version": 1,
+          "tab_code_names": []
+        },
+        "red_official_verify_base_info": "",
+        "default_collection_tab": "note",
+        "tab_public": {
+          "collection": false,
+          "collection_note": true,
+          "collection_board": true,
+          "seed": true
+        },
+        "red_official_verify_content": "",
+        "is_recommend_level_illegal": false,
+        "community_rule_url": "https://www.xiaohongshu.com/user/community-rule",
+        "is_login_user_pro_account": false,
+        "level": {
+          "image_link": "",
+          "number": 0
+        },
+        "nboards": 0,
+        "collected_tags_num": 0,
+        "interactions": [
+          {
+            "is_private": true,
+            "toast": "该用户已设置关注列表不可见",
+            "type": "follows",
+            "name": "关注",
+            "count": 1025
+          },
+          {
+            "is_private": true,
+            "toast": "该用户已设置粉丝列表不可见",
+            "type": "fans",
+            "name": "粉丝",
+            "count": 106
+          },
+          {
+            "toast": "",
+            "type": "interaction",
+            "name": "获赞与收藏",
+            "count": 5084,
+            "is_private": false
+          }
+        ],
+        "ip_location": "江苏",
+        "real_name_deep_link": "xhsdiscover://rn/accounts/professional-detail?targetId=59699f425e87e71130535afa",
+        "banner_info": {
+          "image": "http://sns-avatar-qc.xhscdn.com/user_banner/c1ccd033-3034-33cf-b7d3-36ad3bb283b6?imageView2/2/w/540/format/jpg",
+          "bg_color": "a79886",
+          "like_status": false
+        },
+        "collected_product_num": 0,
+        "share_info": {
+          "title": "LZ1",
+          "content": "不会说话可以不说"
+        },
+        "remark_name": "",
+        "real_name_deep_target": 0,
+        "result": {
+          "success": true,
+          "code": 0,
+          "message": "success"
+        },
+        "fans": 106,
+        "follows": 1025,
+        "red_official_verified": false,
+        "show_extra_info_button": false,
+        "red_club_info": {
+          "red_club": false,
+          "red_club_level": 0,
+          "red_club_url": "https://www.xiaohongshu.com/store/mc/landing",
+          "redclubscore": 0
+        },
+        "note_num_stat": {
+          "posted": 1385,
+          "liked": 4352,
+          "collected": 732
+        },
+        "user_widget_switch": false,
+        "liked": 4352,
+        "location": "",
+        "collected_notes_num": 0,
+        "collected_poi_num": 0,
+        "recommend_info": "",
+        "user_desc_info": {
+          "desc": "不会说话可以不说",
+          "desc_at_users": []
+        },
+        "collected_movie_num": 0,
+        "avatar_like_status": false,
+        "identity_label_migrated": false,
+        "tags": [
+          {
+            "icon": "http://ci.xiaohongshu.com/icons/user/gender-female-v1.png",
+            "tag_type": "info"
+          }
+        ],
+        "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31ksgfvdik80g49m4ggfk4mnq9nlre00?imageView2/2/w/360/format/webp",
+        "location_jump": false,
+        "zhong_tong_bar_info": {
+          "conversions": []
+        },
+        "share_info_v2": {
+          "title": "@LZ1的个人主页",
+          "content": "粉丝: 106\n获赞与收藏: 5084"
+        },
+        "tab_visible": {
+          "note": true,
+          "collect": false,
+          "like": false,
+          "seed": true
+        },
+        "blocked": false,
+        "blocking": false,
+        "user_role_type": 0,
+        "recommend_info_icon": "",
+        "identity_deeplink": "xhsdiscover://rn/app-settings/official/certification/details?type=2&user_id=59699f425e87e71130535afa&is_mcn=false",
+        "ndiscovery": 1385,
+        "red_official_verify_type": 0,
+        "hula_tabs": {
+          "all_show_tab_config": [
+            {
+              "tab_id": "note",
+              "tab_name": "笔记"
+            }
+          ],
+          "tab_id_selected": "note"
+        },
+        "imageb": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31ksgfvdik80g49m4ggfk4mnq9nlre00?imageView2/2/w/540/format/webp",
+        "collected_brand_num": 0,
+        "red_id": "429326488",
+        "userid": "59699f425e87e71130535afa",
+        "desc": "不会说话可以不说",
+        "fstatus": "none",
+        "collected_book_num": 0,
+        "share_link": "https://www.xiaohongshu.com/user/profile/59699f425e87e71130535afa?xsec_token=YBczmfsw4z3MlGvbtpsuDi8DPtPdAfLSjoN2XAdWSndHA=&xsec_source=app_share",
+        "gender": 1,
+        "nickname": "LZ1",
+        "desc_at_users": [],
+        "avatar_pendant": {
+          "current_user_pet": false,
+          "current_user_pendant": false
+        },
+        "collected": 732,
+        "real_name_info": ""
+      }
+    }
+  }
+}
