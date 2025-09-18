@@ -191,9 +191,10 @@ export const mapDbSeverityToCn = (val?: string | null): SeverityLevel => {
  */
 export const mapTotalRiskToCn = (val?: string | null): SeverityLevel => {
   const raw = String(val || "").trim().toLowerCase();
-  if (raw === "high") return "高";
-  if (raw === "medium") return "中";
-  if (raw === "low") return "低";
+  if (!raw) return "未标注";
+  if (raw === "high" || raw === "高") return "高";
+  if (raw === "medium" || raw === "中") return "中";
+  if (raw === "low" || raw === "低") return "低";
   return "未标注";
 };
 

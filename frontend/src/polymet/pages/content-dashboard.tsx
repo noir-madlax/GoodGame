@@ -46,6 +46,19 @@ export default function ContentDashboard() {
     return `${m}:${s}`;
   };
 
+  /**
+   * 功能：将数据库中的 total_risk 值规范化为中文“高/中/低/未标注”。
+   * 使用位置：分析映射阶段，兼容后端写入英文(high/medium/low)或中文（高/中/低）。
+   */
+  const normalizeTotalRiskToCn = (val: string | null | undefined): string => {
+    const t = String(val || "").trim().toLowerCase();
+    if (!t) return "未标注";
+    if (t === "high" || t === "高") return "高";
+    if (t === "medium" || t === "中") return "中";
+    if (t === "low" || t === "低") return "低";
+    return "未标注";
+  };
+
   type PostRow = {
     id: number;
     platform: string;
@@ -188,10 +201,24 @@ export default function ContentDashboard() {
           setTotalCount(count || 0);
         }
 
-        const start = batchIndex * PAGE_SIZE;
-        const end = start + PAGE_SIZE - 1;
-        const { data: postData } = await buildBaseQuery().range(start, end);
-        const postsSafe = (postData || []) as unknown as PostRow[];
+        // 当筛选生效时（平台/相关性/时间范围非“全部时间”），首屏一次性加载所有匹配数据，避免逐卡片追加
+        const listFilterActive = channel !== "all" || relevance !== "all" || filters.timeRange !== "全部时间";
+        let postsSafe: PostRow[] = [];
+        if (isFirst && listFilterActive) {
+          const { count: c } = await buildBaseQuery().range(0, 0);
+          const total = Math.max(0, c || 0);
+          if (total === 0) {
+            postsSafe = [] as PostRow[];
+          } else {
+            const { data: allData } = await buildBaseQuery().range(0, Math.max(0, total - 1));
+            postsSafe = ((allData || []) as unknown) as PostRow[];
+          }
+        } else {
+          const start = batchIndex * PAGE_SIZE;
+          const end = start + PAGE_SIZE - 1;
+          const { data: postData } = await buildBaseQuery().range(start, end);
+          postsSafe = ((postData || []) as unknown) as PostRow[];
+        }
 
         // 前端时间范围过滤（优先使用 published_at，否则使用 created_at）
         // 时间过滤：支持 今天/昨天/前天/近7/15/30/全部
@@ -301,8 +328,7 @@ export default function ContentDashboard() {
             if (r.platform_item_id) {
               // 兼容旧 severity；但优先在列表图标使用 total_risk
               sevMap[r.platform_item_id] = mapDbSeverityToCn(r.severity || "");
-              const t = String(r.total_risk || "").toLowerCase();
-              trMap[r.platform_item_id] = t === "high" ? "高" : t === "medium" ? "中" : t === "low" ? "低" : "未标注";
+              trMap[r.platform_item_id] = normalizeTotalRiskToCn(r.total_risk);
               if (r.total_risk_reason) trReason[r.platform_item_id] = String(r.total_risk_reason);
               const ct = String(r.creatorTypes || "").trim();
               ctMap[r.platform_item_id] = ct || "未标注";
@@ -323,7 +349,7 @@ export default function ContentDashboard() {
         const relevanceMapBackfilled = backfillRelevance(relevanceMap, filteredByTime);
 
         // 合并新页数据到累计行（服务端已按发布时间排序）；默认仅追加不重排，确保“稳定追加”体验
-        const mergedRows = batchIndex === 0 ? filteredByTime : [...allRows, ...filteredByTime];
+        const mergedRows = isFirst ? filteredByTime : [...allRows, ...filteredByTime];
 
         // 在累计行上应用筛选条件（情绪 / 风险场景 / 品牌相关性）
         let postsAfterFilters = mergedRows;
@@ -344,7 +370,9 @@ export default function ContentDashboard() {
         // options are loaded by FilterBar from gg_filter_enums; page no longer sets them
 
         if (!cancelled) {
-          setHasMore(postsSafe.length === PAGE_SIZE);
+          // 若为筛选模式一次性加载，则不再有后续分页
+          const noMore = isFirst && (channel !== "all" || relevance !== "all" || filters.timeRange !== "全部时间");
+          setHasMore(noMore ? false : postsSafe.length === PAGE_SIZE);
           setAllRows(mergedRows);
           setPosts(postsSorted);
           setRisks(risksMap);

@@ -220,10 +220,11 @@ export default function VideoAnalysisDetail() {
         // 字幕
         if (!transcriptJson) {
           setTranscriptLoading(true);
+          const targetPlatformItemId = post?.platform_item_id || id;
           const { data: srcRows } = await supabase
             .from("gg_video_analysis")
             .select("transcript_json")
-            .eq("platform_item_id", id)
+            .eq("platform_item_id", targetPlatformItemId)
             .order("id", { ascending: false })
             .limit(1);
           const src = (srcRows && (srcRows[0] as { transcript_json?: TranscriptJson | null })) || {};
@@ -638,22 +639,12 @@ export default function VideoAnalysisDetail() {
                       <span
                         className={cn(
                           "px-3 py-1 rounded-full text-white text-sm font-medium",
-                          (String(analysis?.total_risk || "").toLowerCase() === "high")
-                            ? "bg-red-600"
-                            : (String(analysis?.total_risk || "").toLowerCase() === "medium")
-                            ? "bg-amber-500"
-                            : (String(analysis?.total_risk || "").toLowerCase() === "low")
-                            ? "bg-emerald-600"
-                            : "bg-gray-500"
+                          ((t) => (t === "高" ? "bg-red-600" : t === "中" ? "bg-amber-500" : t === "低" ? "bg-emerald-600" : "bg-gray-500"))(
+                            ((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未标注"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未标注"; })(analysis?.total_risk)
+                          )
                         )}
                       >
-                        {String(analysis?.total_risk || "").toLowerCase() === "high"
-                          ? "高"
-                          : String(analysis?.total_risk || "").toLowerCase() === "medium"
-                          ? "中"
-                          : String(analysis?.total_risk || "").toLowerCase() === "low"
-                          ? "低"
-                          : "未标注"}
+                        {((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未标注"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未标注"; })(analysis?.total_risk)}
                       </span>
                     </TooltipTrigger>
                     <TooltipContent className="max-w-xs whitespace-pre-wrap">
