@@ -18,7 +18,7 @@ import { supabase } from "@/lib/supabase";
 import MonitoringResults from "@/polymet/components/monitoring/monitoring-results";
 import { backfillRelevance, buildRelevanceWhitelist, resolveStartAt, filterByTime, sortByPublished, buildAnalysisMaps, buildTopRiskOptions } from "@/polymet/lib/filters";
 import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
-import ImportAnalyzeDialog from "@/components/ImportAnalyzeDialog";
+import ImportAnalyzeDialog from "@/polymet/components/import-analyze-dialog";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
@@ -599,6 +599,7 @@ export default function ContentDashboard() {
         breakdown={kpiBreakdown as any}
         onRelevanceClick={handleRelevanceClick}
         onSeverityClick={handleSeverityClick}
+        showTrend={filters.timeRange !== "全部时间"}
       />
 
       {/* 图表：一级/二级/三级联动 */}

@@ -2,7 +2,7 @@ import React from "react";
 import { TrendingUp, AlertTriangle, Clock, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 // import { Badge } from "@/components/ui/badge";
-import { RiskBadge } from "@/components/ui/risk-badge";
+import { RiskBadge } from "@/polymet/components/risk-badge";
 
 interface AnalysisItem {
   id: string;

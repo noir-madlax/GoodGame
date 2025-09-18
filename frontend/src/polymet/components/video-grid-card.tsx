@@ -3,7 +3,7 @@ import { Heart, MessageCircle, Share2, ExternalLink, Bookmark } from "lucide-rea
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 // import { Badge } from "@/components/ui/badge";
-import { RiskBadge } from "@/components/ui/risk-badge";
+import { RiskBadge } from "@/polymet/components/risk-badge";
 // PlatformBadge no longer used on grid card after design update
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
 // import { PlatformBadge } from "@/polymet/components/platform-badge";

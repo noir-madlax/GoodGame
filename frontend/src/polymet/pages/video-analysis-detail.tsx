@@ -15,7 +15,7 @@ import SourcePanel from "@/polymet/components/source-panel";
 import TimelineAnalysis, { TimelineItem as TLItem } from "@/polymet/components/timeline-analysis";
 import CommentsAnalysis, { CommentAnalysisItem } from "@/polymet/components/comments-analysis";
 import HandlingSuggestionsPanel from "@/polymet/components/handling-suggestions-panel";
-import type { AuthorTooltipData } from "@/components/ui/author-tooltip";
+import type { AuthorTooltipData } from "@/polymet/components/author-tooltip";
 
 // 与 SourcePanel 保持一致的最小类型（仅用于本页状态）
 type CommentNode = {
@@ -647,7 +647,7 @@ export default function VideoAnalysisDetail() {
                           )
                         )}
                       >
-                        {((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未标注"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未标注"; })(analysis?.total_risk)}
+                        {((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未知优先级"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未知优先级"; })(analysis?.total_risk)}
                       </span>
                     </TooltipTrigger>
                     <TooltipContent className="max-w-xs whitespace-pre-wrap">

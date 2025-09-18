@@ -140,13 +140,9 @@ export default function KPIOverview({
               <div className="space-y-2 pr-32">
                 <div className="flex items-end gap-2">
                   <span className="text-3xl font-bold text-gray-900 dark:text-white">{c.data.current}</span>
-                  {showTrend && (
-                    <div className="flex items-center gap-1 mb-1">{iconFor(c.data.change)}<span className={`text-sm font-medium ${colorFor(c.data.change)}`}>{Math.abs(c.data.change)}%</span></div>
-                  )}
+                  <div className={`flex items-center gap-1 mb-1 ${showTrend ? "" : "invisible"}`}>{iconFor(c.data.change)}<span className={`text-sm font-medium ${colorFor(c.data.change)}`}>{Math.abs(c.data.change)}%</span></div>
                 </div>
-                {showTrend && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{c.data.previousLabel ? `${c.data.previousLabel}:` : "上一周期:"} {c.data.previous}</p>
-                )}
+                <p className={`text-sm text-gray-600 dark:text-gray-400 ${showTrend ? "" : "invisible"}`}>{c.data.previousLabel ? `${c.data.previousLabel}:` : "上一周期:"} {c.data.previous}</p>
                 <PlatformIcons d={c.dist} />
               </div>
             </div>

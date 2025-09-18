@@ -3,7 +3,7 @@ import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as Lin
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
-import AuthorTooltip, { AuthorTooltipData, formatFollowersCn } from "@/components/ui/author-tooltip";
+import AuthorTooltip, { AuthorTooltipData, formatFollowersCn } from "@/polymet/components/author-tooltip";
 
 interface VideoPlayerCardProps {
   title: string;
@@ -240,7 +240,7 @@ export default function VideoPlayerCard({
                   )
                 )}
               >
-                {((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未标注"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未标注"; })(totalRisk)}
+                {((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未知优先级"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未知优先级"; })(totalRisk)}
               </span>
             </div>
             <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">

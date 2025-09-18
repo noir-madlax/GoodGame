@@ -133,7 +133,8 @@ export const loadGlobalDataset = async (
     const ps = new Date(startOfToday.getTime()); ps.setDate(ps.getDate() - (2 * n));
     const pe = new Date(startOfToday.getTime()); pe.setDate(pe.getDate() - (n - 1));
     previousFiltered = filterBetween(basePosts, ps, pe);
-    previousLabel = n === 2 ? "第3-4天" : n === 3 ? "第4-6天" : `上个${n}天`;
+    // 文案统一：近N天 -> 上个N天
+    previousLabel = `上个${n}天`;
   } else {
     // 全部时间：不显示上一周期
     timeFiltered = basePosts;
