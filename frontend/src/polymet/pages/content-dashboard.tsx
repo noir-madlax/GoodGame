@@ -549,17 +549,19 @@ export default function ContentDashboard() {
 
   return (
     <div className="space-y-8">
-      {/* 顶部右上角：导入链接分析按钮 */}
-      <div className="flex items-center justify-end">
-        <button
-          onClick={() => setImportOpen(true)}
-          className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
-        >
-          导入链接分析
-        </button>
-      </div>
       {/* 顶部筛选（新） */}
-      <FilterSection filters={filters} onFiltersChange={setFilters} />
+      <FilterSection
+        filters={filters}
+        onFiltersChange={setFilters}
+        headerRight={(
+          <button
+            onClick={() => setImportOpen(true)}
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
+          >
+            导入链接分析
+          </button>
+        )}
+      />
 
       {/* KPI */}
       <KPIOverview
