@@ -118,7 +118,7 @@ export default function KPIOverview({
               {i === 2 && (
                 <div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">作者</div>
-                  <div className="space-y-1" aria-label="创作者分布">
+                  <div className="space-y-1" aria-label="作者分布">
                     {[{ name: "达人", color: "#3b82f6" }, { name: "素人", color: "#8b5cf6" }].map((cr) => (
                       <div key={cr.name} role="button" tabIndex={0} className="group grid grid-cols-[auto_min-content] items-center gap-4 py-0.5 cursor-pointer select-none focus:outline-none" onClick={() => onSeverityClick?.("高", cr.name)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSeverityClick?.("高", cr.name); }} aria-label={`查看高优先级下${cr.name}详情`}>
                         <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full" style={{ backgroundColor: cr.color }} /><span className="text-xs text-gray-700 dark:text-gray-300 group-hover:underline">{cr.name}</span></div>

@@ -324,6 +324,7 @@ export function buildSeverityGroups(selectedRelevance: string, posts: PostLite[]
   });
   const total = filtered.length;
   const sevList: SeverityLevel[] = ["高", "中", "低", "未标注"];
+  const countPlatform = (list: PostLite[], key: string) => list.filter((x) => String(x.platform || "").toLowerCase().includes(key)).length;
   return {
     relevanceType: selectedRelevance,
     totalCount: total,
@@ -337,6 +338,11 @@ export function buildSeverityGroups(selectedRelevance: string, posts: PostLite[]
           达人: arr.filter((p) => (maps.creatorTypeMap[p.platform_item_id] || "未标注") === "达人").length,
           素人: arr.filter((p) => (maps.creatorTypeMap[p.platform_item_id] || "未标注") === "素人").length,
           未标注: arr.filter((p) => !maps.creatorTypeMap[p.platform_item_id] || maps.creatorTypeMap[p.platform_item_id] === "未标注").length,
+        },
+        platforms: {
+          抖音: countPlatform(arr, "douyin"),
+          小红书: countPlatform(arr, "xiaohongshu"),
+          其他: Math.max(0, arr.length - countPlatform(arr, "douyin") - countPlatform(arr, "xiaohongshu")),
         },
       };
     }),

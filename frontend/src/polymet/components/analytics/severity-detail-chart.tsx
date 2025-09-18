@@ -67,7 +67,7 @@ export default function SeverityDetailChart({
           <div className="h-80 w-full"><ResponsiveContainer width="100%" height="100%"><BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}><CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" /><XAxis dataKey="creatorType" stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} tickFormatter={(v) => displayCreator(String(v))} /><YAxis stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} /><Tooltip content={<CustomTooltip />} /><Bar dataKey="抖音" stackId="platform" fill={platformColors.抖音} radius={[0, 0, 0, 0]} /><Bar dataKey="小红书" stackId="platform" fill={platformColors.小红书} radius={[4, 4, 0, 0]} /></BarChart></ResponsiveContainer></div>
         </div>
         <div className="space-y-4 self-start">
-          <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2"><Users className="w-4 h-4" />创作者类型统计</h4>
+          <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2"><Users className="w-4 h-4" />作者类型统计</h4>
           <div className="space-y-3">
             {data.map((item) => (
               <div key={item.creatorType} className="p-4 rounded-xl border bg-white/10 border-white/20">
