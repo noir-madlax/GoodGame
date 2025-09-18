@@ -302,6 +302,7 @@ class AnalysisService:
         handling_suggestions = result.get("handling_suggestions")
         total_risk = result.get("total_risk")
         total_risk_reason = result.get("total_risk_reason")
+        transcript_json = result.get("transcript")
 
         payload: Dict[str, Any] = {
             "source_path": source_path,
@@ -333,6 +334,8 @@ class AnalysisService:
             payload["total_risk"] = total_risk
         if total_risk_reason is not None:
             payload["total_risk_reason"] = total_risk_reason
+        if transcript_json is not None:
+            payload["transcript_json"] = transcript_json
 
         # 若缺少 summary/sentiment 等必填，保持最小插入由仓库兜底
         return payload
