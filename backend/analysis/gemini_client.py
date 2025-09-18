@@ -39,15 +39,15 @@ if 'GEMINI_API_KEY' not in os.environ and load_dotenv:
     except Exception:
         pass
 
-DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
+ANALYSIS_MODEL_NAME = "gemini-2.5-pro"
+SCREENING_MODEL_NAME = "gemini-2.5-flash"
 API_KEY = os.getenv("GEMINI_API_KEY", "")
-
 
 def _normalize_model_name(model: str | None) -> str:
     """兼容传入类似 "google/gemini-2.5-pro" 的名字，转为 SDK 需要的 "gemini-2.5-pro"。
     若未提供按默认值处理。
     """
-    name = (model or DEFAULT_MODEL).strip()
+    name = (model).strip()
     # 常见前缀：openrouter 默认可能传 "google/gemini-2.5-pro"
     if "/" in name:
         name = name.split("/")[-1]
@@ -67,7 +67,8 @@ class GeminiClient:
             raise RuntimeError(
                 "google-genai SDK 未安装。请先在 backend 虚拟环境中执行: pip install google-genai"
             )
-        self.model = _normalize_model_name(model)
+        self.screening_model = _normalize_model_name(SCREENING_MODEL_NAME)
+        self.analysis_model = _normalize_model_name(ANALYSIS_MODEL_NAME)
         self.api_key = (api_key or API_KEY).strip()
         self.timeout = timeout  # 目前 SDK 暂无直接超时参数，保留占位
         if not self.api_key:
@@ -153,7 +154,7 @@ class GeminiClient:
         for i in range(3):
             try:
                 resp = self.client.models.generate_content(
-                    model=self.model,
+                    model=self.screening_model,
                     contents=contents,
                     config=config,
                 )

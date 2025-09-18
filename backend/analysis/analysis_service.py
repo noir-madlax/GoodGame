@@ -85,7 +85,7 @@ class AnalysisService:
             full_parts.extend(parts)
 
             resp = self.gemini.client.models.generate_content(
-                model=self.gemini.model,
+                model=self.gemini.analysis_model,
                 contents=full_parts,
                 config=config,
             )
@@ -100,7 +100,7 @@ class AnalysisService:
                 log.info(f"打印模型返回文本失败：{_e}")
 
             log.info(
-                f"生成完成：post_id={post_id}，model={getattr(resp, 'model_version', self.gemini.model)}"
+                f"生成完成：post_id={post_id}，model={getattr(resp, 'model_version', self.gemini.analysis_model)}"
             )
 
             text = getattr(resp, "text", None) or getattr(resp, "output_text", None)
