@@ -1,3 +1,43 @@
+## 导入链接分析 API 契约（草案）
+
+前端最小集成所需的后端接口定义如下，供后端同学 Review：
+
+### 1) 提交分析任务（去重内置）
+
+- 方法：POST `/api/import/analyze`
+- 请求体：
+```json
+{ "url": "https://www.douyin.com/video/xxxx" }
+```
+- 返回（之一）：
+```json
+{ "status": "exists", "analysisId": "123456" }
+```
+表示该链接先前已分析过，前端应直接跳详情。
+
+- 返回（之二）：
+```json
+{ "status": "queued", "taskId": "task_abc123" }
+```
+表示已受理为异步任务。前端会给出 Toast 提示“几分钟后在标记内容与处理页查看”。
+
+- 返回（之三，错误）：
+```json
+{ "status": "error", "message": "unsupported url" }
+```
+
+说明：建议服务端内部完成去重判断（同一 URL 或归一化后等价 URL），若已存在则直接返回 `exists`。
+
+### 2) 任务状态轮询（MVP 可暂不使用）
+
+- 方法：GET `/api/tasks/:taskId`
+- 返回：
+```json
+{ "status": "queued" | "running" | "succeeded" | "failed", "analysisId": "123456", "message": "optional" }
+```
+
+前端当前不强依赖该接口；如实现可用于后续增强“完成提示”。
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

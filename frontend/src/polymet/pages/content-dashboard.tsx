@@ -18,9 +18,11 @@ import { supabase } from "@/lib/supabase";
 import MonitoringResults from "@/polymet/components/monitoring/monitoring-results";
 import { backfillRelevance, buildRelevanceWhitelist, resolveStartAt, filterByTime, sortByPublished, buildAnalysisMaps, buildTopRiskOptions } from "@/polymet/lib/filters";
 import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
+import ImportAnalyzeDialog from "@/components/ImportAnalyzeDialog";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
+  const [importOpen, setImportOpen] = useState(false);
 
   /**
    * 功能：平台 key 归一化（小写、别名合并，如 xhs/xiaohongshu -> xiaohongshu）。
@@ -547,6 +549,15 @@ export default function ContentDashboard() {
 
   return (
     <div className="space-y-8">
+      {/* 顶部右上角：导入链接分析按钮 */}
+      <div className="flex items-center justify-end">
+        <button
+          onClick={() => setImportOpen(true)}
+          className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
+        >
+          导入链接分析
+        </button>
+      </div>
       {/* 顶部筛选（新） */}
       <FilterSection filters={filters} onFiltersChange={setFilters} />
 
@@ -592,6 +603,9 @@ export default function ContentDashboard() {
         influencerMap={influencerMap}
         matchCount={monitoringMatchCount}
       />
+
+      {/* 弹窗：导入链接分析（请求与 Toast 在组件内部处理） */}
+      <ImportAnalyzeDialog isOpen={importOpen} onOpenChange={setImportOpen} />
     </div>
   );
 }
