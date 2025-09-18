@@ -1,5 +1,5 @@
 // no React import needed with JSX transform
-import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as LinkIcon } from "lucide-react";
+import { Heart, Share2, MessageCircle, Eye, Clock, FileText, ExternalLink as LinkIcon, Shield } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { normalizeCoverUrl, onImageErrorSetPlaceholder } from "@/lib/media";
@@ -24,6 +24,9 @@ interface VideoPlayerCardProps {
   className?: string;
   brandRelevance?: string;
   relevanceEvidence?: string;
+  // 新增：用于在左列卡片显示优先级判定说明
+  totalRisk?: string;
+  totalRiskReason?: string;
   onGenerateAdvice?: () => void;
 }
 
@@ -46,6 +49,8 @@ export default function VideoPlayerCard({
   className,
   brandRelevance,
   relevanceEvidence,
+  totalRisk,
+  totalRiskReason,
   onGenerateAdvice,
 }: VideoPlayerCardProps) {
   return (
@@ -218,6 +223,29 @@ export default function VideoPlayerCard({
                 {relevanceEvidence}
               </p>
             )}
+          </div>
+        )}
+
+        {/* 优先级判定说明：只要有理由就展示 */}
+        {totalRiskReason && (
+          <div className="mt-6">
+            <div className="flex items-center gap-2 mb-2">
+              <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span className="text-lg font-bold text-gray-900 dark:text-gray-100">优先级判定说明</span>
+              <span
+                className={cn(
+                  "inline-block ml-4 px-2 py-1 rounded-full text-xs font-medium",
+                  ((t) => (t === "高" ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" : t === "中" ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300" : t === "低" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" : "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300"))(
+                    ((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未标注"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未标注"; })(totalRisk)
+                  )
+                )}
+              >
+                {((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未标注"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未标注"; })(totalRisk)}
+              </span>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+              {totalRiskReason}
+            </p>
           </div>
         )}
       </div>

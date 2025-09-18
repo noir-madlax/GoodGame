@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export interface FiltersState {
-  timeRange: "今天" | "昨天" | "前天" | "近7天" | "近15天" | "近30天" | "全部时间";
+  timeRange: "今天" | "近2天" | "近3天" | "近7天" | "近15天" | "近30天" | "全部时间";
   relevance: string[]; // 相关/疑似相关/不相关/营销
   priority: string[]; // 高/中/低/未标注
   creatorTypes: string[]; // 达人/素人/未标注
@@ -23,12 +23,14 @@ interface Props {
   onFiltersChange: (next: FiltersState) => void;
   className?: string;
   headerRight?: React.ReactNode;
+  // 新增：当点击“重置筛选”时的额外回调（用于页面级同步重置图表联动等）
+  onResetAll?: () => void;
 }
 
 // 说明：此组件从 sample 代码移植，并小幅调整时间枚举与默认态；作为首页顶层数据范围控制器。
-export default function FilterSection({ filters, onFiltersChange, className = "", headerRight }: Props) {
+export default function FilterSection({ filters, onFiltersChange, className = "", headerRight, onResetAll }: Props) {
   const isFilterActive = (filterArray: string[], filterType: string) => {
-    if (filterType === "timeRange") return filters.timeRange !== "昨天"; // 设计稿默认选中昨天
+    if (filterType === "timeRange") return filters.timeRange !== "全部时间"; // 全部时间视为未激活
     return filterArray && filterArray.length > 0;
   };
 
@@ -38,7 +40,7 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
     return `${arr[0]} 等${arr.length}项`;
   };
 
-  const timeRangeOptions = ["今天", "昨天", "前天", "近7天", "近15天", "近30天", "全部时间"] as const;
+  const timeRangeOptions = ["今天", "近2天", "近3天", "近7天", "近15天", "近30天", "全部时间"] as const;
   const platformOptions = ["抖音", "小红书"];
 
   const handleTimeRangeSelect = (timeRange: FiltersState["timeRange"]) => {
@@ -52,7 +54,9 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
   };
 
   const handleReset = () => {
-    onFiltersChange({ timeRange: "昨天", relevance: [], priority: [], creatorTypes: [], platforms: [] });
+    onFiltersChange({ timeRange: "全部时间", relevance: [], priority: [], creatorTypes: [], platforms: [] });
+    // 通知父级同时重置其它与筛选联动的页面状态（例如图表联动层级）
+    onResetAll?.();
   };
 
   return (

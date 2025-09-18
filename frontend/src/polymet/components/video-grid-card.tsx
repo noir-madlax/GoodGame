@@ -177,7 +177,7 @@ export default function VideoGridCard({
         {brandRelevance && (
           <div className="absolute top-2 left-2">
             <span className="px-2 py-1 rounded-md bg-black/35 backdrop-blur-[2px] text-white/80 text-[10px] font-medium inline-flex items-center gap-1">
-              {brandRelevance}
+              {brandRelevance.includes("需人工介入") ? "疑似相关" : brandRelevance.includes("可忽略") ? "不相关" : brandRelevance}
               {brandRelevance.includes("疑似") || brandRelevance.includes("需人工介入") ? (
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500" aria-hidden />
               ) : null}
@@ -188,30 +188,32 @@ export default function VideoGridCard({
           </div>
         )}
 
-        {/* Right-top: total_risk 徽标（高/中/低/未标注），hover 展示 reason */}
-        <div className="absolute top-2 right-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span
-                  className={cn(
-                    "px-2 py-1 rounded-md text-white text-[10px] font-semibold",
-                    totalRiskCn === "高" ? "bg-red-600" : totalRiskCn === "中" ? "bg-amber-500" : totalRiskCn === "低" ? "bg-emerald-600" : "bg-gray-500"
-                  )}
-                >
-                  {totalRiskCn || "未标注"}
-                </span>
-              </TooltipTrigger>
-              {totalRiskReason ? (
-                <TooltipContent side="left" className="max-w-xs whitespace-pre-wrap">
-                  {totalRiskReason}
-                </TooltipContent>
-              ) : (
-                <TooltipContent side="left">无判定理由</TooltipContent>
-              )}
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        {/* Right-top: total_risk 徽标（高/中/低）。当为“未标注”时不展示徽标 */}
+        {totalRiskCn && totalRiskCn !== "未标注" && (
+          <div className="absolute top-2 right-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span
+                    className={cn(
+                      "px-2 py-1 rounded-md text-white text-[10px] font-semibold",
+                      totalRiskCn === "高" ? "bg-red-600" : totalRiskCn === "中" ? "bg-amber-500" : totalRiskCn === "低" ? "bg-emerald-600" : "bg-gray-500"
+                    )}
+                  >
+                    {totalRiskCn}
+                  </span>
+                </TooltipTrigger>
+                {totalRiskReason ? (
+                  <TooltipContent side="left" className="max-w-xs whitespace-pre-wrap">
+                    {totalRiskReason}
+                  </TooltipContent>
+                ) : (
+                  <TooltipContent side="left">无判定理由</TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        )}
 
         {/* Sentiment Badge */}
         {sentiment && (

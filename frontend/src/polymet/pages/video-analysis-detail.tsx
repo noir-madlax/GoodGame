@@ -599,6 +599,9 @@ export default function VideoAnalysisDetail() {
               videoUrl={post.video_url || undefined}
               brandRelevance={analysis?.brand_relevance || undefined}
               relevanceEvidence={analysis?.relevance_evidence || undefined}
+              // 传递优先级及其判定理由，用于在左侧卡片显示“优先级判定说明”
+              totalRisk={analysis?.total_risk || undefined}
+              totalRiskReason={analysis?.total_risk_reason || undefined}
               className="h-fit"
               onGenerateAdvice={handleViewAdvice}
             />

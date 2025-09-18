@@ -3,7 +3,7 @@
 // 目标：从“已按筛选过滤后的帖子集合 + 分析映射”中，计算 KPI、一级饼图、二级/三级柱状图所需的数据结构。
 // 这些结构与 @components/analytics 下的可视化组件一一对应。
 
-export type TimeRangeOption = "今天" | "昨天" | "前天" | "近7天" | "近15天" | "近30天" | "全部时间";
+export type TimeRangeOption = "今天" | "近2天" | "近3天" | "近7天" | "近15天" | "近30天" | "全部时间";
 
 export type SeverityLevel = "高" | "中" | "低" | "未标注";
 
@@ -26,6 +26,7 @@ export interface KPITriple {
   current: number;
   previous: number;
   change: number; // 相对变化百分比，正值表示上升
+  previousLabel?: string; // 展示标签，如“昨天/第3-4天/上个7天”等
 }
 
 export interface KPIResult {
@@ -50,7 +51,7 @@ import { resolveStartAt, filterByTime, backfillRelevance } from "@/polymet/lib/f
  * 只列出会影响“全库统计”的筛选项。
  */
 export type GlobalAnalyticsFilters = {
-  timeRange: "今天" | "昨天" | "前天" | "近7天" | "近15天" | "近30天" | "全部时间";
+  timeRange: "今天" | "近2天" | "近3天" | "近7天" | "近15天" | "近30天" | "全部时间";
   platforms: string[]; // ["抖音","小红书"]
   relevance: string[]; // ["相关","疑似相关","不相关","营销"]; 为空表示全部
   priority: string[]; // ["高","中","低","未标注"]，为空表示全部
@@ -60,6 +61,10 @@ export type GlobalAnalyticsFilters = {
 export interface GlobalDataset {
   // 被 KPI/图表消费的“全库（已按筛选过滤）帖子样本”
   posts: PostLite[];
+  // 上一周期帖子样本（用于 KPI 对比）；当选择“全部时间”时为空
+  previousPosts: PostLite[];
+  // 上一周期展示用标签（如 昨天 / 第3-4天 / 上个7天），全部时间下为空
+  previousLabel?: string;
   // 与 posts 对应的映射（相关性/严重度/创作者类型）。
   maps: AnalysisMaps;
 }
@@ -95,45 +100,58 @@ export const loadGlobalDataset = async (
     const keys = platforms.map((p) => normalizePlatformLabelToKey(p));
     q = q.in("platform", keys);
   }
-  // 由于时间范围包含“昨天/前天/15天”等，需要前端裁切
+  // 由于时间范围需要灵活窗口（今天/近N天/全部），交由前端裁切
   const { data: postRows } = await q.limit(200000); // 安全上限；业务可根据体量调整
   type PostRow = {
     id: number; platform: string; platform_item_id: string;
     published_at?: string | null; created_at: string; relevant_status?: string | null;
   };
   const basePosts = (postRows || []) as PostRow[];
-  // 时间过滤（与页面一致）
-  const baseStartAt = resolveStartAt(
-    timeRange === "今天" ? "today" : timeRange === "近7天" ? "week" : timeRange === "近15天" || timeRange === "近30天" ? "month" : "all"
-  );
-  let timeFiltered = filterByTime(basePosts, baseStartAt);
-  if (timeRange === "昨天") {
-    const today = new Date();
-    const s = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-    const e = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    timeFiltered = timeFiltered.filter((p) => {
-      const t = new Date((p.published_at || p.created_at));
-      return t >= s && t < e;
-    });
-  }
-  if (timeRange === "前天") {
-    const today = new Date();
-    const s = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
-    const e = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-    timeFiltered = timeFiltered.filter((p) => {
-      const t = new Date((p.published_at || p.created_at));
-      return t >= s && t < e;
-    });
-  }
-  if (timeRange === "近15天") {
-    const d = new Date(); d.setDate(d.getDate() - 15);
-    timeFiltered = filterByTime(timeFiltered, d);
+  const today = new Date();
+  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const startDaysAgo = (n: number) => new Date(startOfToday.getFullYear(), startOfToday.getMonth(), startOfToday.getDate() - (n - 1));
+  const filterBetween = (arr: PostRow[], s: Date, e: Date) => arr.filter((p) => {
+    const t = new Date((p.published_at || p.created_at));
+    return t >= s && t < e;
+  });
+  let timeFiltered = basePosts;
+  let previousFiltered: PostRow[] = [];
+  let previousLabel: string | undefined = undefined;
+  if (timeRange === "今天") {
+    const s = startOfToday;
+    const e = new Date(startOfToday.getTime()); e.setDate(e.getDate() + 1);
+    timeFiltered = filterBetween(basePosts, s, e);
+    const ps = new Date(startOfToday.getTime()); ps.setDate(ps.getDate() - 1);
+    previousFiltered = filterBetween(basePosts, ps, s);
+    previousLabel = "昨天";
+  } else if (timeRange === "近2天" || timeRange === "近3天" || timeRange === "近7天" || timeRange === "近15天" || timeRange === "近30天") {
+    const map: Record<string, number> = { "近2天": 2, "近3天": 3, "近7天": 7, "近15天": 15, "近30天": 30 } as const as any;
+    const n = map[timeRange];
+    const s = new Date(startOfToday.getTime()); s.setDate(s.getDate() - (n - 1));
+    const e = new Date(startOfToday.getTime()); e.setDate(e.getDate() + 1);
+    timeFiltered = filterBetween(basePosts, s, e);
+    const ps = new Date(startOfToday.getTime()); ps.setDate(ps.getDate() - (2 * n));
+    const pe = new Date(startOfToday.getTime()); pe.setDate(pe.getDate() - (n - 1));
+    previousFiltered = filterBetween(basePosts, ps, pe);
+    previousLabel = n === 2 ? "第3-4天" : n === 3 ? "第4-6天" : `上个${n}天`;
+  } else {
+    // 全部时间：不显示上一周期
+    timeFiltered = basePosts;
+    previousFiltered = [];
+    previousLabel = undefined;
   }
 
   // 2) 拉取分析映射（brand_relevance/total_risk/creatorTypes）
-  const ids = Array.from(new Set(timeFiltered.map((p) => p.platform_item_id).filter(Boolean)));
-  let severityMap: Record<string, SeverityLevel> = {};
-  let creatorTypeMap: Record<string, string> = {};
+  const ids = Array.from(new Set([...timeFiltered, ...previousFiltered].map((p) => p.platform_item_id).filter(Boolean)));
+  // 重要：先对所有帖子预填充为“未标注”，避免没有分析记录的内容被排除出统计
+  let severityMap: Record<string, SeverityLevel> = ids.reduce((acc, id) => {
+    acc[id] = "未标注";
+    return acc;
+  }, {} as Record<string, SeverityLevel>);
+  let creatorTypeMap: Record<string, string> = ids.reduce((acc, id) => {
+    acc[id] = "未标注";
+    return acc;
+  }, {} as Record<string, string>);
   let relevanceMapRaw: Record<string, string> = {};
   if (ids.length > 0) {
     const { data: aRows } = await sb
@@ -154,6 +172,7 @@ export const loadGlobalDataset = async (
 
   // 4) 形成 PostLite 与 AnalysisMaps
   let postsLite: PostLite[] = timeFiltered.map((p) => ({ id: p.id, platform: String(p.platform || ""), platform_item_id: p.platform_item_id }));
+  let previousPostsLite: PostLite[] = previousFiltered.map((p) => ({ id: p.id, platform: String(p.platform || ""), platform_item_id: p.platform_item_id }));
   const maps: AnalysisMaps = { relevanceMap, severityMap, creatorTypeMap };
 
   // 5) 应用“全库统计”的筛选（多选）；为空则表示不过滤
@@ -171,7 +190,7 @@ export const loadGlobalDataset = async (
     postsLite = postsLite.filter((p) => set.has(maps.creatorTypeMap[p.platform_item_id] || "未标注"));
   }
 
-  return { posts: postsLite, maps };
+  return { posts: postsLite, previousPosts: previousPostsLite, previousLabel, maps };
 };
 
 /**
@@ -202,24 +221,31 @@ export const mapTotalRiskToCn = (val?: string | null): SeverityLevel => {
  * 计算 KPI 三项。这里的 previous 仅做示例：按当前值的 80%/85%/90% 估算。
  * 若后续有真实“上一周期”数据，可在此替换来源。
  */
-export function calculateKPI(posts: PostLite[], maps: AnalysisMaps): KPIResult {
+export function calculateKPI(posts: PostLite[], maps: AnalysisMaps, options?: { previousPosts?: PostLite[]; previousLabel?: string }): KPIResult {
   const total = posts.length;
   const relevant = posts.filter((p) => {
     const rel = maps.relevanceMap[p.platform_item_id];
-    return rel === "相关" || rel === "疑似相关" || rel === "营销" || rel === "营销内容";
+    // 口径修正：仅将“相关”计入 KPI 的“相关内容”，不再包含“疑似相关/营销”。
+    // 背景：与“相关性统计”卡片的“相关”保持一致，避免 112/120 口径不一致。
+    return rel === "相关";
   }).length;
   const high = posts.filter((p) => maps.severityMap[p.platform_item_id] === "高").length;
 
-  const triple = (curr: number, prevRatio: number): KPITriple => {
-    const previous = Math.round(curr * prevRatio);
-    const base = previous === 0 ? 0 : Math.round(((curr - previous) / Math.max(previous, 1)) * 100);
-    return { current: curr, previous, change: base };
+  const prev = options?.previousPosts || [];
+  const prevLabel = options?.previousLabel;
+  const prevTotal = prev.length;
+  const prevRelevant = prev.filter((p) => maps.relevanceMap[p.platform_item_id] === "相关").length;
+  const prevHigh = prev.filter((p) => maps.severityMap[p.platform_item_id] === "高").length;
+
+  const triple = (curr: number, prevValue: number): KPITriple => {
+    const base = prevValue === 0 ? 0 : Math.round(((curr - prevValue) / Math.max(prevValue, 1)) * 100);
+    return { current: curr, previous: prevValue, change: base, previousLabel: prevLabel };
   };
 
   return {
-    totalVideos: triple(total, 0.8),
-    relevantVideos: triple(relevant, 0.85),
-    highPriorityVideos: triple(high, 0.9),
+    totalVideos: triple(total, prevTotal),
+    relevantVideos: triple(relevant, prevRelevant),
+    highPriorityVideos: triple(high, prevHigh),
   };
 }
 

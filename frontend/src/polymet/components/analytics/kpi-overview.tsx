@@ -2,7 +2,7 @@
 import { TrendingUp, TrendingDown, Minus, Video, Eye, AlertTriangle, Info, TrendingUp as TrendIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface KPIData { current: number; previous: number; change: number }
+interface KPIData { current: number; previous: number; change: number; previousLabel?: string }
 interface PlatformDistribution { 抖音: number; 小红书: number }
 
 export default function KPIOverview({
@@ -13,6 +13,7 @@ export default function KPIOverview({
   breakdown,
   onRelevanceClick,
   onSeverityClick,
+  showTrend = true,
 }: {
   data: { totalVideos: KPIData; relevantVideos: KPIData; highPriorityVideos: KPIData };
   platformDistribution?: { totalVideos: PlatformDistribution; relevantVideos: PlatformDistribution; highPriorityVideos: PlatformDistribution };
@@ -26,6 +27,7 @@ export default function KPIOverview({
   };
   onRelevanceClick?: (name: string) => void;
   onSeverityClick?: (severity: string, creatorType?: string) => void;
+  showTrend?: boolean;
 }) {
   const iconFor = (c: number) => (c > 0 ? <TrendingUp className="w-4 h-4 text-red-500" /> : c < 0 ? <TrendingDown className="w-4 h-4 text-green-500" /> : <Minus className="w-4 h-4 text-gray-500" />);
   const colorFor = (c: number) => (c > 0 ? "text-red-500" : c < 0 ? "text-green-500" : "text-gray-500");
@@ -136,8 +138,15 @@ export default function KPIOverview({
             </div>
             <div className="">
               <div className="space-y-2 pr-32">
-                <div className="flex items-end gap-2"><span className="text-3xl font-bold text-gray-900 dark:text-white">{c.data.current}</span><div className="flex items-center gap-1 mb-1">{iconFor(c.data.change)}<span className={`text-sm font-medium ${colorFor(c.data.change)}`}>{Math.abs(c.data.change)}%</span></div></div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">上一周期: {c.data.previous}</p>
+                <div className="flex items-end gap-2">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white">{c.data.current}</span>
+                  {showTrend && (
+                    <div className="flex items-center gap-1 mb-1">{iconFor(c.data.change)}<span className={`text-sm font-medium ${colorFor(c.data.change)}`}>{Math.abs(c.data.change)}%</span></div>
+                  )}
+                </div>
+                {showTrend && (
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{c.data.previousLabel ? `${c.data.previousLabel}:` : "上一周期:"} {c.data.previous}</p>
+                )}
                 <PlatformIcons d={c.dist} />
               </div>
             </div>
