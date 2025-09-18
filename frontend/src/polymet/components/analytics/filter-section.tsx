@@ -22,10 +22,11 @@ interface Props {
   filters: FiltersState;
   onFiltersChange: (next: FiltersState) => void;
   className?: string;
+  headerRight?: React.ReactNode;
 }
 
 // 说明：此组件从 sample 代码移植，并小幅调整时间枚举与默认态；作为首页顶层数据范围控制器。
-export default function FilterSection({ filters, onFiltersChange, className = "" }: Props) {
+export default function FilterSection({ filters, onFiltersChange, className = "", headerRight }: Props) {
   const isFilterActive = (filterArray: string[], filterType: string) => {
     if (filterType === "timeRange") return filters.timeRange !== "昨天"; // 设计稿默认选中昨天
     return filterArray && filterArray.length > 0;
@@ -58,7 +59,7 @@ export default function FilterSection({ filters, onFiltersChange, className = ""
     <div className={`space-y-4 ${className}`}>
       <div className="flex items-center gap-10 ">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">内容筛选</h2>
-       
+        <div className="ml-auto flex items-center">{headerRight}</div>
       </div>
 
       <div className="flex flex-wrap gap-3">
