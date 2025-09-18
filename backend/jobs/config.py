@@ -25,6 +25,7 @@ class Settings:
     # Switches (global)
     ENABLE_SCHEDULER: bool = True
     ENABLE_WORKER: bool = True
+    ENABLE_API: bool = True
 
     # Switches (per-lane)
     ENABLE_LANE_EVALUATE: bool = True
@@ -43,6 +44,12 @@ class Settings:
     MAX_ATTEMPTS: int = 5
     RUNNING_TIMEOUT_MIN: int = 15
 
+    # API Server
+    API_HOST: str = "0.0.0.0"
+    API_PORT: int = 8000
+    API_WORKERS: int = 1
+    API_RELOAD: bool = False
+
     # Logging
     LOG_LEVEL: str = "INFO"
 
@@ -51,6 +58,7 @@ class Settings:
         return Settings(
             ENABLE_SCHEDULER=_getenv_bool("ENABLE_SCHEDULER", True),
             ENABLE_WORKER=_getenv_bool("ENABLE_WORKER", True),
+            ENABLE_API=_getenv_bool("ENABLE_API", True),
             ENABLE_LANE_EVALUATE=_getenv_bool("ENABLE_LANE_EVALUATE", True),
             ENABLE_LANE_COMMENTS=_getenv_bool("ENABLE_LANE_COMMENTS", True),
             ENABLE_LANE_ANALYZE=_getenv_bool("ENABLE_LANE_ANALYZE", True),
@@ -61,6 +69,10 @@ class Settings:
             WORKER_ANALYZE_CONCURRENCY=_getenv_int("WORKER_ANALYZE_CONCURRENCY",1),
             MAX_ATTEMPTS=_getenv_int("MAX_ATTEMPTS", 5),
             RUNNING_TIMEOUT_MIN=_getenv_int("RUNNING_TIMEOUT_MIN", 15),
+            API_HOST=_getenv_str("API_HOST", "0.0.0.0"),
+            API_PORT=_getenv_int("API_PORT", 8000),
+            API_WORKERS=_getenv_int("API_WORKERS", 1),
+            API_RELOAD=_getenv_bool("API_RELOAD", False),
             LOG_LEVEL=_getenv_str("LOG_LEVEL", "INFO"),
         )
 

@@ -21,6 +21,7 @@ from jobs.config import Settings
 from jobs.logger import get_logger
 from jobs.scheduler.runner import SchedulerRunner
 from jobs.worker.dispatcher import WorkerDispatcher
+from api.server import APIServer
 
 
 log = get_logger(__name__)
@@ -28,10 +29,20 @@ log = get_logger(__name__)
 
 def main():
     settings = Settings.from_env()
-    log.info("Starting backend jobs with settings: ENABLE_SCHEDULER=%s, ENABLE_WORKER=%s", settings.ENABLE_SCHEDULER, settings.ENABLE_WORKER)
+    log.info("Starting backend with settings: SCHEDULER=%s, WORKER=%s, API=%s",
+             settings.ENABLE_SCHEDULER, settings.ENABLE_WORKER, settings.ENABLE_API)
 
     threads: list[threading.Thread] = []
     components: list[object] = []
+
+    # API Server
+    if settings.ENABLE_API:
+        api_server = APIServer(settings)
+        components.append(api_server)
+        t_api = threading.Thread(target=api_server.run_forever, name="API", daemon=True)
+        t_api.start()
+        threads.append(t_api)
+        log.info("API server thread started on %s:%s", settings.API_HOST, settings.API_PORT)
 
     # Scheduler
     if settings.ENABLE_SCHEDULER:
