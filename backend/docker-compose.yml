@@ -35,3 +35,28 @@ services:
     volumes:
       - ./downloads:/app/backend/downloads
     restart: unless-stopped
+    networks:
+      - leviton-network
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - leviton-network
+    depends_on:
+      - backend
+    command: caddy reverse-proxy --from ${DOMAIN_NAME} --to backend:8000
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  leviton-network:
+    driver: bridge
