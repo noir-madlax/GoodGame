@@ -2,6 +2,7 @@ import React from "react";
 import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import ModernDashboardLayout from "@/polymet/layouts/modern-dashboard-layout";
 import ContentDashboard from "@/polymet/pages/content-dashboard";
+import ContentRetrievalSettings from "@/polymet/pages/content-retrieval-settings";
 import VideoAnalysisDetail from "@/polymet/pages/video-analysis-detail";
 import MarkActionsPage from "@/polymet/pages/mark-actions";
 import HandlingSuggestionsPage from "@/polymet/pages/handling-suggestions";
@@ -29,6 +30,16 @@ export default function ModernSentimentAnalysis() {
           element={
             <ModernDashboardLayout>
               <MarkActionsPage />
+            </ModernDashboardLayout>
+          }
+        />
+
+        {/* Content Retrieval & Filter Settings (新增一级页面) */}
+        <Route
+          path="/search-filter"
+          element={
+            <ModernDashboardLayout>
+              <ContentRetrievalSettings />
             </ModernDashboardLayout>
           }
         />

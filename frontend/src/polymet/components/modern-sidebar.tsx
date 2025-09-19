@@ -32,9 +32,8 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
     },
     {
       id: "search-filter",
-      label: "内容检索与过滤设置",
+      label: "内容检索设置",
       icon: <Search className="w-5 h-5" />,
-      disabled: true,
     },
     {
       id: "rules-settings",
@@ -78,7 +77,8 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
         {menuItems.map((item) => {
           const active =
             (item.id === "content" && (pathname.startsWith("/dashboard") || pathname === "/" || pathname.startsWith("/detail"))) ||
-            (item.id === "marks" && (pathname.startsWith("/marks") || pathname.startsWith("/suggestions")));
+            (item.id === "marks" && (pathname.startsWith("/marks") || pathname.startsWith("/suggestions"))) ||
+            (item.id === "search-filter" && pathname.startsWith("/search-filter"));
           return (
           <button
             key={item.id}
@@ -97,6 +97,7 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
               if (item.disabled) return;
               if (item.id === "content") navigate("/dashboard");
               if (item.id === "marks") navigate("/marks");
+              if (item.id === "search-filter") navigate("/search-filter");
             }}
           >
             <div
