@@ -10,30 +10,33 @@ from fastapi import APIRouter, Depends
 from jobs.config import Settings
 from jobs.logger import get_logger
 from ..dependencies import get_settings
+from ..schemas import BaseResponse
+
 
 router = APIRouter()
 log = get_logger(__name__)
 
 
-@router.get("/")
+@router.get("/", response_model=BaseResponse[dict])
 async def health_check(settings: Settings = Depends(get_settings)):
     """基础健康检查"""
-    return {
+    data = {
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat(),
         "components": {
             "scheduler": settings.ENABLE_SCHEDULER,
             "worker": settings.ENABLE_WORKER,
-            "api": settings.ENABLE_API
-        }
+            "api": settings.ENABLE_API,
+        },
     }
+    return BaseResponse.ok(data)
 
 
-@router.get("/detailed")
+@router.get("/detailed", response_model=BaseResponse[dict])
 async def detailed_health_check(settings: Settings = Depends(get_settings)):
     """详细健康检查"""
     start_time = time.time()
-    
+
     # 基础信息
     health_info = {
         "status": "healthy",
@@ -42,7 +45,7 @@ async def detailed_health_check(settings: Settings = Depends(get_settings)):
         "components": {
             "scheduler": {
                 "enabled": settings.ENABLE_SCHEDULER,
-                "cron": settings.SCHED_SEARCH_CRON if settings.ENABLE_SCHEDULER else None
+                "cron": settings.SCHED_SEARCH_CRON if settings.ENABLE_SCHEDULER else None,
             },
             "worker": {
                 "enabled": settings.ENABLE_WORKER,
@@ -50,60 +53,61 @@ async def detailed_health_check(settings: Settings = Depends(get_settings)):
                 "concurrency": {
                     "evaluate": settings.WORKER_EVAL_CONCURRENCY,
                     "comments": settings.WORKER_COMMENTS_CONCURRENCY,
-                    "analyze": settings.WORKER_ANALYZE_CONCURRENCY
-                } if settings.ENABLE_WORKER else None
+                    "analyze": settings.WORKER_ANALYZE_CONCURRENCY,
+                }
+                if settings.ENABLE_WORKER
+                else None,
             },
             "api": {
                 "enabled": settings.ENABLE_API,
                 "host": settings.API_HOST,
-                "port": settings.API_PORT
-            }
+                "port": settings.API_PORT,
+            },
         },
         "lanes": {
             "evaluate": settings.ENABLE_LANE_EVALUATE,
             "comments": settings.ENABLE_LANE_COMMENTS,
-            "analyze": settings.ENABLE_LANE_ANALYZE
+            "analyze": settings.ENABLE_LANE_ANALYZE,
         },
         "config": {
             "max_attempts": settings.MAX_ATTEMPTS,
             "timeout_minutes": settings.RUNNING_TIMEOUT_MIN,
-            "log_level": settings.LOG_LEVEL
-        }
+            "log_level": settings.LOG_LEVEL,
+        },
     }
-    
+
     # 计算检查耗时
     health_info["uptime_check_duration_ms"] = round((time.time() - start_time) * 1000, 2)
-    
+
     log.debug("Health check completed in %.2fms", health_info["uptime_check_duration_ms"])
-    
-    return health_info
+
+    return BaseResponse.ok(health_info)
 
 
-@router.get("/ready")
+@router.get("/ready", response_model=BaseResponse[dict])
 async def readiness_check(settings: Settings = Depends(get_settings)):
     """就绪状态检查（用于 K8s readiness probe）"""
     # 检查关键组件是否启用
     ready = True
     components = []
-    
+
     if settings.ENABLE_SCHEDULER:
         components.append("scheduler")
     if settings.ENABLE_WORKER:
         components.append("worker")
     if settings.ENABLE_API:
         components.append("api")
-    
-    return {
+
+    data = {
         "ready": ready,
         "components": components,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
+    return BaseResponse.ok(data)
 
 
-@router.get("/live")
+@router.get("/live", response_model=BaseResponse[dict])
 async def liveness_check():
     """存活状态检查（用于 K8s liveness probe）"""
-    return {
-        "alive": True,
-        "timestamp": datetime.utcnow().isoformat()
-    }
+    data = {"alive": True, "timestamp": datetime.utcnow().isoformat()}
+    return BaseResponse.ok(data)
