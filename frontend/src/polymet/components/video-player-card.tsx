@@ -210,6 +210,8 @@ export default function VideoPlayerCard({
                     "inline-block ml-4 px-2 py-1 rounded-full text-xs font-medium",
                     brandRelevance.includes("疑似")
                       ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                      : brandRelevance.includes("无关") || brandRelevance.toLowerCase().includes("no")
+                      ? "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
                       : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
                   )}
                 >

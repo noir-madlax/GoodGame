@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { MessageCircle, Subtitles, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { normalizeCoverUrl } from "@/lib/media";
 import parseEmojiAliases from "@/polymet/lib/emoji";
 
 type CommentNode = {
@@ -43,7 +44,12 @@ interface SourcePanelProps {
   anchorCommentPath?: string | null;
   anchorSegmentIndex?: number | null;
   anchorSegmentStart?: string | null; // mm:ss，若无索引则按 start 匹配
-  defaultTab?: "comments" | "transcript";
+  defaultTab?: "comments" | "transcript" | "picture";
+  // 图文模式支持：当内容类型为图文时，使用 picture 模式并展示原始图文
+  mode?: "video" | "picture";
+  pictureContent?: string | null;
+  pictureCoverUrl?: string | null;
+  pictureTitle?: string | null;
 }
 
 // 计算评论树形的唯一路径 id，如 c-3-0-1
@@ -79,8 +85,12 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
   anchorSegmentIndex,
   anchorSegmentStart,
   defaultTab = "comments",
+  mode = "video",
+  pictureContent,
+  pictureCoverUrl,
+  pictureTitle,
 }) => {
-  const [activeTab, setActiveTab] = useState<"comments" | "transcript">("comments");
+  const [activeTab, setActiveTab] = useState<"comments" | "transcript" | "picture">("comments");
   const [searchQuery, setSearchQuery] = useState("");
   const segments = useMemo(() => (transcriptJson?.segments || []) as TranscriptSegment[], [transcriptJson]);
   const normalizeAvatarUrl = (url?: string | null) => {
@@ -126,9 +136,15 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
   // 根据默认 tab 与锚点判断初始 tab
   // 根据锚点切换受控 tab
   useEffect(() => {
-    if (transcriptAnchorId) setActiveTab("transcript");
-    else if (commentAnchorId) setActiveTab("comments");
-    else setActiveTab(defaultTab);
+    if (mode === "video") {
+      if (transcriptAnchorId) setActiveTab("transcript");
+      else if (commentAnchorId) setActiveTab("comments");
+      else setActiveTab(defaultTab);
+    } else {
+      // 图文模式优先评论锚点，否则默认展示图文
+      if (commentAnchorId) setActiveTab("comments");
+      else setActiveTab("picture");
+    }
   }, [commentAnchorId, transcriptAnchorId, defaultTab]);
 
   // 高亮效果
@@ -166,7 +182,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
       <SheetContent hideCloseButton side="right" className="w-[820px] sm:w-[820px] max-w-[90vw] sm:max-w-none p-0 border-l bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl">
         {/* Hidden title for accessibility to satisfy Radix Dialog requirement */}
         <SheetHeader>
-          <SheetTitle className="sr-only">原始评论与字幕</SheetTitle>
+          <SheetTitle className="sr-only">{mode === "picture" ? "原始评论和图文" : "原始评论与字幕"}</SheetTitle>
         </SheetHeader>
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/5 backdrop-blur-sm sticky top-0 z-20">
@@ -178,7 +194,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
                 <Subtitles className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               )}
             </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">原始评论与字幕</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">{mode === "picture" ? "原始评论和图文" : "原始评论与字幕"}</h2>
           </div>
           <button
             onClick={() => onOpenChange(false)}
@@ -210,6 +226,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600" />
             )}
           </button>
+          {mode === "video" ? (
           <button
             onClick={() => setActiveTab("transcript")}
             className={cn(
@@ -230,6 +247,25 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-600" />
             )}
           </button>
+          ) : (
+          <button
+            onClick={() => setActiveTab("picture")}
+            className={cn(
+              "flex-1 px-6 py-4 text-sm font-medium transition-all duration-200 relative",
+              activeTab === "picture"
+                ? "text-purple-600 dark:text-purple-400 bg-purple-50/50 dark:bg-purple-900/20"
+                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/5"
+            )}
+          >
+            <div className="flex items-center justify-center space-x-2">
+              <Subtitles className="w-4 h-4" />
+              <span>图文</span>
+            </div>
+            {activeTab === "picture" && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-600" />
+            )}
+          </button>
+          )}
         </div>
 
         {/* Search */}
@@ -247,7 +283,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
         </div>
 
         {/* Content */}
-        <Tabs value={activeTab} className="w-full">
+          <Tabs value={activeTab} className="w-full">
           <TabsContent value="comments" className={cn("px-6 pb-6 pt-4", activeTab === "comments" ? "block" : "hidden")}> 
             {commentsLoading ? (
               <div className="max-h-[70vh] overflow-auto pr-2 space-y-3">
@@ -329,6 +365,7 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
             )}
           </TabsContent>
 
+          {mode === "video" ? (
           <TabsContent value="transcript" className={cn("px-6 pb-6 pt-4", activeTab === "transcript" ? "block" : "hidden")}> 
             {transcriptLoading ? (
               <div className="max-h-[70vh] overflow-auto pr-2 space-y-3">
@@ -366,6 +403,41 @@ export const SourcePanel: React.FC<SourcePanelProps> = ({
               <div className="text-sm text-gray-500">暂无字幕数据</div>
             )}
           </TabsContent>
+          ) : (
+          <TabsContent value="picture" className={cn("px-6 pb-6 pt-4", activeTab === "picture" ? "block" : "hidden")}>
+            <div className="max-h-[70vh] overflow-auto pr-2 space-y-4 pb-24 overscroll-contain">
+              {pictureTitle ? (
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 mb-2">
+                    标题
+                  </div>
+                  <div className="text-base font-semibold text-gray-900 dark:text-white">{pictureTitle}</div>
+                </div>
+              ) : null}
+              {pictureCoverUrl ? (
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-2">
+                    图片
+                  </div>
+                  <img src={normalizeCoverUrl(pictureCoverUrl)} alt="cover" className="w-full rounded-xl border border-white/20 object-cover" />
+                </div>
+              ) : null}
+              {pictureContent ? (
+                <div>
+                  <div className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 mb-2">
+                    内容
+                  </div>
+                  <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 whitespace-pre-wrap text-gray-900 dark:text-gray-100">
+                    {pictureContent}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-sm text-gray-500">暂无图文内容</div>
+              )}
+              <div className="h-2" />
+            </div>
+          </TabsContent>
+          )}
         </Tabs>
       </SheetContent>
     </Sheet>

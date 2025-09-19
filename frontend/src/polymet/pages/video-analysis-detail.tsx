@@ -13,6 +13,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import SourcePanel from "@/polymet/components/source-panel";
 import TimelineAnalysis, { TimelineItem as TLItem } from "@/polymet/components/timeline-analysis";
+import PictureAnalysis, { PictureItem as PicItem } from "@/polymet/components/picture-analysis";
 import CommentsAnalysis, { CommentAnalysisItem } from "@/polymet/components/comments-analysis";
 import HandlingSuggestionsPanel from "@/polymet/components/handling-suggestions-panel";
 import type { AuthorTooltipData } from "@/polymet/components/author-tooltip";
@@ -53,6 +54,9 @@ type PostRow = {
   created_at: string;
   is_marked?: boolean;
   process_status?: string | null;
+  relevant_status?: string | null;
+  // 初筛详细结果(JSON/字符串)，用于在未分析也为不相关时展示原因
+  relevant_result?: unknown | null;
 };
 
 type AuthorProfile = {
@@ -88,6 +92,8 @@ export default function VideoAnalysisDetail() {
   const [analysisLoading, setAnalysisLoading] = useState<boolean>(false);
   const [commentsJson, setCommentsJson] = useState<CommentsJson | null>(null);
   const [transcriptJson, setTranscriptJson] = useState<TranscriptJson | null>(null);
+  const [pictureContent, setPictureContent] = useState<string | null>(null);
+  const [pictureCoverUrl, setPictureCoverUrl] = useState<string | null>(null);
   const [commentsLoading, setCommentsLoading] = useState<boolean>(false);
   const [transcriptLoading, setTranscriptLoading] = useState<boolean>(false);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -156,7 +162,7 @@ export default function VideoAnalysisDetail() {
         const { data: postRows } = await supabase
           .from("gg_platform_post")
           .select(
-            "id, platform, platform_item_id, author_id, title, cover_url, original_url, author_name, author_follower_count, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status"
+            "id, platform, platform_item_id, author_id, title, cover_url, original_url, author_name, author_follower_count, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status, content, relevant_status, relevant_result"
           )
           .eq("id", id)
           .limit(1);
@@ -198,6 +204,8 @@ export default function VideoAnalysisDetail() {
           // 初始不加载评论/字幕，按需加载
           setCommentsJson(null);
           setTranscriptJson(null);
+          setPictureContent((p as any).content || null);
+          setPictureCoverUrl(p.cover_url || null);
         }
       } catch (error) {
         console.error("Failed to load analysis detail", error);
@@ -313,6 +321,72 @@ export default function VideoAnalysisDetail() {
     );
   };
 
+  // 相关性标签渲染：优先使用分析表 brand_relevance，其次使用帖子表 relevant_status
+  const renderRelevanceBadge = (brandRel?: string | null, fallbackRel?: string | null) => {
+    const raw = (brandRel ?? fallbackRel ?? "").toString().trim().toLowerCase();
+    const toLabel = (v: string) => {
+      if (!v) return "未标注";
+      if (["相关", "relevant", "related", "yes"].includes(v)) return "相关";
+      if (["疑似相关", "suspected", "suspect", "possible", "可能相关"].includes(v)) return "疑似相关";
+      if (["不相关", "irrelevant", "none", "no"].includes(v)) return "不相关";
+      return v;
+    };
+    const label = toLabel(raw);
+    const color = label === "相关" ? "bg-emerald-600"
+      : label === "疑似相关" ? "bg-amber-500"
+      : label === "不相关" ? "bg-gray-500"
+      : "bg-gray-500";
+    return (
+      <span className={`px-3 py-1 rounded-full text-white text-sm font-medium ${color}`}>{label}</span>
+    );
+  };
+
+  // 提取初筛 relevant_result 的决策理由，仅展示 decision_reason；若不存在则做宽松回退
+  const extractScreeningEvidence = (val: unknown): string | null => {
+    if (val == null) return null;
+    if (typeof val === "string") return val;
+    if (Array.isArray(val)) {
+      // 优先找数组元素中的 decision_reason
+      for (const it of val as unknown[]) {
+        if (it && typeof it === "object" && (it as any).decision_reason) {
+          const v = (it as any).decision_reason;
+          return typeof v === "string" ? v : JSON.stringify(v);
+        }
+      }
+      const list = (val as unknown[]).map((x) => (typeof x === "string" ? x : typeof x === "object" && x ? JSON.stringify(x) : String(x)));
+      return list.join("\n");
+    }
+    if (typeof val === "object") {
+      const obj = val as Record<string, unknown>;
+      if (obj["decision_reason"]) {
+        const v = obj["decision_reason"];
+        return typeof v === "string" ? v : JSON.stringify(v);
+      }
+      const candidateKeys = [
+        "reason",
+        "evidence",
+        "analysis",
+        "explanation",
+        "summary",
+        "desc",
+        "detail",
+        "details",
+        "text",
+        "message",
+      ];
+      for (const k of candidateKeys) {
+        if (obj[k]) {
+          const v = obj[k];
+          if (typeof v === "string") return v;
+          if (Array.isArray(v)) return (v as unknown[]).map((x) => (typeof x === "string" ? x : JSON.stringify(x))).join("\n");
+          if (typeof v === "object") return JSON.stringify(v);
+        }
+      }
+      return JSON.stringify(obj);
+    }
+    return String(val);
+  };
+
   // 渲染平台 SVG 图标（与首页一致），目前支持：抖音/小红书
   const renderPlatformLogo = (keyRaw?: string) => {
     const key = String(keyRaw || "").toLowerCase();
@@ -335,6 +409,7 @@ export default function VideoAnalysisDetail() {
       return { id: String(idx + 1), type: "trend" as const, title, description };
     });
   }, [analysis?.key_points]);
+  const hasContentAnalysis = (keyPointItems || []).length > 0;
 
   const timelineItems: TimelineViewItem[] = useMemo(() => {
     const raw = (analysis as { timeline?: { events?: unknown[] } | unknown[] | null } | null)?.timeline;
@@ -400,6 +475,48 @@ export default function VideoAnalysisDetail() {
     });
   }, [timelineItems, analysis]);
 
+  // 图文分析视图数据：将 source 为 image/title/comment 的事件映射
+  const pictureViewData: PicItem[] = useMemo(() => {
+    const raw = (analysis as { timeline?: { events?: unknown[] } | unknown[] | null } | null)?.timeline;
+    const list = (raw && ((raw as { events?: unknown[] }).events || raw)) || [];
+    const arr = Array.isArray(list) ? (list as Record<string, any>[]) : [];
+    return arr
+      .filter((e) => {
+        const src = e.source;
+        return src === "image" || src === "title" || src === "comment";
+      })
+      .map((e, idx) => {
+        const riskRaw = e.risk_type as unknown;
+        const riskBadges = Array.isArray(riskRaw)
+          ? (riskRaw as unknown[]).map((x) => String(x))
+          : typeof riskRaw === "string" && riskRaw
+          ? [String(riskRaw)]
+          : [];
+        const evidence = e.evidence || {};
+        const tsLabel = ((): string => {
+          const t = String(e.timestamp || "");
+          if (t === "评论") return "内容"; // 统一显示为“内容”
+          return t || "图片";
+        })();
+        return {
+          id: String(idx + 1),
+          sourceLabel: tsLabel,
+          riskBadges,
+          overview: String(e.issue || ""),
+          scene: String(e.scene_description || ""),
+          evidence: {
+            scene_area: evidence.scene_area,
+            subject_type: evidence.subject_type,
+            subject_behavior: evidence.subject_behavior,
+            visibility: evidence.visibility,
+          },
+          snippet: String(e.evidence?.audio_quote || ""),
+        } as PicItem;
+      });
+  }, [analysis]);
+
+  
+
   // 评论分析：按现有原始评论构建占位（无逐评论分析结构时）
   const commentAnalysisData: CommentAnalysisItem[] = useMemo(() => {
     const rawTimeline = (analysis as { timeline?: { events?: unknown[] } | unknown[] | null } | null)?.timeline;
@@ -429,12 +546,26 @@ export default function VideoAnalysisDetail() {
     });
   }, [analysis]);
 
+  // 是否存在任何底部可视化数据（时间轴/图文/评论）
+  const hasAnyBottomData = useMemo(() => {
+    const a = (timelineViewData || []).length > 0;
+    const b = (pictureViewData || []).length > 0;
+    const c = (commentAnalysisData || []).length > 0;
+    return a || b || c;
+  }, [timelineViewData, pictureViewData, commentAnalysisData]);
+
   // 点击“查看原始内容”触发的打开与锚点定位
   const handleViewSourceFromTimeline = (item: TLItem) => {
     const start = String(item.timestamp || "").match(/\d{2}:\d{2}/)?.[0] || null;
     const snippet = item.snippet || "";
     const commentPath = findCommentPathBySnippet(commentsJson, snippet);
     setPanelOpen(true);
+    // 图文模式：直接打开图文页签（不做时间定位）
+    const isPicture = post?.post_type && ["image","images","graphic","note"].includes(String(post.post_type).toLowerCase());
+    if (isPicture) {
+      setActiveBottomTab("timeline");
+      return;
+    }
     if (start) {
       setAnchorSegStartState(start);
       setAnchorCommentPathState(null);
@@ -597,8 +728,16 @@ export default function VideoAnalysisDetail() {
               } as AuthorTooltipData}
               originalUrl={post.original_url || undefined}
               videoUrl={post.video_url || undefined}
-              brandRelevance={analysis?.brand_relevance || undefined}
-              relevanceEvidence={analysis?.relevance_evidence || undefined}
+              brandRelevance={
+                analysis?.brand_relevance
+                  ? analysis.brand_relevance
+                  : (String(post?.relevant_status || "").toLowerCase() === "no" ? "无关" : undefined)
+              }
+              relevanceEvidence={
+                analysis?.relevance_evidence || (
+                  String(post?.relevant_status || "").toLowerCase() === "no" ? (extractScreeningEvidence(post?.relevant_result) || undefined) : undefined
+                )
+              }
               // 传递优先级及其判定理由，用于在左侧卡片显示“优先级判定说明”
               totalRisk={analysis?.total_risk || undefined}
               totalRiskReason={analysis?.total_risk_reason || undefined}
@@ -633,6 +772,11 @@ export default function VideoAnalysisDetail() {
               ))}
             </div>
             <div className="space-y-4">
+              {/* 相关性：优先 gg_video_analysis.brand_relevance，其次 gg_platform_post.relevant_status */}
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600 dark:text-gray-400">相关性</span>
+                {renderRelevanceBadge(analysis?.brand_relevance || null, post?.relevant_status || null)}
+              </div>
               {/* total_risk 徽标与理由 */}
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">优先级</span>
@@ -665,7 +809,7 @@ export default function VideoAnalysisDetail() {
                     ? "px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-medium"
                     : "px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium"
                 }>
-                  {analysis?.sentiment === "negative" ? "负面" : analysis?.sentiment === "positive" ? "正向" : "中立"}
+                  {analysis?.sentiment === "negative" ? "负面" : analysis?.sentiment === "positive" ? "正向" : "未知"}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -702,13 +846,13 @@ export default function VideoAnalysisDetail() {
           {/* Sentiment Analysis Summary */}
           {analysisLoading ? (
             <SectionSkeleton rows={4} />
-          ) : (
+          ) : hasContentAnalysis ? (
             <AnalysisSection
               title="内容解析"
               icon={<BarChart3 className="w-5 h-5 text-blue-600 dark:text-blue-400" />}
               items={keyPointItems}
             />
-          )}
+          ) : null}
         </div>
       </div>
 
@@ -724,6 +868,10 @@ export default function VideoAnalysisDetail() {
         anchorSegmentIndex={Number.isFinite(anchorSegIndex as number) ? (anchorSegIndex as number) : null}
         anchorSegmentStart={anchorSegStartState || anchorSegStart}
         defaultTab="comments"
+        mode={(post?.post_type && ["image","images","graphic","note"].includes(String(post.post_type).toLowerCase())) ? "picture" : "video"}
+        pictureContent={pictureContent}
+        pictureCoverUrl={pictureCoverUrl}
+        pictureTitle={post?.title || null}
       />
 
       {/* 处理建议面板 */}
@@ -733,7 +881,8 @@ export default function VideoAnalysisDetail() {
         postId={post?.id}
       />
 
-      {/* 底部双 Tab：时间轴分析 / 评论分析 */}
+      {/* 底部双 Tab：时间轴分析/图文分析 或 评论分析（无数据则隐藏整个区域） */}
+      {hasAnyBottomData && (
       <div className="rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl">
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
           <div className="flex-1">
@@ -758,7 +907,7 @@ export default function VideoAnalysisDetail() {
                                 )}
                               >
                                 <Clock className="w-4 h-4" />
-                                <span>时间轴分析</span>
+                                <span>{(post?.post_type && ["image","images","graphic","note"].includes(String(post.post_type).toLowerCase())) ? "图文分析" : "时间轴分析"}</span>
                               </button>
                               <button
                                 onClick={() => setActiveBottomTab("comments")}
@@ -786,7 +935,7 @@ export default function VideoAnalysisDetail() {
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300"
             onClick={() => setPanelOpen(true)}
           >
-            查看原始评论和字幕
+            {(post?.post_type && ["image","images","graphic","note"].includes(String(post.post_type).toLowerCase())) ? "查看原始评论和图文" : "查看原始评论和字幕"}
           </button>
         </div>
 
@@ -795,7 +944,17 @@ export default function VideoAnalysisDetail() {
             analysisLoading ? (
               <SectionSkeleton rows={6} />
             ) : (
-              <TimelineAnalysis items={timelineViewData} onViewSource={handleViewSourceFromTimeline} />
+              (post?.post_type && ["image","images","graphic","note"].includes(String(post.post_type).toLowerCase())) ? (
+                <PictureAnalysis
+                  items={pictureViewData}
+                  onViewSource={() => {
+                    setPanelOpen(true);
+                    // 图文来源无法通过时间定位，打开面板并默认停留在图文/评论
+                  }}
+                />
+              ) : (
+                <TimelineAnalysis items={timelineViewData} onViewSource={handleViewSourceFromTimeline} />
+              )
             )
           ) : (
             <CommentsAnalysis
@@ -816,6 +975,7 @@ export default function VideoAnalysisDetail() {
           )}
         </div>
       </div>
+      )}
     </div>
   );
 }
