@@ -15,7 +15,7 @@ import SourcePanel from "@/polymet/components/source-panel";
 import TimelineAnalysis, { TimelineItem as TLItem } from "@/polymet/components/timeline-analysis";
 import CommentsAnalysis, { CommentAnalysisItem } from "@/polymet/components/comments-analysis";
 import HandlingSuggestionsPanel from "@/polymet/components/handling-suggestions-panel";
-import type { AuthorTooltipData } from "@/components/ui/author-tooltip";
+import type { AuthorTooltipData } from "@/polymet/components/author-tooltip";
 
 // 与 SourcePanel 保持一致的最小类型（仅用于本页状态）
 type CommentNode = {
@@ -220,10 +220,11 @@ export default function VideoAnalysisDetail() {
         // 字幕
         if (!transcriptJson) {
           setTranscriptLoading(true);
+          const targetPlatformItemId = post?.platform_item_id || id;
           const { data: srcRows } = await supabase
             .from("gg_video_analysis")
             .select("transcript_json")
-            .eq("platform_item_id", id)
+            .eq("platform_item_id", targetPlatformItemId)
             .order("id", { ascending: false })
             .limit(1);
           const src = (srcRows && (srcRows[0] as { transcript_json?: TranscriptJson | null })) || {};
@@ -598,6 +599,9 @@ export default function VideoAnalysisDetail() {
               videoUrl={post.video_url || undefined}
               brandRelevance={analysis?.brand_relevance || undefined}
               relevanceEvidence={analysis?.relevance_evidence || undefined}
+              // 传递优先级及其判定理由，用于在左侧卡片显示“优先级判定说明”
+              totalRisk={analysis?.total_risk || undefined}
+              totalRiskReason={analysis?.total_risk_reason || undefined}
               className="h-fit"
               onGenerateAdvice={handleViewAdvice}
             />
@@ -638,22 +642,12 @@ export default function VideoAnalysisDetail() {
                       <span
                         className={cn(
                           "px-3 py-1 rounded-full text-white text-sm font-medium",
-                          (String(analysis?.total_risk || "").toLowerCase() === "high")
-                            ? "bg-red-600"
-                            : (String(analysis?.total_risk || "").toLowerCase() === "medium")
-                            ? "bg-amber-500"
-                            : (String(analysis?.total_risk || "").toLowerCase() === "low")
-                            ? "bg-emerald-600"
-                            : "bg-gray-500"
+                          ((t) => (t === "高" ? "bg-red-600" : t === "中" ? "bg-amber-500" : t === "低" ? "bg-emerald-600" : "bg-gray-500"))(
+                            ((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未标注"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未标注"; })(analysis?.total_risk)
+                          )
                         )}
                       >
-                        {String(analysis?.total_risk || "").toLowerCase() === "high"
-                          ? "高"
-                          : String(analysis?.total_risk || "").toLowerCase() === "medium"
-                          ? "中"
-                          : String(analysis?.total_risk || "").toLowerCase() === "low"
-                          ? "低"
-                          : "未标注"}
+                        {((v) => { const s = String(v || "").trim().toLowerCase(); if (!s) return "未知优先级"; if (s === "high" || s === "高") return "高"; if (s === "medium" || s === "中") return "中"; if (s === "low" || s === "低") return "低"; return "未知优先级"; })(analysis?.total_risk)}
                       </span>
                     </TooltipTrigger>
                     <TooltipContent className="max-w-xs whitespace-pre-wrap">

@@ -14,7 +14,6 @@ export default function SeverityDetailChart({
   relevanceType,
   data,
   totalCount,
-  relevanceTotal,
   onBack,
   className = "",
 }: {
@@ -27,6 +26,7 @@ export default function SeverityDetailChart({
   className?: string;
 }) {
   const creatorColors = { 达人: "#3b82f6", 素人: "#8b5cf6", 未标注: "#6b7280" } as const;
+  const displayCreator = (s: string) => (s === "未标注" ? "未知作者" : s);
   const platformColors = { 抖音: "#ff6b6b", 小红书: "#ff8cc8" } as const;
 
   const chartData = data.map((item) => ({ creatorType: item.creatorType, 抖音: item.platforms.抖音, 小红书: item.platforms.小红书, total: item.total }));
@@ -37,7 +37,7 @@ export default function SeverityDetailChart({
       const d = payload[0].payload;
       return (
         <div className="bg-white/95 backdrop-blur-xl border border-white/20 rounded-xl p-4 shadow-2xl max-w-xs">
-          <div className="flex items-center gap-2 mb-3"><Users className="w-4 h-4 text-blue-600" /><h4 className="font-semibold text-gray-900">{label}</h4></div>
+          <div className="flex items-center gap-2 mb-3"><Users className="w-4 h-4 text-blue-600" /><h4 className="font-semibold text-gray-900">{displayCreator(String(label || ""))}</h4></div>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between"><span className="text-gray-600">总数:</span><span className="font-medium text-gray-900">{d.total}</span></div>
           </div>
@@ -64,17 +64,17 @@ export default function SeverityDetailChart({
               <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">"{relevanceType}"且“优先级{severityLevel}”的内容</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">共 {totalCount} 条内容</p></div>
             </div>
           </div>
-          <div className="h-80 w-full"><ResponsiveContainer width="100%" height="100%"><BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}><CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" /><XAxis dataKey="creatorType" stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} /><YAxis stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} /><Tooltip content={<CustomTooltip />} /><Bar dataKey="抖音" stackId="platform" fill={platformColors.抖音} radius={[0, 0, 0, 0]} /><Bar dataKey="小红书" stackId="platform" fill={platformColors.小红书} radius={[4, 4, 0, 0]} /></BarChart></ResponsiveContainer></div>
+          <div className="h-80 w-full"><ResponsiveContainer width="100%" height="100%"><BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}><CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" /><XAxis dataKey="creatorType" stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} tickFormatter={(v) => displayCreator(String(v))} /><YAxis stroke="#6b7280" fontSize={12} tick={{ fontSize: 12 }} /><Tooltip content={<CustomTooltip />} /><Bar dataKey="抖音" stackId="platform" fill={platformColors.抖音} radius={[0, 0, 0, 0]} /><Bar dataKey="小红书" stackId="platform" fill={platformColors.小红书} radius={[4, 4, 0, 0]} /></BarChart></ResponsiveContainer></div>
         </div>
         <div className="space-y-4 self-start">
-          <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2"><Users className="w-4 h-4" />创作者类型统计</h4>
+          <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2"><Users className="w-4 h-4" />作者类型统计</h4>
           <div className="space-y-3">
             {data.map((item) => (
               <div key={item.creatorType} className="p-4 rounded-xl border bg-white/10 border-white/20">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: creatorColors[item.creatorType as keyof typeof creatorColors] }} />
-                    <span className="font-medium text-gray-900 dark:text-white">{item.creatorType}</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{displayCreator(item.creatorType)}</span>
                   </div>
                   <div className="text-right">
                     <div className="font-bold text-gray-900 dark:text-white">{item.total}</div>

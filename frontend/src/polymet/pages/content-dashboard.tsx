@@ -18,7 +18,7 @@ import { supabase } from "@/lib/supabase";
 import MonitoringResults from "@/polymet/components/monitoring/monitoring-results";
 import { backfillRelevance, buildRelevanceWhitelist, resolveStartAt, filterByTime, sortByPublished, buildAnalysisMaps, buildTopRiskOptions } from "@/polymet/lib/filters";
 import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
-import ImportAnalyzeDialog from "@/components/ImportAnalyzeDialog";
+import ImportAnalyzeDialog from "@/polymet/components/import-analyze-dialog";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
@@ -44,6 +44,19 @@ export default function ContentDashboard() {
       .padStart(1, "0");
     const s = (total % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
+  };
+
+  /**
+   * 功能：将数据库中的 total_risk 值规范化为中文“高/中/低/未标注”。
+   * 使用位置：分析映射阶段，兼容后端写入英文(high/medium/low)或中文（高/中/低）。
+   */
+  const normalizeTotalRiskToCn = (val: string | null | undefined): string => {
+    const t = String(val || "").trim().toLowerCase();
+    if (!t) return "未标注";
+    if (t === "high" || t === "高") return "高";
+    if (t === "medium" || t === "中") return "中";
+    if (t === "low" || t === "低") return "低";
+    return "未标注";
   };
 
   type PostRow = {
@@ -111,7 +124,6 @@ export default function ContentDashboard() {
   const timeRange: "all" | "today" | "week" | "month" = (() => {
     const m = filters.timeRange;
     if (m === "今天") return "today";
-    if (m === "昨天" || m === "前天") return "today"; // 实际过滤在下方自定义逻辑补充
     if (m === "近7天") return "week";
     if (m === "近15天" || m === "近30天") return "month";
     return "all";
@@ -188,32 +200,40 @@ export default function ContentDashboard() {
           setTotalCount(count || 0);
         }
 
-        const start = batchIndex * PAGE_SIZE;
-        const end = start + PAGE_SIZE - 1;
-        const { data: postData } = await buildBaseQuery().range(start, end);
-        const postsSafe = (postData || []) as unknown as PostRow[];
+        // 当筛选生效时（平台/相关性/时间范围非“全部时间”），首屏一次性加载所有匹配数据，避免逐卡片追加
+        const listFilterActive = channel !== "all" || relevance !== "all" || filters.timeRange !== "全部时间";
+        let postsSafe: PostRow[] = [];
+        if (isFirst && listFilterActive) {
+          const { count: c } = await buildBaseQuery().range(0, 0);
+          const total = Math.max(0, c || 0);
+          if (total === 0) {
+            postsSafe = [] as PostRow[];
+          } else {
+            const { data: allData } = await buildBaseQuery().range(0, Math.max(0, total - 1));
+            postsSafe = ((allData || []) as unknown) as PostRow[];
+          }
+        } else {
+          const start = batchIndex * PAGE_SIZE;
+          const end = start + PAGE_SIZE - 1;
+          const { data: postData } = await buildBaseQuery().range(start, end);
+          postsSafe = ((postData || []) as unknown) as PostRow[];
+        }
 
         // 前端时间范围过滤（优先使用 published_at，否则使用 created_at）
-        // 时间过滤：支持 今天/昨天/前天/近7/15/30/全部
+        // 时间过滤：支持 今天/近2/近3/近7/15/30/全部
         const baseStartAt = resolveStartAt(timeRange);
         let filteredByTime = filterByTime(postsSafe, baseStartAt);
-        if (filters.timeRange === "昨天") {
+        if (filters.timeRange === "近2天") {
           const today = new Date();
           const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-          filteredByTime = filteredByTime.filter((p) => {
-            const t = new Date((p.published_at || p.created_at));
-            return t >= start && t < end;
-          });
+          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+          filteredByTime = filteredByTime.filter((p) => { const t = new Date((p.published_at || p.created_at)); return t >= start && t < end; });
         }
-        if (filters.timeRange === "前天") {
+        if (filters.timeRange === "近3天") {
           const today = new Date();
           const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
-          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-          filteredByTime = filteredByTime.filter((p) => {
-            const t = new Date((p.published_at || p.created_at));
-            return t >= start && t < end;
-          });
+          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+          filteredByTime = filteredByTime.filter((p) => { const t = new Date((p.published_at || p.created_at)); return t >= start && t < end; });
         }
         if (filters.timeRange === "近15天") {
           const d = new Date(); d.setDate(d.getDate() - 15);
@@ -301,8 +321,7 @@ export default function ContentDashboard() {
             if (r.platform_item_id) {
               // 兼容旧 severity；但优先在列表图标使用 total_risk
               sevMap[r.platform_item_id] = mapDbSeverityToCn(r.severity || "");
-              const t = String(r.total_risk || "").toLowerCase();
-              trMap[r.platform_item_id] = t === "high" ? "高" : t === "medium" ? "中" : t === "low" ? "低" : "未标注";
+              trMap[r.platform_item_id] = normalizeTotalRiskToCn(r.total_risk);
               if (r.total_risk_reason) trReason[r.platform_item_id] = String(r.total_risk_reason);
               const ct = String(r.creatorTypes || "").trim();
               ctMap[r.platform_item_id] = ct || "未标注";
@@ -323,7 +342,7 @@ export default function ContentDashboard() {
         const relevanceMapBackfilled = backfillRelevance(relevanceMap, filteredByTime);
 
         // 合并新页数据到累计行（服务端已按发布时间排序）；默认仅追加不重排，确保“稳定追加”体验
-        const mergedRows = batchIndex === 0 ? filteredByTime : [...allRows, ...filteredByTime];
+        const mergedRows = isFirst ? filteredByTime : [...allRows, ...filteredByTime];
 
         // 在累计行上应用筛选条件（情绪 / 风险场景 / 品牌相关性）
         let postsAfterFilters = mergedRows;
@@ -344,7 +363,9 @@ export default function ContentDashboard() {
         // options are loaded by FilterBar from gg_filter_enums; page no longer sets them
 
         if (!cancelled) {
-          setHasMore(postsSafe.length === PAGE_SIZE);
+          // 若为筛选模式一次性加载，则不再有后续分页
+          const noMore = isFirst && (channel !== "all" || relevance !== "all" || filters.timeRange !== "全部时间");
+          setHasMore(noMore ? false : postsSafe.length === PAGE_SIZE);
           setAllRows(mergedRows);
           setPosts(postsSorted);
           setRisks(risksMap);
@@ -427,6 +448,8 @@ export default function ContentDashboard() {
         if (!cancelled) {
           setGlobalPostsLite(ds.posts);
           setGlobalMaps(ds.maps);
+          // 计算 KPI 时带入上一周期数据
+          setKpiPrev({ prev: ds.previousPosts, label: ds.previousLabel });
         }
       } finally {
         if (!cancelled) setGlobalLoading(false);
@@ -436,7 +459,8 @@ export default function ContentDashboard() {
     return () => { cancelled = true; };
   }, [filters, supabase]);
 
-  const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
+  const [kpiPrev, setKpiPrev] = useState<{ prev: { id: number; platform: string; platform_item_id: string }[]; label?: string }>({ prev: [] });
+  const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps, { previousPosts: kpiPrev.prev as any, previousLabel: kpiPrev.label }), [globalPostsLite, globalMaps, kpiPrev]);
   const relevanceChart = useMemo(() => buildRelevanceChartData(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
 
   // 新增：为 KPI 概览准备细分统计数据（总视频 -> 相关性；相关视频 -> 严重度；高优先级 -> 创作者）
@@ -553,6 +577,11 @@ export default function ContentDashboard() {
       <FilterSection
         filters={filters}
         onFiltersChange={setFilters}
+        onResetAll={() => {
+          // 当用户点击“重置筛选”，除恢复筛选外，将图表层级同步回到一级，
+          // 从而让“内容优先级分布”和“舆情监控结果”一起回到初始视图。
+          setChartState({ level: "primary" });
+        }}
         headerRight={(
           <button
             onClick={() => setImportOpen(true)}
@@ -570,6 +599,7 @@ export default function ContentDashboard() {
         breakdown={kpiBreakdown as any}
         onRelevanceClick={handleRelevanceClick}
         onSeverityClick={handleSeverityClick}
+        showTrend={filters.timeRange !== "全部时间"}
       />
 
       {/* 图表：一级/二级/三级联动 */}
