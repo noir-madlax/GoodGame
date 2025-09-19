@@ -3,7 +3,7 @@ from __future__ import annotations
 from jobs.logger import get_logger
 from typing import Any, Dict
 
-from tikhub_api.utils.url_parser import parse_platform_and_id
+from tikhub_api.utils.url_parser import resolve_and_parse
 from tikhub_api.fetchers.fetcher_factory import FetcherFactory
 from tikhub_api.orm.post_repository import PostRepository
 from tikhub_api.orm.enums import AnalysisStatus, RelevantStatus
@@ -19,7 +19,7 @@ def analyze_and_import(url: str, trace_id: str | None = None) -> Dict[str, Any]:
     """
     logger.info("【导入分析】开始处理 trace_id=%s url=%s", trace_id, url)
 
-    platform, item_id, reason = parse_platform_and_id(url)
+    platform, item_id, reason = resolve_and_parse(url)
     if not platform or not item_id:
         logger.info(
             "【导入分析】URL 解析失败 trace_id=%s 原因=%s url=%s",
