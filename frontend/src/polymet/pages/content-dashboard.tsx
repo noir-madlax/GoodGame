@@ -16,7 +16,7 @@ import { supabase } from "@/lib/supabase";
 // 骨架已在 MonitoringResults 内部使用
 // import { DashboardCardSkeleton } from "@/polymet/components/loading-skeletons";
 import MonitoringResults from "@/polymet/components/monitoring/monitoring-results";
-import { backfillRelevance, buildRelevanceWhitelist, resolveStartAt, filterByTime, sortByPublished, buildAnalysisMaps, buildTopRiskOptions } from "@/polymet/lib/filters";
+import { backfillRelevance, resolveStartAt, filterByTime, sortByPublished, buildAnalysisMaps, buildTopRiskOptions } from "@/polymet/lib/filters";
 import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
 import ImportAnalyzeDialog from "@/polymet/components/import-analyze-dialog";
 
@@ -154,25 +154,7 @@ export default function ContentDashboard() {
         } else {
           setLoadingMore(true);
         }
-        // 预取：当情绪/相关性/风险场景任一筛选被激活时，先从分析/初筛构建 platform_item_id 白名单
-        const analysisFiltered = sentiment !== "all" || relevance !== "all" || riskScenario !== "all";
-        let idWhitelist: string[] | null = null;
-        if (analysisFiltered) {
-          idWhitelist = await buildRelevanceWhitelist(sb, { sentiment, relevance, riskScenario });
-          // If analysis filter active but no matching ids, short-circuit to empty result
-          if (idWhitelist.length === 0) {
-            if (!cancelled) {
-              setTotalCount(0);
-              setHasMore(false);
-              setAllRows([]);
-              setPosts([]);
-              setRisks({});
-              setSentiments({});
-              setRelevances({});
-            }
-            return;
-          }
-        }
+        // 已移除：旧版基于分析/初筛的 id 白名单预过滤逻辑，统一改为在前端应用筛选，保持行为不变但简化实现
 
         // 构建基础查询（分页、基础条件、可选的 id 白名单）；count 在首屏单独 range(0,0) 获取
         const buildBaseQuery = () => {
@@ -191,7 +173,6 @@ export default function ContentDashboard() {
             .order("id", { ascending: oldestFirst });
           if (channel !== "all") q = q.eq("platform", channel);
           if (contentType !== "all") q = q.eq("post_type", contentType);
-          if (idWhitelist && idWhitelist.length > 0) q = q.in("platform_item_id", idWhitelist);
           return q;
         };
 
@@ -200,24 +181,11 @@ export default function ContentDashboard() {
           setTotalCount(count || 0);
         }
 
-        // 当筛选生效时（平台/相关性/时间范围非“全部时间”），首屏一次性加载所有匹配数据，避免逐卡片追加
-        const listFilterActive = channel !== "all" || relevance !== "all" || filters.timeRange !== "全部时间";
-        let postsSafe: PostRow[] = [];
-        if (isFirst && listFilterActive) {
-          const { count: c } = await buildBaseQuery().range(0, 0);
-          const total = Math.max(0, c || 0);
-          if (total === 0) {
-            postsSafe = [] as PostRow[];
-          } else {
-            const { data: allData } = await buildBaseQuery().range(0, Math.max(0, total - 1));
-            postsSafe = ((allData || []) as unknown) as PostRow[];
-          }
-        } else {
-          const start = batchIndex * PAGE_SIZE;
-          const end = start + PAGE_SIZE - 1;
-          const { data: postData } = await buildBaseQuery().range(start, end);
-          postsSafe = ((postData || []) as unknown) as PostRow[];
-        }
+        // 统一分页：去除“一次性全量加载”的分支，始终按 PAGE_SIZE 分批拉取
+        const start = batchIndex * PAGE_SIZE;
+        const end = start + PAGE_SIZE - 1;
+        const { data: postData } = await buildBaseQuery().range(start, end);
+        const postsSafe: PostRow[] = ((postData || []) as unknown) as PostRow[];
 
         // 前端时间范围过滤（优先使用 published_at，否则使用 created_at）
         // 时间过滤：支持 今天/近2/近3/近7/15/30/全部
@@ -240,25 +208,7 @@ export default function ContentDashboard() {
           filteredByTime = filterByTime(postsSafe, d);
         }
 
-        // 动态统计（示例保留）：从当前页数据统计平台与类型集合
-        const platformSet = new Set<string>();
-        const typeSet = new Set<string>();
-        filteredByTime.forEach((p) => {
-          if (p.platform) platformSet.add(String(p.platform));
-          // post_type not in selected fields; fetch inferred via risks? We rely on postsSafe earlier selection includes post_type? It doesn't.
-        });
-
-        // fetch post_type via another lightweight query scoped by ids to avoid schema change
-        const idsForTypes = filteredByTime.map((p) => p.id);
-        if (idsForTypes.length > 0) {
-          const { data: typeRows } = await sb
-            .from("gg_platform_post")
-            .select("id, post_type")
-            .in("id", idsForTypes);
-          (typeRows || []).forEach((r: { id: number; post_type: string | null }) => {
-            if (r.post_type) typeSet.add(String(r.post_type));
-          });
-        }
+        // 已移除：示例性平台/类型集合统计与额外 post_type 查询（无消费方）
 
         const ids = filteredByTime.map((p) => p.platform_item_id).filter(Boolean); // 本页涉及的平台内容主键集合
         // —— 新增：达人判定（帖子 author_follower_count 或 gg_authors.follower_count 任一≥10万） ——
@@ -363,9 +313,8 @@ export default function ContentDashboard() {
         // options are loaded by FilterBar from gg_filter_enums; page no longer sets them
 
         if (!cancelled) {
-          // 若为筛选模式一次性加载，则不再有后续分页
-          const noMore = isFirst && (channel !== "all" || relevance !== "all" || filters.timeRange !== "全部时间");
-          setHasMore(noMore ? false : postsSafe.length === PAGE_SIZE);
+          // 分页：是否还有更多由本页返回数量决定
+          setHasMore(postsSafe.length === PAGE_SIZE);
           setAllRows(mergedRows);
           setPosts(postsSorted);
           setRisks(risksMap);

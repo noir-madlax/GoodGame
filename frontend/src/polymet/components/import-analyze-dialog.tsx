@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { buildApiUrl } from "@/lib/api";
 
 interface Props {
   isOpen: boolean;
@@ -26,6 +27,21 @@ const stripUtm = (url: string) => {
   }
 };
 
+// 从整段文本中提取第一个可用链接（支持缺少协议的短链）
+const extractFirstUrl = (text: string): string | null => {
+  if (!text) return null;
+  const t = String(text).trim();
+  // 1) 先找带协议的链接
+  const protoRe = /(https?:\/\/[^\s"'<>)+\]]+)/i;
+  const m1 = t.match(protoRe);
+  if (m1 && m1[1]) return m1[1];
+  // 2) 再找常见平台的无协议链接
+  const noProtoRe = /((?:www\.)?(?:v\.)?(?:douyin|iesdouyin|xiaohongshu|xhslink)\.(?:com|cn)\/[^\s"'<>)+\]]+)/i;
+  const m2 = t.match(noProtoRe);
+  if (m2 && m2[1]) return `https://${m2[1]}`;
+  return null;
+};
+
 export default function ImportAnalyzeDialog({ isOpen, onOpenChange }: Props) {
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -35,17 +51,19 @@ export default function ImportAnalyzeDialog({ isOpen, onOpenChange }: Props) {
 
   const platform: "douyin" | "xiaohongshu" | null = useMemo(() => {
     const v = value.trim();
+    const extracted = extractFirstUrl(v) || v;
     if (!v) return null;
-    if (douyinRe.test(v)) return "douyin";
-    if (xhsRe.test(v)) return "xiaohongshu";
+    if (douyinRe.test(extracted)) return "douyin";
+    if (xhsRe.test(extracted)) return "xiaohongshu";
     return null;
   }, [value]);
 
   const isValidUrl = useMemo(() => {
     const v = value.trim();
     if (!v) return false;
-    if (!/^https?:\/\//i.test(v)) return false;
-    return douyinRe.test(v) || xhsRe.test(v);
+    const extracted = extractFirstUrl(v);
+    if (!extracted) return false;
+    return douyinRe.test(extracted) || xhsRe.test(extracted);
   }, [value]);
 
   const handleSubmit = async () => {
@@ -61,30 +79,28 @@ export default function ImportAnalyzeDialog({ isOpen, onOpenChange }: Props) {
     setError(null);
     setSubmitting(true);
     try {
-      const url = stripUtm(raw);
-      const res = await fetch("/api/import/analyze", {
+      const picked = extractFirstUrl(raw);
+      if (!picked) {
+        setError("未识别到有效链接，请检查分享内容");
+        setSubmitting(false);
+        return;
+      }
+      const url = stripUtm(picked);
+      const endpoint = buildApiUrl("/api/import/analyze");
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ trace_id: String(Date.now()), url }),
       });
-      const data = await res.json().catch(() => ({}));
-      // 去重命中：直接跳详情
-      if (data && data.status === "exists" && data.analysisId) {
-        onOpenChange(false);
-        navigate(`/detail/${data.analysisId}`);
-        return;
-      }
-      if (res.ok && data && (data.status === "queued" || data.taskId)) {
-        onOpenChange(false);
-        toast({
-          title: "已受理",
-          description:
-            "该链接的分析任务已提交。为便于集中查看，我们会自动为该内容打上“标记”，几分钟后可在“标记内容与处理”页面统一查看，避免与列表内容混在一起。",
-        });
+      const data = await res.json().catch(() => ({} as any));
+      if (res.ok && data && (data.code === 0 || data.success === true)) {
+        toast({ title: "已受理", description: "任务已提交，稍后在“标记内容与处理”查看。" });
         setValue("");
+        onOpenChange(false);
+        // 成功后跳转至标记页，便于用户查看最新标记内容
+        navigate("/marks");
         return;
       }
-      // 其他情况简单提示
       toast({ title: "提交失败", description: String(data?.message || "请稍后重试") });
     } catch (e: unknown) {
       toast({ title: "提交失败", description: e instanceof Error ? e.message : "网络异常" });
