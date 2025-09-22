@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
+import { useProject } from "@/polymet/lib/project-context";
 import { Skeleton } from "@/components/ui/skeleton";
 
 /**
@@ -53,6 +54,7 @@ export default function MarkActionsPage() {
   const [marks, setMarks] = useState<MarkItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const { activeProjectId } = useProject();
   useEffect(() => {
     let cancelled = false;
     const run = async () => {
@@ -61,11 +63,13 @@ export default function MarkActionsPage() {
         const { data } = await supabase
           .from("gg_platform_post")
           .select("id, platform_item_id, title, platform, created_at, published_at, is_marked, process_status")
+          .eq("project_id", activeProjectId || null)
           .eq("is_marked", true)
           .order("id", { ascending: false })
           .limit(200);
         if (!cancelled) {
-          const rows = (data || []).map((r: { id: number; platform_item_id: string; title: string; platform: string; created_at: string; published_at?: string | null }) => ({
+          type Row = { id: number; platform_item_id: string; title: string; platform: string; created_at: string; published_at?: string | null };
+          const rows = (data || []).map((r: Row) => ({
             id: r.id,
             platform_item_id: r.platform_item_id,
             title: r.title,
@@ -87,7 +91,7 @@ export default function MarkActionsPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [activeProjectId]);
 
   // 合并两类来源为单一渲染行，并计算热度趋势与日/周变化
   const rows = useMemo(() => {

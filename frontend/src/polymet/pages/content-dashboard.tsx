@@ -18,10 +18,12 @@ import { supabase } from "@/lib/supabase";
 import MonitoringResults from "@/polymet/components/monitoring/monitoring-results";
 import { backfillRelevance, resolveStartAt, filterByTime, sortByPublished, buildAnalysisMaps, buildTopRiskOptions } from "@/polymet/lib/filters";
 import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
+import { useProject } from "@/polymet/lib/project-context";
 import ImportAnalyzeDialog from "@/polymet/components/import-analyze-dialog";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
+  const { activeProjectId } = useProject();
   const [importOpen, setImportOpen] = useState(false);
 
   /**
@@ -393,7 +395,7 @@ export default function ContentDashboard() {
           relevance: filters.relevance,
           priority: filters.priority,
           creatorTypes: filters.creatorTypes,
-        });
+        }, { projectId: activeProjectId });
         if (!cancelled) {
           setGlobalPostsLite(ds.posts);
           setGlobalMaps(ds.maps);
@@ -406,7 +408,7 @@ export default function ContentDashboard() {
     };
     run();
     return () => { cancelled = true; };
-  }, [filters, supabase]);
+  }, [filters, supabase, activeProjectId]);
 
   const [kpiPrev, setKpiPrev] = useState<{ prev: { id: number; platform: string; platform_item_id: string }[]; label?: string }>({ prev: [] });
   const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps, { previousPosts: kpiPrev.prev as any, previousLabel: kpiPrev.label }), [globalPostsLite, globalMaps, kpiPrev]);

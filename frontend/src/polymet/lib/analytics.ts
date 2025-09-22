@@ -86,7 +86,8 @@ const normalizePlatformLabelToKey = (label: string) => {
  */
 export const loadGlobalDataset = async (
   sb: any,
-  filters: GlobalAnalyticsFilters
+  filters: GlobalAnalyticsFilters,
+  options?: { projectId?: string | null }
 ): Promise<GlobalDataset> => {
   // 1) 拉取基础帖子（时间/平台范围）；不分页
   const { timeRange, platforms } = filters;
@@ -96,6 +97,9 @@ export const loadGlobalDataset = async (
       "id, platform, platform_item_id, published_at, created_at, relevant_status",
       { count: "exact" }
     );
+  if (options?.projectId) {
+    q = q.eq("project_id", options.projectId);
+  }
   if (platforms && platforms.length > 0) {
     const keys = platforms.map((p) => normalizePlatformLabelToKey(p));
     q = q.in("platform", keys);

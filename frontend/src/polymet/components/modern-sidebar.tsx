@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BarChart3, Settings, TrendingUp, Filter, Search, BellRing, Bookmark } from "lucide-react";
+import { BarChart3, Settings, TrendingUp, Filter, Search, BellRing, Bookmark, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ReactDOM from "react-dom";
+import ProjectManagementModal from "@/polymet/components/project/project-management-panel";
+import ProjectFormModal from "@/polymet/components/project/project-edit";
+import { projectAPI, type Project } from "@/polymet/data/project-data";
+import { useProject } from "@/polymet/lib/project-context";
 
 interface SidebarItem {
   id: string;
@@ -19,33 +24,65 @@ interface ModernSidebarProps {
 export default function ModernSidebar({ className }: ModernSidebarProps) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { settings, refresh } = useProject();
+  const [mgmtOpen, setMgmtOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [currentProjectName, setCurrentProjectName] = useState<string>("");
+
+  // 加载当前 active 项目的名称
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      const p = await projectAPI.getCurrentProject();
+      if (mounted && p) setCurrentProjectName(p.project_name || p.brand_name);
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // 当全局设置变化时，同步标题
+  useEffect(() => {
+    if (settings?.project_name) setCurrentProjectName(settings.project_name);
+  }, [settings?.project_name]);
+
+  // 若当前路径是 /dashboard 且项目不允许 overview，则自动跳到 /marks
+  useEffect(() => {
+    if (pathname.startsWith("/dashboard") && settings && !settings.nav_overview_enabled) {
+      navigate("/marks", { replace: true });
+    }
+  }, [pathname, settings?.nav_overview_enabled]);
   const menuItems: SidebarItem[] = [
     {
       id: "content",
       label: "全网舆情监控",
       icon: <BarChart3 className="w-5 h-5" />,
+      disabled: settings ? !settings.nav_overview_enabled : false,
     },
     {
       id: "marks",
       label: "标记内容与处理",
       icon: <Bookmark className="w-5 h-5" />,
+      disabled: settings ? !settings.nav_mark_process_enabled : false,
     },
     {
       id: "search-filter",
       label: "内容检索设置",
       icon: <Search className="w-5 h-5" />,
+      disabled: settings ? !settings.nav_search_settings_enabled : false,
     },
     {
       id: "rules-settings",
       label: "舆情分析规则配置",
       icon: <Settings className="w-5 h-5" />,
-      disabled: true,
+      disabled: settings ? !settings.nav_analysis_rules_enabled : true,
     },
     {
       id: "alerts-push",
       label: "告警与推送配置",
       icon: <BellRing className="w-5 h-5" />,
-      disabled: true,
+      disabled: settings ? !settings.nav_alert_push_enabled : true,
     },
   ];
 
@@ -63,12 +100,17 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center shadow-lg">
             <TrendingUp className="w-6 h-6 text-white" />
           </div>
-          <div>
+          <button
+            type="button"
+            aria-label="打开项目管理"
+            onClick={() => setMgmtOpen(true)}
+            className="group flex items-center space-x-1 focus:outline-none"
+          >
             <h1 className="text-lg font-bold text-gray-900 dark:text-white">
-              海底捞舆情分析
+              {currentProjectName || "加载中..."}
             </h1>
-        
-          </div>
+            <ChevronDown className="w-4 h-4 text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200" />
+          </button>
         </div>
       </div>
 
@@ -145,6 +187,47 @@ export default function ModernSidebar({ className }: ModernSidebarProps) {
           </p>
         </div>
       </div>
+      {/* 项目管理与编辑弹窗（Portal 到 body，覆盖整个容器） */}
+      {mgmtOpen &&
+        ReactDOM.createPortal(
+          <ProjectManagementModal
+            isOpen={mgmtOpen}
+            onClose={() => setMgmtOpen(false)}
+            onCreateProject={() => {
+              setEditingProject(null);
+              setEditOpen(true);
+            }}
+            onEditProject={(p) => {
+              setEditingProject(p);
+              setEditOpen(true);
+            }}
+            onDeleteProject={async () => {
+            await refresh();
+            if (settings && !settings.nav_overview_enabled && pathname.startsWith("/dashboard")) {
+              navigate("/marks", { replace: true });
+            }
+            }}
+            onSwitchProject={async () => {
+            await refresh();
+            if (settings && !settings.nav_overview_enabled && pathname.startsWith("/dashboard")) {
+              navigate("/marks", { replace: true });
+            }
+            }}
+          />,
+          document.body
+        )}
+      {editOpen &&
+        ReactDOM.createPortal(
+          <ProjectFormModal
+            isOpen={editOpen}
+            onClose={() => setEditOpen(false)}
+            project={editingProject}
+            onSuccess={async () => {
+              await refresh();
+            }}
+          />,
+          document.body
+        )}
     </div>
   );
 }

@@ -2,13 +2,14 @@ import React, { useEffect, useRef } from "react";
 import ModernSidebar from "@/polymet/components/modern-sidebar";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
+import { ProjectProvider, useProject } from "@/polymet/lib/project-context";
 
 interface ModernDashboardLayoutProps {
   children: React.ReactNode;
   className?: string;
 }
 
-export default function ModernDashboardLayout({
+function LayoutInner({
   children,
   className,
 }: ModernDashboardLayoutProps) {
@@ -88,5 +89,13 @@ export default function ModernDashboardLayout({
         </main>
       </div>
     </div>
+  );
+}
+
+export default function ModernDashboardLayout({ children, className }: ModernDashboardLayoutProps) {
+  return (
+    <ProjectProvider>
+      <LayoutInner className={className}>{children}</LayoutInner>
+    </ProjectProvider>
   );
 }

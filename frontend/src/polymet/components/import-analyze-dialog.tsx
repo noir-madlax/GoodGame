@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useProject } from "@/polymet/lib/project-context";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -48,6 +49,7 @@ export default function ImportAnalyzeDialog({ isOpen, onOpenChange }: Props) {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { activeProjectId } = useProject();
 
   const platform: "douyin" | "xiaohongshu" | null = useMemo(() => {
     const v = value.trim();
@@ -90,7 +92,7 @@ export default function ImportAnalyzeDialog({ isOpen, onOpenChange }: Props) {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ trace_id: String(Date.now()), url }),
+        body: JSON.stringify({ trace_id: String(Date.now()), url, project_id: activeProjectId || undefined }),
       });
       const data = await res.json().catch(() => ({} as any));
       if (res.ok && data && (data.code === 0 || data.success === true)) {

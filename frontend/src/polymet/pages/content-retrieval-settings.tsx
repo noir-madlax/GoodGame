@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { buildApiUrl } from "@/lib/api";
+import { useProject } from "@/polymet/lib/project-context";
 
 /**
  * 页面：内容检索设置（一级页面）
@@ -79,6 +80,7 @@ const LinkAnalysisSection: React.FC<{ className?: string }> = ({ className }) =>
     if (m2 && m2[1]) return `https://${m2[1]}`;
     return null;
   };
+  const { activeProjectId } = useProject();
   const handleAnalyze = async () => {
     const raw = link.trim();
     if (!raw) return;
@@ -107,10 +109,10 @@ const LinkAnalysisSection: React.FC<{ className?: string }> = ({ className }) =>
     }, 10000);
     try {
       const endpoint = buildApiUrl("/api/import/analyze");
-      const res = await fetch(endpoint, {
+    const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ trace_id: String(Date.now()), url }),
+      body: JSON.stringify({ trace_id: String(Date.now()), url, project_id: activeProjectId || undefined }),
       });
       const data: Record<string, unknown> = await res.json().catch(() => ({} as Record<string, unknown>));
       const code = (data as { code?: number }).code;

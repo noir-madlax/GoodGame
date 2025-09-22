@@ -6,13 +6,20 @@ import ContentRetrievalSettings from "@/polymet/pages/content-retrieval-settings
 import VideoAnalysisDetail from "@/polymet/pages/video-analysis-detail";
 import MarkActionsPage from "@/polymet/pages/mark-actions";
 import HandlingSuggestionsPage from "@/polymet/pages/handling-suggestions";
+import { useProject } from "@/polymet/lib/project-context";
 
 export default function ModernSentimentAnalysis() {
+  const RootRedirect: React.FC = () => {
+    const { settings } = useProject();
+    const allowOverview = settings ? settings.nav_overview_enabled : true;
+    const target = allowOverview ? "/dashboard" : "/marks";
+    return <Navigate to={target} replace />;
+  };
   return (
     <Router>
       <Routes>
-        {/* Redirect root to dashboard */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        {/* Redirect root based on project settings */}
+        <Route path="/" element={<RootRedirect />} />
 
         {/* Content Dashboard */}
         <Route
