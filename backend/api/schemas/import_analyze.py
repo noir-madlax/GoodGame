@@ -10,6 +10,7 @@ from tikhub_api.orm.enums import Channel
 class ImportAnalyzeRequest(BaseRequest):
     """/api/import/analyze 入参"""
 
+    project_id: str = Field(..., min_length=1, description="项目ID (UUID)")
     url: str = Field(..., min_length=1, description="待分析 URL")
 
 

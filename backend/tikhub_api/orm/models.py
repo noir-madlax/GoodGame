@@ -14,6 +14,7 @@ NonEmptyStr = constr(strip_whitespace=True, min_length=1)
 
 class PlatformPost(BaseModel):
     id: Optional[int] = Field(default=None, ge=1)
+    project_id: NonEmptyStr
 
     platform: NonEmptyStr
     platform_item_id: NonEmptyStr
@@ -113,6 +114,7 @@ class SearchKeyword(BaseModel):
 class VideoAnalysis(BaseModel):
     id: Optional[int] = Field(default=None, ge=1)
 
+    project_id: NonEmptyStr
     source_path: NonEmptyStr
     source_platform: str = Field(default="douyin")
 
@@ -169,3 +171,17 @@ class PromptVariable(BaseModel):
 
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
+
+
+
+class ProjectSettings(BaseModel):
+    id: Optional[str] = None  # uuid
+    project_name: NonEmptyStr
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    status: Optional[str] = None
+    nav_overview_enabled: bool = False
+    nav_mark_process_enabled: bool = False
+    nav_search_settings_enabled: bool = False
+    nav_analysis_rules_enabled: bool = False
+    nav_alert_push_enabled: bool = False

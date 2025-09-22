@@ -20,5 +20,5 @@ async def import_analyze(body: ImportAnalyzeRequest) -> BaseResponse[ImportAnaly
         body_json = "<serialize error>"
     logger.info("【导入分析】接口请求 trace_id=%s 入参=%s", body.trace_id, body_json)
 
-    result_dict = analyze_and_import(body.url, trace_id=body.trace_id)
+    result_dict = analyze_and_import(body.url, body.project_id, trace_id=body.trace_id)
     return BaseResponse.ok(ImportAnalyzeResult(**result_dict), trace_id=body.trace_id)

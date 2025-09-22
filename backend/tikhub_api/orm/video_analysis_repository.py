@@ -34,7 +34,7 @@ class VideoAnalysisRepository:
             # id=None 移除，避免与主键冲突
             if payload.get("id") is None:
                 payload.pop("id", None)
-            resp = client.table(TABLE).upsert(payload, on_conflict="source_path").execute()
+            resp = client.table(TABLE).upsert(payload, on_conflict="project_id,source_path").execute()
             data = getattr(resp, "data", None)
             row = data[0] if data else None
             return VideoAnalysisRepository._row_to_model(row) if row else VideoAnalysis(
@@ -51,7 +51,7 @@ class VideoAnalysisRepository:
                 payload["created_at"] = payload["created_at"].isoformat()
         if payload.get("id") is None:
             payload.pop("id", None)
-        resp = client.table(TABLE).upsert(payload, on_conflict="source_path").execute()
+        resp = client.table(TABLE).upsert(payload, on_conflict="project_id,source_path").execute()
         data = getattr(resp, "data", None)
         row = data[0] if data else None
         return VideoAnalysisRepository._row_to_model(row) if row else model  # type: ignore[return-value]
@@ -120,6 +120,7 @@ class VideoAnalysisRepository:
             )
         return VideoAnalysis(
             id=row.get("id"),
+            project_id=row.get("project_id", ""),
             source_path=row.get("source_path", ""),
             source_platform=row.get("source_platform", "douyin"),
             summary=row.get("summary", ""),
