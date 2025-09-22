@@ -52,7 +52,7 @@ class PlatformPost(BaseModel):
     # LLM/规则判定的详细结果（JSON 存档，形态不固定：可能为 dict/list/str），使用 Any 以兼容
     relevant_result: Optional[Any] = None
     is_marked: bool = False
-    
+
     # 存储 get_video_details 返回的原始报文，便于排查
     raw_details: Optional[Dict[str, Any]] = None
 
@@ -154,6 +154,18 @@ class PromptTemplate(BaseModel):
     method_name: Optional[str] = None
     is_active: bool = False
     content: Optional[str] = None
+
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+
+
+
+class PromptVariable(BaseModel):
+    id: Optional[int] = Field(default=None, ge=1)
+    project_id: NonEmptyStr
+    variable_name: NonEmptyStr
+    variable_description: Optional[str] = None
+    variable_value: Optional[Any] = None
 
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
