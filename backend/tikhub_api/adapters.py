@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import Protocol, Optional, Dict, Any, runtime_checkable, List
 from datetime import datetime
 
+from backend.tikhub_api.orm.enums import Channel
+
 from .orm.models import PlatformPost, PlatformComment
 from .orm import PostType
 from .utils.url_validator import filter_valid_video_urls
@@ -66,7 +68,8 @@ class VideoAdapter(Protocol):
 
     def to_post(self, details: Dict[str, Any]) -> PlatformPost:  # type: ignore[name-defined]
         ...
-
+    def hi() -> str:
+        ... 
 
 class DouyinVideoAdapter:
     """抖音视频数据 -> PlatformPost 适配器"""
@@ -128,6 +131,12 @@ class DouyinVideoAdapter:
             raw_details=details,
             published_at=published_at,
         )
+
+    def to_post_single(self, details: Dict[str, Any]) -> PlatformPost:
+        """
+        单条/批量对抖音是兼容的，这里直接复用 to_post。
+        """
+        return self.to_post(details)
 
 
 class XiaohongshuVideoAdapter:
@@ -250,6 +259,129 @@ class XiaohongshuVideoAdapter:
             raw_details=details,
             published_at=published_at,
         )
+
+    def to_post_single(self, details: Dict[str, Any]) -> PlatformPost:
+        """将 /api/v1/xiaohongshu/app/get_note_info_v2 的 data.data 映射为 PlatformPost。
+        典型结构字段（例）：
+        - noteId, noteLink, userId
+        - title, content, imagesList
+        - videoInfo(可为 null)
+        - time.createTime (毫秒)
+        - likeNum, cmtNum, readNum/impNum, shareNum
+        - userInfo.nickName/userId
+        """
+        raw = details or {}
+
+        # 基本字段
+        note_id = str(raw.get("noteId") or raw.get("id") or "")
+        title = str(raw.get("title") or "").strip() or "无标题"
+        content = raw.get("content") or None
+
+        # 原始链接
+        original_url = None
+        if isinstance(raw.get("noteLink"), str) and raw.get("noteLink"):
+            original_url = raw.get("noteLink")
+
+        # 作者信息
+        user_info = raw.get("userInfo") or {}
+        author_id = str(user_info.get("userId") or raw.get("userId") or "") or None
+        author_name = user_info.get("nickName") or raw.get("name") or None
+
+        # 互动与计数
+        play_count = int(raw.get("readNum") or raw.get("impNum") or 0)
+        like_count = int(raw.get("likeNum") or 0)
+        comment_count = int(raw.get("cmtNum") or 0)
+        share_count = int(raw.get("shareNum") or 0)
+
+        # 媒体信息
+        video_info = raw.get("videoInfo") or {}
+        images_list = raw.get("imagesList") or raw.get("images_list") or []
+
+        duration_ms = 0
+        video_url = None
+        cover_url = None
+
+        # 尝试从 videoInfo 中提取时长/直链（结构不稳定，尽量兼容）
+        if isinstance(video_info, dict) and video_info:
+            # duration: 可能为秒或毫秒
+            dur = video_info.get("duration")
+            if isinstance(dur, (int, float)):
+                try:
+                    duration_ms = int(dur if dur > 10**6 else dur * 1000)
+                except Exception:
+                    duration_ms = 0
+
+            candidates: List[str] = []
+            media = video_info.get("media") or {}
+            stream = (media.get("stream") or {}) if isinstance(media, dict) else {}
+            if isinstance(stream, dict):
+                for key in ("h264", "h265", "av1", "h266"):
+                    arr = stream.get(key) or []
+                    if isinstance(arr, list):
+                        for it in arr:
+                            if not isinstance(it, dict):
+                                continue
+                            url = it.get("master_url") or it.get("main_url") or it.get("url")
+                            if isinstance(url, str) and url:
+                                candidates.append(url)
+                            backs = it.get("backup_urls") or []
+                            if isinstance(backs, list):
+                                for b in backs:
+                                    if isinstance(b, str) and b:
+                                        candidates.append(b)
+            # 一些实现直接挂在 videoInfo 上
+            for k in ("master_url", "main_url", "url"):
+                u = video_info.get(k)
+                if isinstance(u, str) and u:
+                    candidates.append(u)
+
+            valid_urls = filter_valid_video_urls(candidates)
+            video_url = valid_urls[0] if valid_urls else None
+
+            # 封面兜底（如 videoInfo 存在缩略图字段）
+            for k in ("coverUrl", "thumbnail", "thumb", "poster"):
+                if not cover_url and isinstance(video_info.get(k), str):
+                    cover_url = video_info.get(k)
+
+        # 封面优先用首图；若没有再用上面 videoInfo 兜底
+        if not cover_url and isinstance(images_list, list) and images_list:
+            first = images_list[0] or {}
+            if isinstance(first, dict):
+                cover_url = first.get("url") or first.get("original") or first.get("thumb")
+
+        # 帖子类型：videoInfo 存在则视为视频，否则为图文
+        post_type = PostType.VIDEO if (isinstance(video_info, dict) and video_info) else PostType.IMAGE
+
+        # 发布时间：优先 time.createTime (毫秒)，其次尝试顶层 createTime(字符串)忽略
+        published_at = None
+        t = raw.get("time") or {}
+        ts = t.get("createTime")
+        if isinstance(ts, (int, float)) and ts > 0:
+            try:
+                published_at = datetime.fromtimestamp(ts / 1000.0 if ts > 10**12 else ts)
+            except Exception:
+                published_at = None
+
+        return PlatformPost(
+            platform=Channel.XIAOHONGSHU,
+            platform_item_id=note_id,
+            title=title,
+            content=content,
+            post_type=post_type,
+            original_url=original_url,
+            author_id=author_id,
+            author_name=author_name,
+            share_count=share_count,
+            duration_ms=duration_ms,
+            play_count=play_count,
+            like_count=like_count,
+            comment_count=comment_count,
+            cover_url=cover_url,
+            video_url=video_url,
+            raw_details=details,
+            published_at=published_at,
+        )
+
 
 class DouyinCommentAdapter:
     """抖音评论数据 -> PlatformComment 适配器"""

@@ -80,8 +80,16 @@ def analyze_and_import(url: str, trace_id: str | None = None) -> Dict[str, Any]:
             "post_id": None,
             "raw_reason": "拉取详情失败",
         }
+
+    logger.debug(
+        "【导入分析】原始详情 trace_id=%s 平台=%s 帖子ID=%s 详情=%s",
+        trace_id,
+        getattr(platform, "value", str(platform)),
+        item_id,
+        details,
+    )
     adapter = fetcher.get_adapter()
-    post = adapter.to_post(details)  # type: ignore[attr-defined]
+    post = adapter.to_post_single(details)  # type: ignore[attr-defined]
 
     # 人工导入：固定初始评估枚举
     post.analysis_status = AnalysisStatus.PENDING
