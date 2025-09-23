@@ -60,7 +60,7 @@ class AnalysisService:
             # 2) 构建 prompt 与调用 generate_content（公共逻辑）
             log.info(f"开始调用 Gemini 生成内容：post_id={post_id}")
             prompt_name = PromptName.ANALYZE_VIDEO if post.post_type == PostType.VIDEO else PromptName.ANALYZE_PICTURE
-            system_prompt = get_system_prompt(prompt_name)
+            system_prompt = get_system_prompt(prompt_name,post.project_id)
             config = types.GenerateContentConfig(
                 temperature=0.3,
                 response_mime_type="application/json",
@@ -130,7 +130,7 @@ class AnalysisService:
 
             # 3) 字段映射并保存（source_path 使用上传完成后的文件/图片集合 URI 串）
             source_path = source_key or f"post:{post.id}"
-            payload = self._map_result_to_video_analysis(post, result, source_path=source_path)
+            payload = self._map_result_to_video_analysis(post, result, source_path=source_path, system_prompt=system_prompt)
             saved = VideoAnalysisRepository.upsert(payload)
 
             # 标记分析完成
@@ -276,7 +276,7 @@ class AnalysisService:
             raise ValueError(f"post 不存在: {post_id}")
         return post
 
-    def _map_result_to_video_analysis(self, post: PlatformPost, result: Dict[str, Any], *, source_path: str) -> Dict[str, Any]:
+    def _map_result_to_video_analysis(self, post: PlatformPost, result: Dict[str, Any], *, source_path: str, system_prompt: Optional[str] = None) -> Dict[str, Any]:
         """
         将 prompt 的返回结构映射到 gg_video_analysis 的字段。
         根据 suggestion+video+comment-prompt.txt 的输出定义：
@@ -312,6 +312,9 @@ class AnalysisService:
             "analysis_detail": result,
             "project_id": post.project_id,
         }
+        if system_prompt is not None:
+            payload["system_prompt"] = system_prompt
+
         # 仅在存在时写入，避免覆盖为空
         if summary is not None:
             payload["summary"] = summary

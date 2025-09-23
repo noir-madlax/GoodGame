@@ -139,6 +139,8 @@ class VideoAnalysis(BaseModel):
 
     platform_item_id: Optional[str] = None
     analysis_detail: Optional[Dict[str, Any]] = None
+    system_prompt: Optional[str] = None
+
     post_id: Optional[int] = Field(default=None, ge=1)
     brand_relevance: Optional[str] = None
     relevance_evidence: Optional[str] = None

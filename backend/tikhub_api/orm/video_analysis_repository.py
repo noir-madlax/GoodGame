@@ -134,6 +134,7 @@ class VideoAnalysisRepository:
             created_at=_parse_dt(row.get("created_at")),
             platform_item_id=row.get("platform_item_id"),
             analysis_detail=row.get("analysis_detail"),
+            system_prompt=row.get("system_prompt"),
             post_id=row.get("post_id"),
             brand_relevance=row.get("brand_relevance"),
             relevance_evidence=row.get("relevance_evidence"),
