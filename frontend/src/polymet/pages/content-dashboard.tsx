@@ -517,8 +517,9 @@ export default function ContentDashboard() {
   const handleSeverityClick = (sev: string, _creatorType?: string) => {
     setChartsLoading(true);
     // 按你的要求：点击仅联动图表层级，不修改全局筛选
-    const selectedRel = "相关";
-    setChartState({ level: "tertiary", selectedRelevance: selectedRel, selectedSeverity: sev });
+    // 修复：不要硬编码为“相关”，应继承当前二级图所选的相关性
+    const rel = chartState.selectedRelevance || "相关";
+    setChartState({ level: "tertiary", selectedRelevance: rel, selectedSeverity: sev });
     setTimeout(() => setChartsLoading(false), 300);
   };
 
@@ -535,6 +536,8 @@ export default function ContentDashboard() {
         }}
         headerRight={(
           <button
+            hidden={true}
+            //暂时先把这个按钮隐藏了，不删除代码。
             onClick={() => setImportOpen(true)}
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg"
           >
