@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Share2, Bookmark, Download, Shield } from "lucide-react";
+import { ArrowLeft, Share2, Bookmark, Download, Shield, RotateCcw } from "lucide-react";
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import VideoPlayerCard from "@/polymet/components/video-player-card";
@@ -54,6 +54,8 @@ type PostRow = {
   created_at: string;
   is_marked?: boolean;
   process_status?: string | null;
+  // 新增：后端 analysis_status，用于准确展示分析状态
+  analysis_status?: string | null;
   relevant_status?: string | null;
   // 初筛详细结果(JSON/字符串)，用于在未分析也为不相关时展示原因
   relevant_result?: unknown | null;
@@ -105,6 +107,28 @@ export default function VideoAnalysisDetail() {
   // 处理建议面板开关
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false);
   const [authorProfile, setAuthorProfile] = useState<AuthorProfile | null>(null);
+  // 失败态重试：将 analysis_status 改回 pending
+  const handleRetryAnalysis = async () => {
+    try {
+      if (!post?.id || !supabase) return;
+      const pid = post.id;
+      // 立即本地更新为 pending（分析中）
+      setPost((prev) => (prev ? { ...prev, analysis_status: "pending" } : prev));
+      const { error } = await supabase
+        .from("gg_platform_post")
+        .update({ analysis_status: "pending" })
+        .eq("id", pid);
+      if (error) {
+        // 回滚：若失败，恢复原状态
+        setPost((prev) => (prev ? { ...prev, analysis_status: post.analysis_status } : prev));
+        console.error("retry analysis error", error);
+      }
+    } catch (e) {
+      // 回滚：异常时恢复原状态
+      setPost((prev) => (prev ? { ...prev, analysis_status: post?.analysis_status } : prev));
+      console.error(e);
+    }
+  };
   // 查看处理建议（只读跳转，不做写入）
   const handleViewAdvice = () => {
     if (!post?.id) return;
@@ -162,7 +186,8 @@ export default function VideoAnalysisDetail() {
         const { data: postRows } = await supabase
           .from("gg_platform_post")
           .select(
-            "id, platform, platform_item_id, author_id, title, cover_url, original_url, author_name, author_follower_count, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status, content, relevant_status, relevant_result"
+            // 增加 analysis_status 字段以驱动前端状态展示
+            "id, platform, platform_item_id, author_id, title, cover_url, original_url, author_name, author_follower_count, like_count, comment_count, share_count, play_count, duration_ms, post_type, published_at, created_at, is_marked, process_status, content, analysis_status, relevant_status, relevant_result"
           )
           .eq("id", id)
           .limit(1);
@@ -319,6 +344,36 @@ export default function VideoAnalysisDetail() {
     return (
       <span className={`px-3 py-1 rounded-full ${color} text-white text-sm font-medium`}>{label}</span>
     );
+  };
+
+  // 统一的分析状态映射：根据后端枚举值渲染中文标签与颜色
+  const ANALYSIS_STATUS_MAP: Record<string, { label: string; className: string }> = {
+    init: { label: "未开始", className: "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300" },
+    pending: { label: "分析中", className: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" },
+    analyzed: { label: "已完成", className: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400" },
+    screening_failed: { label: "初筛失败", className: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400" },
+    comments_failed: { label: "评论获取失败", className: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400" },
+    analysis_failed: { label: "分析失败", className: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400" },
+  };
+
+  // 渲染分析状态：优先使用后端 analysis_status；若缺失且已有分析结果，则视为已完成；否则视为未开始
+  const renderAnalysisStatus = (status?: string | null, hasAnalysis?: boolean) => {
+    const key = String(status || "").toLowerCase();
+    const map = ANALYSIS_STATUS_MAP[key];
+    if (map) {
+      return <span className={`px-3 py-1 rounded-full text-sm font-medium ${map.className}`}>{map.label}</span>;
+    }
+    if (hasAnalysis) {
+      const ok = ANALYSIS_STATUS_MAP["analyzed"];
+      return <span className={`px-3 py-1 rounded-full text-sm font-medium ${ok.className}`}>{ok.label}</span>;
+    }
+    const init = ANALYSIS_STATUS_MAP["init"];
+    return <span className={`px-3 py-1 rounded-full text-sm font-medium ${init.className}`}>{init.label}</span>;
+  };
+
+  const isFailedStatus = (s?: string | null) => {
+    const key = String(s || "").toLowerCase();
+    return key === "screening_failed" || key === "comments_failed" || key === "analysis_failed";
   };
 
   // 相关性标签渲染：优先使用分析表 brand_relevance，其次使用帖子表 relevant_status
@@ -753,7 +808,7 @@ export default function VideoAnalysisDetail() {
         {/* Quick Stats */}
         <div className="space-y-6">
           {post ? (
-          <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl">
+          <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl group relative">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
               内容概览
             </h3>
@@ -831,11 +886,20 @@ export default function VideoAnalysisDetail() {
                 <span className="text-gray-600 dark:text-gray-400">
                   分析状态
                 </span>
-                {analysis ? (
-                  <span className="px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm font-medium">已完成</span>
-                ) : (
-                  <span className="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium">待分析</span>
-                )}
+                <span className="flex items-center gap-2">
+                  {/* 仅失败态时显示重试按钮；并在悬停卡片时可见 */}
+                  {isFailedStatus(post?.analysis_status) && (
+                    <button
+                      onClick={handleRetryAnalysis}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border border-white/30 bg-white/10 hover:bg-white/20"
+                      aria-label="重试分析"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>重试</span>
+                    </button>
+                  )}
+                  {renderAnalysisStatus(post?.analysis_status, Boolean(analysis))}
+                </span>
               </div>
             </div>
           </div>
