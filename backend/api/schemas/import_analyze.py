@@ -16,7 +16,7 @@ class ImportAnalyzeRequest(BaseRequest):
         json_schema_extra={
             "example": {
                 "project_id": "657ec0d1-ad78-4610-aa4e-34123714800a",
-                "url": "https://v.douyin.com/8G_LfJ-Y3uc/",
+                "url": "https://www.douyin.com/video/7550247003771473152",
                 "trace_id": "2c3b0c7d-d1a0-4b68-9e31-4a9b60b75977",
                 "user_id": "",
                 "client_ip": "",

@@ -310,6 +310,7 @@ class AnalysisService:
             "platform_item_id": platform_item_id,
             "post_id": post.id,
             "analysis_detail": result,
+            "project_id": post.project_id,
         }
         # 仅在存在时写入，避免覆盖为空
         if summary is not None:

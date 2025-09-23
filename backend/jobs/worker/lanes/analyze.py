@@ -1,6 +1,7 @@
 import threading
 from jobs.worker.lanes.base import BaseLane
 from jobs.logger import get_logger
+from common.request_context import set_project_id, reset_project_id
 
 log = get_logger(__name__)
 from tikhub_api.orm import PostRepository, AnalysisStatus
@@ -42,9 +43,21 @@ class AnalyzeLane(BaseLane):
                 log.info("[AnalyzeLane] task completed, marked as not busy")
 
     def _run_one(self, post_id: int) -> None:
+        token = None
         try:
             log.info("[AnalyzeLane] processing post_id: %s", post_id)
+            # 注入上下文：读取该帖的 project_id 作为本次任务生命周期内的固定值
+            post = PostRepository.get_by_id(int(post_id))
+            pid = getattr(post, "project_id", None) if post else None
+            if pid:
+                token = set_project_id(str(pid))
+            else:
+                raise ValueError(f"project_id missing for post_id={post_id}")
+
             svc = AnalysisService()
             svc.analyze_post(int(post_id))
         except Exception as e:
             log.exception("[AnalyzeLane] run_one failed: %s", e)
+        finally:
+            if token:
+                reset_project_id(token)
