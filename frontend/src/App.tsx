@@ -6,7 +6,7 @@ import ContentRetrievalSettings from "@/polymet/pages/content-retrieval-settings
 import VideoAnalysisDetail from "@/polymet/pages/video-analysis-detail";
 import MarkActionsPage from "@/polymet/pages/mark-actions";
 import HandlingSuggestionsPage from "@/polymet/pages/handling-suggestions";
-import { useProject } from "@/polymet/lib/project-context";
+import { ProjectProvider, useProject } from "@/polymet/lib/project-context";
 
 export default function ModernSentimentAnalysis() {
   const RootRedirect: React.FC = () => {
@@ -16,8 +16,9 @@ export default function ModernSentimentAnalysis() {
     return <Navigate to={target} replace />;
   };
   return (
-    <Router>
-      <Routes>
+    <ProjectProvider>
+      <Router>
+        <Routes>
         {/* Redirect root based on project settings */}
         <Route path="/" element={<RootRedirect />} />
 
@@ -73,7 +74,8 @@ export default function ModernSentimentAnalysis() {
 
         {/* Fallback route */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </ProjectProvider>
   );
 }

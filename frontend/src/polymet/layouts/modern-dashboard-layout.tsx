@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import ModernSidebar from "@/polymet/components/modern-sidebar";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
-import { ProjectProvider, useProject } from "@/polymet/lib/project-context";
+// Provider 已提升到 App 根部，这里不再重复包裹
 
 interface ModernDashboardLayoutProps {
   children: React.ReactNode;
@@ -93,9 +93,5 @@ function LayoutInner({
 }
 
 export default function ModernDashboardLayout({ children, className }: ModernDashboardLayoutProps) {
-  return (
-    <ProjectProvider>
-      <LayoutInner className={className}>{children}</LayoutInner>
-    </ProjectProvider>
-  );
+  return <LayoutInner className={className}>{children}</LayoutInner>;
 }
