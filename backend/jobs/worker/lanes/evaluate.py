@@ -4,6 +4,8 @@ from jobs.worker.lanes.base import BaseLane
 from jobs.logger import get_logger
 from analysis import ScreeningService
 
+from common.request_context import set_project_id, reset_project_id
+
 log = get_logger(__name__)
 
 
@@ -47,9 +49,18 @@ class EvaluateLane(BaseLane):
                 log.info("[EvaluateLane] task completed, marked as not busy")
 
     def _run_one(self, rows: List[Dict[str, Any]]) -> None:
+        token = None
         try:
+            # 临时：当前一次只处理1条候选，直接以首条的 project_id 注入上下文
+            pid = (rows[0] or {}).get("project_id") if rows else None
+            if pid:
+                token = set_project_id(pid)
+
             svc = ScreeningService()
             counters = svc.process_batch(rows=rows)
             log.info("[EvaluateLane] processed counters=%s", counters)
         except Exception as e:
             log.exception("[EvaluateLane] run_one failed: %s", e)
+        finally:
+            if token:
+                reset_project_id(token)

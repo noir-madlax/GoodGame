@@ -87,11 +87,11 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             if self._check_api_response(result):
                 return result.get('data')
             else:
-                print(f"API 返回信息: {result}")
+                log.info(f"API 返回信息: {result}")
                 return None
 
         except Exception as e:
-            print(f"获取视频信息失败: {str(e)}")
+            log.info(f"获取视频信息失败: {str(e)}")
             return None
 
     def get_download_urls(self, aweme_id: str) -> Optional[List[str]]:
@@ -111,7 +111,7 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
                 return download_addr.get('url_list', [])
             return None
         except Exception as e:
-            print(f"获取下载链接失败: {str(e)}")
+            log.info(f"获取下载链接失败: {str(e)}")
             return None
 
     # ===== 抖音搜索能力 =====
@@ -138,7 +138,7 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             url = f"{self.base_url}{DOUYIN_SEARCH_API}"
             result = self._make_request(url, payload, method="POST")
             if not self._check_api_response(result):
-                print(f"搜索接口返回异常: {result}")
+                log.info(f"搜索接口返回异常: {result}")
                 break
 
             data = result.get("data") or {}
@@ -201,7 +201,7 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             url = f"{self.base_url}{DOUYIN_SEARCH_API}"
             result = self._make_request(url, payload, method="POST")
             if not self._check_api_response(result):
-                print(f"搜索接口返回异常: {result}")
+                log.info(f"搜索接口返回异常: {result}")
                 break
 
             data = result.get("data") or {}
@@ -311,11 +311,11 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             if self._check_api_response(result):
                 return result.get('data')
             else:
-                print(f"获取弹幕失败: {result.get('message', '未知错误')}")
+                log.info(f"获取弹幕失败: {result.get('message', '未知错误')}")
                 return None
 
         except Exception as e:
-            print(f"获取弹幕信息失败: {str(e)}")
+            log.info(f"获取弹幕信息失败: {str(e)}")
             return None
 
     # ===== 评论能力 =====
@@ -339,10 +339,10 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             if self._check_api_response(result):
                 return result.get('data')
             else:
-                print(f"获取评论失败，response: {result}")
+                log.info(f"获取评论失败，response: {result}")
                 return None
         except Exception as e:
-            print(f"获取评论信息失败: {str(e)}")
+            log.info(f"获取评论信息失败: {str(e)}")
             return None
 
     # ===== 评论回复能力 =====
@@ -369,10 +369,10 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             if self._check_api_response(result):
                 return result.get('data')
             else:
-                print(f"获取评论回复失败: {result.get('message', '未知错误')}")
+                log.info(f"获取评论回复失败: {result.get('message', '未知错误')}")
                 return None
         except Exception as e:
-            print(f"获取评论回复信息失败: {str(e)}")
+            log.info(f"获取评论回复信息失败: {str(e)}")
             return None
 
 
@@ -398,16 +398,16 @@ if __name__ == "__main__":
     try:
         fetcher = DouyinVideoFetcher()
         video_info = fetcher.fetch_video_info(test_aweme_id)
-        print("API 返回结果:")
-        print(video_info)
+        log.info("API 返回结果:")
+        log.info(f"{video_info}")
 
         # 使用便捷方法
         video_details = fetcher.get_video_details(test_aweme_id)
         if video_details:
-            print("\n视频详细信息:")
-            print(video_details)
+            log.info("视频详细信息:")
+            log.info(f"{video_details}")
         else:
-            print("获取视频详细信息失败")
+            log.info("获取视频详细信息失败")
 
     except Exception as e:
-        print(f"错误: {str(e)}")
+        log.info(f"错误: {str(e)}")

@@ -4,6 +4,7 @@
 """
 
 from abc import ABC, abstractmethod
+import json
 from typing import Dict, Any, Optional, List, Iterable
 import os
 import requests
@@ -268,6 +269,8 @@ class BaseFetcher(ABC):
             requests.RequestException: 请求异常
         """
         try:
+            log.info(f"正在请求 {self.platform_name} API: {url}, params={json.dumps(params, ensure_ascii=False, indent=2)})")
+
             method_upper = method.upper()
             if method_upper == "POST":
                 response = requests.post(url, headers=self.headers, json=params)

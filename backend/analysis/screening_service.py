@@ -7,6 +7,8 @@ from .gemini_client import GeminiClient
 from .text_builder import build_user_msg, SYSTEM_PROMPT as DEFAULT_SYSTEM_PROMPT
 from tikhub_api.orm.prompt_template_repository import PromptTemplateRepository
 from .text_builder import build_user_msg, SYSTEM_PROMPT
+from common.prompt_renderer import render_prompt
+
 
 from jobs.logger import get_logger
 
@@ -34,9 +36,10 @@ class ScreeningService:
         # 调用 LLM：现约定模型直接返回英文相关性枚举（yes/no/maybe），不再做本地映射
         user_msg = build_user_msg(row)
 
-        system_prompt = PromptTemplateRepository.get_active_by_name(PromptName.PRELIMINARY_SCREENING.value)
+        tpl = PromptTemplateRepository.get_active_by_name(PromptName.PRELIMINARY_SCREENING.value)
+        prompt_text = render_prompt(str(getattr(tpl, "content", "") or ""))
 
-        result = self.client.classify_value(system_prompt.content, user_msg)
+        result = self.client.classify_value(prompt_text, user_msg)
         log.info({"post_id": row.get("id"),
                   "event":"llm 返回结果如下",
                   "llm_result": result})
@@ -81,6 +84,9 @@ class ScreeningService:
                     continue
                 # 回写 relevant_status + relevant_result
                 PostRepository.update_relevant_status(post_id, relevant_status, relevant_result)
+                # 临时处理，跳过评论获取
+                if relevant_status in [RelevantStatus.YES.value, RelevantStatus.MAYBE.value]:
+                    PostRepository.update_analysis_status(post_id, AnalysisStatus.PENDING.value)
                 # 计数
                 if relevant_status in counters:
                     counters[relevant_status] += 1
