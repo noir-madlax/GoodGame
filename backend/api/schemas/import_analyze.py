@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from .base import BaseRequest, BaseResponse  # re-exported by package for typing in router
 from tikhub_api.orm.enums import Channel
@@ -9,6 +9,21 @@ from tikhub_api.orm.enums import Channel
 
 class ImportAnalyzeRequest(BaseRequest):
     """/api/import/analyze 入参"""
+
+    # 为 Swagger 文档提供默认示例
+    model_config = ConfigDict(
+        extra="ignore",
+        json_schema_extra={
+            "example": {
+                "project_id": "657ec0d1-ad78-4610-aa4e-34123714800a",
+                "url": "https://v.douyin.com/8G_LfJ-Y3uc/",
+                "trace_id": "2c3b0c7d-d1a0-4b68-9e31-4a9b60b75977",
+                "user_id": "",
+                "client_ip": "",
+                "meta": {}
+            }
+        },
+    )
 
     project_id: str = Field(..., min_length=1, description="项目ID (UUID)")
     url: str = Field(..., min_length=1, description="待分析 URL")

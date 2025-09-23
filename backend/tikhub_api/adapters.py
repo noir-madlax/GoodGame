@@ -2,11 +2,13 @@ from __future__ import annotations
 from typing import Protocol, Optional, Dict, Any, runtime_checkable, List
 from datetime import datetime
 
-from backend.tikhub_api.orm.enums import Channel
+from .orm.enums import Channel
 
 from .orm.models import PlatformPost, PlatformComment
 from .orm import PostType
 from .utils.url_validator import filter_valid_video_urls
+
+from common.request_context import get_project_id
 
 # ===== 搜索结果 -> PlatformPost 列表适配器 =====
 
@@ -69,7 +71,7 @@ class VideoAdapter(Protocol):
     def to_post(self, details: Dict[str, Any]) -> PlatformPost:  # type: ignore[name-defined]
         ...
     def hi() -> str:
-        ... 
+        ...
 
 class DouyinVideoAdapter:
     """抖音视频数据 -> PlatformPost 适配器"""
@@ -113,6 +115,7 @@ class DouyinVideoAdapter:
         duration_ms = int(aweme_detail.get('duration') or 0)
 
         return PlatformPost(
+            project_id=get_project_id(),
             platform="douyin",
             platform_item_id=str(aweme_detail.get('aweme_id', '')),
             title=str(aweme_detail.get('desc', '') or '').strip() or '无标题',
@@ -241,6 +244,7 @@ class XiaohongshuVideoAdapter:
                 published_at = None
 
         return PlatformPost(
+            project_id=get_project_id(),
             platform="xiaohongshu",
             platform_item_id=note_id,
             title=title,
@@ -363,6 +367,7 @@ class XiaohongshuVideoAdapter:
                 published_at = None
 
         return PlatformPost(
+            project_id=get_project_id(),
             platform=Channel.XIAOHONGSHU,
             platform_item_id=note_id,
             title=title,

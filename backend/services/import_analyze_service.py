@@ -12,7 +12,7 @@ from tikhub_api.orm.enums import AnalysisStatus, RelevantStatus
 logger = get_logger(__name__)
 
 
-def analyze_and_import(url: str, project_id: str, trace_id: str | None = None) -> Dict[str, Any]:
+def analyze_and_import(url: str, trace_id: str | None = None) -> Dict[str, Any]:
     """
     解析 URL -> 拉取详情 -> 适配为 PlatformPost -> Upsert 落库 -> 返回摘要结果。
     返回字典可直接塞入 ImportAnalyzeResult(**dict)。
@@ -81,18 +81,9 @@ def analyze_and_import(url: str, project_id: str, trace_id: str | None = None) -
             "raw_reason": "拉取详情失败",
         }
 
-    logger.debug(
-        "【导入分析】原始详情 trace_id=%s 平台=%s 帖子ID=%s 详情=%s",
-        trace_id,
-        getattr(platform, "value", str(platform)),
-        item_id,
-        details,
-    )
     adapter = fetcher.get_adapter()
     post = adapter.to_post_single(details)  # type: ignore[attr-defined]
     
-    # 项目必填：由接口传入的 project_id 写入模型
-    post.project_id = project_id
     # 人工导入：固定初始评估枚举
     post.analysis_status = AnalysisStatus.PENDING
     post.relevant_status = RelevantStatus.MAYBE

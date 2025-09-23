@@ -41,7 +41,7 @@ class PostRepository:
 
         # Upsert on the unique constraint (project_id, platform, platform_item_id)
         # 需要显式声明 on_conflict，才能命中该唯一索引而非按主键冲突
-        resp = client.table(TABLE).upsert(payload, on_conflict="project_id,platform,platform_item_id").execute()
+        resp = client.table(TABLE).upsert(payload, on_conflict="platform,platform_item_id").execute()
         data = resp.data[0] if resp.data else None
         return PostRepository._row_to_model(data) if data else model
 
@@ -73,7 +73,7 @@ class PostRepository:
             payload.append(row)
         if not payload:
             return []
-        resp = client.table(TABLE).upsert(payload, on_conflict="project_id,platform,platform_item_id").execute()
+        resp = client.table(TABLE).upsert(payload, on_conflict="platform,platform_item_id").execute()
         data = resp.data or []
         return [PostRepository._row_to_model(r) for r in data]
 
