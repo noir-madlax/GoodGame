@@ -1,0 +1,2239 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "docs": "https://api.tikhub.io/#/Douyin-Search-API/fetch_multi_search_api_v1_douyin_search_fetch_multi_search_post",
+  "params": {
+    "keyword": "火锅 隐藏吃法",
+    "cursor": 0,
+    "sort_type": "0",
+    "publish_time": "1",
+    "filter_duration": "0",
+    "content_type": "0",
+    "search_id": "",
+    "count": 100
+  },
+  "data": {
+    "code": 200,
+    "request_id": "cd7b1aba-b881-4860-a728-694bf6927fa5",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-22 18:51:19",
+    "time_stamp": 1758592279,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Search-API/fetch_multi_search_api_v1_douyin_search_fetch_multi_search_post",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/cd7b1aba-b881-4860-a728-694bf6927fa5?sign=f18835a85de94eaa2b6a6b510533f5ce32a0512a854512ef4b5930bd8f51e73a",
+    "router": "/api/v1/douyin/search/fetch_multi_search",
+    "params": {
+      "keyword": "火锅 隐藏吃法",
+      "cursor": 0,
+      "sort_type": "0",
+      "publish_time": "1",
+      "filter_duration": "0",
+      "content_type": "0",
+      "search_id": ""
+    },
+    "data": [
+      10830,
+      {
+        "business_data": [
+          {
+            "data_id": "0",
+            "type": 1,
+            "data": {
+              "type": 1,
+              "aweme_info": {
+                "aweme_id": "7553104526225280307",
+                "desc": "成都传说中的飞辣串串 开了20多年，飞辣锅底非常霸道，越辣越想吃很重口味！#火锅串串 #寻味烟火气 #新热打卡地 #城市探索家计划 #串串香",
+                "create_time": 1758594797,
+                "author": {
+                  "uid": "98758409239",
+                  "short_id": "956873683",
+                  "nickname": "美食包青天",
+                  "gender": 1,
+                  "signature": "实话实说，真评点评！\n爆料合作请私信\n不定时请粉丝吃饭",
+                  "avatar_larger": {
+                    "uri": "1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "avatar_thumb": {
+                    "uri": "100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?card_type=153&column_n=0&from=327834062",
+                      "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?card_type=153&column_n=0&from=327834062",
+                      "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?card_type=153&column_n=0&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "avatar_medium": {
+                    "uri": "720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "birthday": "",
+                  "is_verified": true,
+                  "follow_status": 0,
+                  "aweme_count": 0,
+                  "following_count": 0,
+                  "follower_count": 0,
+                  "favoriting_count": 0,
+                  "total_favorited": 0,
+                  "is_block": false,
+                  "hide_search": false,
+                  "constellation": 7,
+                  "location": "",
+                  "hide_location": false,
+                  "weibo_verify": "",
+                  "custom_verify": "",
+                  "unique_id": "baoqingtian888",
+                  "bind_phone": "",
+                  "special_lock": 1,
+                  "need_recommend": 0,
+                  "is_binded_weibo": false,
+                  "weibo_name": "",
+                  "weibo_schema": "",
+                  "weibo_url": "",
+                  "story_open": false,
+                  "story_count": 0,
+                  "has_facebook_token": false,
+                  "has_twitter_token": false,
+                  "fb_expire_time": 0,
+                  "tw_expire_time": 0,
+                  "has_youtube_token": false,
+                  "youtube_expire_time": 0,
+                  "room_id": 0,
+                  "live_verify": 0,
+                  "authority_status": 0,
+                  "verify_info": "",
+                  "shield_follow_notice": 0,
+                  "shield_digg_notice": 0,
+                  "shield_comment_notice": 0,
+                  "school_name": "",
+                  "school_poi_id": "",
+                  "school_type": 0,
+                  "share_info": {
+                    "share_url": "",
+                    "share_weibo_desc": "",
+                    "share_desc": "",
+                    "share_title": "",
+                    "share_qrcode_url": {
+                      "uri": "85e2001288753bedca30",
+                      "url_list": [
+                        "https://p3-sign.douyinpic.com/obj/85e2001288753bedca30?lk3s=138a59ce&x-expires=1758650400&x-signature=F8XfHMNR%2FwBYDV19w48jFlnkcoU%3D&from=327834062"
+                      ],
+                      "width": 720,
+                      "height": 720
+                    },
+                    "share_title_myself": "",
+                    "share_title_other": "",
+                    "share_desc_info": ""
+                  },
+                  "with_commerce_entry": false,
+                  "verification_type": 1,
+                  "enterprise_verify_reason": "",
+                  "is_ad_fake": false,
+                  "followers_detail": null,
+                  "region": "CN",
+                  "account_region": "",
+                  "sync_to_toutiao": 0,
+                  "commerce_user_level": 0,
+                  "live_agreement": 0,
+                  "platform_sync_info": null,
+                  "with_shop_entry": false,
+                  "is_discipline_member": false,
+                  "secret": 0,
+                  "has_orders": false,
+                  "prevent_download": false,
+                  "show_image_bubble": false,
+                  "geofencing": [],
+                  "unique_id_modify_time": 1758628805,
+                  "video_icon": {
+                    "uri": "",
+                    "url_list": [],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "ins_id": "",
+                  "google_account": "",
+                  "youtube_channel_id": "",
+                  "youtube_channel_title": "",
+                  "apple_account": 0,
+                  "with_dou_entry": false,
+                  "with_fusion_shop_entry": true,
+                  "is_phone_binded": false,
+                  "accept_private_policy": false,
+                  "twitter_id": "",
+                  "twitter_name": "",
+                  "user_canceled": false,
+                  "has_email": false,
+                  "is_gov_media_vip": false,
+                  "live_agreement_time": 0,
+                  "status": 1,
+                  "create_time": 0,
+                  "avatar_uri": "aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                  "follower_status": 0,
+                  "neiguang_shield": 0,
+                  "comment_setting": 0,
+                  "duet_setting": 0,
+                  "reflow_page_gid": 0,
+                  "reflow_page_uid": 0,
+                  "user_rate": 1,
+                  "download_setting": -1,
+                  "download_prompt_ts": 0,
+                  "react_setting": 0,
+                  "live_commerce": false,
+                  "cover_url": [
+                    {
+                      "uri": "c8510002be9a3a61aad2",
+                      "url_list": [
+                        "https://p3-sign.douyinpic.com/obj/c8510002be9a3a61aad2?lk3s=138a59ce&x-expires=1759838400&x-signature=WbYB%2BYz5NQbdrPFpV%2FrTj5VcnNg%3D&from=327834062"
+                      ],
+                      "width": 720,
+                      "height": 720
+                    }
+                  ],
+                  "language": "zh-Hans",
+                  "has_insights": false,
+                  "share_qrcode_uri": "85e2001288753bedca30",
+                  "item_list": null,
+                  "user_mode": 0,
+                  "user_period": 0,
+                  "has_unread_story": false,
+                  "new_story_cover": null,
+                  "is_star": false,
+                  "cv_level": "",
+                  "type_label": null,
+                  "ad_cover_url": null,
+                  "comment_filter_status": 0,
+                  "avatar_168x168": {
+                    "uri": "168x168/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/img/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558~c5_168x168.webp?from=327834062",
+                      "https://p9.douyinpic.com/img/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558~c5_168x168.webp?from=327834062",
+                      "https://p3.douyinpic.com/img/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558~c5_168x168.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "avatar_300x300": {
+                    "uri": "300x300/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/img/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558~c5_300x300.webp?from=327834062",
+                      "https://p9.douyinpic.com/img/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558~c5_300x300.webp?from=327834062",
+                      "https://p3.douyinpic.com/img/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558~c5_300x300.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "relative_users": null,
+                  "cha_list": null,
+                  "sec_uid": "MS4wLjABAAAAjrlpQG3PnwL1DVYyqv1qMBEFfnhfgn2i3LLyNdNuAn8",
+                  "need_points": null,
+                  "homepage_bottom_toast": null,
+                  "aweme_hotsoon_auth": 1,
+                  "aweme_hotsoon_auth_relation": 1,
+                  "can_set_geofencing": null,
+                  "room_id_str": "0",
+                  "white_cover_url": null,
+                  "user_tags": null,
+                  "stitch_setting": 0,
+                  "is_mix_user": true,
+                  "enable_nearby_visible": true,
+                  "ban_user_functions": [],
+                  "aweme_control": {
+                    "can_forward": true,
+                    "can_share": true,
+                    "can_comment": true,
+                    "can_show_comment": true
+                  },
+                  "user_not_show": 1,
+                  "ky_only_predict": 0,
+                  "user_not_see": 0,
+                  "card_entries": null,
+                  "signature_display_lines": 5,
+                  "display_info": null,
+                  "follower_request_status": 0,
+                  "live_status": 0,
+                  "is_not_show": false,
+                  "card_entries_not_display": null,
+                  "card_sort_priority": null,
+                  "show_nearby_active": false,
+                  "interest_tags": null,
+                  "school_id": "6601123549346285576",
+                  "school_category": 1,
+                  "search_impr": {
+                    "entity_id": "98758409239"
+                  },
+                  "link_item_list": null,
+                  "user_permissions": null,
+                  "offline_info_list": null,
+                  "is_cf": 0,
+                  "is_blocking_v2": false,
+                  "is_blocked_v2": false,
+                  "close_friend_type": 0,
+                  "signature_extra": null,
+                  "max_follower_count": 0,
+                  "personal_tag_list": null,
+                  "cf_list": null,
+                  "im_role_ids": null,
+                  "not_seen_item_id_list": null,
+                  "user_age": -1,
+                  "contacts_status": 2,
+                  "risk_notice_text": "",
+                  "follower_list_secondary_information_struct": null,
+                  "endorsement_info_list": null,
+                  "text_extra": [],
+                  "contrail_list": null,
+                  "data_label_list": null,
+                  "not_seen_item_id_list_v2": null,
+                  "is_ban": false,
+                  "special_people_labels": null,
+                  "special_follow_status": 0,
+                  "familiar_visitor_user": null,
+                  "live_high_value": 0,
+                  "awemehts_greet_info": "",
+                  "avatar_schema_list": null,
+                  "profile_mob_params": null,
+                  "disable_image_comment_saved": 0,
+                  "verification_permission_ids": null,
+                  "batch_unfollow_relation_desc": null,
+                  "batch_unfollow_contain_tabs": null,
+                  "creator_tag_list": null,
+                  "account_cert_info": "{\"label_style\":3,\"label_text\":\"美食自媒体\"}",
+                  "private_relation_list": null,
+                  "mate_relation": {
+                    "mate_status": 0,
+                    "mate_apply_forward": 0,
+                    "mate_apply_reverse": 0
+                  },
+                  "mate_add_permission": 1,
+                  "familiar_confidence": 0,
+                  "mate_count": 0,
+                  "social_real_relation_type": 0,
+                  "identity_labels": null,
+                  "profile_component_disabled": null,
+                  "story_ttl": 0,
+                  "story_interactive": 0,
+                  "house_talent_info": 0
+                },
+                "music": {
+                  "id": 7553104498416225034,
+                  "id_str": "7553104498416225034",
+                  "title": "@美食包青天创作的原声",
+                  "author": "美食包青天",
+                  "album": "",
+                  "cover_hd": {
+                    "uri": "1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "cover_large": {
+                    "uri": "1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "cover_medium": {
+                    "uri": "720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "cover_thumb": {
+                    "uri": "100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "play_url": {
+                    "uri": "https://sf5-hl-cdn-tos.douyinstatic.com/obj/ies-music/7553104518939036425.mp3",
+                    "url_list": [
+                      "https://sf5-hl-cdn-tos.douyinstatic.com/obj/ies-music/7553104518939036425.mp3",
+                      "https://sf3-cdn-tos.douyinstatic.com/obj/ies-music/7553104518939036425.mp3"
+                    ],
+                    "width": 720,
+                    "height": 720,
+                    "url_key": "7553104498416225034"
+                  },
+                  "schema_url": "",
+                  "source_platform": 23,
+                  "start_time": 0,
+                  "end_time": 0,
+                  "duration": 53,
+                  "extra": "{\"aggregate_exempt_conf\":[],\"beats\":{},\"cover_colors\":null,\"douyin_beats_info\":{},\"dsp_switch\":0,\"extract_item_id\":7553104526225280307,\"has_edited\":0,\"hit_high_follow_auto\":false,\"hit_high_follow_extend\":false,\"hit_high_follow_original\":false,\"hotsoon_review_time\":-1,\"is_aed_music\":0,\"is_high_follow_user\":false,\"is_red\":0,\"is_subsidy_exp\":false,\"music_label_id\":null,\"music_tagging\":{\"AEDs\":null,\"Genres\":null,\"Instruments\":null,\"Languages\":null,\"Moods\":null,\"SingingVersions\":null,\"Themes\":null},\"review_unshelve_reason\":0,\"reviewed\":0,\"schedule_search_time\":0,\"uniqa_speech_score\":0.97,\"with_aed_model\":0}",
+                  "user_count": 0,
+                  "position": null,
+                  "collect_stat": 0,
+                  "status": 1,
+                  "offline_desc": "",
+                  "owner_id": "98758409239",
+                  "owner_nickname": "美食包青天",
+                  "is_original": false,
+                  "mid": "7553104498416225034",
+                  "binded_challenge_id": 0,
+                  "redirect": false,
+                  "is_restricted": false,
+                  "author_deleted": false,
+                  "is_del_video": false,
+                  "is_video_self_see": false,
+                  "owner_handle": "baoqingtian888",
+                  "author_position": null,
+                  "prevent_download": false,
+                  "unshelve_countries": null,
+                  "prevent_item_download_status": 0,
+                  "external_song_info": [],
+                  "sec_uid": "MS4wLjABAAAAjrlpQG3PnwL1DVYyqv1qMBEFfnhfgn2i3LLyNdNuAn8",
+                  "avatar_thumb": {
+                    "uri": "100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "avatar_medium": {
+                    "uri": "720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "avatar_large": {
+                    "uri": "1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                    "url_list": [
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=327834062",
+                      "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "preview_start_time": 0,
+                  "preview_end_time": 0,
+                  "is_commerce_music": false,
+                  "is_original_sound": true,
+                  "audition_duration": 53,
+                  "shoot_duration": 53,
+                  "reason_type": 0,
+                  "artists": [],
+                  "lyric_short_position": null,
+                  "mute_share": false,
+                  "tag_list": null,
+                  "dmv_auto_show": false,
+                  "is_pgc": false,
+                  "is_matched_metadata": false,
+                  "is_audio_url_with_cookie": false,
+                  "music_chart_ranks": null,
+                  "can_background_play": true,
+                  "music_status": 1,
+                  "video_duration": 53,
+                  "pgc_music_type": 2,
+                  "author_status": 1,
+                  "search_impr": {
+                    "entity_id": "7553104498416225034"
+                  },
+                  "artist_user_infos": null,
+                  "dsp_status": 10,
+                  "musician_user_infos": null,
+                  "luna_info": {
+                    "is_luna_user": false
+                  },
+                  "music_collect_count": 0,
+                  "music_cover_atmosphere_color_value": "",
+                  "show_origin_clip": false
+                },
+                "cha_list": [
+                  {
+                    "cid": "1578446152375310",
+                    "cha_name": "串串香",
+                    "desc": "",
+                    "schema": "aweme://aweme/challenge/detail?cid=1578446152375310",
+                    "author": {
+                      "followers_detail": null,
+                      "platform_sync_info": null,
+                      "geofencing": null,
+                      "cover_url": null,
+                      "item_list": null,
+                      "new_story_cover": null,
+                      "type_label": null,
+                      "ad_cover_url": null,
+                      "relative_users": null,
+                      "cha_list": null,
+                      "need_points": null,
+                      "homepage_bottom_toast": null,
+                      "can_set_geofencing": null,
+                      "white_cover_url": null,
+                      "user_tags": null,
+                      "ban_user_functions": null,
+                      "card_entries": null,
+                      "display_info": null,
+                      "card_entries_not_display": null,
+                      "card_sort_priority": null,
+                      "interest_tags": null,
+                      "link_item_list": null,
+                      "user_permissions": null,
+                      "offline_info_list": null,
+                      "signature_extra": null,
+                      "personal_tag_list": null,
+                      "cf_list": null,
+                      "im_role_ids": null,
+                      "not_seen_item_id_list": null,
+                      "follower_list_secondary_information_struct": null,
+                      "endorsement_info_list": null,
+                      "text_extra": null,
+                      "contrail_list": null,
+                      "data_label_list": null,
+                      "not_seen_item_id_list_v2": null,
+                      "special_people_labels": null,
+                      "familiar_visitor_user": null,
+                      "avatar_schema_list": null,
+                      "profile_mob_params": null,
+                      "verification_permission_ids": null,
+                      "batch_unfollow_relation_desc": null,
+                      "batch_unfollow_contain_tabs": null,
+                      "creator_tag_list": null,
+                      "private_relation_list": null,
+                      "identity_labels": null,
+                      "profile_component_disabled": null
+                    },
+                    "user_count": 0,
+                    "share_info": {
+                      "share_url": "https://www.iesdouyin.com/share/challenge/1578446152375310/?u_code=0&from_ssr=1",
+                      "share_weibo_desc": "我在抖音参与话题讨论#串串香 ",
+                      "share_desc": "在抖音，记录美好生活",
+                      "share_title": "我在抖音参与话题讨论#串串香 ",
+                      "bool_persist": 0,
+                      "share_title_myself": "",
+                      "share_title_other": "",
+                      "share_signature_url": "",
+                      "share_signature_desc": "",
+                      "share_quote": "",
+                      "share_desc_info": "我在抖音参与话题讨论#串串香 "
+                    },
+                    "connect_music": [],
+                    "type": 0,
+                    "sub_type": 0,
+                    "is_pgcshow": false,
+                    "collect_stat": 0,
+                    "is_challenge": 0,
+                    "view_count": 0,
+                    "is_commerce": false,
+                    "hashtag_profile": "image-cut-tos/8aa7c291adc7903b7efc3516480917e4.jpg",
+                    "cha_attrs": null,
+                    "banner_list": null,
+                    "extra_attr": {
+                      "is_live": false
+                    },
+                    "show_items": null,
+                    "search_impr": {
+                      "entity_id": "1578446152375310"
+                    },
+                    "challenge_status": 1,
+                    "from_ugc_hashtag_bank": "0",
+                    "insert_template_category_list": null
+                  }
+                ],
+                "video": {
+                  "play_addr": {
+                    "uri": "v0200fg10000d3907kvog65ndt20t6vg",
+                    "url_list": [
+                      "https://v3-search.douyinvod.com/8b930c57f73fe3e9457bf6bef8365722/68d29a0a/video/tos/cn/tos-cn-ve-15/owregI8vnGACIRvflALdC2jAtD6AbEeSRAeMII/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=1818&bt=1818&cs=0&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=4&rc=OGg6Njg5ZTMzODYzZGZnNEBpajkzd3E5cm4zNjMzNGkzM0A2LmEyNi0xX2ExNjAzMTI2YSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=eb29b1b3aca69db49524c333df8caaf7&l=20250923200004DE82429535A4BF691C99",
+                      "https://v3-search.douyinvod.com/8b930c57f73fe3e9457bf6bef8365722/68d29a0a/video/tos/cn/tos-cn-ve-15/owregI8vnGACIRvflALdC2jAtD6AbEeSRAeMII/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=1818&bt=1818&cs=0&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=4&rc=OGg6Njg5ZTMzODYzZGZnNEBpajkzd3E5cm4zNjMzNGkzM0A2LmEyNi0xX2ExNjAzMTI2YSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=eb29b1b3aca69db49524c333df8caaf7&l=20250923200004DE82429535A4BF691C99",
+                      "https://api-play-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=0&file_id=915d4c6a309345d0b04b069553d71e95&sign=bbac2fc2d1c4e90d582a891ab68abae5&is_play_url=1&source=PackSourceEnum_SEARCH",
+                      "https://api-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=1&file_id=915d4c6a309345d0b04b069553d71e95&sign=bbac2fc2d1c4e90d582a891ab68abae5&is_play_url=1&source=PackSourceEnum_SEARCH"
+                    ],
+                    "width": 576,
+                    "height": 1024,
+                    "url_key": "v0200fg10000d3907kvog65ndt20t6vg_h264_540p_1861866",
+                    "data_size": 12474508,
+                    "file_hash": "bbac2fc2d1c4e90d582a891ab68abae5",
+                    "file_cs": "c:0-45412-6c4c|d:0-6237253-19ba,6237254-12474507-12ed|a:v0200fg10000d3907kvog65ndt20t6vg"
+                  },
+                  "cover": {
+                    "uri": "tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA",
+                    "url_list": [
+                      "https://p11-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=ScWnWQLNg7p4re1UjcMo3FHAeeQ%3D",
+                      "https://p3-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=uuKJpNCnybU2OExQv74znX0yu50%3D",
+                      "https://p11-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.jpeg?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=FLljdDG4plJy9hH8JTcySe8s9X4%3D"
+                    ],
+                    "width": 759,
+                    "height": 1011
+                  },
+                  "height": 1024,
+                  "width": 576,
+                  "dynamic_cover": {
+                    "uri": "tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA",
+                    "url_list": [
+                      "https://p11-sign.douyinpic.com/obj/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA?lk3s=138a59ce&x-expires=1759838400&x-signature=OFo0Kme2YcoGnghqgX4ca3NYeXI%3D&from=327834062_large&s=PackSourceEnum_SEARCH_SIN&se=false&sc=dynamic_cover&biz_tag=aweme_video&l=20250923200004DE82429535A4BF691C99",
+                      "https://p3-sign.douyinpic.com/obj/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA?lk3s=138a59ce&x-expires=1759838400&x-signature=3plGm%2FcXic7RHgEYMCuJ9G%2BWcGY%3D&from=327834062_large&s=PackSourceEnum_SEARCH_SIN&se=false&sc=dynamic_cover&biz_tag=aweme_video&l=20250923200004DE82429535A4BF691C99"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "origin_cover": {
+                    "uri": "tos-cn-p-0015/oEX0CITIDgtPgBBNgEfJA3CTdF3oKoAAkuf93S",
+                    "url_list": [
+                      "https://p11-sign.douyinpic.com/tos-cn-p-0015/oEX0CITIDgtPgBBNgEfJA3CTdF3oKoAAkuf93S~tplv-dy-360p.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=origin_cover&se=false&x-expires=1759838400&x-signature=MkvPUrz56ouA5iHj3I5Pa0mcfg0%3D",
+                      "https://p3-sign.douyinpic.com/tos-cn-p-0015/oEX0CITIDgtPgBBNgEfJA3CTdF3oKoAAkuf93S~tplv-dy-360p.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=origin_cover&se=false&x-expires=1759838400&x-signature=q5qW0%2Fxu77E9%2Fvrv%2FeTJoPkKn6U%3D",
+                      "https://p11-sign.douyinpic.com/tos-cn-p-0015/oEX0CITIDgtPgBBNgEfJA3CTdF3oKoAAkuf93S~tplv-dy-360p.jpeg?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=origin_cover&se=false&x-expires=1759838400&x-signature=fAuHT5uRCJ4AxU86Hq0MmdXohDY%3D"
+                    ],
+                    "width": 360,
+                    "height": 640
+                  },
+                  "ratio": "540p",
+                  "download_addr": {
+                    "uri": "v0200fg10000d3907kvog65ndt20t6vg",
+                    "url_list": [
+                      "https://v3-search.douyinvod.com/324c3104a9df9ea66187208cbf8f84ba/68d29a0a/video/tos/cn/tos-cn-ve-15/oEBU9UDB0PgfPZjgS32oCPTEQfuFIAodAEgAYN/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=3665&bt=3665&cs=0&ds=3&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=0&rc=NmY2PDo4ZjxkOGY7O2Y8NkBpajkzd3E5cm4zNjMzNGkzM0BgMjUtXl4tXmAxYzNhMF8uYSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=dc6e471fd69cf67451806384e04f2b47&l=20250923200004DE82429535A4BF691C99",
+                      "https://api-play-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=0&ratio=720p&watermark=1&media_type=4&vr_type=0&improve_bitrate=0&biz_sign=NRPI1lC4AlkgB1YZ_o3Jx_AfESRKvePEcuaQ_45jf2uwTcZpB51FwpoDpKLT9VaaOzLa7CA0Ou-V1V2BgVoae9Qb5U_ADGbNHaUZIZuaRMUGyO7s5wbVW7et0I2xs1hA&logo_name=aweme_search_suffix&source=PackSourceEnum_SEARCH",
+                      "https://api-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=1&ratio=720p&watermark=1&media_type=4&vr_type=0&improve_bitrate=0&biz_sign=NRPI1lC4AlkgB1YZ_o3Jx_AfESRKvePEcuaQ_45jf2uwTcZpB51FwpoDpKLT9VaaOzLa7CA0Ou-V1V2BgVoae9Qb5U_ADGbNHaUZIZuaRMUGyO7s5wbVW7et0I2xs1hA&logo_name=aweme_search_suffix&source=PackSourceEnum_SEARCH"
+                    ],
+                    "width": 720,
+                    "height": 720,
+                    "data_size": 26545993,
+                    "file_cs": "c:0-59553-b10c"
+                  },
+                  "has_watermark": true,
+                  "bit_rate": [
+                    {
+                      "gear_name": "adapt_540_1",
+                      "quality_type": 28,
+                      "bit_rate": 948199,
+                      "play_addr": {
+                        "uri": "v0200fg10000d3907kvog65ndt20t6vg",
+                        "url_list": [
+                          "https://v3-search.douyinvod.com/2793b77163d2c66b985bf2b2a2c02ede/68d29a0a/video/tos/cn/tos-cn-ve-15/oEyAffgSdgG9DdGEQguEATBCCA0FI3tooNP3Dz/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=925&bt=925&cs=2&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=11&rc=ZGk6ZGk1aGczOGU1OWhkNEBpajkzd3E5cm4zNjMzNGkzM0A0YV4tYDZfXjYxXjUzMV9fYSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=757dd2cf707fffcef8d1ad2a3dd536ea&l=20250923200004DE82429535A4BF691C99",
+                          "https://v3-search.douyinvod.com/2793b77163d2c66b985bf2b2a2c02ede/68d29a0a/video/tos/cn/tos-cn-ve-15/oEyAffgSdgG9DdGEQguEATBCCA0FI3tooNP3Dz/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=925&bt=925&cs=2&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=11&rc=ZGk6ZGk1aGczOGU1OWhkNEBpajkzd3E5cm4zNjMzNGkzM0A0YV4tYDZfXjYxXjUzMV9fYSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=757dd2cf707fffcef8d1ad2a3dd536ea&l=20250923200004DE82429535A4BF691C99",
+                          "https://api-play-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=0&file_id=b1ba4e6682ab4590adbe92cf0aa7df7a&sign=2de2a0b2f45dfba0219f831c5137e979&is_play_url=1&source=PackSourceEnum_SEARCH",
+                          "https://api-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=1&file_id=b1ba4e6682ab4590adbe92cf0aa7df7a&sign=2de2a0b2f45dfba0219f831c5137e979&is_play_url=1&source=PackSourceEnum_SEARCH"
+                        ],
+                        "width": 576,
+                        "height": 1024,
+                        "url_key": "v0200fg10000d3907kvog65ndt20t6vg_bytevc1_540p_948199",
+                        "data_size": 6352937,
+                        "file_hash": "2de2a0b2f45dfba0219f831c5137e979",
+                        "file_cs": "c:0-45728-4dfc|d:0-3176467-4e3a,3176468-6352936-17de|a:v0200fg10000d3907kvog65ndt20t6vg"
+                      },
+                      "is_h265": 1,
+                      "is_bytevc1": 1,
+                      "HDR_type": "",
+                      "HDR_bit": "",
+                      "FPS": 30,
+                      "video_extra": "{\"PktOffsetMap\":\"[{\\\"time\\\": 1, \\\"offset\\\": 260117}, {\\\"time\\\": 2, \\\"offset\\\": 394748}, {\\\"time\\\": 3, \\\"offset\\\": 562117}, {\\\"time\\\": 4, \\\"offset\\\": 679113}, {\\\"time\\\": 5, \\\"offset\\\": 823867}, {\\\"time\\\": 10, \\\"offset\\\": 1506476}]\",\"format\":\"mp4\",\"definition\":\"540p\",\"quality\":\"adapt\",\"file_id\":\"b1ba4e6682ab4590adbe92cf0aa7df7a\",\"applog_map\":{\"feature_id\":\"757dd2cf707fffcef8d1ad2a3dd536ea\"},\"audio_metrics\":null,\"audio_score\":null}",
+                      "format": "mp4"
+                    },
+                    {
+                      "gear_name": "adapt_lower_540_1",
+                      "quality_type": 21,
+                      "bit_rate": 838933,
+                      "play_addr": {
+                        "uri": "v0200fg10000d3907kvog65ndt20t6vg",
+                        "url_list": [
+                          "https://v3-search.douyinvod.com/0f86b69b4e5b9b8232cff57916ab87d1/68d29a0a/video/tos/cn/tos-cn-ve-15/o4HIAXNfEFA3J0QgE97DCTgdgNCFPuoSPAofBj/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=819&bt=819&cs=2&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=14&rc=M2U5ODo0NzhlNTs5ZDtmZ0Bpajkzd3E5cm4zNjMzNGkzM0BgYGNiMmEzNi0xMl9iLy1fYSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=32699d5e779b3b3fcede2f4c64fccaea&l=20250923200004DE82429535A4BF691C99",
+                          "https://v3-search.douyinvod.com/0f86b69b4e5b9b8232cff57916ab87d1/68d29a0a/video/tos/cn/tos-cn-ve-15/o4HIAXNfEFA3J0QgE97DCTgdgNCFPuoSPAofBj/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=819&bt=819&cs=2&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=14&rc=M2U5ODo0NzhlNTs5ZDtmZ0Bpajkzd3E5cm4zNjMzNGkzM0BgYGNiMmEzNi0xMl9iLy1fYSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=32699d5e779b3b3fcede2f4c64fccaea&l=20250923200004DE82429535A4BF691C99",
+                          "https://api-play-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=0&file_id=bd0c28eab658420b9564d157e5f6cbc0&sign=f49fdaf696380eab9ea26f5e4894101f&is_play_url=1&source=PackSourceEnum_SEARCH",
+                          "https://api-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=1&file_id=bd0c28eab658420b9564d157e5f6cbc0&sign=f49fdaf696380eab9ea26f5e4894101f&is_play_url=1&source=PackSourceEnum_SEARCH"
+                        ],
+                        "width": 576,
+                        "height": 1024,
+                        "url_key": "v0200fg10000d3907kvog65ndt20t6vg_bytevc1_540p_838933",
+                        "data_size": 5620854,
+                        "file_hash": "f49fdaf696380eab9ea26f5e4894101f",
+                        "file_cs": "c:0-45728-5811|d:0-2810426-aa45,2810427-5620853-0917|a:v0200fg10000d3907kvog65ndt20t6vg"
+                      },
+                      "is_h265": 1,
+                      "is_bytevc1": 1,
+                      "HDR_type": "",
+                      "HDR_bit": "",
+                      "FPS": 30,
+                      "video_extra": "{\"PktOffsetMap\":\"[{\\\"time\\\": 1, \\\"offset\\\": 246686}, {\\\"time\\\": 2, \\\"offset\\\": 370975}, {\\\"time\\\": 3, \\\"offset\\\": 521728}, {\\\"time\\\": 4, \\\"offset\\\": 628874}, {\\\"time\\\": 5, \\\"offset\\\": 755467}, {\\\"time\\\": 10, \\\"offset\\\": 1383133}]\",\"format\":\"mp4\",\"definition\":\"540p\",\"quality\":\"adapt_lower\",\"file_id\":\"bd0c28eab658420b9564d157e5f6cbc0\",\"applog_map\":{\"feature_id\":\"32699d5e779b3b3fcede2f4c64fccaea\"},\"audio_metrics\":null,\"audio_score\":null}",
+                      "format": "mp4"
+                    }
+                  ],
+                  "duration": 53600,
+                  "play_addr_265": {
+                    "uri": "v0200fg10000d3907kvog65ndt20t6vg",
+                    "url_list": [
+                      "https://v3-search.douyinvod.com/2793b77163d2c66b985bf2b2a2c02ede/68d29a0a/video/tos/cn/tos-cn-ve-15/oEyAffgSdgG9DdGEQguEATBCCA0FI3tooNP3Dz/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=925&bt=925&cs=2&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=11&rc=ZGk6ZGk1aGczOGU1OWhkNEBpajkzd3E5cm4zNjMzNGkzM0A0YV4tYDZfXjYxXjUzMV9fYSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=757dd2cf707fffcef8d1ad2a3dd536ea&l=20250923200004DE82429535A4BF691C99",
+                      "https://v3-search.douyinvod.com/2793b77163d2c66b985bf2b2a2c02ede/68d29a0a/video/tos/cn/tos-cn-ve-15/oEyAffgSdgG9DdGEQguEATBCCA0FI3tooNP3Dz/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=925&bt=925&cs=2&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=11&rc=ZGk6ZGk1aGczOGU1OWhkNEBpajkzd3E5cm4zNjMzNGkzM0A0YV4tYDZfXjYxXjUzMV9fYSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=757dd2cf707fffcef8d1ad2a3dd536ea&l=20250923200004DE82429535A4BF691C99",
+                      "https://api-play-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=0&file_id=b1ba4e6682ab4590adbe92cf0aa7df7a&sign=2de2a0b2f45dfba0219f831c5137e979&is_play_url=1&source=PackSourceEnum_SEARCH",
+                      "https://api-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=1&file_id=b1ba4e6682ab4590adbe92cf0aa7df7a&sign=2de2a0b2f45dfba0219f831c5137e979&is_play_url=1&source=PackSourceEnum_SEARCH"
+                    ],
+                    "width": 576,
+                    "height": 1024,
+                    "url_key": "v0200fg10000d3907kvog65ndt20t6vg_bytevc1_540p_948199",
+                    "data_size": 6352937,
+                    "file_hash": "2de2a0b2f45dfba0219f831c5137e979",
+                    "file_cs": "c:0-45728-4dfc|d:0-3176467-4e3a,3176468-6352936-17de|a:v0200fg10000d3907kvog65ndt20t6vg"
+                  },
+                  "is_h265": 0,
+                  "play_addr_h264": {
+                    "uri": "v0200fg10000d3907kvog65ndt20t6vg",
+                    "url_list": [
+                      "https://v3-search.douyinvod.com/8b930c57f73fe3e9457bf6bef8365722/68d29a0a/video/tos/cn/tos-cn-ve-15/owregI8vnGACIRvflALdC2jAtD6AbEeSRAeMII/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=1818&bt=1818&cs=0&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=4&rc=OGg6Njg5ZTMzODYzZGZnNEBpajkzd3E5cm4zNjMzNGkzM0A2LmEyNi0xX2ExNjAzMTI2YSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=eb29b1b3aca69db49524c333df8caaf7&l=20250923200004DE82429535A4BF691C99",
+                      "https://v3-search.douyinvod.com/8b930c57f73fe3e9457bf6bef8365722/68d29a0a/video/tos/cn/tos-cn-ve-15/owregI8vnGACIRvflALdC2jAtD6AbEeSRAeMII/?a=615883&ch=11&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&cv=1&br=1818&bt=1818&cs=0&ds=6&ft=Xo0TLaZqsQOCCp5Sup-Q6_Mme-rLWa5eF8AOSSd-Irl3mCuwUBMEq&mime_type=video_mp4&qs=4&rc=OGg6Njg5ZTMzODYzZGZnNEBpajkzd3E5cm4zNjMzNGkzM0A2LmEyNi0xX2ExNjAzMTI2YSNzcS9hMmRzNDZhLS1kLS9zcw%3D%3D&btag=80000e00020000&dy_q=1758628805&feature_id=eb29b1b3aca69db49524c333df8caaf7&l=20250923200004DE82429535A4BF691C99",
+                      "https://api-play-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=0&file_id=915d4c6a309345d0b04b069553d71e95&sign=bbac2fc2d1c4e90d582a891ab68abae5&is_play_url=1&source=PackSourceEnum_SEARCH",
+                      "https://api-hl.amemv.com/aweme/v1/play/?video_id=v0200fg10000d3907kvog65ndt20t6vg&line=1&file_id=915d4c6a309345d0b04b069553d71e95&sign=bbac2fc2d1c4e90d582a891ab68abae5&is_play_url=1&source=PackSourceEnum_SEARCH"
+                    ],
+                    "width": 576,
+                    "height": 1024,
+                    "url_key": "v0200fg10000d3907kvog65ndt20t6vg_h264_540p_1861866",
+                    "data_size": 12474508,
+                    "file_hash": "bbac2fc2d1c4e90d582a891ab68abae5",
+                    "file_cs": "c:0-45412-6c4c|d:0-6237253-19ba,6237254-12474507-12ed|a:v0200fg10000d3907kvog65ndt20t6vg"
+                  },
+                  "cdn_url_expired": 1758632458,
+                  "animated_cover": {
+                    "uri": "tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA",
+                    "url_list": [
+                      "https://p11-sign.douyinpic.com/obj/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA?lk3s=138a59ce&x-expires=1759838400&x-signature=OFo0Kme2YcoGnghqgX4ca3NYeXI%3D&from=327834062_large&s=PackSourceEnum_SEARCH_SIN&se=false&sc=dynamic_cover&biz_tag=aweme_video&l=20250923200004DE82429535A4BF691C99",
+                      "https://p3-sign.douyinpic.com/obj/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA?lk3s=138a59ce&x-expires=1759838400&x-signature=3plGm%2FcXic7RHgEYMCuJ9G%2BWcGY%3D&from=327834062_large&s=PackSourceEnum_SEARCH_SIN&se=false&sc=dynamic_cover&biz_tag=aweme_video&l=20250923200004DE82429535A4BF691C99"
+                    ]
+                  },
+                  "need_set_token": false,
+                  "CoverTsp": 0,
+                  "is_callback": true,
+                  "tags": [],
+                  "use_static_cover": true,
+                  "big_thumbs": [
+                    {
+                      "img_num": 54,
+                      "uri": "tos-cn-p-0015/osN3wDPIfkFgA1TfAguSoCoLB79d0A8KEIgBEc",
+                      "img_url": "https://p3-sign.douyinpic.com/tos-cn-p-0015/osN3wDPIfkFgA1TfAguSoCoLB79d0A8KEIgBEc~tplv-noop.image?dy_q=1758628805&l=20250923200004DE82429535A4BF691C99&x-expires=1758632458&x-signature=YiyIZZC3fz6j8EmYuads%2Bfa5wGU%3D",
+                      "img_x_size": 136,
+                      "img_y_size": 240,
+                      "img_x_len": 5,
+                      "img_y_len": 5,
+                      "duration": 53.569,
+                      "interval": 1,
+                      "fext": "jpg",
+                      "uris": [
+                        "tos-cn-p-0015/osN3wDPIfkFgA1TfAguSoCoLB79d0A8KEIgBEc",
+                        "tos-cn-p-0015/oMRCWSW8jeC57bAkEdLIAeGnDSA2deJggve6IA",
+                        "tos-cn-p-0015/ocI8dLE2IGj9SADeEAdRAst6gebnvfCIelgJAD"
+                      ],
+                      "img_urls": [
+                        "https://p3-sign.douyinpic.com/tos-cn-p-0015/osN3wDPIfkFgA1TfAguSoCoLB79d0A8KEIgBEc~tplv-noop.image?dy_q=1758628805&l=20250923200004DE82429535A4BF691C99&x-expires=1758632458&x-signature=YiyIZZC3fz6j8EmYuads%2Bfa5wGU%3D",
+                        "https://p3-sign.douyinpic.com/tos-cn-p-0015/oMRCWSW8jeC57bAkEdLIAeGnDSA2deJggve6IA~tplv-noop.image?dy_q=1758628805&l=20250923200004DE82429535A4BF691C99&x-expires=1758632458&x-signature=Caly8yQzDZNs47I1KfPqVoSoSvM%3D",
+                        "https://p3-sign.douyinpic.com/tos-cn-p-0015/ocI8dLE2IGj9SADeEAdRAst6gebnvfCIelgJAD~tplv-noop.image?dy_q=1758628805&l=20250923200004DE82429535A4BF691C99&x-expires=1758632458&x-signature=AoWg7qC%2FiSp7vjYn%2BKQ17aHgvtE%3D"
+                      ]
+                    }
+                  ],
+                  "is_bytevc1": 0,
+                  "meta": "{\"bright_ratio_mean\":\"0.0817\",\"brightness_mean\":\"143.7698\",\"diff_overexposure_ratio\":\"0.0084\",\"format\":\"mp4\",\"gear_vqm\":\"{\\\"1080p_720p\\\":-1,\\\"720p_540p\\\":-1}\",\"has_standard_and_vr\":\"1\",\"hrids\":\"101016223\",\"is_spatial_video\":\"0\",\"isad\":\"0\",\"overexposure_ratio_mean\":\"0.0157\",\"qprf\":\"1.000\",\"sdgs\":\"[\\\"adapt_540_1\\\",\\\"adapt_lower_540_1\\\"]\",\"sr_score\":\"0.000\",\"std_brightness\":\"12.0212\",\"strategy_tokens\":\"[\\\"online\\\",\\\"sexp_reward01_0721\\\",\\\"sexp_reward02_0721\\\",\\\"sexp_0701_0819\\\",\\\"sexp_0702_0819\\\"]\",\"title_info\":\"{\\\"avg_br_pc\\\":138,\\\"bottom_res_add\\\":[2.36,1,1.73,1.64,1.36,1.45,1.45,1.82,3.18,3.27,2.18,1.27,0.18,0.55,0.55],\\\"bullet_zone\\\":1.49,\\\"mean_br_l\\\":[149,143.09,137.52,132.63,128.76,126.75],\\\"pc60_br_l\\\":[158.96,150.13,147.27,144.59,141.59,138.48],\\\"progress_bar\\\":[136.01,151.08,168.05],\\\"ratio_br_l\\\":[156.57,144.86,140.8,134.25,125.96,127.51],\\\"ratio_br_l_thre220\\\":[0,0,0,0,0,0],\\\"ratio_edge_l\\\":[0.62,0.55,0.59,0.63,0.65,0.64],\\\"std_br_l\\\":[21.27,18.56,18.92,19.04,19.52,20.11],\\\"top_res_add\\\":[0.45,0.73,0,0,0,0,0.64],\\\"version\\\":\\\"v1.0\\\"}\",\"volume_info\":\"{\\\"Version\\\":2,\\\"MaximumMomentaryLoudness\\\":-6.8,\\\"MaximumShortTermLoudness\\\":-8.4,\\\"LoudnessRangeEnd\\\":-8.9,\\\"LoudnessRangeStart\\\":-11.5,\\\"Metrics\\\":{\\\"Loudness\\\":{\\\"Integrated\\\":-10.374},\\\"Phase\\\":{\\\"RMSDownmixDiff\\\":-0.233},\\\"RMSStats\\\":{\\\"LRDiff\\\":0.043,\\\"LTotal\\\":-13.171,\\\"Peak\\\":0.19,\\\"RTotal\\\":-13.214},\\\"Version\\\":\\\"1.4.2\\\"},\\\"Peak\\\":1,\\\"Loudness\\\":-10.4,\\\"LoudnessRange\\\":2.6}\"}",
+                  "is_source_HDR": 1,
+                  "audio": {
+                    "original_sound_infos": null
+                  },
+                  "bit_rate_audio": null,
+                  "format": "mp4"
+                },
+                "share_url": "https://www.iesdouyin.com/share/video/7553104526225280307/?region=US&mid=7553104498416225034&u_code=0&did=MS4wLjABAAAAF2Msfp9wDdPx3VCR_fKWNgHbTd_2CwC2G9oMTdeTVEZ_t2eoaSM0-Kk1vpNuDkKS&iid=MS4wLjABAAAAJK0xBSuan2-z7vARUZnUpGP_Jewq4aXDxbJl8N9jwxIPeMn-KLBJXAZbqpzWe-Ko&with_sec_did=1&video_share_track_ver=&titleType=title&share_sign=IwsfB0PQvqAyLTXJYkShPXYz8alRlcbie22y7tv_7Uk-&share_version=310601&ts=1758628805&from_aid=615883&from_ssr=1&share_track_info=%7B%22link_description_type%22%3A%22%22%7D",
+                "user_digged": 0,
+                "statistics": {
+                  "aweme_id": "7553104526225280307",
+                  "comment_count": 256,
+                  "digg_count": 3948,
+                  "download_count": 1,
+                  "play_count": 0,
+                  "share_count": 842,
+                  "forward_count": 0,
+                  "lose_count": 0,
+                  "lose_comment_count": 0,
+                  "whatsapp_share_count": 0,
+                  "digest": "",
+                  "exposure_count": 0,
+                  "live_watch_count": 0,
+                  "collect_count": 589,
+                  "recommend_count": 7
+                },
+                "status": {
+                  "aweme_id": "7553104526225280307",
+                  "is_delete": false,
+                  "allow_share": true,
+                  "allow_comment": true,
+                  "is_private": false,
+                  "with_goods": false,
+                  "private_status": 0,
+                  "with_fusion_goods": false,
+                  "in_reviewing": false,
+                  "reviewed": 1,
+                  "self_see": false,
+                  "is_prohibited": false,
+                  "download_status": 0,
+                  "review_result": {
+                    "review_status": 0
+                  },
+                  "dont_share_status": 0,
+                  "video_hide_search": 0,
+                  "aweme_edit_info": {
+                    "button_status": 2,
+                    "button_toast": ""
+                  },
+                  "part_see": 0,
+                  "listen_video_status": 2,
+                  "allow_friend_recommend": false,
+                  "allow_self_recommend_to_friend": true,
+                  "allow_friend_recommend_guide": true
+                },
+                "rate": 12,
+                "text_extra": [
+                  {
+                    "start": 37,
+                    "end": 42,
+                    "type": 1,
+                    "hashtag_name": "火锅串串",
+                    "hashtag_id": "1594288640363523",
+                    "is_commerce": false,
+                    "caption_start": 26,
+                    "caption_end": 31
+                  },
+                  {
+                    "start": 43,
+                    "end": 49,
+                    "type": 1,
+                    "hashtag_name": "寻味烟火气",
+                    "hashtag_id": "1722851255720004",
+                    "is_commerce": false,
+                    "caption_start": 32,
+                    "caption_end": 38
+                  },
+                  {
+                    "start": 50,
+                    "end": 56,
+                    "type": 1,
+                    "hashtag_name": "新热打卡地",
+                    "hashtag_id": "7505339332895442970",
+                    "is_commerce": false,
+                    "caption_start": 39,
+                    "caption_end": 45
+                  },
+                  {
+                    "start": 57,
+                    "end": 65,
+                    "type": 1,
+                    "hashtag_name": "城市探索家计划",
+                    "hashtag_id": "7546140577046202420",
+                    "is_commerce": false,
+                    "caption_start": 46,
+                    "caption_end": 54
+                  },
+                  {
+                    "start": 66,
+                    "end": 70,
+                    "type": 1,
+                    "hashtag_name": "串串香",
+                    "hashtag_id": "1578446152375310",
+                    "is_commerce": false,
+                    "caption_start": 55,
+                    "caption_end": 59
+                  }
+                ],
+                "is_top": 0,
+                "share_info": {
+                  "share_url": "https://www.iesdouyin.com/share/video/7553104526225280307/?region=US&mid=7553104498416225034&u_code=0&did=MS4wLjABAAAAF2Msfp9wDdPx3VCR_fKWNgHbTd_2CwC2G9oMTdeTVEZ_t2eoaSM0-Kk1vpNuDkKS&iid=MS4wLjABAAAAJK0xBSuan2-z7vARUZnUpGP_Jewq4aXDxbJl8N9jwxIPeMn-KLBJXAZbqpzWe-Ko&with_sec_did=1&video_share_track_ver=&titleType=title&share_sign=IwsfB0PQvqAyLTXJYkShPXYz8alRlcbie22y7tv_7Uk-&share_version=310601&ts=1758628805&from_aid=615883&from_ssr=1&share_track_info=%7B%22link_description_type%22%3A%22%22%7D",
+                  "share_weibo_desc": "#在抖音，记录美好生活#成都传说中的飞辣串串 开了20多年，飞辣锅底非常霸道，越辣越想吃很重口味！#火锅串串 #寻味烟火气 #新热打卡地 #城市探索家计划 #串串香",
+                  "share_desc": "在抖音，记录美好生活",
+                  "share_title": "成都传说中的飞辣串串 开了20多年，飞辣锅底非常霸道，越辣越想吃很重口味！#火锅串串 #寻味烟火气 #新热打卡地 #城市探索家计划 #串串香",
+                  "bool_persist": 0,
+                  "share_title_myself": "",
+                  "share_title_other": "",
+                  "share_link_desc": "3.30 复制打开AI抖音，看看【美食包青天的作品】成都传说中的飞辣串串 开了20多年，飞辣锅底非常霸... %s Z@M.Wm rre:/ 11/06 ",
+                  "share_signature_url": "",
+                  "share_signature_desc": "",
+                  "share_quote": "",
+                  "share_desc_info": "#在抖音，记录美好生活#成都传说中的飞辣串串 开了20多年，飞辣锅底非常霸道，越辣越想吃很重口味！#火锅串串 #寻味烟火气 #新热打卡地 #城市探索家计划 #串串香"
+                },
+                "distance": "",
+                "video_labels": null,
+                "is_vr": false,
+                "poi_info": {
+                  "poi_id": "7535807259142522934",
+                  "poi_name": "420飞辣串串香(总店)",
+                  "type_code": "050117",
+                  "user_count": 387,
+                  "item_count": 47,
+                  "share_info": {
+                    "share_url": "https://aweme.snssdk.com/falcon/poi_mwa/poi_detail?poi_id=pos_28165159396159277",
+                    "share_weibo_desc": "420飞辣串串香(总店)附近超多有趣的抖音视频，一起来玩，戳这里",
+                    "share_desc": "",
+                    "share_title": "420飞辣串串香(总店)附近超多有趣的抖音视频，一起来玩，戳这里",
+                    "bool_persist": 0,
+                    "share_title_myself": "",
+                    "share_title_other": "",
+                    "share_desc_info": "420飞辣串串香(总店)附近超多有趣的抖音视频，一起来玩，戳这里"
+                  },
+                  "cover_hd": {
+                    "uri": "46b700013ca4797326f1",
+                    "url_list": [
+                      "https://p3-sign.douyinpic.com/obj/46b700013ca4797326f1?lk3s=138a59ce&x-expires=1759838400&x-signature=qOS4Rx6mVxka7p2eZGdSdimnJMk%3D&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "cover_large": {
+                    "uri": "46b700013ca4797326f1",
+                    "url_list": [
+                      "https://p3-sign.douyinpic.com/obj/46b700013ca4797326f1?lk3s=138a59ce&x-expires=1759838400&x-signature=qOS4Rx6mVxka7p2eZGdSdimnJMk%3D&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "cover_medium": {
+                    "uri": "46b700013ca4797326f1",
+                    "url_list": [
+                      "https://p3-sign.douyinpic.com/obj/46b700013ca4797326f1?lk3s=138a59ce&x-expires=1759838400&x-signature=qOS4Rx6mVxka7p2eZGdSdimnJMk%3D&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "cover_thumb": {
+                    "uri": "46b700013ca4797326f1",
+                    "url_list": [
+                      "https://p3-sign.douyinpic.com/obj/46b700013ca4797326f1?lk3s=138a59ce&x-expires=1759838400&x-signature=qOS4Rx6mVxka7p2eZGdSdimnJMk%3D&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "distance": "",
+                  "address_info": {
+                    "province": "四川省",
+                    "city": "成都市",
+                    "district": "金牛区",
+                    "address": "金琴路211.212.213号路底层",
+                    "simple_addr": "金琴路211.212.213号路底层",
+                    "city_code": "510106",
+                    "country": "中国",
+                    "country_code": "CN",
+                    "ad_code_v2": "510106",
+                    "city_code_v2": "510100"
+                  },
+                  "icon_type": 12,
+                  "collect_stat": 0,
+                  "poi_longitude": 104.035846,
+                  "poi_latitude": 30.683552,
+                  "expand_type": 1,
+                  "icon_on_map": {
+                    "uri": "9889002440fdbff2ac42",
+                    "url_list": [
+                      "https://p3-sign.douyinpic.com/obj/9889002440fdbff2ac42?lk3s=138a59ce&x-expires=1759838400&x-signature=npRaPQGgfyGQnkRI7aw3oYEHflU%3D&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "icon_on_entry": {
+                    "uri": "33a2200013bb98733b01e",
+                    "url_list": [
+                      "https://p3-sign.douyinpic.com/obj/33a2200013bb98733b01e?lk3s=138a59ce&x-expires=1759838400&x-signature=7ubMJM46KiVy9Jl1c0x2YCzZ7xw%3D&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "icon_on_info": {
+                    "uri": "9b930003835ca5c3f9e1",
+                    "url_list": [
+                      "https://p3-sign.douyinpic.com/obj/9b930003835ca5c3f9e1?lk3s=138a59ce&x-expires=1759838400&x-signature=Vd74PCGCFbrtDSijHEDVLsNRrDI%3D&from=327834062"
+                    ],
+                    "width": 720,
+                    "height": 720
+                  },
+                  "poi_subtitle": "金牛区串串香热销榜第1名",
+                  "show_type": 1,
+                  "poi_subtitle_type": 3,
+                  "voucher_release_areas": null,
+                  "poi_frontend_type": null,
+                  "poi_backend_type": {
+                    "code": "010502",
+                    "name": "美食;火锅;串串香"
+                  },
+                  "is_admin_area": false,
+                  "collected_count": "2072",
+                  "view_count": "1118561",
+                  "icon_service_type_list": null,
+                  "ext_json": "{\"item_ext\":{\"sub_type\":\"串串香\",\"service_icon_list\":[{\"ServiceIconType\":40,\"IconUri\":\"aweme-poi/groupon-dark.png\",\"IconUrlStruct\":{\"uri\":\"aweme-poi/groupon-dark.png\",\"url_list\":[\"https://p11.douyinpic.com/obj/aweme-poi/groupon-dark.png?from=428053480\",\"https://p3.douyinpic.com/obj/aweme-poi/groupon-dark.png?from=428053480\",\"https://p26.douyinpic.com/obj/aweme-poi/groupon-dark.png?from=428053480\"],\"url\":null}}],\"rank_desc_list\":[\"金牛区串串香热销榜第1名\"],\"poi_popularity\":\"2.2w人想去\"},\"service_type_bury\":\"groupbuy\",\"product_type_bury\":\"1,11\",\"product_bizline_bury\":\"1\",\"distance_meters_bury\":-1}",
+                  "effect_ids": null,
+                  "poi_detail_tags": null,
+                  "popularity": "2.2w人想去",
+                  "service_type_list": null,
+                  "poi_ranks": [
+                    {
+                      "rank_desc": "金牛区串串香热销榜第1名"
+                    },
+                    {
+                      "rank_desc": "金牛区串串香收藏榜第2名"
+                    }
+                  ],
+                  "poi_3class_type": "串串香",
+                  "fulfill_task_list": null,
+                  "poi_search_tags": null,
+                  "channel_exclusive": null,
+                  "Staturated_tags": null,
+                  "cps_commission_value_range": null,
+                  "cps_commission_rate_range": null,
+                  "poi_search_tags_v2": null
+                },
+                "duration": 53600,
+                "aweme_type": 0,
+                "is_fantasy": false,
+                "cmt_swt": false,
+                "image_infos": null,
+                "risk_infos": {
+                  "vote": false,
+                  "warn": false,
+                  "risk_sink": false,
+                  "type": 0,
+                  "content": ""
+                },
+                "is_relieve": false,
+                "sort_label": "",
+                "position": null,
+                "uniqid_position": null,
+                "comment_list": null,
+                "author_user_id": 98758409239,
+                "bodydance_score": 0,
+                "geofencing": [],
+                "is_hash_tag": 1,
+                "is_pgcshow": false,
+                "region": "CN",
+                "video_text": [],
+                "vr_type": 0,
+                "collect_stat": 0,
+                "label_top_text": null,
+                "promotions": [],
+                "group_id": "7553104526225280307",
+                "prevent_download": false,
+                "nickname_position": null,
+                "challenge_position": null,
+                "item_comment_settings": 0,
+                "descendants": {
+                  "platforms": [
+                    "toutiao"
+                  ],
+                  "notify_msg": "头条"
+                },
+                "with_promotional_music": false,
+                "xigua_task": {
+                  "is_xigua_task": false
+                },
+                "long_video": null,
+                "item_duet": 0,
+                "item_react": 0,
+                "without_watermark": false,
+                "desc_language": "zh",
+                "interaction_stickers": null,
+                "misc_info": "{\"activity_feed_json\":\"{\\\"root_gid\\\":\\\"7541422155716742410\\\",\\\"content_source\\\":\\\"upload\\\"}\",\"common_business_mob\":\"{}\",\"is_teen_video\":0,\"music_begin_time\":\"0\",\"original_gid_distance\":4,\"original_group_id\":\"7524602278456593727\"}",
+                "origin_comment_ids": null,
+                "commerce_config_data": null,
+                "distribute_type": 1,
+                "video_control": {
+                  "allow_download": true,
+                  "share_type": 1,
+                  "show_progress_bar": 1,
+                  "draft_progress_bar": 1,
+                  "allow_duet": true,
+                  "allow_react": true,
+                  "prevent_download_type": 0,
+                  "allow_dynamic_wallpaper": true,
+                  "timer_status": 1,
+                  "allow_music": true,
+                  "allow_stitch": true,
+                  "allow_douplus": true,
+                  "allow_share": true,
+                  "share_grayed": false,
+                  "download_ignore_visibility": true,
+                  "duet_ignore_visibility": true,
+                  "share_ignore_visibility": true,
+                  "download_info": {
+                    "level": 0
+                  },
+                  "duet_info": {
+                    "level": 0
+                  },
+                  "allow_record": true,
+                  "disable_record_reason": "",
+                  "timer_info": {
+                    "timer_status": 0
+                  }
+                },
+                "ad_aweme_source": 1,
+                "aweme_control": {
+                  "can_forward": true,
+                  "can_share": true,
+                  "can_comment": true,
+                  "can_show_comment": true
+                },
+                "has_vs_entry": false,
+                "commerce_info": {
+                  "ad_source": 1,
+                  "ad_type": 0,
+                  "is_ad": false
+                },
+                "need_vs_entry": true,
+                "is_preview": 1,
+                "anchors": null,
+                "hybrid_label": null,
+                "geofencing_regions": null,
+                "have_dashboard": false,
+                "search_extra": {
+                  "optimize_text_extra": null,
+                  "card_btm": {
+                    "btm": "c58056.d0",
+                    "bcm": {
+                      "search_id": "20250923200004DE82429535A4BF691C99",
+                      "search_result_id": "7553104526225280307",
+                      "author_id": "98758409239",
+                      "video_id": "7553104526225280307",
+                      "summary_track_id": ""
+                    },
+                    "area_btm": {
+                      "author_area": "c58056.d04158",
+                      "author_avatar_living_area": "c58056.d30934",
+                      "video_area": "c58056.d60920",
+                      "shopping_area": "c58056.d278936"
+                    }
+                  },
+                  "double_columns_card_btm": {
+                    "btm": "c094390.d0",
+                    "bcm": {
+                      "search_id": "20250923200004DE82429535A4BF691C99",
+                      "search_result_id": "7553104526225280307"
+                    },
+                    "area_btm": {
+                      "author_area": "c094390.d58755",
+                      "video_area": "c094390.d270200",
+                      "shopping_area": "c094390.d75544"
+                    }
+                  },
+                  "suggest_info": {
+                    "ecom_item_id": "7553104526225280307",
+                    "product_ids": null
+                  },
+                  "recall_from_ecom": false
+                },
+                "poi_patch_info": {
+                  "item_patch_poi_prompt_mark": 0,
+                  "extra": ""
+                },
+                "is_story": 0,
+                "report_action": false,
+                "item_stitch": 0,
+                "story_ttl": 0,
+                "city": "510100",
+                "cover_labels": null,
+                "is_first_video": false,
+                "nearby_level": 0,
+                "guide_btn_type": 0,
+                "is_in_scope": false,
+                "poi_biz": {},
+                "images": null,
+                "relation_labels": null,
+                "is_karaoke": false,
+                "impression_data": {
+                  "group_id_list_a": [],
+                  "group_id_list_b": [],
+                  "similar_id_list_a": null,
+                  "similar_id_list_b": null,
+                  "group_id_list_c": [],
+                  "group_id_list_d": null
+                },
+                "item_share": 0,
+                "social_tag_list": null,
+                "suggest_words": {
+                  "suggest_words": [
+                    {
+                      "words": [
+                        {
+                          "word": "耗儿鱼",
+                          "word_id": "6541602198034339085",
+                          "info": "{\"End\":0,\"Start\":0,\"ecpm_boost_tag\":false,\"log_pb\":\"\",\"qrec_for_search\":\"{\\\"query_ecom\\\":\\\"1\\\"}\"}"
+                        }
+                      ],
+                      "scene": "image_relate_rec",
+                      "icon_url": "",
+                      "hint_text": "大家都在搜：",
+                      "extra_info": "{\"is_life_intent\":1,\"resp_from\":\"normal\"}"
+                    },
+                    {
+                      "words": [
+                        {
+                          "word": "飞辣串串辣度",
+                          "word_id": "7552832992542463241",
+                          "info": "{\"End\":0,\"Start\":0,\"ecpm_boost_tag\":false,\"log_pb\":\"\",\"qrec_for_search\":\"{}\"}"
+                        }
+                      ],
+                      "scene": "detail_inbox_rex",
+                      "icon_url": "",
+                      "hint_text": "",
+                      "extra_info": "{\"resp_from\":\"normal\"}"
+                    },
+                    {
+                      "words": [
+                        {
+                          "word": "飞辣串串辣度",
+                          "word_id": "7552832992542463241",
+                          "info": "{\"End\":0,\"Start\":0,\"ecpm_boost_tag\":false,\"log_pb\":\"\",\"qrec_for_search\":\"{}\"}"
+                        }
+                      ],
+                      "scene": "comment_top_rec",
+                      "icon_url": "",
+                      "hint_text": "大家都在搜：",
+                      "extra_info": "{\"resp_from\":\"normal\"}"
+                    }
+                  ],
+                  "disable_display_bar_inner": 0
+                },
+                "show_follow_button": {},
+                "duet_aggregate_in_music_tab": false,
+                "is_duet_sing": false,
+                "search_impr": {
+                  "entity_id": "7553104526225280307",
+                  "entity_type": "GENERAL"
+                },
+                "comment_permission_info": {
+                  "comment_permission_status": 0,
+                  "can_comment": true,
+                  "item_detail_entry": true,
+                  "press_entry": true,
+                  "toast_guide": false
+                },
+                "create_time_config": {
+                  "font_color": "TextTertiary",
+                  "position": 2
+                },
+                "original_images": null,
+                "series_paid_info": {
+                  "series_paid_status": 0,
+                  "item_price": 0
+                },
+                "img_bitrate": null,
+                "comment_gid": 7553104526225280307,
+                "image_album_music_info": {
+                  "begin_time": -1,
+                  "end_time": -1,
+                  "volume": -1
+                },
+                "video_tag": [
+                  {
+                    "tag_id": 2001,
+                    "tag_name": "美食",
+                    "level": 1
+                  },
+                  {
+                    "tag_id": 2001003,
+                    "tag_name": "美食探店",
+                    "level": 2
+                  },
+                  {
+                    "tag_id": 2001003001,
+                    "tag_name": "餐厅探店",
+                    "level": 3
+                  }
+                ],
+                "is_collects_selected": 0,
+                "chapter_list": null,
+                "should_open_ad_report": false,
+                "feed_comment_config": {
+                  "input_config_text": "善语结善缘，恶言伤人心"
+                },
+                "is_image_beat": false,
+                "dislike_dimension_list": null,
+                "standard_bar_info_list": null,
+                "photo_search_entrance": {
+                  "ecom_type": 0
+                },
+                "is_life_item": true,
+                "image_list": null,
+                "component_info_v2": "{\"desc_lines_limit\":0,\"hide_marquee\":false}",
+                "item_warn_notification": {
+                  "type": 0,
+                  "show": false,
+                  "content": ""
+                },
+                "origin_text_extra": [],
+                "preview_title": "成都传说中的飞辣串串 开了20多年，飞辣锅底非常霸道，越辣越想吃很重口味！",
+                "preview_video_status": 1,
+                "guide_scene_info": {
+                  "guide_scene_type": 0,
+                  "feed_origin_gid_info_str": "",
+                  "diamond_expose_info_str": ""
+                },
+                "disable_relation_bar": 0,
+                "packed_clips": null,
+                "author_mask_tag": 0,
+                "dcm_info": {
+                  "dcm": "search.natural.aweme_video.7553104526225280307.20250923200004DE82429535A4BF691C99"
+                },
+                "user_recommend_status": 1,
+                "collection_corner_mark": 0,
+                "is_share_post": false,
+                "image_comment": {},
+                "visual_search_info": {
+                  "is_show_entrance": false,
+                  "extra": "",
+                  "visual_search_longpress": 0,
+                  "is_ecom_img": false,
+                  "is_high_accuracy_ecom": false,
+                  "is_high_recall_ecom": false
+                },
+                "tts_id_list": null,
+                "ref_tts_id_list": null,
+                "voice_modify_id_list": null,
+                "ref_voice_modify_id_list": null,
+                "book_bar": {},
+                "authentication_token": "MS4wLjAAAAAApsb5J-WELzONI02LZHDq6SxCsrU3MHhY6BT7RQzt_imSGbdoAGBzz3BDUc-LJLgWDzKyeVgqA0aL2Vo3ZMbtLV4iV-3K8bzOB2tnBnG8TD9nuMr40yoxyc_v7xl9zMWG9L66XSzqv83ypcb0T2lqZRCG8fH064m-PRCKUAuKJmoUgBdtluLN5fvuEN0yvZgM-g-WeN3aCU8ZkKXCyUQwTXmoJ5xLRjtqWsnds9RMVbbMTxdR3FcyyfoQgON3qTJr",
+                "video_game_data_channel_config": {},
+                "dislike_dimension_list_v2": [
+                  {
+                    "icon": "https://p3.douyinpic.com/aweme-server-static-resource/dislike_objective.png~tplv-obj.image",
+                    "text": "我不想看",
+                    "entitys": [
+                      {
+                        "dimension_id": 1,
+                        "pre_text": "作者",
+                        "sub_text": "美食包青天",
+                        "server_extra": "{\"author_id\":98758409239}",
+                        "en_name": "author"
+                      },
+                      {
+                        "dimension_id": 2,
+                        "pre_text": "音乐",
+                        "sub_text": "@美食包青天创作的原声",
+                        "server_extra": "{\"music_id\":7553104498416225034}",
+                        "en_name": "music"
+                      },
+                      {
+                        "dimension_id": 4,
+                        "pre_text": "话题",
+                        "sub_text": "火锅串串",
+                        "server_extra": "{\"challenge_id\":1594288640363523}",
+                        "en_name": "hashtag"
+                      },
+                      {
+                        "dimension_id": 4,
+                        "pre_text": "话题",
+                        "sub_text": "寻味烟火气",
+                        "server_extra": "{\"challenge_id\":1722851255720004}",
+                        "en_name": "hashtag"
+                      },
+                      {
+                        "dimension_id": 4,
+                        "pre_text": "话题",
+                        "sub_text": "新热打卡地",
+                        "server_extra": "{\"challenge_id\":7505339332895442970}",
+                        "en_name": "hashtag"
+                      },
+                      {
+                        "dimension_id": 4,
+                        "pre_text": "话题",
+                        "sub_text": "城市探索家计划",
+                        "server_extra": "{\"challenge_id\":7546140577046202420}",
+                        "en_name": "hashtag"
+                      },
+                      {
+                        "dimension_id": 4,
+                        "pre_text": "话题",
+                        "sub_text": "串串香",
+                        "server_extra": "{\"challenge_id\":1578446152375310}",
+                        "en_name": "hashtag"
+                      }
+                    ]
+                  },
+                  {
+                    "icon": "https://p3.douyinpic.com/aweme-server-static-resource/dislike_subjective.png~tplv-obj.image",
+                    "text": "反馈内容问题",
+                    "entitys": [
+                      {
+                        "dimension_id": 12,
+                        "pre_text": "相似过多",
+                        "server_extra": "{\"subjective_id\":1001}",
+                        "en_name": "repeat"
+                      },
+                      {
+                        "dimension_id": 12,
+                        "pre_text": "广告营销",
+                        "server_extra": "{\"subjective_id\":1002}",
+                        "en_name": "ad"
+                      },
+                      {
+                        "dimension_id": 12,
+                        "pre_text": "恶心恐怖",
+                        "server_extra": "{\"subjective_id\":1003}",
+                        "en_name": "disgust"
+                      },
+                      {
+                        "dimension_id": 12,
+                        "pre_text": "色情低俗",
+                        "server_extra": "{\"subjective_id\":1004}",
+                        "en_name": "porn"
+                      },
+                      {
+                        "dimension_id": 12,
+                        "pre_text": "虚假夸张",
+                        "server_extra": "{\"subjective_id\":1005}",
+                        "en_name": "fake"
+                      }
+                    ]
+                  }
+                ],
+                "distribute_circle": {
+                  "distribute_type": 0,
+                  "campus_block_interaction": false,
+                  "is_campus": false
+                },
+                "comment_words_recommend": {
+                  "zero_comment": null
+                },
+                "image_crop_ctrl": 0,
+                "yumme_recreason": null,
+                "slides_music_beats": null,
+                "is_ecom_aweme": 0,
+                "jump_tab_info_list": null,
+                "media_type": 4,
+                "reply_smart_emojis": null,
+                "activity_video_type": 0,
+                "boost_status": 0,
+                "create_scale_type": null,
+                "live_appointment_info": {},
+                "entertainment_product_info": {
+                  "sub_title": null,
+                  "market_info": {
+                    "limit_free": {
+                      "in_free": false
+                    },
+                    "marketing_tag": null
+                  },
+                  "biz": 0
+                },
+                "caption": "开了20多年，飞辣锅底非常霸道，越辣越想吃很重口味！#火锅串串 #寻味烟火气 #新热打卡地 #城市探索家计划 #串串香",
+                "item_title": "成都传说中的飞辣串串",
+                "is_use_music": false,
+                "original": 0,
+                "xigua_base_info": {
+                  "status": 0,
+                  "star_altar_order_id": 0,
+                  "star_altar_type": 0
+                },
+                "mark_largely_following": false,
+                "friend_recommend_info": {
+                  "friend_recommend_source": 11,
+                  "label_user_list": null,
+                  "disable_friend_recommend_guide_label": false
+                },
+                "enable_comment_sticker_rec": false,
+                "fall_card_struct": {
+                  "recommend_reason_v2": "[]"
+                },
+                "video_share_edit_status": 0,
+                "is_24_story": 0,
+                "cf_recheck_ts": 0,
+                "is_friend_panel": 0,
+                "life_anchor_show_extra": {
+                  "anchor_type": 2,
+                  "should_show": false,
+                  "has_anchor_info": false,
+                  "anchor_not_show_reason": "30003",
+                  "commerce_filter_reason": "AbTestFilterRule",
+                  "extra": "{\"is_commerce_intention\":\"0\",\"is_new_anchor_frame\":\"1\"}"
+                },
+                "trends_infos": null,
+                "unified_music_group": {
+                  "medium_cover_url": {
+                    "url_list": null
+                  },
+                  "ug_id": 7553104771737976872,
+                  "major_ug_id": 7553109757310009390,
+                  "minor_ug_id": 7553109757310025774
+                },
+                "chapter_bar_color": null,
+                "flash_mob_trends": 0,
+                "ent_log_extra": {
+                  "log_extra": "{\"global_log_extra\":null,\"page_log_extra\":null,\"aweme_log_extra\":{\"ce_current_group_id\":\"7553104526225280307\",\"author_id\":\"98758409239\"},\"extra_log_extra\":null}"
+                },
+                "personal_page_botton_diagnose_style": 2,
+                "aweme_type_tags": "",
+                "origin_duet_resource_uri": "",
+                "ecom_comment_atmosphere_type": 0,
+                "can_cache_to_local": false,
+                "mv_info": null,
+                "publish_plus_alienation": {
+                  "alienation_type": 0
+                },
+                "game_tag_info": {
+                  "is_game": false
+                },
+                "aweme_listen_struct": {
+                  "trace_info": "{\"copyright_not_speech\":\"false\",\"copyright_reason\":\"has_listen_cp_new\",\"copyright_tag_hit\":\"\",\"copyright_use_aed_default\":\"false\",\"copyright_use_tag_default\":\"false\",\"cp_ab\":\"true\",\"desc\":\"\",\"duration_over\":\"false\",\"hit_high_risk\":\"false\",\"media_type\":\"4\",\"reason\":\"hit_ab_0\",\"show\":\"false\"}"
+                },
+                "shoot_way": "direct_shoot",
+                "ai_search_struct": {
+                  "has_ai_search_summary": true,
+                  "show_ai_entrance": true
+                },
+                "entertainment_video_type": 3,
+                "entertainment_video_paid_way": {
+                  "paid_ways": null,
+                  "paid_type": 0,
+                  "enable_use_new_ent_data": false
+                },
+                "is_moment_story": 0,
+                "is_moment_history": 0,
+                "cf_assets_type": 0,
+                "series_basic_info": {},
+                "is_new_text_mode": 0,
+                "interest_points": null,
+                "douplus_user_type": 0,
+                "nearby_hot_comment": null,
+                "follow_shoot_clip_info": {
+                  "clip_video_all": 7553104498416225034,
+                  "clip_from_user": 7553104498416225034
+                },
+                "is_25_story": 0,
+                "ai_follow_images": null,
+                "follow_shot_assets": null,
+                "effect_inflow_effects": null,
+                "douyin_pc_video_extra_seo": "",
+                "product_genre_info": {
+                  "product_genre_type": 2,
+                  "material_genre_sub_type_set": [
+                    4
+                  ],
+                  "special_info": {
+                    "recommend_group_name": 0
+                  }
+                }
+              },
+              "comment_list": [
+                {
+                  "cid": "7553108071279723310",
+                  "text": "成都重口味的飞辣串串香你们敢尝试不？",
+                  "aweme_id": "7553104526225280307",
+                  "create_time": 1758595015,
+                  "digg_count": 6,
+                  "status": 1,
+                  "user": {
+                    "uid": "98758409239",
+                    "nickname": "美食包青天",
+                    "avatar_thumb": {
+                      "uri": "100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558",
+                      "url_list": [
+                        "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=2064092626",
+                        "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=2064092626",
+                        "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.webp?from=2064092626",
+                        "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/mosaic-legacy_1cb08000664a8d65a8558.jpeg?from=2064092626"
+                      ],
+                      "width": 720,
+                      "height": 720
+                    },
+                    "follow_status": 0,
+                    "unique_id": "956873683",
+                    "followers_detail": null,
+                    "platform_sync_info": null,
+                    "secret": 0,
+                    "geofencing": null,
+                    "cover_url": null,
+                    "item_list": null,
+                    "new_story_cover": null,
+                    "type_label": null,
+                    "ad_cover_url": null,
+                    "relative_users": null,
+                    "cha_list": null,
+                    "need_points": null,
+                    "homepage_bottom_toast": null,
+                    "can_set_geofencing": null,
+                    "white_cover_url": null,
+                    "user_tags": null,
+                    "ban_user_functions": null,
+                    "card_entries": null,
+                    "display_info": null,
+                    "card_entries_not_display": null,
+                    "card_sort_priority": null,
+                    "interest_tags": null,
+                    "link_item_list": null,
+                    "user_permissions": null,
+                    "offline_info_list": null,
+                    "signature_extra": null,
+                    "personal_tag_list": null,
+                    "cf_list": null,
+                    "im_role_ids": null,
+                    "not_seen_item_id_list": null,
+                    "follower_list_secondary_information_struct": null,
+                    "endorsement_info_list": null,
+                    "text_extra": null,
+                    "contrail_list": null,
+                    "data_label_list": null,
+                    "not_seen_item_id_list_v2": null,
+                    "special_people_labels": null,
+                    "familiar_visitor_user": null,
+                    "avatar_schema_list": null,
+                    "profile_mob_params": null,
+                    "verification_permission_ids": null,
+                    "batch_unfollow_relation_desc": null,
+                    "batch_unfollow_contain_tabs": null,
+                    "creator_tag_list": null,
+                    "private_relation_list": null,
+                    "identity_labels": null,
+                    "profile_component_disabled": null
+                  },
+                  "user_digged": 0,
+                  "reply_comment": null,
+                  "text_extra": [],
+                  "reply_comment_total": 7,
+                  "label_list": null,
+                  "text_music_info": null,
+                  "image_list": null,
+                  "ip_label": "",
+                  "level": 1,
+                  "video_list": null,
+                  "group_id": 7553104526225280307,
+                  "service_id": 0,
+                  "enter_from": "personal_homepage"
+                }
+              ],
+              "card_info": {
+                "search_autoplay_business": "153_dy"
+              },
+              "doc_type": 153,
+              "sub_card_list": null,
+              "log_data": {
+                "dcm": "search.natural.aweme_video.7553104526225280307.20250923200004DE82429535A4BF691C99",
+                "entity_paths": "{\"entity_id\":\"7553104526225280307\",\"entity_name\":\"aweme_video\",\"dcm_info\":{\"dcm\":\"search.natural.aweme_video.7553104526225280307.20250923200004DE82429535A4BF691C99\"}}",
+                "search_id": "20250923200004DE82429535A4BF691C99",
+                "search_result_id": "7553104526225280307"
+              },
+              "provider_doc_id": 7553104526225280307,
+              "provider_doc_id_str": "7553104526225280307",
+              "tab": null,
+              "feedback": {
+                "url": "aweme://lynxview_popup/?channel=morphling_normal&bundle=douyin_questionnaire%2Findex%2Ftemplate.js&group=morphling_normal&dynamic=3&enable_prefetch=1&surl=https%3A%2F%2Flf-sourcecdn-tos.bytegecko.com%2Fobj%2Fbyte-gurd-source%2F11618%2Fgecko%2Fresource%2Fmorphling_normal%2Fdouyin_questionnaire%2Findex%2Ftemplate.js&alasrc=video&container_bgcolor=00000000&dcm=search.natural.aweme_video.7553104526225280307.20250923200004DE82429535A4BF691C99&do_not_remove_card_after_feedback=0&doc_type=153&enable_font_scale=1&enable_new_feedback_ui=2&experimental_adjust_pan=1&experimental_fix_status_bar=1&fid=300000&forbidden_anim=1&hide_loading=1&hide_nav_bar=1&hide_status_bar=1&initialQuestionNum=6&is_aladdin=0&loading_bgcolor=00000000&log_pb=%7B%22impr_id%22%3A%2220250923200004DE82429535A4BF691C99%22%7D&new_search_type=general_search&object_id=7553104526225280307&object_owner=98758409239&object_type=1&search_content_type=single_content&search_id=20250923200004DE82429535A4BF691C99&search_keyword=%E7%81%AB%E9%94%85+%E9%9A%90%E8%97%8F%E5%90%83%E6%B3%95&search_result_id=7553104526225280307&search_score=0&should_full_screen=1&use_popover=1&douyin_widget_search_entrance=3890257729"
+              },
+              "show_tab": null,
+              "debug_diff_info": {},
+              "aweme_list": null,
+              "send_back": "CgABaNIEjG0NjTMLAAIAAAALYXdlbWVfdmlkZW8A",
+              "card_type": 1,
+              "card_style_type": 1,
+              "ecom_goods_list": null,
+              "music_info_list": null,
+              "card_type_id": {
+                "doc_type": 153,
+                "performance_infos": {
+                  "153": 1,
+                  "double_column": 0,
+                  "is_native": 1,
+                  "search_card_count": 1,
+                  "video_has_lynx_anchor": 0
+                },
+                "card_name": "153|1|single"
+              },
+              "debug_data": {
+                "filter_debug_info_list": null
+              },
+              "recommend_title": "",
+              "data": {
+                "card_tags": null,
+                "hotspot_tab_config": null,
+                "common_tab_config": null,
+                "recom_extra_info": {
+                  "suggest_words_config": 3,
+                  "suggest_words_params": {
+                    "doc_type": "153",
+                    "item_id": "7553104526225280307",
+                    "product_id": ""
+                  }
+                }
+              },
+              "card_type_name": "",
+              "fp": "{\"app_id\":615883,\"id\":7553104526225280307,\"card_name\":\"doctype_aweme_video\",\"custom_fp\":\"\"}",
+              "ops": null,
+              "lynx_info": {
+                "is_subcard": false
+              },
+              "card_id": "douyin.doctype_aweme_video",
+              "card_protocal_struct": {
+                "schema_id": 140160,
+                "schema_name": "general_single_video",
+                "schema_url": "",
+                "render_type": 0,
+                "render_extra": {
+                  "card_type_name": "general_single_video",
+                  "type": 140160
+                },
+                "cachalot_card_id": 1
+              },
+              "qishui_music_list": null,
+              "impression_server_log": {
+                "card_name": "aweme_video",
+                "doc_title": "成都传说中的飞辣串串 开了20多年，飞辣锅底非常霸道，越辣越想吃很重口味！#火锅串串 #寻味烟火气 #新热打卡地 #城市探索家计划 #串串香",
+                "gid": "7553104526225280307",
+                "publish_time": 1758594797,
+                "publish_username": "美食包青天"
+              }
+            },
+            "log": {
+              "dcm": "search.natural.aweme_video.7553104526225280307.20250923200004DE82429535A4BF691C99",
+              "search_id": "20250923200004DE82429535A4BF691C99",
+              "search_result_id": "7553104526225280307"
+            },
+            "card_id": "douyin.doctype_aweme_video"
+          }
+        ],
+        "render_info": [
+          {
+            "render_id": "0",
+            "render_type": 0,
+            "render_extra": {
+              "card_type_name": "general_single_video",
+              "type": 140160
+            },
+            "ui_info": null
+          }
+        ],
+        "struct": {
+          "id": "00",
+          "layout_type": 1,
+          "children": [
+            {
+              "id": "0",
+              "data_id": "0",
+              "render_id": "0",
+              "fp": ""
+            }
+          ],
+          "fp": ""
+        },
+        "business_config": {
+          "keyword": "火锅 隐藏吃法",
+          "has_more": 0,
+          "is_filter_search": 1,
+          "search_nil_info": null,
+          "next_page": {
+            "keyword": "火锅 隐藏吃法",
+            "search_request_id": "20250923200004DE82429535A4BF691C99",
+            "search_id": "20250923200004DE82429535A4BF691C99",
+            "cursor": 1,
+            "poi_search_info": ""
+          },
+          "card_count": 1,
+          "extra_fresh_struct": null,
+          "ad_info": {},
+          "filter_bar": null,
+          "general_search_config": {
+            "activity_tag": null,
+            "bottom_double_column_bubble_cover": {
+              "uri": "tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA",
+              "url_list": [
+                "https://p11-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=ScWnWQLNg7p4re1UjcMo3FHAeeQ%3D",
+                "https://p3-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=uuKJpNCnybU2OExQv74znX0yu50%3D",
+                "https://p11-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.jpeg?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=FLljdDG4plJy9hH8JTcySe8s9X4%3D"
+              ],
+              "width": 759,
+              "height": 1011
+            },
+            "comment_config": {
+              "disable_comment_bar": true
+            },
+            "display_music_anchor": 2,
+            "double_column_layout_type": 3,
+            "ecom_intent": "intent_not_ecom",
+            "extra_server_client_params": "{\"last_strong_style_card_idx\":0}",
+            "is_double_column_left": 0,
+            "is_intent_single_column": 1,
+            "keyword": "火锅 隐藏吃法",
+            "search_pop_info": [],
+            "srp_algo_for_wind_vane": "{\"bp_personal_strategy_level\":0,\"cate_lv1\":[20104,20117],\"ecom_commerce_intent\":0,\"ecom_people_intent\":1,\"gpms\":0.0,\"opms\":0.0,\"query\":\"火锅 隐藏吃法\",\"query_pred_cate\":\"火锅 隐藏吃法\"}",
+            "user_guide": {
+              "show_resp_guide": true,
+              "resp_second": 5,
+              "show_inflow_guide": true,
+              "inflow_second": 0,
+              "inflow_stop": 7
+            }
+          },
+          "guide_search_words_extra": {},
+          "backtrace": "U2bSqMUm7gLhjoD4csNnBGzKXFfW+6ZvxWx+EyzEGAJ8JrS2ImjVvLlTa8VP0N++iRlQTc5rPjNPvdTvNmp6lwGhWsrWnawHXGD166imZ6WUo4F3NpMZVl/icpbNpmF89yiNowL5kECwizLd8R6SitvJ9I2FpM8hN3+TB5AJr8E9ALG1CyWjIIuiGma5w9yuuEeO2qrfC7u7cY6NTifjVQ==",
+          "extra": {
+            "comment_config": {
+              "disable_comment_bar": true
+            },
+            "guide_search_words": [
+              {
+                "id": "6605800906514519309",
+                "word": "男朋友",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6537538004263654669",
+                "word": "土豆",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6664072422544725256",
+                "word": "番茄滑蛋",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6537292704668194061",
+                "word": "自制",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6538746852504786184",
+                "word": "图文",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6543518405935240456",
+                "word": "酱料",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6546506512682980616",
+                "word": "大全",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              }
+            ],
+            "hidden_filter": false,
+            "hide_guide_search_words": null,
+            "impression_server_log": {
+              "channel": "aweme_general",
+              "from_group_id": "",
+              "poi": "旧金山",
+              "query": "火锅 隐藏吃法",
+              "request_time": 1758628805,
+              "session_id": "",
+              "source": "homepage_recom_search",
+              "user_id": 0
+            }
+          },
+          "pitaya_common_feature": {
+            "session_feature": "{\"#has_ecom_intent\":1,\"#life_service_intent\":1,\"p_cont_intent\":0.2987014353275299,\"p_ecom_intent\":0.00010298960842192173,\"p_life_intent\":4.2030478653032333e-07,\"p_people_intent\":4.604393689078279e-05}",
+            "doc_feature": [
+              {
+                "search_result_id": "7553104526225280307",
+                "data": "{}"
+              }
+            ]
+          },
+          "feedback": null,
+          "pre_loadmore_config": null,
+          "poi_search_info": ""
+        },
+        "global_config": {
+          "guide_search_words": [
+            {
+              "id": "6605800906514519309",
+              "word": "男朋友",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6537538004263654669",
+              "word": "土豆",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6664072422544725256",
+              "word": "番茄滑蛋",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6537292704668194061",
+              "word": "自制",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6538746852504786184",
+              "word": "图文",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6543518405935240456",
+              "word": "酱料",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6546506512682980616",
+              "word": "大全",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            }
+          ],
+          "hidden_filter": false
+        },
+        "status_code": 0,
+        "log_pb": {
+          "impr_id": "20250923200004DE82429535A4BF691C99",
+          "search_source": "homepage_recom_search",
+          "stab_extra": {
+            "traffic_identification": "normal"
+          }
+        },
+        "extra": {
+          "now": 1758628805000,
+          "logid": "20250923200004DE82429535A4BF691C99",
+          "fatal_item_ids": [],
+          "search_request_id": "",
+          "device_score": 0,
+          "scenes": null
+        },
+        "log": {
+          "impr_id": "20250923200004DE82429535A4BF691C99",
+          "search_id": "20250923200004DE82429535A4BF691C99",
+          "search_keyword": "火锅 隐藏吃法"
+        },
+        "result_status": 2
+      },
+      700.0,
+      {
+        "time_cost": {
+          "153|1|single": 1,
+          "1st_screen_state": "hit_first_screen",
+          "ack_status": "1",
+          "ack_type": "first_screen_ack",
+          "api_time_ad_block": 1,
+          "api_time_ad_pack_block": 0,
+          "api_time_ad_recall_block": 1,
+          "can_ack": "false",
+          "complete_time": 917,
+          "disable_forecast_cut": -1,
+          "disable_optimize_2023": "false",
+          "double_column": false,
+          "douyin_disease_aggr_video_query_tag": "false",
+          "enable_ab_refactor": "true",
+          "engine_intent_cat": "饮食-线下餐饮-线下餐饮店铺-热门",
+          "fed_cache_status": "disable_fed_cache_recall",
+          "fed_recall_cost": 767,
+          "fed_recall_end": 787,
+          "first_no_ad": "0",
+          "first_screen_153_num": 1,
+          "first_screen_ack_reason": "hit_first_screen",
+          "first_screen_card_businesses": "基础搜索 - 展现框架",
+          "first_screen_card_cnt": 1,
+          "first_screen_card_infos": "doctype_aweme_video.;",
+          "first_screen_card_names": "153|1|single",
+          "first_screen_card_type_ids_info": "153",
+          "first_screen_pack_not_hit_count": 0,
+          "first_screen_preload_miss_count": 0,
+          "first_screen_produce_end": 915,
+          "first_screen_real_lynx_num": 0,
+          "first_screen_real_lynx_type": "1_",
+          "first_screen_split": "enabled",
+          "first_screen_sub_card_real_lynx_num": 0,
+          "first_screen_sub_card_real_lynx_type": "",
+          "forecast_ack_reason": "",
+          "forecast_fs_all_hit": "false",
+          "fs_index_1": "153|1|single",
+          "fspmc": 0,
+          "goods_card_has_ad": "0",
+          "has_ad": "0",
+          "idc": "hl",
+          "is_cpt_ad": "0",
+          "is_go_forecast": "true",
+          "is_nil_search": "false",
+          "is_oversea": "1",
+          "keypoint": "26",
+          "loader_time_cost_slowest_loader": "",
+          "loader_time_cost_slowest_loader_latency": 118,
+          "log_id": "20250923200004DE82429535A4BF691C99",
+          "merged_fs_all_hit": "false",
+          "mf2_append_doc_len": 0,
+          "new_chunk_state": "libra",
+          "pd": "general_search",
+          "preload_miss_count": 1,
+          "preload_miss_reason": "miss_id",
+          "query": "火锅 隐藏吃法",
+          "query_tags": "#has_ecom_intent,#life_service_intent",
+          "quick_ack_failed_detail": "",
+          "reason": "hit_first_screen",
+          "search_source_api": "homepage_recom_search",
+          "server_key_path": "first_screen_data,hit_1st_hit_first_screen",
+          "stream": "1",
+          "stream_inner": 918,
+          "target_query_tags": "",
+          "tp_end_first_screen_produce": 915,
+          "tp_end_produce": 917
+        },
+        "ack": 0
+      },
+      {
+        "business_data": [],
+        "render_info": [],
+        "struct": {
+          "id": "00",
+          "layout_type": 1,
+          "fp": ""
+        },
+        "business_config": {
+          "keyword": "火锅 隐藏吃法",
+          "has_more": 0,
+          "is_filter_search": 1,
+          "search_nil_info": null,
+          "next_page": {
+            "keyword": "火锅 隐藏吃法",
+            "search_request_id": "20250923200004DE82429535A4BF691C99",
+            "search_id": "20250923200004DE82429535A4BF691C99",
+            "cursor": 1,
+            "poi_search_info": ""
+          },
+          "card_count": 0,
+          "extra_fresh_struct": null,
+          "ad_info": {},
+          "filter_bar": null,
+          "general_search_config": {
+            "double_column_layout_type": 3,
+            "user_guide": {
+              "show_resp_guide": true,
+              "resp_second": 5,
+              "show_inflow_guide": true,
+              "inflow_second": 0,
+              "inflow_stop": 7
+            },
+            "search_pop_info": [],
+            "is_double_column_left": 0,
+            "extra_server_client_params": "{\"last_strong_style_card_idx\":0}",
+            "srp_algo_for_wind_vane": "{\"bp_personal_strategy_level\":0,\"cate_lv1\":[20104,20117],\"ecom_commerce_intent\":0,\"ecom_people_intent\":1,\"gpms\":0.0,\"opms\":0.0,\"query\":\"火锅 隐藏吃法\",\"query_pred_cate\":\"火锅 隐藏吃法\"}",
+            "display_music_anchor": 2,
+            "bottom_double_column_bubble_cover": {
+              "uri": "tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA",
+              "url_list": [
+                "https://p11-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=ScWnWQLNg7p4re1UjcMo3FHAeeQ%3D",
+                "https://p3-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.webp?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=uuKJpNCnybU2OExQv74znX0yu50%3D",
+                "https://p11-sign.douyinpic.com/tos-cn-i-0813/ogE9nKISeDWTA2D8CgfwFaACASEzIA7OAg0oBA~noop.jpeg?biz_tag=aweme_video&card_type=153&column_n=0&from=327834062_large&l=20250923200004DE82429535A4BF691C99&lk3s=138a59ce&s=PackSourceEnum_SEARCH_SIN&sc=cover&se=false&x-expires=1759838400&x-signature=FLljdDG4plJy9hH8JTcySe8s9X4%3D"
+              ],
+              "width": 759,
+              "height": 1011
+            },
+            "is_intent_single_column": 1,
+            "ecom_intent": "intent_not_ecom",
+            "keyword": "火锅 隐藏吃法",
+            "activity_tag": null,
+            "comment_config": {
+              "disable_comment_bar": true
+            }
+          },
+          "guide_search_words_extra": {},
+          "backtrace": "DikH9gc8qNlVgU5CHPcIdjwPu4teNqrcD+JR90IYli2rtaXojfAhNnExYA5iYMbqPOC/f+zsHmSFw3V+0IPyiTbcqlJnDIvLhVp4XDJY0YC7dEvWvpepvPDFKI2Mentw2dGE5qFwJCM0ZruxZQLuV7T8eCsSYuBEn1JpH0Qh16D5HJI9+bw+udT7vK95AETdV1a8o36g1nO1fZipd/tpmw==",
+          "extra": {
+            "comment_config": {
+              "disable_comment_bar": true
+            },
+            "hide_guide_search_words": null,
+            "guide_search_words": [
+              {
+                "id": "6605800906514519309",
+                "word": "男朋友",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6537538004263654669",
+                "word": "土豆",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6664072422544725256",
+                "word": "番茄滑蛋",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6537292704668194061",
+                "word": "自制",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6538746852504786184",
+                "word": "图文",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6543518405935240456",
+                "word": "酱料",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              },
+              {
+                "id": "6546506512682980616",
+                "word": "大全",
+                "type": "recom",
+                "query_id": "6940850354243032332",
+                "attached_text": null
+              }
+            ],
+            "hidden_filter": false,
+            "impression_server_log": {
+              "from_group_id": "",
+              "request_time": 1758628805,
+              "source": "homepage_recom_search",
+              "channel": "aweme_general",
+              "query": "火锅 隐藏吃法",
+              "user_id": 0,
+              "session_id": "",
+              "poi": "旧金山"
+            }
+          },
+          "pitaya_common_feature": {
+            "session_feature": "{\"#has_ecom_intent\":1,\"#life_service_intent\":1,\"p_cont_intent\":0.2987014353275299,\"p_ecom_intent\":0.00010298960842192173,\"p_life_intent\":4.2030478653032333e-07,\"p_people_intent\":4.604393689078279e-05}",
+            "doc_feature": [
+              {
+                "search_result_id": "7553104526225280307",
+                "data": "{}"
+              }
+            ]
+          },
+          "feedback": null,
+          "pre_loadmore_config": null,
+          "poi_search_info": ""
+        },
+        "global_config": {
+          "guide_search_words": [
+            {
+              "id": "6605800906514519309",
+              "word": "男朋友",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6537538004263654669",
+              "word": "土豆",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6664072422544725256",
+              "word": "番茄滑蛋",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6537292704668194061",
+              "word": "自制",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6538746852504786184",
+              "word": "图文",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6543518405935240456",
+              "word": "酱料",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            },
+            {
+              "id": "6546506512682980616",
+              "word": "大全",
+              "type": "recom",
+              "query_id": "6940850354243032332",
+              "attached_text": null
+            }
+          ],
+          "hidden_filter": false
+        },
+        "status_code": 0,
+        "log_pb": {
+          "impr_id": "20250923200004DE82429535A4BF691C99",
+          "search_source": "homepage_recom_search",
+          "stab_extra": {
+            "traffic_identification": "normal"
+          }
+        },
+        "extra": {
+          "now": 1758628805000,
+          "logid": "20250923200004DE82429535A4BF691C99",
+          "fatal_item_ids": [],
+          "search_request_id": "",
+          "device_score": 0,
+          "scenes": null
+        },
+        "log": {
+          "search_id": "20250923200004DE82429535A4BF691C99",
+          "impr_id": "20250923200004DE82429535A4BF691C99",
+          "search_keyword": "火锅 隐藏吃法"
+        },
+        "result_status": 4
+      },
+      0
+    ]
+  }
+}

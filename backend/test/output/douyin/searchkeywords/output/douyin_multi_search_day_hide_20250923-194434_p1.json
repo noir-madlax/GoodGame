@@ -1,0 +1,199 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "docs": "https://api.tikhub.io/#/Douyin-Search-API/fetch_multi_search_api_v1_douyin_search_fetch_multi_search_post",
+  "params": {
+    "keyword": "海底捞 隐藏吃法",
+    "cursor": 0,
+    "sort_type": "0",
+    "publish_time": "1",
+    "filter_duration": "0",
+    "content_type": "0",
+    "search_id": "",
+    "count": 20
+  },
+  "data": {
+    "code": 200,
+    "request_id": "bc6b7ddc-0112-407e-8cc9-8edecc512df7",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-22 18:51:21",
+    "time_stamp": 1758592281,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Search-API/fetch_multi_search_api_v1_douyin_search_fetch_multi_search_post",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/bc6b7ddc-0112-407e-8cc9-8edecc512df7?sign=8021e1d359696479a305c612ff322f1643636ff1b8999bb9f33dfb7b0fcf224e",
+    "router": "/api/v1/douyin/search/fetch_multi_search",
+    "params": {
+      "keyword": "海底捞 隐藏吃法",
+      "cursor": 0,
+      "sort_type": "0",
+      "publish_time": "1",
+      "filter_duration": "0",
+      "content_type": "0",
+      "search_id": ""
+    },
+    "data": [
+      {
+        "business_data": [],
+        "render_info": [],
+        "struct": {
+          "id": "00",
+          "layout_type": 1,
+          "fp": ""
+        },
+        "business_config": {
+          "keyword": "海底捞 隐藏吃法",
+          "has_more": 0,
+          "is_filter_search": 1,
+          "search_nil_info": {
+            "search_nil_type": "service_empty",
+            "is_load_more": "first_flush",
+            "search_nil_item": "federation_empty",
+            "text_type": 70
+          },
+          "next_page": {
+            "keyword": "海底捞 隐藏吃法",
+            "search_request_id": "202509231944339370611C60EC107324DF",
+            "search_id": "202509231944339370611C60EC107324DF",
+            "cursor": 0,
+            "poi_search_info": ""
+          },
+          "card_count": 0,
+          "extra_fresh_struct": null,
+          "ad_info": {},
+          "filter_bar": null,
+          "general_search_config": {
+            "activity_tag": null,
+            "comment_config": {
+              "disable_comment_bar": true
+            },
+            "double_column_layout_type": 3,
+            "ecom_intent": "intent_not_ecom",
+            "extra_server_client_params": "{\"last_strong_style_card_idx\":0}",
+            "is_double_column_left": 0,
+            "is_intent_single_column": 1,
+            "keyword": "海底捞 隐藏吃法",
+            "search_pop_info": [],
+            "user_guide": {
+              "show_resp_guide": true,
+              "resp_second": 5,
+              "show_inflow_guide": true,
+              "inflow_second": 0,
+              "inflow_stop": 7
+            }
+          },
+          "backtrace": "U2bSqMUm7gLhjoD4csNnBLbGk8ojV1QHaspUnTkCDykekln3ivV90JiybDBQxeJXADliiZ0GaQmW5gxxEn/zM4WiOE8wge6Mn0gixdhyWc7dus4VPrH2Ee09/Q14eSNGblNlFTy0pV3e+Bs/XFBD+pr6byLhKlqEZUvoFapXqFFESXFUe2HMW4u3+id5tckqVjnTBkSRcoJbzgSGJ4Jwuhc/ERRq3XNUReS4vQx1J7ddk6exYeKKT6sreJl656xhzgA8dpnbeXIOflb2htNXx/GxDEnEhLnqAuwFFQVfKlPPWRTZ7So3kA2IdEgc1gqiDwDK+0yhikTTVqjyu0Inqg==",
+          "extra": {
+            "comment_config": {
+              "disable_comment_bar": true
+            },
+            "guide_search_words": null,
+            "hidden_filter": false,
+            "hide_guide_search_words": null,
+            "impression_server_log": {
+              "channel": "aweme_general",
+              "from_group_id": "",
+              "poi": "旧金山",
+              "query": "海底捞 隐藏吃法",
+              "request_time": 1758627873,
+              "session_id": "",
+              "source": "homepage_recom_search",
+              "user_id": 0
+            }
+          },
+          "feedback": null,
+          "pre_loadmore_config": null,
+          "poi_search_info": ""
+        },
+        "global_config": {
+          "hidden_filter": false
+        },
+        "status_code": 0,
+        "log_pb": {
+          "impr_id": "202509231944339370611C60EC107324DF",
+          "search_source": "homepage_recom_search",
+          "stab_extra": {
+            "NilInfoContext": {
+              "search_nil_type": "service_empty",
+              "is_load_more": "first_flush",
+              "search_nil_item": "federation_empty",
+              "text_type": 70
+            },
+            "traffic_identification": "normal"
+          }
+        },
+        "extra": {
+          "now": 1758627874000,
+          "logid": "202509231944339370611C60EC107324DF",
+          "fatal_item_ids": [],
+          "search_request_id": "",
+          "device_score": 0,
+          "scenes": null
+        },
+        "log": {
+          "impr_id": "202509231944339370611C60EC107324DF",
+          "search_id": "202509231944339370611C60EC107324DF",
+          "search_keyword": "海底捞 隐藏吃法"
+        },
+        "time_cost": {
+          "1st_screen_state": "wrong_type",
+          "ack_status": "0",
+          "can_ack": "true",
+          "complete_time": 577,
+          "disable_forecast_cut": -1,
+          "disable_optimize_2023": "false",
+          "double_column": false,
+          "douyin_disease_aggr_video_query_tag": "false",
+          "enable_ab_refactor": "true",
+          "engine_intent_cat": "饮食-线下餐饮-线下餐饮店铺-热门",
+          "fed_cache_status": "disable_fed_cache_recall",
+          "fed_recall_cost": 544,
+          "fed_recall_end": 571,
+          "first_no_ad": "0",
+          "first_screen_ack_reason": "wrong_type",
+          "first_screen_card_businesses": "",
+          "first_screen_card_cnt": 0,
+          "first_screen_card_names": "",
+          "first_screen_real_lynx_num": 0,
+          "first_screen_real_lynx_type": "",
+          "first_screen_split": "enabled",
+          "first_screen_sub_card_real_lynx_num": 0,
+          "first_screen_sub_card_real_lynx_type": "",
+          "forecast_ack_reason": "",
+          "forecast_fs_all_hit": "true",
+          "goods_card_has_ad": "0",
+          "has_ad": "0",
+          "idc": "hl",
+          "is_cpt_ad": "0",
+          "is_go_forecast": "true",
+          "is_nil_search": "true",
+          "keypoint": "2",
+          "loader_time_cost_slowest_loader": "",
+          "loader_time_cost_slowest_loader_latency": 0,
+          "log_id": "202509231944339370611C60EC107324DF",
+          "merged_fs_all_hit": "true",
+          "mf2_append_doc_len": 0,
+          "multi_chunk": "enabled",
+          "new_chunk_state": "libra",
+          "pd": "general_search",
+          "preload_miss_count": 0,
+          "query": "海底捞 隐藏吃法",
+          "query_tags": "",
+          "quick_ack_failed_detail": "",
+          "reason": "cache_not_exist",
+          "search_source_api": "homepage_recom_search",
+          "server_key_path": ",chunk_1st_data",
+          "stream": "1",
+          "stream_inner": 577,
+          "target_query_tags": "",
+          "tp_end_produce": 574
+        },
+        "result_status": 5
+      },
+      0
+    ]
+  }
+}

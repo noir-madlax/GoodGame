@@ -1,0 +1,157 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "data": {
+    "code": 200,
+    "request_id": "eee597b0-6ba9-47b6-b1e7-927342bb836f",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-22 18:51:18",
+    "time_stamp": 1758592278,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Search-API/fetch_search_suggest_api_v1_douyin_search_fetch_search_suggest_post",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/eee597b0-6ba9-47b6-b1e7-927342bb836f?sign=5f1a4672a6e99631eab94c44757226c67f5f9d53a65b61502ab5b173a7dc7540",
+    "router": "/api/v1/douyin/search/fetch_search_suggest",
+    "params": {
+      "keyword": "海底捞"
+    },
+    "data": {
+      "sug_list": [
+        {
+          "pos": [
+            {
+              "begin": 0,
+              "end": 2
+            }
+          ],
+          "content": "海底捞",
+          "sug_type": "",
+          "word_record": {
+            "group_id": "6605442603930359047",
+            "words_position": 0,
+            "words_content": "海底捞",
+            "words_source": "sug"
+          },
+          "extra_info": {
+            "poi_id": "",
+            "poi_location_recall_log_id": "20250923190937AD2997AFCB209035C99B",
+            "search_params": "{\"sug_poi_id\":\"\"}"
+          }
+        },
+        {
+          "pos": [
+            {
+              "begin": 0,
+              "end": 2
+            }
+          ],
+          "content": "海底捞虾滑",
+          "sug_type": "",
+          "word_record": {
+            "group_id": "6595537964997039363",
+            "words_position": 1,
+            "words_content": "海底捞虾滑",
+            "words_source": "sug"
+          },
+          "extra_info": {
+            "poi_id": "",
+            "poi_location_recall_log_id": "20250923190937AD2997AFCB209035C99B",
+            "search_params": "{\"sug_poi_id\":\"\"}"
+          }
+        },
+        {
+          "pos": [
+            {
+              "begin": 0,
+              "end": 2
+            }
+          ],
+          "content": "海底捞生日快乐歌曲",
+          "sug_type": "",
+          "word_record": {
+            "group_id": "6737317852401046791",
+            "words_position": 2,
+            "words_content": "海底捞生日快乐歌曲",
+            "words_source": "sug"
+          },
+          "extra_info": {
+            "poi_id": "",
+            "poi_location_recall_log_id": "20250923190937AD2997AFCB209035C99B",
+            "search_params": "{\"sug_poi_id\":\"\"}"
+          }
+        },
+        {
+          "pos": [
+            {
+              "begin": 0,
+              "end": 2
+            }
+          ],
+          "content": "海底捞小龙虾",
+          "sug_type": "",
+          "word_record": {
+            "group_id": "6580936025814603012",
+            "words_position": 3,
+            "words_content": "海底捞小龙虾",
+            "words_source": "sug"
+          },
+          "extra_info": {
+            "poi_id": "",
+            "poi_location_recall_log_id": "20250923190937AD2997AFCB209035C99B",
+            "search_params": "{\"sug_poi_id\":\"\"}"
+          }
+        },
+        {
+          "pos": [
+            {
+              "begin": 0,
+              "end": 2
+            }
+          ],
+          "content": "海底捞火锅吾悦广场店",
+          "sug_type": "",
+          "word_record": {
+            "group_id": "6669762153530004747",
+            "words_position": 4,
+            "words_content": "海底捞火锅吾悦广场店",
+            "words_source": "sug"
+          },
+          "extra_info": {
+            "poi_id": "",
+            "poi_location_recall_log_id": "20250923190937AD2997AFCB209035C99B",
+            "search_params": "{\"sug_poi_id\":\"\"}"
+          }
+        }
+      ],
+      "sug_virtual_list": null,
+      "status_code": 0,
+      "status_msg": "",
+      "rid": "20250923190937AD2997AFCB209035C99B",
+      "words_query_record": {
+        "info": "{}",
+        "words_source": "sug",
+        "query_id": "6538745968169342212"
+      },
+      "extra": {
+        "now": 1758625777000,
+        "logid": "20250923190937AD2997AFCB209035C99B",
+        "fatal_item_ids": [],
+        "search_request_id": ""
+      },
+      "log_pb": {
+        "impr_id": "20250923190937AD2997AFCB209035C99B"
+      },
+      "time_cost": {
+        "stream_inner": "164",
+        "server_engine_cost": "149"
+      },
+      "words_lists": [],
+      "cache_conf": {
+        "enable": false
+      }
+    }
+  }
+}

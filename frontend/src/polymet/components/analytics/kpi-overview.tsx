@@ -107,7 +107,7 @@ export default function KPIOverview({
                       { name: "中", icon: <TrendIcon className="w-3.5 h-3.5 text-orange-500" /> },
                       { name: "低", icon: <Info className="w-3.5 h-3.5 text-green-500" /> },
                     ] as const).map((sev) => (
-                      <div key={sev.name} role="button" tabIndex={0} className="group grid grid-cols-[auto_min-content] items-center gap-4 py-0.5 cursor-pointer select-none focus:outline-none" onClick={() => onSeverityClick?.(sev.name)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSeverityClick?.(sev.name); }} aria-label={`查看${sev.name}严重度详情`}>
+                      <div key={sev.name} role="button" tabIndex={0} className="group grid grid-cols-[auto_min-content] items-center gap-4 py-0.5 cursor-pointer select-none focus:outline-none" onClick={() => onSeverityClick?.(sev.name, "__kpi_related__")} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSeverityClick?.(sev.name, "__kpi_related__"); }} aria-label={`查看${sev.name}严重度详情`}>
                         <div className="flex items-center gap-1.5">{sev.icon}<span className="text-xs text-gray-700 dark:text-gray-300 group-hover:underline">{sev.name}</span></div>
                         <span className="text-xs font-medium text-gray-900 dark:text-white">{breakdown?.relevantSeverity?.[sev.name as "高" | "中" | "低"].count || 0}</span>
                       </div>
