@@ -160,23 +160,35 @@ class AnalysisService:
     def _prepare_video_parts(self, post: PlatformPost, fetcher) -> Tuple[List[Any], str]:
         """下载→上传→构建视频 Part，返回 (parts, source_key)。"""
         post_id = int(post.id or 0)
-        # 获取下载地址
+        # 获取下载地址（一定是 URL 列表）
+        video_urls: List[str]
         try:
-            video_url = fetcher.get_download_url_by_post_id(post_id)
+            video_urls = fetcher.get_download_url_by_post_id(post_id) or []
+            log.info(f"获取视频下载地址成功：post_id={post_id}，count={len(video_urls)}")
         except Exception as e:
-            video_url = None
+            video_urls = []
             log.error(
                 f"获取视频下载地址失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}"
             )
-        if not video_url:
+
+        if not video_urls:
             raise ValueError(f"post {post_id} 获取下载地址失败")
 
-        # 下载视频为字节流
-        log.info(f"开始下载视频：post_id={post_id}，url={video_url}")
-        data = self.downloader.download_video_as_bytes_with_retry(str(video_url))
+        # 按顺序尝试下载，每个 URL 至多重试一次
+        data: Optional[bytes] = None
+        chosen_url: Optional[str] = None
+        for idx, u in enumerate(video_urls):
+            log.info(f"尝试下载视频：post_id={post_id}，idx={idx}，url={u}")
+            data = self.downloader.download_video_as_bytes_with_retry(str(u), max_retries=1)
+            if data is not None:
+                chosen_url = str(u)
+                break
+            log.warning(f"下载失败，继续尝试下一个 URL：post_id={post_id}，idx={idx}，url={u}")
+
         if data is None:
-            raise RuntimeError(f"下载视频失败：{video_url}")
-        log.info(f"下载完成：post_id={post_id}，大小={len(data)} 字节")
+            raise RuntimeError(f"下载视频失败：所有候选 URL 均不可用，count={len(video_urls)}")
+
+        log.info(f"下载完成：post_id={post_id}，选用 URL={chosen_url}，大小={len(data)} 字节")
 
         # 推断 mime 与 display name
         mime_type = "video/mp4"
