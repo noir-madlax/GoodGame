@@ -20,6 +20,7 @@ import { backfillRelevance, resolveStartAt, filterByTime, sortByPublished, build
 import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
 import { useProject } from "@/polymet/lib/project-context";
 import ImportAnalyzeDialog from "@/polymet/components/import-analyze-dialog";
+import { getDashboardCache, setDashboardCache, clearDashboardCache, isDashboardCacheDirty, updateDashboardScrollTop, DASHBOARD_SCROLL_SELECTOR } from "@/polymet/lib/dashboard-cache";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
@@ -134,6 +135,57 @@ export default function ContentDashboard() {
   const relevance = filters.relevance[0] || "all";
   const [oldestFirst, setOldestFirst] = useState(false); // 排序方向（false=最新优先，true=最旧优先）
   const sentinelRef = useRef<HTMLDivElement | null>(null); // 无限滚动的哨兵元素
+  const skipListFetchRef = useRef(false);
+  const skipGlobalFetchRef = useRef(false);
+  const restoredFromCacheRef = useRef(false);
+
+  useEffect(() => {
+    const cache = getDashboardCache();
+    const currentProjectId = activeProjectId || null;
+    if (!cache) {
+      return;
+    }
+    if (cache.projectId !== currentProjectId) {
+      clearDashboardCache();
+      return;
+    }
+    if (isDashboardCacheDirty()) {
+      setFilters(cache.filters);
+      setOldestFirst(cache.oldestFirst);
+      setChartState(cache.chartState);
+      clearDashboardCache();
+      return;
+    }
+    skipListFetchRef.current = true;
+    skipGlobalFetchRef.current = true;
+    restoredFromCacheRef.current = true;
+    setFilters(cache.filters);
+    setOldestFirst(cache.oldestFirst);
+    setPage(cache.page);
+    setHasMore(cache.hasMore);
+    setTotalCount(cache.totalCount);
+    setAllRows(cache.allRows);
+    setPosts(cache.posts);
+    setRisks(cache.risks);
+    setSentiments(cache.sentiments);
+    setRelevances(cache.relevances);
+    setTotalRiskCn(cache.totalRiskCn);
+    setTotalRiskReason(cache.totalRiskReason);
+    setInfluencerMap(cache.influencerMap);
+    setGlobalPostsLite(cache.globalPostsLite);
+    setGlobalMaps(cache.globalMaps);
+    setKpiPrev(cache.kpiPrev);
+    setChartState(cache.chartState);
+    setLoading(false);
+    setLoadingMore(false);
+    setGlobalLoading(false);
+    requestAnimationFrame(() => {
+      const container = document.querySelector(DASHBOARD_SCROLL_SELECTOR);
+      if (container instanceof HTMLElement) {
+        container.scrollTo({ top: cache.scrollTop ?? 0, behavior: "auto" });
+      }
+    });
+  }, [activeProjectId]);
 
   /**
    * 功能：按页拉取帖子并在前端应用时间过滤、分析映射、相关性回填、筛选与排序。
@@ -339,15 +391,6 @@ export default function ContentDashboard() {
     };
   }, [allRows, channel, contentType, oldestFirst, relevance, riskScenario, sentiment, timeRange, risks, sentiments, relevances, filters.timeRange]);
 
-  // 首屏加载与筛选/排序变化时：重置分页与累计数据，并拉取第一页
-  useEffect(() => {
-    setPage(0);
-    setAllRows([]);
-    setHasMore(true);
-    fetchBatch(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channel, contentType, sentiment, relevance, riskScenario, timeRange, oldestFirst, filters.timeRange]);
-
   /**
    * 功能：触发下一页加载（被滚动观察器调用）。
    * 说明：当不在加载中且仍有更多数据时，页码 +1 并发起请求。
@@ -358,6 +401,19 @@ export default function ContentDashboard() {
     setPage(next);
     fetchBatch(next);
   }, [fetchBatch, hasMore, loading, loadingMore, page]);
+
+  // 首屏加载与筛选/排序变化时：重置分页与累计数据，并拉取第一页
+  useEffect(() => {
+    if (skipListFetchRef.current) {
+      skipListFetchRef.current = false;
+      return;
+    }
+    setPage(0);
+    setAllRows([]);
+    setHasMore(true);
+    fetchBatch(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channel, contentType, sentiment, relevance, riskScenario, timeRange, oldestFirst, filters.timeRange]);
 
   // 交叉观察器：观察底部哨兵，一旦进入视口则触发下一页加载
   useEffect(() => {
@@ -381,9 +437,15 @@ export default function ContentDashboard() {
   const [globalLoading, setGlobalLoading] = useState(false);
   const [globalPostsLite, setGlobalPostsLite] = useState<{ id: number; platform: string; platform_item_id: string }[]>([]);
   const [globalMaps, setGlobalMaps] = useState<AnalysisMaps>({ relevanceMap: {}, severityMap: {} as any, creatorTypeMap: {} });
+  const [kpiPrev, setKpiPrev] = useState<{ prev: { id: number; platform: string; platform_item_id: string }[]; label?: string }>({ prev: [] });
+  const [chartState, setChartState] = useState<{ level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string }>({ level: "primary" });
 
   // 根据筛选项加载“全库统计”数据集（独立于分页列表）
   useEffect(() => {
+    if (skipGlobalFetchRef.current) {
+      skipGlobalFetchRef.current = false;
+      return;
+    }
     let cancelled = false;
     const run = async () => {
       try {
@@ -399,7 +461,6 @@ export default function ContentDashboard() {
         if (!cancelled) {
           setGlobalPostsLite(ds.posts);
           setGlobalMaps(ds.maps);
-          // 计算 KPI 时带入上一周期数据
           setKpiPrev({ prev: ds.previousPosts, label: ds.previousLabel });
         }
       } finally {
@@ -410,7 +471,6 @@ export default function ContentDashboard() {
     return () => { cancelled = true; };
   }, [filters, supabase, activeProjectId]);
 
-  const [kpiPrev, setKpiPrev] = useState<{ prev: { id: number; platform: string; platform_item_id: string }[]; label?: string }>({ prev: [] });
   const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps, { previousPosts: kpiPrev.prev as any, previousLabel: kpiPrev.label }), [globalPostsLite, globalMaps, kpiPrev]);
   const relevanceChart = useMemo(() => buildRelevanceChartData(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
 
@@ -452,7 +512,6 @@ export default function ContentDashboard() {
       highPlatforms,
     };
   }, [globalPostsLite, globalMaps]);
-  const [chartState, setChartState] = useState<{ level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string }>({ level: "primary" });
   const severityData = useMemo(() => chartState.level === "secondary" && chartState.selectedRelevance ? buildSeverityGroups(chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const severityDetail = useMemo(() => (chartState.level === "tertiary" && chartState.selectedRelevance && chartState.selectedSeverity) ? buildSeverityDetail(chartState.selectedSeverity as any, chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const [chartsLoading, setChartsLoading] = useState(false);
@@ -523,6 +582,50 @@ export default function ContentDashboard() {
     setTimeout(() => setChartsLoading(false), 300);
   };
 
+  useEffect(() => {
+    if (loading || globalLoading) return;
+    setDashboardCache({
+      projectId: activeProjectId || null,
+      filters: {
+        ...filters,
+        relevance: [...filters.relevance],
+        priority: [...filters.priority],
+        creatorTypes: [...filters.creatorTypes],
+        platforms: [...filters.platforms],
+      },
+      oldestFirst,
+      page,
+      hasMore,
+      totalCount,
+      allRows,
+      posts,
+      risks,
+      sentiments,
+      relevances,
+      totalRiskCn,
+      totalRiskReason,
+      influencerMap,
+      globalPostsLite,
+      globalMaps,
+      kpiPrev,
+      chartState,
+      scrollTop: (() => {
+        const container = document.querySelector(DASHBOARD_SCROLL_SELECTOR);
+        if (container instanceof HTMLElement) return container.scrollTop;
+        return window.scrollY;
+      })(),
+      lastUpdated: Date.now(),
+    });
+  }, [activeProjectId, filters, oldestFirst, page, hasMore, totalCount, allRows, posts, risks, sentiments, relevances, totalRiskCn, totalRiskReason, influencerMap, globalPostsLite, globalMaps, kpiPrev, chartState, loading, globalLoading]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      updateDashboardScrollTop();
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
+
   return (
     <div className="space-y-8">
       {/* 顶部筛选（新） */}
@@ -533,6 +636,7 @@ export default function ContentDashboard() {
           // 当用户点击“重置筛选”，除恢复筛选外，将图表层级同步回到一级，
           // 从而让“内容优先级分布”和“舆情监控结果”一起回到初始视图。
           setChartState({ level: "primary" });
+          clearDashboardCache();
         }}
         headerRight={(
           <button
@@ -549,7 +653,7 @@ export default function ContentDashboard() {
       {/* KPI */}
       <KPIOverview
         data={kpi}
-        loading={loading || globalLoading}
+        loading={!restoredFromCacheRef.current && (loading || globalLoading)}
         breakdown={kpiBreakdown as any}
         onRelevanceClick={handleRelevanceClick}
         onSeverityClick={handleSeverityClick}
@@ -562,7 +666,7 @@ export default function ContentDashboard() {
         relevanceData={relevanceChart}
         severityData={severityData as any}
         severityDetailData={severityDetail as any}
-        loading={loading || chartsLoading || globalLoading}
+        loading={!restoredFromCacheRef.current && (loading || chartsLoading || globalLoading)}
         onRelevanceClick={handleRelevanceClick}
         onBackToPrimary={handleBackToPrimary}
         onBackToSecondary={handleBackToSecondary}
@@ -578,7 +682,10 @@ export default function ContentDashboard() {
         oldestFirst={oldestFirst}
         onToggleSort={() => setOldestFirst((v) => !v)}
         sentinelRef={sentinelRef}
-        onCardClick={(id) => navigate(`/detail/${id}`)}
+        onCardClick={(id) => {
+          updateDashboardScrollTop();
+          navigate(`/detail/${id}`, { state: { fromDashboard: true } });
+        }}
         risks={risks}
         sentiments={sentiments}
         relevances={relevances}

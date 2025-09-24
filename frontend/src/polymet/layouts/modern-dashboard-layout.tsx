@@ -84,7 +84,7 @@ function LayoutInner({
         <ModernSidebar />
 
         {/* Main Content */}
-        <main ref={mainRef} className="flex-1 overflow-auto">
+        <main ref={mainRef} className="flex-1 overflow-auto" data-dashboard-scroll-container="true">
           <div className="p-8">{children}</div>
         </main>
       </div>

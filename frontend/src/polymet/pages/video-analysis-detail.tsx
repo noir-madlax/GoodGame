@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import PlatformBadge from "@/polymet/components/platform-badge";
 import { normalizeCoverUrl } from "@/lib/media";
 import { DetailMainSkeleton, DetailSidebarSkeleton, SectionSkeleton } from "@/polymet/components/loading-skeletons";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams, useLocation } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import SourcePanel from "@/polymet/components/source-panel";
 import TimelineAnalysis, { TimelineItem as TLItem } from "@/polymet/components/timeline-analysis";
@@ -17,6 +17,7 @@ import PictureAnalysis, { PictureItem as PicItem } from "@/polymet/components/pi
 import CommentsAnalysis, { CommentAnalysisItem } from "@/polymet/components/comments-analysis";
 import HandlingSuggestionsPanel from "@/polymet/components/handling-suggestions-panel";
 import type { AuthorTooltipData } from "@/polymet/components/author-tooltip";
+import { markDashboardCacheDirty, isDashboardCacheDirty } from "@/polymet/lib/dashboard-cache";
 
 // 与 SourcePanel 保持一致的最小类型（仅用于本页状态）
 type CommentNode = {
@@ -87,6 +88,7 @@ type AnalysisRow = {
 
 export default function VideoAnalysisDetail() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [post, setPost] = useState<PostRow | null>(null);
@@ -122,6 +124,8 @@ export default function VideoAnalysisDetail() {
         // 回滚：若失败，恢复原状态
         setPost((prev) => (prev ? { ...prev, analysis_status: post.analysis_status } : prev));
         console.error("retry analysis error", error);
+      } else {
+        markDashboardCacheDirty();
       }
     } catch (e) {
       // 回滚：异常时恢复原状态
@@ -132,6 +136,7 @@ export default function VideoAnalysisDetail() {
   // 查看处理建议（只读跳转，不做写入）
   const handleViewAdvice = () => {
     if (!post?.id) return;
+    markDashboardCacheDirty();
     navigate(`/suggestions/${post.id}`);
   };
 
@@ -152,6 +157,8 @@ export default function VideoAnalysisDetail() {
         setPost((prev) => (prev ? { ...prev, is_marked: currentlyMarked, process_status: currentlyMarked ? "已标记" : null } : prev));
         setMarkTip("操作失败，请重试");
         console.error("toggle mark error", error);
+      } else {
+        markDashboardCacheDirty();
       }
     } catch (e) {
       setPost((prev) => (prev ? { ...prev, is_marked: currentlyMarked, process_status: currentlyMarked ? "已标记" : null } : prev));
@@ -684,7 +691,14 @@ export default function VideoAnalysisDetail() {
         <div className="flex items-center space-x-4">
           <button
             className="p-3 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => {
+              if (location.state && (location.state as { fromDashboard?: boolean }).fromDashboard && !isDashboardCacheDirty()) {
+                navigate(-1);
+                return;
+              }
+              markDashboardCacheDirty();
+              navigate("/dashboard");
+            }}
             aria-label="Go back"
           >
             <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
