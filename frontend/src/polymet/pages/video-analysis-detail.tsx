@@ -684,18 +684,7 @@ export default function VideoAnalysisDetail() {
         <div className="flex items-center space-x-4">
           <button
             className="p-3 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
-            onClick={() => {
-              // 优先回退历史，若无历史则回到首页
-              try {
-                if (window.history.length > 1) {
-                  navigate(-1);
-                } else {
-                  navigate("/dashboard");
-                }
-              } catch (_) {
-                navigate("/dashboard");
-              }
-            }}
+            onClick={() => navigate("/dashboard")}
             aria-label="Go back"
           >
             <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />

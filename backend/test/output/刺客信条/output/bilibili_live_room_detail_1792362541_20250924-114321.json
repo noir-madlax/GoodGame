@@ -1,0 +1,117 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "docs": "https://api.tikhub.io/#/Bilibili-Web-API/fetch_collect_folders_api_v1_bilibili_web_fetch_live_room_detail_get",
+  "params": {
+    "room_id": "1792362541"
+  },
+  "data": {
+    "code": 200,
+    "request_id": "9dfb6e1f-f4bd-4801-9112-d2150df10b14",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-23 08:39:20",
+    "time_stamp": 1758641960,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Bilibili-Web-API/fetch_collect_folders_api_v1_bilibili_web_fetch_live_room_detail_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/9dfb6e1f-f4bd-4801-9112-d2150df10b14?sign=69dd0a2c87c794c5146260d604ce06ba95494d32a6226b06d33acd24590ea425",
+    "router": "/api/v1/bilibili/web/fetch_live_room_detail",
+    "params": {
+      "room_id": "1792362541"
+    },
+    "data": {
+      "code": 0,
+      "msg": "ok",
+      "message": "ok",
+      "data": {
+        "uid": 3537117877635250,
+        "room_id": 1792362541,
+        "short_id": 0,
+        "attention": 14,
+        "online": 31,
+        "is_portrait": false,
+        "description": "",
+        "live_status": 1,
+        "area_id": 236,
+        "parent_area_id": 6,
+        "parent_area_name": "单机游戏",
+        "old_area_id": 1,
+        "background": "",
+        "title": "新人直播，在线当一个唐人刺客",
+        "user_cover": "https://i0.hdslb.com/bfs/live/new_room_cover/dd97e17112c0eebda3cfb17e0af11803c799bd6d.jpg",
+        "keyframe": "https://i0.hdslb.com/bfs/live-key-frame/keyframe09241140001792362541we1362.jpg",
+        "is_strict_room": false,
+        "live_time": "2025-09-24 07:35:44",
+        "tags": "刺客信条,新人直播,赛博宠物",
+        "is_anchor": 0,
+        "room_silent_type": "",
+        "room_silent_level": 0,
+        "room_silent_second": 0,
+        "area_name": "主机游戏",
+        "pendants": "",
+        "area_pendants": "",
+        "hot_words": [
+          "2333333",
+          "喂，妖妖零吗",
+          "红红火火恍恍惚惚",
+          "FFFFFFFFFF",
+          "Yooooooo",
+          "啪啪啪啪啪",
+          "666666666",
+          "老司机带带我",
+          "你为什么这么熟练啊",
+          "gg",
+          "prprpr",
+          "向大佬低头",
+          "请大家注意弹幕礼仪哦！",
+          "还有这种操作！",
+          "囍",
+          "打call",
+          "你气不气？",
+          "队友呢？"
+        ],
+        "hot_words_status": 0,
+        "verify": "",
+        "new_pendants": {
+          "frame": {
+            "name": "",
+            "value": "",
+            "position": 0,
+            "desc": "",
+            "area": 0,
+            "area_old": 0,
+            "bg_color": "",
+            "bg_pic": "",
+            "use_old_area": false
+          },
+          "badge": null,
+          "mobile_frame": {
+            "name": "",
+            "value": "",
+            "position": 0,
+            "desc": "",
+            "area": 0,
+            "area_old": 0,
+            "bg_color": "",
+            "bg_pic": "",
+            "use_old_area": false
+          },
+          "mobile_badge": null
+        },
+        "up_session": "643650384955787309",
+        "pk_status": 0,
+        "pk_id": 0,
+        "battle_id": 0,
+        "allow_change_area_time": 0,
+        "allow_upload_cover_time": 0,
+        "studio_info": {
+          "status": 0,
+          "master_list": []
+        }
+      }
+    }
+  }
+}

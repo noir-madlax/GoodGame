@@ -175,7 +175,7 @@ def analyze_with_local_file(client: genai.Client, local_path: Path, model: str) 
 
 	# Build video part with explicit metadata (fps)
 	file_uri = getattr(file_obj, "uri", None) or getattr(file_obj, "file_uri", None)
-	mime_type = getattr(file_obj, "mime_type", None) or "video/mp4"
+	mime_type = getattr(file_obj, "mime_type", None) or ("video/x-flv" if local_path.suffix.lower() == ".flv" else "video/mp4")
 	video_part = types.Part(
 		file_data=types.FileData(file_uri=file_uri, mime_type=mime_type),
 		video_metadata=types.VideoMetadata(fps=5),
@@ -209,7 +209,7 @@ def analyze_with_inputs(
 	system_prompt = prompt_path.read_text(encoding="utf-8") if prompt_path.exists() else ""
 
 	file_uri = getattr(file_obj, "uri", None) or getattr(file_obj, "file_uri", None)
-	mime_type = getattr(file_obj, "mime_type", None) or "video/mp4"
+	mime_type = getattr(file_obj, "mime_type", None) or ("video/x-flv" if video_path.suffix.lower() == ".flv" else "video/mp4")
 	video_part = types.Part(
 		file_data=types.FileData(file_uri=file_uri, mime_type=mime_type),
 		video_metadata=types.VideoMetadata(fps=5),
@@ -371,11 +371,12 @@ def main(video_path: str | None = None, api_key_param: str | None = None) -> Non
 	candidate_path_str = video_path or args.file or args.file_flag or VIDEO_FILE
 	custom_file = Path(candidate_path_str) if candidate_path_str else None
 
-	# Validate file
+	# Validate file（允许 .mp4 与 .flv）
 	if not custom_file.exists():
 		raise FileNotFoundError(f"Video file not found: {custom_file}")
-	if custom_file.suffix.lower() != ".mp4":
-		raise ValueError(f"Unsupported file type: {custom_file.suffix}. Expected .mp4")
+	allowed_ext = {".mp4", ".flv"}
+	if custom_file.suffix.lower() not in allowed_ext:
+		raise ValueError(f"Unsupported file type: {custom_file.suffix}. Expected one of {sorted(allowed_ext)}")
 
 	# Load comments if provided
 	comments: list[dict] | None = None

@@ -1,0 +1,122 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "docs": "https://api.tikhub.io/#/Bilibili-Web-API/fetch_collect_folders_api_v1_bilibili_web_fetch_live_room_detail_get",
+  "params": {
+    "room_id": "274763"
+  },
+  "data": {
+    "code": 200,
+    "request_id": "bcc5ea40-34ca-4ea4-ba78-5c0f6c3be11c",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-23 08:39:36",
+    "time_stamp": 1758641976,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Bilibili-Web-API/fetch_collect_folders_api_v1_bilibili_web_fetch_live_room_detail_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/bcc5ea40-34ca-4ea4-ba78-5c0f6c3be11c?sign=d01e9df5a285d07327720275a42fb72ffdbc42fecc3cc9a29426d265b239083a",
+    "router": "/api/v1/bilibili/web/fetch_live_room_detail",
+    "params": {
+      "room_id": "274763"
+    },
+    "data": {
+      "code": 0,
+      "msg": "ok",
+      "message": "ok",
+      "data": {
+        "uid": 16836724,
+        "room_id": 274763,
+        "short_id": 0,
+        "attention": 1154360,
+        "online": 0,
+        "is_portrait": false,
+        "description": "",
+        "live_status": 0,
+        "area_id": 236,
+        "parent_area_id": 6,
+        "parent_area_name": "单机游戏",
+        "old_area_id": 1,
+        "background": "https://i0.hdslb.com/bfs/live/2388faed3728f3396052273ad4c3c9af21c411fc.jpg",
+        "title": "淡路之爪，来当棍术大师！",
+        "user_cover": "https://i0.hdslb.com/bfs/live/new_room_cover/5326f49b9ec73cd02b410c41f6c78a5982fef538.jpg",
+        "keyframe": "",
+        "is_strict_room": false,
+        "live_time": "0000-00-00 00:00:00",
+        "tags": "育碧游戏",
+        "is_anchor": 0,
+        "room_silent_type": "",
+        "room_silent_level": 0,
+        "room_silent_second": 0,
+        "area_name": "主机游戏",
+        "pendants": "",
+        "area_pendants": "",
+        "hot_words": [
+          "2333333",
+          "喂，妖妖零吗",
+          "红红火火恍恍惚惚",
+          "FFFFFFFFFF",
+          "Yooooooo",
+          "啪啪啪啪啪",
+          "666666666",
+          "老司机带带我",
+          "你为什么这么熟练啊",
+          "gg",
+          "prprpr",
+          "向大佬低头",
+          "请大家注意弹幕礼仪哦！",
+          "还有这种操作！",
+          "囍",
+          "打call",
+          "你气不气？",
+          "队友呢？"
+        ],
+        "hot_words_status": 0,
+        "verify": "",
+        "new_pendants": {
+          "frame": {
+            "name": "",
+            "value": "",
+            "position": 0,
+            "desc": "",
+            "area": 0,
+            "area_old": 0,
+            "bg_color": "",
+            "bg_pic": "",
+            "use_old_area": false
+          },
+          "badge": {
+            "name": "v_company",
+            "position": 3,
+            "value": "",
+            "desc": "上海碧汉网络科技有限公司 官方账号"
+          },
+          "mobile_frame": {
+            "name": "",
+            "value": "",
+            "position": 0,
+            "desc": "",
+            "area": 0,
+            "area_old": 0,
+            "bg_color": "",
+            "bg_pic": "",
+            "use_old_area": false
+          },
+          "mobile_badge": null
+        },
+        "up_session": "",
+        "pk_status": 0,
+        "pk_id": 0,
+        "battle_id": 0,
+        "allow_change_area_time": 0,
+        "allow_upload_cover_time": 0,
+        "studio_info": {
+          "status": 0,
+          "master_list": []
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "base_url": "https://api.tikhub.io",
+  "status_code": 200,
+  "docs": "https://api.tikhub.io/#/Bilibili-Web-API/fetch_collect_folders_api_v1_bilibili_web_fetch_live_videos_get",
+  "params": {
+    "room_id": "23307253"
+  },
+  "data": {
+    "code": 200,
+    "request_id": "e73b8f0e-9dde-4675-89f9-50e72c2f0350",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-09-23 08:39:21",
+    "time_stamp": 1758641961,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Bilibili-Web-API/fetch_collect_folders_api_v1_bilibili_web_fetch_live_videos_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/e73b8f0e-9dde-4675-89f9-50e72c2f0350?sign=3322e7c0f9344fb5193c60073e86e7694e6cd3921af7cc3d0d4ebc0d24eb1a35",
+    "router": "/api/v1/bilibili/web/fetch_live_videos",
+    "params": {
+      "room_id": "23307253"
+    },
+    "data": {
+      "code": 0,
+      "message": "0",
+      "ttl": 1,
+      "data": {
+        "current_quality": 4,
+        "accept_quality": [
+          "4"
+        ],
+        "current_qn": 4,
+        "quality_description": [
+          {
+            "qn": 4,
+            "desc": "原画"
+          }
+        ],
+        "durl": [
+          {
+            "url": "https://d1--ov-gotcha07.bilivideo.com/live-bvc/371561/live_399087250_33425556.flv?expires=1758693329&len=0&oi=622018567&pt=&qn=10000&trid=1000643ed57049494771a5feeefd48760158&sigparams=cdn,expires,len,oi,pt,qn,trid&cdn=ov-gotcha07&sign=554cb41c9465ef863f3352ea2722995f&sk=d1dad6324e27043df2b7dc3fd43edfc2&p2p_type=0&sl=1&free_type=0&mid=0&pp=srt&source=one&trace=0&site=0b43f5553caad10fb8498d02b07af703&order=1",
+            "length": 0,
+            "order": 1,
+            "stream_type": 0,
+            "p2p_type": -1
+          },
+          {
+            "url": "https://d1--ov-gotcha05.bilivideo.com/live-bvc/371561/live_399087250_33425556.flv?expires=1758693329&len=0&oi=622018567&pt=&qn=10000&trid=1000643ed57049494771a5feeefd48760158&sigparams=cdn,expires,len,oi,pt,qn,trid&cdn=ov-gotcha05&sign=75cfa207b8af02756973bda15f896533&sk=d1dad6324e27043df2b7dc3fd43edfc2&p2p_type=0&sl=1&free_type=0&mid=0&pp=srt&source=one&trace=0&site=0b43f5553caad10fb8498d02b07af703&order=2",
+            "length": 0,
+            "order": 2,
+            "stream_type": 0,
+            "p2p_type": -1
+          }
+        ]
+      }
+    }
+  }
+}

@@ -20,7 +20,6 @@ import { backfillRelevance, resolveStartAt, filterByTime, sortByPublished, build
 import { calculateKPI, buildRelevanceChartData, buildSeverityGroups, buildSeverityDetail, mapDbSeverityToCn, AnalysisMaps, loadGlobalDataset } from "@/polymet/lib/analytics";
 import { useProject } from "@/polymet/lib/project-context";
 import ImportAnalyzeDialog from "@/polymet/components/import-analyze-dialog";
-import { buildCacheKey, saveSnapshot, setReturnOnceMarker, consumeReturnOnceMarker, getSnapshotIfFresh } from "@/polymet/lib/dashboard-state";
 
 export default function ContentDashboard() {
   const navigate = useNavigate();
@@ -135,9 +134,6 @@ export default function ContentDashboard() {
   const relevance = filters.relevance[0] || "all";
   const [oldestFirst, setOldestFirst] = useState(false); // 排序方向（false=最新优先，true=最旧优先）
   const sentinelRef = useRef<HTMLDivElement | null>(null); // 无限滚动的哨兵元素
-  // 返回缓存水合后，跳过一次首屏列表请求与一次全库统计请求
-  const skipFirstFetchRef = useRef(false);
-  const skipFirstGlobalRef = useRef(false);
 
   /**
    * 功能：按页拉取帖子并在前端应用时间过滤、分析映射、相关性回填、筛选与排序。
@@ -345,10 +341,6 @@ export default function ContentDashboard() {
 
   // 首屏加载与筛选/排序变化时：重置分页与累计数据，并拉取第一页
   useEffect(() => {
-    if (skipFirstFetchRef.current) {
-      skipFirstFetchRef.current = false;
-      return;
-    }
     setPage(0);
     setAllRows([]);
     setHasMore(true);
@@ -392,10 +384,6 @@ export default function ContentDashboard() {
 
   // 根据筛选项加载“全库统计”数据集（独立于分页列表）
   useEffect(() => {
-    if (skipFirstGlobalRef.current) {
-      skipFirstGlobalRef.current = false;
-      return;
-    }
     let cancelled = false;
     const run = async () => {
       try {
@@ -421,41 +409,6 @@ export default function ContentDashboard() {
     run();
     return () => { cancelled = true; };
   }, [filters, supabase, activeProjectId]);
-
-  // 从详情返回：一次性读取缓存快照并水合
-  useEffect(() => {
-    const once = consumeReturnOnceMarker();
-    if (!once) return;
-    const snap = getSnapshotIfFresh(once.cacheKey);
-    if (!snap) return;
-    // 水合核心视图与数据
-    setFilters(snap.filters as any);
-    setOldestFirst(snap.oldestFirst);
-    setChartState(snap.chartState);
-    setPage(snap.page);
-    setHasMore(snap.hasMore);
-    setAllRows(snap.allRows as any);
-    setPosts(snap.posts as any);
-    setTotalCount(snap.totalCount);
-    setRisks(snap.risks);
-    setSentiments(snap.sentiments);
-    setRelevances(snap.relevances);
-    setTotalRiskCn(snap.totalRiskCn);
-    setTotalRiskReason(snap.totalRiskReason);
-    setInfluencerMap(snap.influencerMap);
-    setGlobalPostsLite(snap.globalPostsLite);
-    setGlobalMaps(snap.globalMaps as any);
-    setKpiPrev(snap.kpiPrev);
-    setLoading(false);
-    setLoadingMore(false);
-    // 跳过首屏的两类请求
-    skipFirstFetchRef.current = true;
-    skipFirstGlobalRef.current = true;
-    // 恢复滚动
-    setTimeout(() => {
-      try { window.scrollTo({ top: Math.max(0, snap.scrollY || 0), behavior: "auto" }); } catch (_) {}
-    }, 0);
-  }, []);
 
   const [kpiPrev, setKpiPrev] = useState<{ prev: { id: number; platform: string; platform_item_id: string }[]; label?: string }>({ prev: [] });
   const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps, { previousPosts: kpiPrev.prev as any, previousLabel: kpiPrev.label }), [globalPostsLite, globalMaps, kpiPrev]);
@@ -564,10 +517,8 @@ export default function ContentDashboard() {
   const handleSeverityClick = (sev: string, _creatorType?: string) => {
     setChartsLoading(true);
     // 按你的要求：点击仅联动图表层级，不修改全局筛选
-    // 修复：不要硬编码为“相关”，应继承当前二级图所选的相关性。
-    // 但当来源为 KPI 卡片“相关内容”的优先级点击时，强制使用“相关”。
-    const fromKpiRelatedCard = _creatorType === "__kpi_related__";
-    const rel = fromKpiRelatedCard ? "相关" : (chartState.selectedRelevance || "相关");
+    // 修复：不要硬编码为“相关”，应继承当前二级图所选的相关性
+    const rel = chartState.selectedRelevance || "相关";
     setChartState({ level: "tertiary", selectedRelevance: rel, selectedSeverity: sev });
     setTimeout(() => setChartsLoading(false), 300);
   };
@@ -627,33 +578,7 @@ export default function ContentDashboard() {
         oldestFirst={oldestFirst}
         onToggleSort={() => setOldestFirst((v) => !v)}
         sentinelRef={sentinelRef}
-        onCardClick={(id) => {
-          // 保存快照并设置一次性返回标记，仅在从首页进入详情时启用
-          const cacheKey = buildCacheKey(filters as any, oldestFirst);
-          const snapshot = {
-            filters,
-            oldestFirst,
-            chartState,
-            scrollY: window.scrollY || 0,
-            page,
-            hasMore,
-            allRows,
-            posts,
-            totalCount,
-            risks,
-            sentiments,
-            relevances,
-            totalRiskCn,
-            totalRiskReason,
-            influencerMap,
-            globalPostsLite,
-            globalMaps,
-            kpiPrev,
-          } as any;
-          saveSnapshot(cacheKey, snapshot);
-          setReturnOnceMarker(cacheKey);
-          navigate(`/detail/${id}`);
-        }}
+        onCardClick={(id) => navigate(`/detail/${id}`)}
         risks={risks}
         sentiments={sentiments}
         relevances={relevances}
