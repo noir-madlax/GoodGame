@@ -164,47 +164,82 @@ def _step_sync_details_and_upsert(fetcher, video_id: str) -> StepResult:
 
 
 def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 20) -> StepResult:
+    """同步评论（支持多平台）
+
+    通过 fetcher.get_comment_adapter() 动态获取对应平台的评论适配器，
+    实现平台无关的评论同步逻辑。
+
+    注意：当前仅同步顶层评论，不获取评论的回复（楼中楼）。
+
+    翻页逻辑：
+    - 抖音：使用 cursor (int) 和 has_more (0/1)
+    - 小红书：使用 cursor (str) 和 has_more (bool)
+    - 统一处理：检查 comments 是否为空，以及 has_more 和 cursor 变化
+    """
     try:
         # 动态导入
         try:
             from .capabilities import CommentsProvider
-            from .adapters import DouyinCommentAdapter
             from .orm.comment_repository import CommentRepository
         except Exception:
             from tikhub_api.capabilities import CommentsProvider
-            from tikhub_api.adapters import DouyinCommentAdapter
             from tikhub_api.orm.comment_repository import CommentRepository
 
         if not isinstance(fetcher, CommentsProvider):
             return StepResult(ok=True, skipped=True, error="平台未提供评论能力")
 
-        cursor = 0
+        # 动态获取评论适配器
+        if not hasattr(fetcher, 'get_comment_adapter'):
+            return StepResult(ok=False, error="fetcher 未实现 get_comment_adapter 方法")
+
+        comment_adapter = fetcher.get_comment_adapter()
+
+        cursor = 0  # 初始游标（抖音用int，小红书会转为str）
         total_top = 0
-        id_map: dict[str, int] = {}
         log.info("开始同步顶层评论：视频ID=%s，post_id=%s", video_id, post_id)
+
         while True:
             page = fetcher.get_video_comments(video_id, cursor, page_size) or {}
             comments = page.get("comments") or []
-            next_cursor = int(page.get("cursor") or 0)
-            has_more = int(page.get("has_more") or 0)
+
+            # 兼容不同平台的 cursor 类型
+            next_cursor_raw = page.get("cursor")
+            if next_cursor_raw is None:
+                next_cursor = 0
+            elif isinstance(next_cursor_raw, str):
+                # 小红书返回字符串cursor，尝试转int，失败则保持为0表示结束
+                try:
+                    next_cursor = int(next_cursor_raw) if next_cursor_raw else 0
+                except ValueError:
+                    # 如果是非数字字符串，使用hash值作为标识（仅用于判断是否变化）
+                    next_cursor = hash(next_cursor_raw) if next_cursor_raw else 0
+            else:
+                next_cursor = int(next_cursor_raw or 0)
+
+            # 兼容不同平台的 has_more 类型
+            has_more_raw = page.get("has_more")
+            if isinstance(has_more_raw, bool):
+                has_more = 1 if has_more_raw else 0
+            else:
+                has_more = int(has_more_raw or 0)
 
             if not comments:
-                log.info("本页无评论，视频ID=%s，post_id=%s，结束顶层评论同步：cursor=%s",video_id, post_id ,cursor)
+                log.info("本页无评论，视频ID=%s，post_id=%s，结束顶层评论同步：cursor=%s", video_id, post_id, cursor)
                 break
 
-            models = DouyinCommentAdapter.to_comment_list(comments, post_id)
+            # 使用动态适配器转换评论
+            models = comment_adapter.to_comment_list(comments, post_id)
             for c in models:
                 try:
-                    saved_c = CommentRepository.upsert_comment(c)
-                    if getattr(saved_c, "platform_comment_id", None) and getattr(saved_c, "id", None):
-                        id_map[str(saved_c.platform_comment_id)] = int(saved_c.id)
-                    if int(getattr(saved_c, "reply_count", 0) or 0) > 0:
-                        _sync_replies_for_top_comment(fetcher, video_id, str(saved_c.platform_comment_id), int(post_id), id_map)
+                    CommentRepository.upsert_comment(c)
+                    # 注意：暂时不同步评论的回复（楼中楼），仅记录顶层评论
                 except Exception as e:
-                    log.warning("视频ID=%s，post_id=%s，顶层评论入库失败：%s",video_id, post_id, e)
-            total_top += len(models)
-            log.info("视频ID=%s，post_id=%s，顶层评论累计入库：%s 条",video_id, post_id, total_top)
+                    log.warning("视频ID=%s，post_id=%s，顶层评论入库失败：%s", video_id, post_id, e)
 
+            total_top += len(models)
+            log.info("视频ID=%s，post_id=%s，顶层评论累计入库：%s 条", video_id, post_id, total_top)
+
+            # 翻页判断：有更多数据且游标发生变化
             if has_more == 1 and next_cursor != cursor:
                 cursor = next_cursor
                 continue
@@ -429,33 +464,78 @@ def _fetch_and_save_danmaku(fetcher, video_id: str, video_details: dict, video_d
 
 
 
-def _sync_replies_for_top_comment(fetcher, aweme_id: str, top_cid: str, video_post_id: int, id_map: dict[str, int]):
-    """为一个顶层评论同步其所有楼中楼回复（分页拉取，无节流）。"""
+def _sync_replies_for_top_comment(fetcher, video_id: str, top_comment_id: str, video_post_id: int, id_map: dict[str, int]):
+    """为一个顶层评论同步其所有楼中楼回复（分页拉取，无节流）。
+
+    ⚠️ 注意：此方法暂时不使用，当前仅同步顶层评论，不获取评论的回复。
+
+    支持多平台：
+    - 通过 fetcher.get_comment_adapter() 获取对应平台的适配器
+    - 兼容不同平台的翻页机制
+
+    Args:
+        fetcher: 平台 fetcher 实例（需实现 CommentsProvider 和 get_comment_adapter）
+        video_id: 视频/笔记 ID
+        top_comment_id: 顶层评论 ID
+        video_post_id: 数据库中的 post_id
+        id_map: 平台评论ID到数据库ID的映射字典
+    """
     try:
-        # 动态导入适配器与仓库
+        # 动态导入仓库
         try:
-            from .adapters import DouyinCommentAdapter
             from .orm.comment_repository import CommentRepository
         except Exception:
-            from tikhub_api.adapters import DouyinCommentAdapter
             from tikhub_api.orm.comment_repository import CommentRepository
+
+        # 获取评论适配器
+        if not hasattr(fetcher, 'get_comment_adapter'):
+            log.warning("fetcher 未实现 get_comment_adapter 方法，跳过楼中楼同步")
+            return
+
+        comment_adapter = fetcher.get_comment_adapter()
+
+        # 获取平台名称（用于第二趟修正）
+        platform = getattr(fetcher, 'platform_name', 'unknown').lower()
+        if platform == '抖音':
+            platform = 'douyin'
+        elif platform == '小红书':
+            platform = 'xiaohongshu'
 
         cursor = 0
         page_size = 20
         page_count = 0
         synced = 0
+
         while True:
-            page = fetcher.get_video_comment_replies(aweme_id, top_cid, cursor, page_size) or {}
+            page = fetcher.get_video_comment_replies(video_id, top_comment_id, cursor, page_size) or {}
             replies = page.get("comments") or []
-            next_cursor = int(page.get("cursor") or 0)
-            has_more = int(page.get("has_more") or 0)
+
+            # 兼容不同平台的 cursor 类型
+            next_cursor_raw = page.get("cursor")
+            if next_cursor_raw is None:
+                next_cursor = 0
+            elif isinstance(next_cursor_raw, str):
+                try:
+                    next_cursor = int(next_cursor_raw) if next_cursor_raw else 0
+                except ValueError:
+                    next_cursor = hash(next_cursor_raw) if next_cursor_raw else 0
+            else:
+                next_cursor = int(next_cursor_raw or 0)
+
+            # 兼容不同平台的 has_more 类型
+            has_more_raw = page.get("has_more")
+            if isinstance(has_more_raw, bool):
+                has_more = 1 if has_more_raw else 0
+            else:
+                has_more = int(has_more_raw or 0)
+
             page_count += 1
 
             if not replies:
                 break
 
             # 第一趟：基础 upsert，尽力绑定父级
-            models = DouyinCommentAdapter.to_reply_list(replies, video_post_id, top_cid, id_map)
+            models = comment_adapter.to_reply_list(replies, video_post_id, top_comment_id, id_map)
             for m in models:
                 try:
                     saved = CommentRepository.upsert_comment(m)
@@ -463,37 +543,55 @@ def _sync_replies_for_top_comment(fetcher, aweme_id: str, top_cid: str, video_po
                         id_map[str(saved.platform_comment_id)] = int(saved.id)
                     synced += 1
                 except Exception as e:
-                    log.warning("楼中楼入库失败：top_cid=%s，错误=%s", top_cid, e)
+                    log.warning("楼中楼入库失败：top_comment_id=%s，错误=%s", top_comment_id, e)
 
-            # 第二趟：对 reply_to_reply_id != '0' 的项尝试修正 parent_comment_id
+            # 第二趟：尝试修正 parent_comment_id（针对抖音的 reply_to_reply_id 或小红书的 target_comment）
             for raw in replies:
                 try:
-                    reply_to_reply_id = str(raw.get('reply_to_reply_id', '') or '0')
-                    if reply_to_reply_id == '0':
-                        continue
-                    child_cid = str(raw.get('cid', ''))
-                    parent_db = id_map.get(reply_to_reply_id)
-                    child_db = id_map.get(child_cid)
-                    if parent_db and child_db:
-                        # 仅更新父子关联，避免触碰 content 非空约束
-                        CommentRepository.update_parent_link(
-                            platform="douyin",
-                            platform_comment_id=child_cid,
-                            parent_comment_id=parent_db,
-                            parent_platform_comment_id=reply_to_reply_id,
-                            post_id=video_post_id,
-                        )
+                    # 抖音使用 reply_to_reply_id
+                    if platform == 'douyin':
+                        reply_to_reply_id = str(raw.get('reply_to_reply_id', '') or '0')
+                        if reply_to_reply_id == '0':
+                            continue
+                        child_cid = str(raw.get('cid', ''))
+                        parent_db = id_map.get(reply_to_reply_id)
+                        child_db = id_map.get(child_cid)
+                        if parent_db and child_db:
+                            CommentRepository.update_parent_link(
+                                platform=platform,
+                                platform_comment_id=child_cid,
+                                parent_comment_id=parent_db,
+                                parent_platform_comment_id=reply_to_reply_id,
+                                post_id=video_post_id,
+                            )
+                    # 小红书使用 target_comment
+                    elif platform == 'xiaohongshu':
+                        target_comment = raw.get('target_comment') or {}
+                        target_id = str(target_comment.get('id', '') or '')
+                        if not target_id or target_id == top_comment_id:
+                            continue
+                        child_id = str(raw.get('id', ''))
+                        parent_db = id_map.get(target_id)
+                        child_db = id_map.get(child_id)
+                        if parent_db and child_db:
+                            CommentRepository.update_parent_link(
+                                platform=platform,
+                                platform_comment_id=child_id,
+                                parent_comment_id=parent_db,
+                                parent_platform_comment_id=target_id,
+                                post_id=video_post_id,
+                            )
                 except Exception as e:
-                    log.warning("楼中楼父子修正失败：top_cid=%s，错误=%s", top_cid, e)
+                    log.warning("修正父子关联失败：错误=%s", e)
 
             if has_more == 1 and next_cursor != cursor:
                 cursor = next_cursor
                 continue
             else:
                 break
-        log.info("视频ID=%s，post_id=%s，顶层评论回复同步完成：top_cid=%s，页数=%s，新增/更新=%s", aweme_id, video_post_id,top_cid, page_count, synced)
+        log.info("视频ID=%s，post_id=%s，顶层评论回复同步完成：top_comment_id=%s，页数=%s，新增/更新=%s", video_id, video_post_id, top_comment_id, page_count, synced)
     except Exception as e:
-        log.error("同步楼中楼失败：top_cid=%s，错误=%s", top_cid, e)
+        log.error("同步楼中楼失败：top_comment_id=%s，错误=%s", top_comment_id, e)
 
 # 便捷：按视频ID完整执行（详情获取+入库+公共流程）
 def run_video_full_by_id(platform: str, video_id: str, options: WorkflowOptions = WorkflowOptions()) -> WorkflowReport:

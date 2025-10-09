@@ -6,12 +6,13 @@
 import json
 from typing import Dict, Any, Optional, List
 from .base_fetcher import BaseFetcher
+from ..capabilities import CommentsProvider
 from ..orm.models import PlatformPost
 from jobs.logger import get_logger
 
 log = get_logger(__name__)
 
-class XiaohongshuFetcher(BaseFetcher):
+class XiaohongshuFetcher(BaseFetcher, CommentsProvider):
     """小红书视频获取器，用于调用 TikHub API 获取小红书视频信息"""
 
     # 搜索接口与默认配置（改为使用 app/search_notes）
@@ -35,6 +36,11 @@ class XiaohongshuFetcher(BaseFetcher):
     def get_adapter(self):
         from ..adapters import XiaohongshuVideoAdapter
         return XiaohongshuVideoAdapter()
+
+    def get_comment_adapter(self):
+        """获取评论适配器"""
+        from ..adapters import XiaohongshuCommentAdapter
+        return XiaohongshuCommentAdapter
 
 
     @property
@@ -271,6 +277,110 @@ class XiaohongshuFetcher(BaseFetcher):
         小红书目前不支持弹幕获取
         """
         raise NotImplementedError("小红书平台暂不支持弹幕获取")
+
+    # ===== 评论相关方法（实现 CommentsProvider 协议） =====
+
+    def fetch_video_comments_page(self, note_id: str, cursor: int = 0, count: int = 20) -> Dict[str, Any]:
+        """获取小红书笔记的顶层评论分页
+
+        TikHub API: /api/v1/xiaohongshu/app/get_note_comments
+
+        参数：
+        - note_id: 笔记ID（必需）
+        - cursor: 翻页游标，支持两种格式：
+          * 简单格式: "682b0133000000001c03618d"
+          * JSON格式: {"cursor":"682b0133000000001c03618d","index":2,"pageArea":"ALL"}
+          * 首次请求传 0 或空字符串
+        - sort_strategy: 排序策略（1: 默认排序，2: 按最新评论排序）
+
+        返回结构：
+        {
+            "code": 200,
+            "data": {
+                "code": 0,
+                "success": true,
+                "data": {
+                    "comments": [...],
+                    "cursor": "{\"cursor\":\"...\",\"index\":2,\"pageArea\":\"ALL\"}",
+                    "has_more": true,
+                    "comment_count": 56
+                }
+            }
+        }
+        """
+        url = f"{self.base_url}/xiaohongshu/app/get_note_comments"
+        params = {
+            "note_id": note_id,
+            "sort_strategy": "1"  # 默认排序
+        }
+        # 仅在有游标时添加 start 参数
+        if cursor and cursor != 0:
+            params["start"] = str(cursor) if not isinstance(cursor, str) else cursor
+
+        return self._make_request(url, params)
+
+    def get_video_comments(self, note_id: str, cursor: int = 0, count: int = 20) -> Optional[Dict[str, Any]]:
+        """便捷方法，返回评论数据部分
+
+        返回格式：
+        {
+            "comments": [...],
+            "cursor": "{\"cursor\":\"...\",\"index\":2,\"pageArea\":\"ALL\"}",
+            "has_more": true,
+            "comment_count": 56
+        }
+        """
+        try:
+            result = self.fetch_video_comments_page(note_id, cursor, count)
+            if self._check_api_response(result):
+                # 小红书返回结构：data.data.data
+                outer_data = result.get('data') or {}
+                inner_data = outer_data.get('data') or {}
+                return inner_data
+            else:
+                log.warning(f"获取小红书评论失败: {result}")
+                return None
+        except Exception as e:
+            log.error(f"获取小红书评论异常: {e}")
+            return None
+
+    def fetch_video_comment_replies_page(self, note_id: str, comment_id: str, cursor: int = 0, count: int = 20) -> Dict[str, Any]:
+        """获取小红书评论的子评论（楼中楼）
+
+        TikHub API: /api/v1/xiaohongshu/app/get_note_sub_comments
+
+        参数：
+        - note_id: 笔记ID
+        - comment_id: 顶层评论ID
+        - cursor: 子评论游标（从顶层评论的 sub_comment_cursor 字段获取）
+        - count: 每页数量
+        """
+        url = f"{self.base_url}/xiaohongshu/app/get_note_sub_comments"
+        params = {
+            "note_id": note_id,
+            "root_comment_id": comment_id
+        }
+        # 仅在有游标时添加 cursor 参数
+        if cursor and cursor != 0:
+            params["cursor"] = str(cursor) if not isinstance(cursor, str) else cursor
+
+        return self._make_request(url, params)
+
+    def get_video_comment_replies(self, note_id: str, comment_id: str, cursor: int = 0, count: int = 20) -> Optional[Dict[str, Any]]:
+        """便捷方法，返回子评论数据部分"""
+        try:
+            result = self.fetch_video_comment_replies_page(note_id, comment_id, cursor, count)
+            if self._check_api_response(result):
+                # 小红书返回结构：data.data.data
+                outer_data = result.get('data') or {}
+                inner_data = outer_data.get('data') or {}
+                return inner_data
+            else:
+                log.warning(f"获取小红书子评论失败: {result}")
+                return None
+        except Exception as e:
+            log.error(f"获取小红书子评论异常: {e}")
+            return None
 
 
     def _validate_video_id(self, note_id: str) -> None:

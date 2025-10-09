@@ -44,6 +44,11 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
         from ..adapters import DouyinVideoAdapter
         return DouyinVideoAdapter()
 
+    def get_comment_adapter(self):
+        """获取评论适配器"""
+        from ..adapters import DouyinCommentAdapter
+        return DouyinCommentAdapter
+
     @property
     def api_endpoint(self) -> str:
         """API 端点路径"""

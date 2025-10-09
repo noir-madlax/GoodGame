@@ -1,0 +1,1121 @@
+{
+  "code": 200,
+  "request_id": "2f25ad75-4207-4860-ba5b-1b3c0add700f",
+  "message": "Request successful. This request will incur a charge.",
+  "message_zh": "请求成功，本次请求将被计费。",
+  "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+  "time": "2025-10-08 23:18:24",
+  "time_stamp": 1759990704,
+  "time_zone": "America/Los_Angeles",
+  "docs": "https://api.tikhub.io/#/Xiaohongshu-App-API/get_note_comments_api_v1_xiaohongshu_app_get_note_comments_get",
+  "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours.",
+  "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时。",
+  "cache_url": "https://cache.tikhub.io/api/v1/cache/public/2f25ad75-4207-4860-ba5b-1b3c0add700f?sign=2d8a11365666d82ef4f733a0cd9e38f1f2fdef666650da378d4becb113a8f362",
+  "router": "/api/v1/xiaohongshu/app/get_note_comments",
+  "params": {
+    "note_id": "68ca2470000000000b03ed4d",
+    "sort_strategy": "1"
+  },
+  "data": {
+    "code": 0,
+    "success": true,
+    "msg": "",
+    "data": {
+      "comments": [
+        {
+          "time": 1758084499,
+          "show_type": "common",
+          "comment_type": 0,
+          "track_id": "interaction-service.local",
+          "sub_comment_cursor": "{\"cursor\":\"68ca3dca0000000002000609\",\"index\":1}",
+          "text_language_code": "zh",
+          "content": "我靠我正在体检，费用都交了…[石化R]",
+          "status": 0,
+          "sub_comments": [
+            {
+              "user": {
+                "nickname": "胡八一爱倒斗",
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31m872doc586g5o2q0b9gbs9d7lkkh0o?imageView2/2/w/120/format/jpg",
+                "red_id": "2656540724",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {},
+                "ai_agent": false,
+                "current_user": "false",
+                "userid": "605a02d3000000000101f12d"
+              },
+              "show_tags": [],
+              "ip_location": "河南",
+              "show_type": "common",
+              "show_tags_v2": [],
+              "content": "我面的大张长申国际店安保岗位，不知道咋样",
+              "status": 0,
+              "target_comment": {
+                "id": "68ca3d92000000000b0177c7",
+                "status": 0,
+                "user": {
+                  "userid": "605a02d3000000000101f12d",
+                  "nickname": "胡八一爱倒斗",
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31m872doc586g5o2q0b9gbs9d7lkkh0o?imageView2/2/w/120/format/jpg",
+                  "red_id": "2656540724",
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false,
+                  "current_user": "false"
+                }
+              },
+              "text_language_code": "zh",
+              "collected": false,
+              "at_users": [],
+              "comment_type": 0,
+              "time": 1758084555,
+              "like_count": 0,
+              "liked": false,
+              "hidden": false,
+              "score": 0,
+              "friend_liked_msg": "",
+              "biz_label": {
+                "group_invite": "false",
+                "rich_text": "unknown",
+                "product_review": false
+              },
+              "id": "68ca3dca0000000002000609",
+              "note_id": "68ca2470000000000b03ed4d",
+              "downvoted": false
+            }
+          ],
+          "show_tags": [],
+          "ip_location": "河南",
+          "show_tags_v2": [],
+          "note_id": "68ca2470000000000b03ed4d",
+          "score": 17,
+          "sub_comment_count": 7,
+          "downvoted": false,
+          "hidden": false,
+          "at_users": [],
+          "like_count": 0,
+          "liked": false,
+          "user": {
+            "red_id": "2656540724",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "605a02d3000000000101f12d",
+            "nickname": "胡八一爱倒斗",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31m872doc586g5o2q0b9gbs9d7lkkh0o?imageView2/2/w/120/format/jpg"
+          },
+          "friend_liked_msg": "",
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "collected": false,
+          "id": "68ca3d92000000000b0177c7"
+        },
+        {
+          "id": "68ca313200000000300331b7",
+          "at_users": [],
+          "ip_location": "河南",
+          "show_type": "common",
+          "track_id": "interaction-service.local",
+          "content": "我那天跑去总部和朋友面试，要我先去店里面试，到店里让我搬一百多斤的一大框鸡蛋🥚我搞不定，果断的放弃了[笑哭R][笑哭R][笑哭R]",
+          "liked": false,
+          "hidden": false,
+          "sub_comments": [
+            {
+              "note_id": "68ca2470000000000b03ed4d",
+              "like_count": 1,
+              "comment_type": 0,
+              "text_language_code": "zh",
+              "downvoted": false,
+              "collected": false,
+              "at_users": [],
+              "hidden": false,
+              "score": 0,
+              "status": 0,
+              "ip_location": "河南",
+              "id": "68ca3cbb00000000300226a7",
+              "liked": false,
+              "user": {
+                "userid": "60994d7b000000000101c897",
+                "nickname": "星河",
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/6513ecc37f8009af5f56e9c6.jpg?imageView2/2/w/120/format/jpg",
+                "red_id": "9471767742",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {},
+                "ai_agent": false,
+                "current_user": "false"
+              },
+              "target_comment": {
+                "status": 0,
+                "user": {
+                  "userid": "5d87fe1a0000000001007125",
+                  "nickname": "糖果🍬",
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31mp0t4kg6m605nc7vod08s95mijrmdg?imageView2/2/w/120/format/jpg",
+                  "red_id": "230270357",
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false,
+                  "current_user": "false"
+                },
+                "id": "68ca313200000000300331b7"
+              },
+              "friend_liked_msg": "",
+              "biz_label": {
+                "product_review": false,
+                "group_invite": "false",
+                "rich_text": "unknown"
+              },
+              "content": "哈哈哈哈哈哈",
+              "time": 1758084284,
+              "show_tags": [],
+              "show_type": "common",
+              "show_tags_v2": []
+            }
+          ],
+          "time": 1758081331,
+          "comment_type": 0,
+          "like_count": 7,
+          "score": 17,
+          "status": 0,
+          "user": {
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "5d87fe1a0000000001007125",
+            "nickname": "糖果🍬",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31mp0t4kg6m605nc7vod08s95mijrmdg?imageView2/2/w/120/format/jpg",
+            "red_id": "230270357",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {}
+          },
+          "friend_liked_msg": "",
+          "biz_label": {
+            "group_invite": "false",
+            "rich_text": "unknown",
+            "product_review": false
+          },
+          "collected": false,
+          "note_id": "68ca2470000000000b03ed4d",
+          "sub_comment_count": 4,
+          "show_tags": [],
+          "show_tags_v2": [],
+          "sub_comment_cursor": "{\"cursor\":\"68ca3cbb00000000300226a7\",\"index\":1}",
+          "text_language_code": "zh",
+          "downvoted": false
+        },
+        {
+          "id": "68ca28e8000000003000d076",
+          "at_users": [],
+          "show_tags": [],
+          "show_type": "common",
+          "track_id": "interaction-service.local",
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "downvoted": false,
+          "liked": false,
+          "user": {
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "6431090a000000002a00a3de",
+            "nickname": "我不是红薯",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31edbp0hj125g5p1h145ah8uu56oj2bg?imageView2/2/w/120/format/jpg",
+            "red_id": "9605582304",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {}
+          },
+          "ip_location": "河南",
+          "comment_type": 0,
+          "show_tags_v2": [
+            {
+              "type": "note_first",
+              "text": "首评",
+              "style_id": "gray",
+              "pos": "cmt_bottom"
+            }
+          ],
+          "sub_comment_cursor": "{\"cursor\":\"68ca2994000000000b0175fb\",\"index\":1}",
+          "text_language_code": "zh",
+          "hidden": false,
+          "collected": false,
+          "note_id": "68ca2470000000000b03ed4d",
+          "content": "[捂脸R]感谢避雷，本来想着21/h还挺高的",
+          "like_count": 2,
+          "score": 17,
+          "status": 0,
+          "sub_comment_count": 2,
+          "sub_comments": [
+            {
+              "at_users": [],
+              "score": -4,
+              "target_comment": {
+                "id": "68ca28e8000000003000d076",
+                "status": 0,
+                "user": {
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false,
+                  "current_user": "false",
+                  "userid": "6431090a000000002a00a3de",
+                  "nickname": "我不是红薯",
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31edbp0hj125g5p1h145ah8uu56oj2bg?imageView2/2/w/120/format/jpg",
+                  "red_id": "9605582304"
+                }
+              },
+              "text_language_code": "zh",
+              "show_type": "common",
+              "show_tags_v2": [
+                {
+                  "text": "作者",
+                  "style_id": "red",
+                  "pos": "post_name",
+                  "type": "is_author"
+                }
+              ],
+              "note_id": "68ca2470000000000b03ed4d",
+              "content": "小时工真不建议，一天工作时间平均下来一个小时根本没有21，还有新手都容易有错帐，出错就是自己垫付",
+              "like_count": 0,
+              "user": {
+                "nickname": "瘦瘦瘦",
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31idkckn7gc005o6cep8086rpve2aj0g?imageView2/2/w/120/format/jpg",
+                "red_id": "sr3418511291",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {},
+                "ai_agent": false,
+                "current_user": "false",
+                "userid": "60cc76500000000001001b79"
+              },
+              "ip_location": "河南",
+              "friend_liked_msg": "",
+              "downvoted": false,
+              "collected": false,
+              "id": "68ca2994000000000b0175fb",
+              "liked": false,
+              "hidden": false,
+              "time": 1758079380,
+              "comment_type": 0,
+              "status": 0,
+              "show_tags": [],
+              "biz_label": {
+                "product_review": false,
+                "group_invite": "false",
+                "rich_text": "unknown"
+              }
+            }
+          ],
+          "time": 1758079208,
+          "friend_liked_msg": ""
+        },
+        {
+          "sub_comment_cursor": "{\"cursor\":\"68caa1af000000000b024580\",\"index\":1}",
+          "at_users": [],
+          "sub_comments": [
+            {
+              "id": "68caa1af000000000b024580",
+              "content": "因为长期的工资高，还得交社保[偷笑R]",
+              "hidden": false,
+              "target_comment": {
+                "id": "68ca9fe20000000001001f36",
+                "status": 0,
+                "user": {
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/6260ebb1a343a7eee9d17924.jpg?imageView2/2/w/120/format/jpg",
+                  "red_id": "189683749",
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false,
+                  "current_user": "false",
+                  "userid": "59fdef024eacab147a6dcbbf",
+                  "nickname": "🌈"
+                }
+              },
+              "collected": false,
+              "note_id": "68ca2470000000000b03ed4d",
+              "ip_location": "河南",
+              "comment_type": 0,
+              "downvoted": false,
+              "time": 1758110127,
+              "show_tags": [],
+              "show_type": "common",
+              "show_tags_v2": [],
+              "at_users": [],
+              "like_count": 2,
+              "score": -2,
+              "status": 0,
+              "biz_label": {
+                "group_invite": "false",
+                "rich_text": "unknown",
+                "product_review": false
+              },
+              "text_language_code": "zh",
+              "liked": false,
+              "user": {
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31bcl0bmq7g005nqv1gtgbj157eiu9o8?imageView2/2/w/120/format/jpg",
+                "red_id": "379902199",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {},
+                "ai_agent": false,
+                "current_user": "false",
+                "userid": "5f5f0c3b000000000101cc25",
+                "nickname": "积木车爱好者。"
+              },
+              "friend_liked_msg": ""
+            }
+          ],
+          "friend_liked_msg": "",
+          "sub_comment_count": 2,
+          "user": {
+            "red_id": "189683749",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "59fdef024eacab147a6dcbbf",
+            "nickname": "🌈",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/6260ebb1a343a7eee9d17924.jpg?imageView2/2/w/120/format/jpg"
+          },
+          "show_tags": [],
+          "biz_label": {
+            "group_invite": "false",
+            "rich_text": "unknown",
+            "product_review": false
+          },
+          "text_language_code": "zh",
+          "note_id": "68ca2470000000000b03ed4d",
+          "content": "大张真的拿小时工当全职工用。我家楼下的大张基本上全是小时工……",
+          "status": 0,
+          "like_count": 9,
+          "hidden": false,
+          "show_type": "common",
+          "time": 1758109667,
+          "ip_location": "河南",
+          "comment_type": 0,
+          "track_id": "interaction-service.local",
+          "show_tags_v2": [],
+          "id": "68ca9fe20000000001001f36",
+          "liked": false,
+          "score": 14,
+          "downvoted": false,
+          "collected": false
+        },
+        {
+          "score": 5,
+          "comment_type": 0,
+          "show_tags_v2": [],
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "sub_comment_cursor": "{\"cursor\":\"68caa5b7000000000b02e5bd\",\"index\":1}",
+          "downvoted": false,
+          "hidden": false,
+          "sub_comment_count": 2,
+          "time": 1758091520,
+          "user": {
+            "red_id": "556122169",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "5c5b90600000000010015bc5",
+            "nickname": "A倩",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31krjauum2u005n2ri1g42mu5hl205ng?imageView2/2/w/120/format/jpg"
+          },
+          "id": "68ca58ff000000003002ded7",
+          "content": "你辞职了工资正常发吗？我刚入职3天，也是小时工，确实会义务加班",
+          "at_users": [],
+          "sub_comments": [
+            {
+              "id": "68caa5b7000000000b02e5bd",
+              "content": "对啊，假如干三天辞职，这三天有工资吗",
+              "at_users": [],
+              "time": 1758111159,
+              "show_tags": [],
+              "friend_liked_msg": "",
+              "text_language_code": "zh",
+              "collected": false,
+              "score": 0,
+              "user": {
+                "current_user": "false",
+                "userid": "605a02d3000000000101f12d",
+                "nickname": "胡八一爱倒斗",
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31m872doc586g5o2q0b9gbs9d7lkkh0o?imageView2/2/w/120/format/jpg",
+                "red_id": "2656540724",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {},
+                "ai_agent": false
+              },
+              "target_comment": {
+                "user": {
+                  "current_user": "false",
+                  "userid": "5c5b90600000000010015bc5",
+                  "nickname": "A倩",
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31krjauum2u005n2ri1g42mu5hl205ng?imageView2/2/w/120/format/jpg",
+                  "red_id": "556122169",
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false
+                },
+                "id": "68ca58ff000000003002ded7",
+                "status": 0
+              },
+              "liked": false,
+              "hidden": false,
+              "status": 0,
+              "ip_location": "河南",
+              "show_tags_v2": [],
+              "note_id": "68ca2470000000000b03ed4d",
+              "like_count": 0,
+              "show_type": "common",
+              "comment_type": 0,
+              "biz_label": {
+                "product_review": false,
+                "group_invite": "false",
+                "rich_text": "unknown"
+              },
+              "downvoted": false
+            }
+          ],
+          "show_type": "common",
+          "friend_liked_msg": "",
+          "collected": false,
+          "text_language_code": "zh",
+          "note_id": "68ca2470000000000b03ed4d",
+          "like_count": 0,
+          "liked": false,
+          "status": 0,
+          "show_tags": [],
+          "ip_location": "河南",
+          "track_id": "interaction-service.local"
+        },
+        {
+          "id": "68ca73ea000000000b017f3b",
+          "note_id": "68ca2470000000000b03ed4d",
+          "hidden": false,
+          "show_tags_v2": [],
+          "biz_label": {
+            "group_invite": "false",
+            "rich_text": "unknown",
+            "product_review": false
+          },
+          "sub_comment_cursor": "{\"cursor\":\"68cb940b0000000030018835\",\"index\":1}",
+          "comment_type": 0,
+          "track_id": "interaction-service.local",
+          "at_users": [],
+          "sub_comment_count": 1,
+          "sub_comments": [
+            {
+              "status": -2,
+              "friend_liked_msg": "",
+              "like_count": 0,
+              "content": "光苹果就有好多种，有的长得还特别像，价格还都不一样，我都很好奇他们是怎么区分清楚的。",
+              "time": 1758172172,
+              "ip_location": "河南",
+              "comment_type": 0,
+              "show_tags_v2": [],
+              "text_language_code": "zh",
+              "collected": false,
+              "id": "68cb940b0000000030018835",
+              "hidden": false,
+              "score": 2147482647,
+              "user": {
+                "current_user": "false",
+                "userid": "612f5555000000000202241f",
+                "nickname": "momo",
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo30rdrf2v5hg605o9falagk90vrcs31ug?imageView2/2/w/120/format/jpg",
+                "red_id": "9514006887",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {},
+                "ai_agent": false
+              },
+              "target_comment": {
+                "id": "68ca73ea000000000b017f3b",
+                "status": 0,
+                "user": {
+                  "userid": "673302a90000000001000c48",
+                  "nickname": "蛋白酱",
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31l9gs7665m605ppj0akg832899kckq8?imageView2/2/w/120/format/jpg",
+                  "red_id": "94140168677",
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false,
+                  "current_user": "false"
+                }
+              },
+              "at_users": [],
+              "liked": false,
+              "show_tags": [],
+              "show_type": "common",
+              "biz_label": {
+                "rich_text": "unknown",
+                "product_review": false,
+                "group_invite": "false"
+              },
+              "downvoted": false,
+              "note_id": "68ca2470000000000b03ed4d"
+            }
+          ],
+          "time": 1758098411,
+          "show_tags": [],
+          "show_type": "common",
+          "friend_liked_msg": "",
+          "text_language_code": "zh",
+          "downvoted": false,
+          "content": "收银不是识别就出来了，为啥还要记蔬菜水果",
+          "like_count": 0,
+          "score": 2,
+          "status": 0,
+          "user": {
+            "current_user": "false",
+            "userid": "673302a90000000001000c48",
+            "nickname": "蛋白酱",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31l9gs7665m605ppj0akg832899kckq8?imageView2/2/w/120/format/jpg",
+            "red_id": "94140168677",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false
+          },
+          "ip_location": "河南",
+          "liked": false,
+          "collected": false
+        },
+        {
+          "liked": false,
+          "user": {
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "6280fb080000000021026750",
+            "nickname": "嘻嘻嘿嘿",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31liplbri58005ok0vc48cpqgafcr89g?imageView2/2/w/120/format/jpg",
+            "red_id": "4141732083",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {}
+          },
+          "comment_type": 0,
+          "note_id": "68ca2470000000000b03ed4d",
+          "hidden": false,
+          "sub_comments": [
+            {
+              "note_id": "68ca2470000000000b03ed4d",
+              "like_count": 0,
+              "hidden": false,
+              "ip_location": "河南",
+              "target_comment": {
+                "user": {
+                  "red_id": "4141732083",
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false,
+                  "current_user": "false",
+                  "userid": "6280fb080000000021026750",
+                  "nickname": "嘻嘻嘿嘿",
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31liplbri58005ok0vc48cpqgafcr89g?imageView2/2/w/120/format/jpg"
+                },
+                "id": "68ca5198000000003002a4a3",
+                "status": 0
+              },
+              "friend_liked_msg": "",
+              "liked": false,
+              "show_tags": [],
+              "collected": false,
+              "content": "对",
+              "score": 0,
+              "status": 0,
+              "show_type": "common",
+              "show_tags_v2": [],
+              "biz_label": {
+                "product_review": false,
+                "group_invite": "false",
+                "rich_text": "unknown"
+              },
+              "id": "68ca90fa000000000903ac91",
+              "at_users": [],
+              "time": 1758105850,
+              "user": {
+                "ai_agent": false,
+                "current_user": "false",
+                "userid": "59d3593544363b7afe9eb156",
+                "nickname": "乌龙茶里有白桃（减肥版）",
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo314oktquj140049s109cjbcamnefgjdo?imageView2/2/w/120/format/jpg",
+                "red_id": "954041912",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {}
+              },
+              "comment_type": 0,
+              "text_language_code": "zh",
+              "downvoted": false
+            }
+          ],
+          "track_id": "interaction-service.local",
+          "friend_liked_msg": "",
+          "biz_label": {
+            "group_invite": "false",
+            "rich_text": "unknown",
+            "product_review": false
+          },
+          "sub_comment_cursor": "{\"cursor\":\"68ca90fa000000000903ac91\",\"index\":1}",
+          "id": "68ca5198000000003002a4a3",
+          "score": 2,
+          "time": 1758089624,
+          "show_type": "common",
+          "text_language_code": "zh",
+          "like_count": 0,
+          "at_users": [],
+          "status": 0,
+          "sub_comment_count": 1,
+          "show_tags": [],
+          "ip_location": "河南",
+          "show_tags_v2": [],
+          "downvoted": false,
+          "content": "大张真的很神  拉垮的要死",
+          "collected": false
+        },
+        {
+          "score": 2,
+          "show_tags": [],
+          "text_language_code": "zh",
+          "at_users": [],
+          "like_count": 0,
+          "hidden": false,
+          "track_id": "interaction-service.local",
+          "sub_comment_cursor": "{\"cursor\":\"68ca5981000000003002c067\",\"index\":1}",
+          "downvoted": false,
+          "liked": false,
+          "sub_comment_count": 1,
+          "time": 1758086941,
+          "user": {
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "6324078700000000230268b3",
+            "nickname": "小象哼哼",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo310r6jgelmo6g5op40u3osq5jhi9099o?imageView2/2/w/120/format/jpg",
+            "red_id": "4127586104",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {}
+          },
+          "show_type": "common",
+          "friend_liked_msg": "",
+          "show_tags_v2": [],
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "id": "68ca471d000000003002004c",
+          "content": "哪里还有旱厕 好奇怪",
+          "sub_comments": [
+            {
+              "downvoted": false,
+              "collected": false,
+              "at_users": [],
+              "like_count": 0,
+              "status": 0,
+              "ip_location": "河南",
+              "show_type": "common",
+              "hash_tags": [
+                {
+                  "disable_jump": false,
+                  "name": "大张南华店",
+                  "link": "xhsdiscover://search/result?keyword=%E5%A4%A7%E5%BC%A0%E5%8D%97%E5%8D%8E%E5%BA%97&target_search=notes&mode=note_text_highlight&word_request_id=b49354be92ce0867e582e0f568e78c6b&source=comment_highlight&api_extra=%7B%22source_note_id%22%3A%2268ca2470000000000b03ed4d%22%7D&add_to_history=true",
+                  "type": "搜索高亮"
+                }
+              ],
+              "show_tags": [],
+              "text_language_code": "zh",
+              "id": "68ca5981000000003002c067",
+              "note_id": "68ca2470000000000b03ed4d",
+              "liked": false,
+              "hidden": false,
+              "score": 0,
+              "time": 1758091650,
+              "content": "#大张南华店[搜索高亮]# 是旱厕我记得[笑哭R]",
+              "user": {
+                "red_id": "361128521",
+                "level": {
+                  "image": ""
+                },
+                "additional_tags": {},
+                "ai_agent": false,
+                "current_user": "false",
+                "userid": "5d5155ef00000000160373c2",
+                "nickname": "伊诺2024",
+                "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31ki183ftj2605nahannlmsu2aaafjcg?imageView2/2/w/120/format/jpg"
+              },
+              "comment_type": 0,
+              "friend_liked_msg": "",
+              "show_tags_v2": [],
+              "biz_label": {
+                "product_review": false,
+                "group_invite": "false",
+                "rich_text": "true"
+              },
+              "target_comment": {
+                "status": 0,
+                "user": {
+                  "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo310r6jgelmo6g5op40u3osq5jhi9099o?imageView2/2/w/120/format/jpg",
+                  "red_id": "4127586104",
+                  "level": {
+                    "image": ""
+                  },
+                  "additional_tags": {},
+                  "ai_agent": false,
+                  "current_user": "false",
+                  "userid": "6324078700000000230268b3",
+                  "nickname": "小象哼哼"
+                },
+                "id": "68ca471d000000003002004c"
+              }
+            }
+          ],
+          "comment_type": 0,
+          "collected": false,
+          "note_id": "68ca2470000000000b03ed4d",
+          "status": 0,
+          "ip_location": "河南"
+        },
+        {
+          "note_id": "68ca2470000000000b03ed4d",
+          "sub_comment_count": 0,
+          "comment_type": 0,
+          "show_tags_v2": [],
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "text_language_code": "zh",
+          "at_users": [],
+          "score": 0,
+          "status": 0,
+          "sub_comments": [],
+          "user": {
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "5f93ebe70000000001009b81",
+            "nickname": "momo",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31l0q4hqt34005nsjtfjg96s1c0i2leo?imageView2/2/w/120/format/jpg",
+            "red_id": "1016154753"
+          },
+          "ip_location": "河南",
+          "show_type": "common",
+          "downvoted": false,
+          "collected": false,
+          "content": "我在大张收银干了三年[笑哭R]",
+          "liked": false,
+          "hidden": false,
+          "time": 1758173043,
+          "show_tags": [],
+          "id": "68cb977300000000010129a6",
+          "like_count": 0,
+          "track_id": "interaction-service.local",
+          "friend_liked_msg": ""
+        },
+        {
+          "show_tags": [],
+          "ip_location": "河南",
+          "id": "68cb892d000000003001c809",
+          "note_id": "68ca2470000000000b03ed4d",
+          "like_count": 0,
+          "hidden": false,
+          "sub_comment_count": 0,
+          "sub_comments": [],
+          "comment_type": 0,
+          "friend_liked_msg": "",
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "collected": false,
+          "content": "这都不是小时工了，是全职工",
+          "score": 0,
+          "downvoted": false,
+          "show_type": "common",
+          "show_tags_v2": [],
+          "text_language_code": "zh",
+          "at_users": [],
+          "liked": false,
+          "status": 0,
+          "time": 1758169390,
+          "user": {
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31fopou2g006g5n1j3i0h8agph6ukf9g?imageView2/2/w/120/format/jpg",
+            "red_id": "500730278",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "5c331c810000000005002a19",
+            "nickname": "小红薯元DRFH1455"
+          },
+          "track_id": "interaction-service.local"
+        },
+        {
+          "collected": false,
+          "id": "68cadd6d0000000002016021",
+          "sub_comment_count": 0,
+          "show_type": "common",
+          "track_id": "interaction-service.local",
+          "friend_liked_msg": "",
+          "comment_type": 0,
+          "show_tags_v2": [],
+          "downvoted": false,
+          "like_count": 0,
+          "hidden": false,
+          "score": 0,
+          "time": 1758125421,
+          "show_tags": [],
+          "at_users": [],
+          "liked": false,
+          "ip_location": "河南",
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "text_language_code": "zh",
+          "note_id": "68ca2470000000000b03ed4d",
+          "content": "我之前面试的珠宝销售，分配到店了那个超市店长说，珠宝销售要有一定的金钱敏感度，先从收银员做起……",
+          "status": 0,
+          "sub_comments": [],
+          "user": {
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "5c1f4a35000000000602cff7",
+            "nickname": "懒懒大王哎",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31luevaaa5i6g5n0v98qhljvn1filql8?imageView2/2/w/120/format/jpg",
+            "red_id": "540119723",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {}
+          }
+        },
+        {
+          "track_id": "interaction-service.local",
+          "friend_liked_msg": "",
+          "downvoted": false,
+          "content": "我勤工助学岗的面试已经过了，明天上午就去体检，结果晚上让我刷到了这条帖子。[再见R]",
+          "user": {
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "61e129d9000000001000a56d",
+            "nickname": "某位锦瑟",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo30scvnrjj3c6g5of157ck19bdalae548?imageView2/2/w/120/format/jpg",
+            "red_id": "6549858530",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {}
+          },
+          "ip_location": "河南",
+          "show_type": "common",
+          "collected": false,
+          "like_count": 0,
+          "hidden": false,
+          "time": 1758121976,
+          "sub_comment_count": 0,
+          "comment_type": 0,
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "text_language_code": "zh",
+          "id": "68cacff8000000003001cd66",
+          "at_users": [],
+          "status": 0,
+          "sub_comments": [],
+          "show_tags": [],
+          "show_tags_v2": [],
+          "note_id": "68ca2470000000000b03ed4d",
+          "liked": false,
+          "score": 0
+        },
+        {
+          "id": "68cac947000000003002609a",
+          "like_count": 0,
+          "hidden": false,
+          "sub_comments": [],
+          "ip_location": "河南",
+          "content": "比我那时候难干这么多 我那时候只是蹲下擦收银台的地[笑哭R]",
+          "liked": false,
+          "score": 0,
+          "status": 0,
+          "sub_comment_count": 0,
+          "time": 1758120263,
+          "user": {
+            "current_user": "false",
+            "userid": "5f2b66f7000000000101ee0f",
+            "nickname": "暖暖麻麻0303",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/63e66544f3f5e819f7465116.jpg?imageView2/2/w/120/format/jpg",
+            "red_id": "247846958",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false
+          },
+          "show_type": "common",
+          "comment_type": 0,
+          "friend_liked_msg": "",
+          "downvoted": false,
+          "collected": false,
+          "biz_label": {
+            "group_invite": "false",
+            "rich_text": "unknown",
+            "product_review": false
+          },
+          "text_language_code": "zh",
+          "note_id": "68ca2470000000000b03ed4d",
+          "at_users": [],
+          "show_tags": [],
+          "track_id": "interaction-service.local",
+          "show_tags_v2": []
+        },
+        {
+          "at_users": [],
+          "liked": false,
+          "hidden": false,
+          "score": 0,
+          "status": 0,
+          "time": 1758119452,
+          "note_id": "68ca2470000000000b03ed4d",
+          "content": "进去就是按步骤的，给你做个服从性测试[笑哭R]",
+          "show_tags_v2": [],
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "comment_type": 0,
+          "track_id": "interaction-service.local",
+          "ip_location": "河南",
+          "friend_liked_msg": "",
+          "id": "68cac61b000000000a00fcf2",
+          "like_count": 0,
+          "user": {
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "6298458e0000000021020f5e",
+            "nickname": "小红薯62991043",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo30v07bd4k5i6g5oko8m78c3qug6vj348?imageView2/2/w/120/format/jpg",
+            "red_id": "4140126211"
+          },
+          "show_type": "common",
+          "downvoted": false,
+          "collected": false,
+          "sub_comment_count": 0,
+          "sub_comments": [],
+          "show_tags": [],
+          "text_language_code": "zh"
+        },
+        {
+          "friend_liked_msg": "",
+          "collected": false,
+          "liked": false,
+          "hidden": false,
+          "sub_comments": [],
+          "show_tags": [],
+          "ip_location": "河南",
+          "track_id": "interaction-service.local",
+          "at_users": [],
+          "score": 0,
+          "time": 1758101296,
+          "comment_type": 0,
+          "show_tags_v2": [],
+          "text_language_code": "zh",
+          "id": "68ca7f2f000000000b0217e0",
+          "user": {
+            "red_id": "266990871",
+            "level": {
+              "image": ""
+            },
+            "additional_tags": {},
+            "ai_agent": false,
+            "current_user": "false",
+            "userid": "5ae19c094eacab5c0c168a29",
+            "nickname": "随心。边牧十七（见过灿烈版本）",
+            "images": "https://sns-avatar-qc.xhscdn.com/avatar/655b6066f87da4b4bd8dfc40.jpg?imageView2/2/w/120/format/jpg"
+          },
+          "show_type": "common",
+          "status": 0,
+          "sub_comment_count": 0,
+          "biz_label": {
+            "product_review": false,
+            "group_invite": "false",
+            "rich_text": "unknown"
+          },
+          "downvoted": false,
+          "note_id": "68ca2470000000000b03ed4d",
+          "content": "好的，不去了，本来想着去呢",
+          "like_count": 0
+        }
+      ],
+      "cursor": "{\"cursor\":\"68ca7f2f000000000b0217e0\",\"index\":2,\"pageArea\":\"ALL\"}",
+      "all_sort_strategies": [],
+      "current_sort_strategy": "default",
+      "user_id": "60cc76500000000001001b79",
+      "comment_count": 56,
+      "comment_count_l1": 30,
+      "has_more": true,
+      "page_context": "{\"highlight\":[\"大张南华店\"]}"
+    }
+  }
+}

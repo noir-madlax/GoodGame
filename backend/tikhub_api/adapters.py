@@ -10,6 +10,29 @@ from .utils.url_validator import filter_valid_video_urls
 
 from common.request_context import get_project_id
 
+
+# ===== 评论适配器协议 =====
+
+@runtime_checkable
+class CommentAdapter(Protocol):
+    """将平台原始评论数据转换为统一领域模型 PlatformComment 的适配器协议。"""
+
+    @staticmethod
+    def to_comment(raw: Dict[str, Any], post_id: int) -> PlatformComment:
+        """将单条原始评论转换为 PlatformComment"""
+        ...
+
+    @staticmethod
+    def to_comment_list(raw_list: List[Dict[str, Any]], post_id: int) -> List[PlatformComment]:
+        """将评论列表转换为 PlatformComment 列表"""
+        ...
+
+    @staticmethod
+    def to_reply_list(raw_list: List[Dict[str, Any]], post_id: int, top_comment_id: str,
+                      id_map: Dict[str, int]) -> List[PlatformComment]:
+        """将楼中楼回复列表转换为 PlatformComment 列表"""
+        ...
+
 # ===== 搜索结果 -> PlatformPost 列表适配器 =====
 
 def to_posts_from_douyin_search(data: Dict[str, Any]) -> List[PlatformPost]:
@@ -471,6 +494,135 @@ class DouyinCommentAdapter:
                     content=str(raw.get('text', '') or ''),
                     like_count=int(raw.get('digg_count') or 0),
                     reply_count=int(raw.get('comment_reply_total') or 0),
+                    published_at=published_at,
+                ))
+            except Exception:
+                continue
+        return out
+
+
+class XiaohongshuCommentAdapter:
+    """小红书评论数据 -> PlatformComment 适配器"""
+
+    @staticmethod
+    def to_comment(raw: Dict[str, Any], post_id: int) -> PlatformComment:
+        """将小红书单条评论转换为 PlatformComment
+
+        小红书评论结构示例（来自 /api/v1/xiaohongshu/app/get_note_comments）：
+        {
+            "id": "68ca3d92000000000b0177c7",
+            "content": "我靠我正在体检，费用都交了…[石化R]",
+            "time": 1758084499,  # 秒级时间戳
+            "like_count": 0,
+            "sub_comment_count": 7,
+            "sub_comment_cursor": "{\"cursor\":\"...\",\"index\":1}",
+            "user": {
+                "userid": "605a02d3000000000101f12d",
+                "nickname": "胡八一爱倒斗",
+                "images": "https://...",
+                "red_id": "2656540724"
+            },
+            "ip_location": "河南",
+            "status": 0
+        }
+        """
+        user = raw.get('user') or {}
+
+        # 小红书时间戳是秒级
+        published_at = None
+        ts = raw.get('time')
+        if isinstance(ts, (int, float)):
+            try:
+                published_at = datetime.fromtimestamp(ts)
+            except Exception:
+                published_at = None
+
+        return PlatformComment(
+            post_id=post_id,
+            platform="xiaohongshu",
+            platform_comment_id=str(raw.get('id', '')),
+            parent_comment_id=None,
+            parent_platform_comment_id=None,
+            author_id=str(user.get('userid', '') or ''),
+            author_name=str(user.get('nickname', '') or ''),
+            author_avatar_url=user.get('images') or '',
+            content=str(raw.get('content', '') or ''),
+            like_count=int(raw.get('like_count') or 0),
+            reply_count=int(raw.get('sub_comment_count') or 0),
+            published_at=published_at,
+        )
+
+    @staticmethod
+    def to_comment_list(raw_list: List[Dict[str, Any]], post_id: int) -> List[PlatformComment]:
+        out: List[PlatformComment] = []
+        for raw in (raw_list or []):
+            try:
+                out.append(XiaohongshuCommentAdapter.to_comment(raw, post_id))
+            except Exception:
+                continue
+        return out
+
+    @staticmethod
+    def to_reply_list(raw_list: List[Dict[str, Any]], post_id: int, top_comment_id: str,
+                      id_map: Dict[str, int]) -> List[PlatformComment]:
+        """将小红书楼中楼回复列表映射为 PlatformComment
+
+        小红书子评论结构示例（从顶层评论的 sub_comments 字段获取）：
+        {
+            "id": "68ca3dca0000000002000609",
+            "content": "我面的大张长申国际店安保岗位，不知道咋样",
+            "time": 1758084555,
+            "like_count": 0,
+            "user": {
+                "userid": "605a02d3000000000101f12d",
+                "nickname": "胡八一爱倒斗",
+                "images": "https://..."
+            },
+            "target_comment": {
+                "id": "68ca3d92000000000b0177c7",  # 被回复的评论ID
+                "user": {...}
+            }
+        }
+        """
+        out: List[PlatformComment] = []
+        for raw in (raw_list or []):
+            try:
+                user = raw.get('user') or {}
+
+                published_at = None
+                ts = raw.get('time')
+                if isinstance(ts, (int, float)):
+                    try:
+                        published_at = datetime.fromtimestamp(ts)
+                    except Exception:
+                        published_at = None
+
+                comment_id = str(raw.get('id', ''))
+
+                # 确定父评论ID
+                target_comment = raw.get('target_comment') or {}
+                target_id = str(target_comment.get('id', '') or '')
+
+                # 如果没有 target_id 或 target_id 等于顶层评论ID，则父评论是顶层评论
+                if not target_id or target_id == top_comment_id:
+                    parent_platform_cid = top_comment_id
+                else:
+                    parent_platform_cid = target_id
+
+                parent_db_id = id_map.get(parent_platform_cid)
+
+                out.append(PlatformComment(
+                    post_id=post_id,
+                    platform="xiaohongshu",
+                    platform_comment_id=comment_id,
+                    parent_comment_id=parent_db_id,
+                    parent_platform_comment_id=parent_platform_cid,
+                    author_id=str(user.get('userid', '') or ''),
+                    author_name=str(user.get('nickname', '') or ''),
+                    author_avatar_url=user.get('images') or '',
+                    content=str(raw.get('content', '') or ''),
+                    like_count=int(raw.get('like_count') or 0),
+                    reply_count=int(raw.get('sub_comment_count') or 0),
                     published_at=published_at,
                 ))
             except Exception:
