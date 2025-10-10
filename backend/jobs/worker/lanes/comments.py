@@ -20,12 +20,15 @@ class CommentsLane(BaseLane):
             if self._busy:
                 log.debug("[CommentsLane] busy, skipping this round")
                 return 0
-            # 获取一条 analysis_status=init 且 relevant_status=yes 的帖子
+            # 获取一条 analysis_status=init 且 relevant_status in (yes, maybe) 的帖子
             candidates = PostRepository.list_by_analysis_and_relevance(
-                AnalysisStatus.INIT.value, RelevantStatus.YES.value, limit=1, offset=0
+                [AnalysisStatus.INIT.value],
+                [RelevantStatus.YES.value, RelevantStatus.MAYBE.value],
+                limit=1,
+                offset=0
             )
             if not candidates:
-                log.debug("[CommentsLane] no candidate found (analysis=init, relevant=yes)")
+                log.debug("[CommentsLane] no candidate found (analysis=init, relevant in [yes, maybe])")
                 return 0
             candidate = candidates[0]
             self._busy = True

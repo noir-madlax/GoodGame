@@ -139,18 +139,18 @@ class PostRepository:
 
     @staticmethod
     def list_by_analysis_and_relevance(
-        analysis_status: str,
-        relevant_status: str,
+        analysis_status: List[str],
+        relevant_status: List[str],
         limit: int = 50,
         offset: int = 0,
     ) -> List[PlatformPost]:
-        """List posts matching both analysis_status and relevant_status."""
+        """List posts matching analysis_status (IN) and relevant_status (IN)."""
         client = get_client()
         resp = (
             client.table(TABLE)
             .select("*")
-            .eq("analysis_status", analysis_status)
-            .eq("relevant_status", relevant_status)
+            .in_("analysis_status", analysis_status)
+            .in_("relevant_status", relevant_status)
             .order("id", desc=True)
             .range(offset, offset + max(limit - 1, 0))
             .execute()

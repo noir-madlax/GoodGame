@@ -85,7 +85,7 @@ def analyze_and_import(url: str, trace_id: str | None = None) -> Dict[str, Any]:
     post = adapter.to_post_single(details)  # type: ignore[attr-defined]
     
     # 人工导入：固定初始评估枚举
-    post.analysis_status = AnalysisStatus.PENDING
+    post.analysis_status = AnalysisStatus.INIT
     post.relevant_status = RelevantStatus.MAYBE
     post.is_marked = True
 
