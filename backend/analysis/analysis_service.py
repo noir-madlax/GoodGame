@@ -11,6 +11,7 @@ from .analysis_prompt_builder import get_system_prompt
 from tikhub_api.orm.post_repository import PostRepository
 from tikhub_api.orm.models import PlatformPost
 from tikhub_api.orm.video_analysis_repository import VideoAnalysisRepository
+from tikhub_api.orm.comment_repository import CommentRepository
 from tikhub_api.video_downloader import VideoDownloader
 from tikhub_api.fetchers import create_fetcher
 
@@ -26,7 +27,11 @@ log = get_logger(__name__)
 class AnalysisService:
     """
     串联：Post -> 下载字节流 -> Gemini 上传 -> 生成内容 -> 保存分析结果
-    注意：目前 contents 仅包含视频，未来可在此处追加更多 Part。
+
+    支持的内容类型：
+    - 视频（VIDEO）：下载视频并上传到 Gemini
+    - 图文（PICTURE）：下载多张图片并上传到 Gemini
+    - 评论：获取帖子评论并以 JSON 格式添加到分析内容中
     """
 
     def __init__(self, gemini_client: Optional[GeminiClient] = None) -> None:
@@ -48,11 +53,8 @@ class AnalysisService:
                 )
                 raise
 
-            if post.post_type == PostType.VIDEO:
-                parts, source_key = self._prepare_video_parts(post, fetcher)
-            else:
-                # 默认按图文处理
-                parts, source_key = self._prepare_image_parts(post, fetcher)
+            # 1) 构建完整的 contents（包含文本和媒体）
+            full_parts, source_key = self._build_full_contents(post, fetcher)
 
             if types is None:
                 raise RuntimeError("google-genai SDK 未正确安装")
@@ -66,23 +68,6 @@ class AnalysisService:
                 response_mime_type="application/json",
                 system_instruction=system_prompt,
             )
-
-            # 构建最终 contents 顺序：Title -> Content -> Media 标注 -> 媒体 Parts
-            full_parts: List[Any] = []
-            title_text = getattr(post, "title", None)
-            if title_text:
-                full_parts.append(types.Part(text=f"[Post Title]\n{str(title_text)}"))
-            content_text = getattr(post, "content", None)
-            if content_text:
-                full_parts.append(types.Part(text=f"[Post Content]\n{str(content_text)}"))
-            if post.post_type == PostType.VIDEO:
-                full_parts.append(types.Part(text="[Media] Video file attached below."))
-            else:
-                try:
-                    full_parts.append(types.Part(text=f"[Media] Images attached below. Count={len(parts)}"))
-                except Exception:
-                    full_parts.append(types.Part(text="[Media] Images attached below."))
-            full_parts.extend(parts)
 
             resp = self.gemini.client.models.generate_content(
                 model=self.gemini.analysis_model,
@@ -156,6 +141,154 @@ class AnalysisService:
             except Exception as ue:
                 log.exception("更新 ANALYSIS_FAILED 状态失败：post_id=%s, err=%s", post_id, ue)
             raise
+
+    def _build_full_contents(self, post: PlatformPost, fetcher, include_comments: bool = True, max_comments: int = 100) -> Tuple[List[Any], str]:
+        """
+        构建完整的 contents，包含：
+        1. 帖子标题（如果有）
+        2. 帖子内容（如果有）
+        3. 媒体类型标注
+        4. 媒体 Parts（视频或图片）
+        5. 评论数据（如果 include_comments=True）
+
+        参数:
+            post: 帖子对象
+            fetcher: 平台 fetcher
+            include_comments: 是否包含评论，默认 True
+            max_comments: 最大评论数量，默认 100
+
+        返回:
+            (full_parts, source_key)
+        """
+        from tikhub_api.orm.enums import PostType
+
+        if types is None:
+            raise RuntimeError("google-genai SDK 未正确安装")
+
+        # 根据帖子类型准备媒体 Parts
+        if post.post_type == PostType.VIDEO:
+            media_parts, source_key = self._prepare_video_parts(post, fetcher)
+        else:
+            # 默认按图文处理
+            media_parts, source_key = self._prepare_image_parts(post, fetcher)
+
+        # 构建最终 contents 顺序：Title -> Content -> Media 标注 -> 媒体 Parts
+        full_parts: List[Any] = []
+
+        # 添加标题
+        title_text = getattr(post, "title", None)
+        if title_text:
+            full_parts.append(types.Part(text=f"[Post Title]\n{str(title_text)}"))
+
+        # 添加内容
+        content_text = getattr(post, "content", None)
+        if content_text:
+            full_parts.append(types.Part(text=f"[Post Content]\n{str(content_text)}"))
+
+        # 添加媒体类型标注
+        if post.post_type == PostType.VIDEO:
+            full_parts.append(types.Part(text="[Media] Video file attached below."))
+        else:
+            try:
+                full_parts.append(types.Part(text=f"[Media] Images attached below. Count={len(media_parts)}"))
+            except Exception:
+                full_parts.append(types.Part(text="[Media] Images attached below."))
+
+        # 添加媒体 Parts
+        full_parts.extend(media_parts)
+
+        # 添加评论（如果启用）
+        if include_comments:
+            try:
+                comment_parts = self._prepare_comment_parts(post.id, max_comments=max_comments)
+                if comment_parts:
+                    # 添加评论引导文本
+                    full_parts.append(types.Part(
+                        text="以下是与该视频对应的评论数据，请一并纳入分析，并在 events 中标注来源 source=video 或 source=comment。"
+                    ))
+                    # 添加评论 Parts
+                    full_parts.extend(comment_parts)
+                    log.info(f"已添加评论到 contents：post_id={post.id}，评论 Parts 数={len(comment_parts)}")
+                else:
+                    log.info(f"没有评论需要添加：post_id={post.id}")
+            except Exception as e:
+                log.warning(f"获取评论失败，跳过评论分析：post_id={post.id}，err={e}")
+
+        return full_parts, source_key
+
+    def _prepare_comment_parts(self, post_id: int, max_comments: int = 100) -> List[Any]:
+        """
+        获取评论并构建评论 Parts
+
+        参数:
+            post_id: 帖子ID
+            max_comments: 最大评论数量，默认100
+
+        返回:
+            List[types.Part]: 包含评论文本的 Parts 列表
+        """
+        if types is None:
+            raise RuntimeError("google-genai SDK 未正确安装")
+
+        # 1. 从 CommentRepository 获取评论
+        try:
+            comments = CommentRepository.list_by_post(post_id, limit=max_comments)
+            log.info(f"获取评论成功：post_id={post_id}，评论数={len(comments)}")
+        except Exception as e:
+            log.error(f"获取评论失败：post_id={post_id}，err={e}")
+            return []
+
+        if not comments:
+            log.info(f"该帖子没有评论：post_id={post_id}")
+            return []
+
+        # 2. 规范化评论数据格式
+        normalized_comments = []
+        for comment in comments:
+            try:
+                normalized = {
+                    "id": str(comment.platform_comment_id),
+                    "text": str(comment.content),
+                }
+                # 可选字段
+                if comment.author_name:
+                    normalized["author"] = str(comment.author_name)
+                if comment.like_count is not None:
+                    normalized["like_count"] = int(comment.like_count)
+                if comment.published_at:
+                    normalized["published_at"] = comment.published_at.isoformat()
+
+                normalized_comments.append(normalized)
+            except Exception as e:
+                log.warning(f"规范化评论失败，跳过该评论：post_id={post_id}，comment_id={getattr(comment, 'id', None)}，err={e}")
+                continue
+
+        if not normalized_comments:
+            log.warning(f"所有评论规范化失败：post_id={post_id}")
+            return []
+
+        # 3. 构建 JSON 格式的评论数据
+        import json
+        comments_payload = {
+            "schema": {
+                "id": "string",
+                "text": "string",
+                "author": "string (optional)",
+                "like_count": "int (optional)",
+                "published_at": "datetime (optional)"
+            },
+            "items": normalized_comments
+        }
+
+        # 4. 返回 types.Part 列表
+        parts: List[Any] = [
+            types.Part(text="[COMMENTS_JSON_START]"),
+            types.Part(text=json.dumps(comments_payload, ensure_ascii=False)),
+            types.Part(text="[COMMENTS_JSON_END]")
+        ]
+
+        log.info(f"评论 Parts 构建完成：post_id={post_id}，有效评论数={len(normalized_comments)}")
+        return parts
 
     def _prepare_video_parts(self, post: PlatformPost, fetcher) -> Tuple[List[Any], str]:
         """下载→上传→构建视频 Part，返回 (parts, source_key)。"""
