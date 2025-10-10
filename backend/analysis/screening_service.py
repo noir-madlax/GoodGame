@@ -84,9 +84,9 @@ class ScreeningService:
                     continue
                 # 回写 relevant_status + relevant_result
                 PostRepository.update_relevant_status(post_id, relevant_status, relevant_result)
-                # 临时处理，跳过评论获取
-                if relevant_status in [RelevantStatus.YES.value, RelevantStatus.MAYBE.value]:
-                    PostRepository.update_analysis_status(post_id, AnalysisStatus.PENDING.value)
+                # 临时处理，跳过评论获取，如果要跳过评论获取，则打开注释
+                # if relevant_status in [RelevantStatus.YES.value, RelevantStatus.MAYBE.value]:
+                #     PostRepository.update_analysis_status(post_id, AnalysisStatus.PENDING.value)
                 # 计数
                 if relevant_status in counters:
                     counters[relevant_status] += 1
