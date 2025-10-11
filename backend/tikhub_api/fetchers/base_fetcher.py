@@ -171,6 +171,71 @@ class BaseFetcher(ABC):
         """
         pass
 
+    @abstractmethod
+    def fetch_author_info(self, author_id: str) -> Dict[str, Any]:
+        """
+        获取作者信息的抽象方法（返回原始 API 响应）
+
+        Args:
+            author_id (str): 作者 ID（平台相关，如抖音的 sec_uid）
+
+        Returns:
+            Dict[str, Any]: API 返回的原始作者信息
+
+        Raises:
+            requests.RequestException: 请求异常
+            ValueError: 参数错误
+        """
+        pass
+
+    @abstractmethod
+    def get_author_adapter(self):
+        """返回该平台的作者适配器，实现 to_author(user_data)->Author。"""
+        pass
+
+    def get_author(self, author_id: str):
+        """
+        高层统一入口：获取领域模型 Author。
+        - 默认基于 fetch_author_info -> 提取 user 数据 -> adapter.to_author
+        - 子类可重写定制
+
+        Args:
+            author_id (str): 作者 ID
+
+        Returns:
+            Optional[Author]: 作者模型对象，失败返回 None
+        """
+        try:
+            result = self.fetch_author_info(author_id)
+            if not self._check_api_response(result):
+                return None
+
+            # 子类需要实现如何从 API 响应中提取 user 数据
+            user_data = self._extract_user_data(result)
+            if not user_data:
+                return None
+
+            adapter = self.get_author_adapter()
+            return adapter.to_author(user_data)
+        except Exception:
+            return None
+
+    def _extract_user_data(self, api_response: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """
+        从 API 响应中提取 user 数据（子类可重写）
+        默认实现：返回 data.user
+
+        Args:
+            api_response: API 原始响应
+
+        Returns:
+            Optional[Dict[str, Any]]: user 数据，失败返回 None
+        """
+        data = api_response.get('data')
+        if data and isinstance(data, dict):
+            return data.get('user')
+        return None
+
     def get_preferred_download_url(self, video_id: str) -> Optional[List[str]]:
         """
         便捷方法：返回可下载的视频 URL 列表（全部候选）。

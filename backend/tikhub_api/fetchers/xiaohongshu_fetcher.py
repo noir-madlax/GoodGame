@@ -382,6 +382,27 @@ class XiaohongshuFetcher(BaseFetcher, CommentsProvider):
             log.error(f"获取小红书子评论异常: {e}")
             return None
 
+    # ===== 作者信息获取能力（占位） =====
+    def fetch_author_info(self, author_id: str) -> Dict[str, Any]:
+        """
+        小红书作者信息获取（暂未实现）
+
+        Args:
+            author_id (str): 小红书作者 ID
+
+        Returns:
+            Dict[str, Any]: API 返回的原始作者信息
+
+        Raises:
+            NotImplementedError: 暂未实现
+        """
+        raise NotImplementedError("小红书作者信息获取功能暂未实现")
+
+    def get_author_adapter(self):
+        """获取小红书作者适配器（暂未实现）"""
+        from ..adapters import XiaohongshuAuthorAdapter
+        return XiaohongshuAuthorAdapter()
+
 
     def _validate_video_id(self, note_id: str) -> None:
         """

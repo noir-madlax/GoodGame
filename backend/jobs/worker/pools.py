@@ -8,8 +8,9 @@ class WorkerPools:
         self.eval_pool = ThreadPoolExecutor(max_workers=settings.WORKER_EVAL_CONCURRENCY, thread_name_prefix="eval")
         self.comments_pool = ThreadPoolExecutor(max_workers=settings.WORKER_COMMENTS_CONCURRENCY, thread_name_prefix="comments")
         self.analyze_pool = ThreadPoolExecutor(max_workers=settings.WORKER_ANALYZE_CONCURRENCY, thread_name_prefix="analyze")
+        self.author_pool = ThreadPoolExecutor(max_workers=settings.WORKER_AUTHOR_CONCURRENCY, thread_name_prefix="author")
 
     def shutdown(self) -> None:
-        for pool in (self.eval_pool, self.comments_pool, self.analyze_pool):
+        for pool in (self.eval_pool, self.comments_pool, self.analyze_pool, self.author_pool):
             pool.shutdown(cancel_futures=True)
 

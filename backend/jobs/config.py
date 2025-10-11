@@ -31,6 +31,7 @@ class Settings:
     ENABLE_LANE_EVALUATE: bool = True
     ENABLE_LANE_COMMENTS: bool = True
     ENABLE_LANE_ANALYZE: bool = True
+    ENABLE_LANE_AUTHOR: bool = True
 
     # Scheduler
     # Cron 表达式，默认每5分钟执行一次关键词搜索
@@ -41,6 +42,7 @@ class Settings:
     WORKER_EVAL_CONCURRENCY: int = 1
     WORKER_COMMENTS_CONCURRENCY: int = 1
     WORKER_ANALYZE_CONCURRENCY: int = 1
+    WORKER_AUTHOR_CONCURRENCY: int = 1
     MAX_ATTEMPTS: int = 5
     RUNNING_TIMEOUT_MIN: int = 15
 
@@ -62,11 +64,13 @@ class Settings:
             ENABLE_LANE_EVALUATE=_getenv_bool("ENABLE_LANE_EVALUATE", True),
             ENABLE_LANE_COMMENTS=_getenv_bool("ENABLE_LANE_COMMENTS", True),
             ENABLE_LANE_ANALYZE=_getenv_bool("ENABLE_LANE_ANALYZE", True),
+            ENABLE_LANE_AUTHOR=_getenv_bool("ENABLE_LANE_AUTHOR", True),
             SCHED_SEARCH_CRON=_getenv_str("SCHED_SEARCH_CRON", "*/5 * * * *"),
             WORKER_POLL_INTERVAL_SEC=_getenv_int("WORKER_POLL_INTERVAL_SEC", 2),
             WORKER_EVAL_CONCURRENCY=_getenv_int("WORKER_EVAL_CONCURRENCY",1),
             WORKER_COMMENTS_CONCURRENCY=_getenv_int("WORKER_COMMENTS_CONCURRENCY",1),
             WORKER_ANALYZE_CONCURRENCY=_getenv_int("WORKER_ANALYZE_CONCURRENCY",1),
+            WORKER_AUTHOR_CONCURRENCY=_getenv_int("WORKER_AUTHOR_CONCURRENCY",1),
             MAX_ATTEMPTS=_getenv_int("MAX_ATTEMPTS", 5),
             RUNNING_TIMEOUT_MIN=_getenv_int("RUNNING_TIMEOUT_MIN", 15),
             API_HOST=_getenv_str("API_HOST", "0.0.0.0"),

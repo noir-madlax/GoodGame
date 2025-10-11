@@ -4,7 +4,7 @@ from datetime import datetime
 
 from .orm.enums import Channel
 
-from .orm.models import PlatformPost, PlatformComment
+from .orm.models import PlatformPost, PlatformComment, Author
 from .orm import PostType
 from .utils.url_validator import filter_valid_video_urls
 
@@ -499,6 +499,122 @@ class DouyinCommentAdapter:
             except Exception:
                 continue
         return out
+
+
+# ===== 作者适配器协议 =====
+
+@runtime_checkable
+class AuthorAdapter(Protocol):
+    """将平台原始作者数据转换为统一领域模型 Author 的适配器协议。"""
+
+    @staticmethod
+    def to_author(raw: Dict[str, Any]) -> Author:
+        """将单条原始作者数据转换为 Author"""
+        ...
+
+
+class DouyinAuthorAdapter:
+    """抖音作者数据 -> Author 适配器"""
+
+    @staticmethod
+    def to_author(user_data: Dict[str, Any]) -> Author:
+        """
+        将抖音作者信息转换为 Author 模型
+
+        Args:
+            user_data: 抖音 API 返回的 user 对象（data.user）
+
+        Returns:
+            Author: 作者模型对象
+        """
+        if not isinstance(user_data, dict):
+            raise ValueError("user_data 必须是字典类型")
+
+        # 提取头像 URL（优先使用 avatar_larger）
+        avatar_url = None
+        for avatar_key in ('avatar_larger', 'avatar_medium', 'avatar_thumb', 'avatar_300x300'):
+            avatar_obj = user_data.get(avatar_key) or {}
+            if isinstance(avatar_obj, dict):
+                url_list = avatar_obj.get('url_list') or []
+                if url_list and isinstance(url_list, list):
+                    # 优先选择 jpeg 格式的 URL
+                    for url in url_list:
+                        if isinstance(url, str) and '.jpeg' in url:
+                            avatar_url = url
+                            break
+                    if not avatar_url and url_list:
+                        avatar_url = url_list[0]
+                    if avatar_url:
+                        break
+
+        # 提取分享链接
+        share_url = None
+        share_info = user_data.get('share_info') or {}
+        if isinstance(share_info, dict):
+            share_url_raw = share_info.get('share_url')
+            if isinstance(share_url_raw, str) and share_url_raw:
+                # 补全协议
+                if not share_url_raw.startswith('http'):
+                    share_url = f"https://{share_url_raw}"
+                else:
+                    share_url = share_url_raw
+
+        # 提取地理位置信息
+        location = None
+        ip_location = user_data.get('ip_location')
+        if isinstance(ip_location, str) and ip_location:
+            # 去掉 "IP属地：" 前缀
+            location = ip_location.replace('IP属地：', '').strip()
+        if not location:
+            # 尝试其他位置字段
+            for loc_key in ('location', 'city', 'province'):
+                loc_val = user_data.get(loc_key)
+                if isinstance(loc_val, str) and loc_val.strip():
+                    location = loc_val.strip()
+                    break
+
+        # account_cert_info 可能是 JSON 字符串或字典
+        account_cert_info = user_data.get('account_cert_info')
+        if isinstance(account_cert_info, dict):
+            import json
+            account_cert_info = json.dumps(account_cert_info, ensure_ascii=False)
+        elif not isinstance(account_cert_info, str):
+            account_cert_info = None
+
+        return Author(
+            platform=Channel.DOUYIN,
+            platform_author_id=str(user_data.get('uid', '')),
+            sec_uid=str(user_data.get('sec_uid', '') or ''),
+            nickname=str(user_data.get('nickname', '') or ''),
+            avatar_url=avatar_url,
+            share_url=share_url,
+            follower_count=int(user_data.get('follower_count') or 0),
+            signature=str(user_data.get('signature', '') or '') or None,
+            location=location,
+            account_cert_info=account_cert_info,
+            verification_type=int(user_data.get('verification_type') or 0),
+            raw_response=user_data,
+        )
+
+
+class XiaohongshuAuthorAdapter:
+    """小红书作者数据 -> Author 适配器（占位）"""
+
+    @staticmethod
+    def to_author(user_data: Dict[str, Any]) -> Author:
+        """
+        将小红书作者信息转换为 Author 模型（暂未实现）
+
+        Args:
+            user_data: 小红书 API 返回的用户对象
+
+        Returns:
+            Author: 作者模型对象
+
+        Raises:
+            NotImplementedError: 暂未实现
+        """
+        raise NotImplementedError("小红书作者适配器暂未实现")
 
 
 class XiaohongshuCommentAdapter:

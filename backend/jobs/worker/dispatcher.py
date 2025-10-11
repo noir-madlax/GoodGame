@@ -5,6 +5,8 @@ from jobs.worker.pools import WorkerPools
 from jobs.worker.lanes.evaluate import EvaluateLane
 from jobs.worker.lanes.comments import CommentsLane
 from jobs.worker.lanes.analyze import AnalyzeLane
+from jobs.worker.lanes.author import AuthorLane
+
 
 log = get_logger(__name__)
 
@@ -20,6 +22,8 @@ class WorkerDispatcher:
             lanes.append(CommentsLane(settings, self.pools.comments_pool))
         if self.settings.ENABLE_LANE_ANALYZE:
             lanes.append(AnalyzeLane(settings, self.pools.analyze_pool))
+        if self.settings.ENABLE_LANE_AUTHOR:
+            lanes.append(AuthorLane(settings, self.pools.author_pool))
         self.lanes = lanes
         self._stopping = False
 

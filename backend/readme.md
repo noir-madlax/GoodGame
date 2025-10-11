@@ -27,3 +27,8 @@ python -m analysis.cli run --limit 5 --offset 0
 cd backend
 source .venv/bin/activate
 python -m analysis.cli analyze --id 292
+
+## 获取作者
+cd backend
+source .venv/bin/activate
+python -c "from jobs.worker.lanes.author import run_once_by_id; run_once_by_id(4389)"

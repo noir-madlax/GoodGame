@@ -380,6 +380,34 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
             log.info(f"获取评论回复信息失败: {str(e)}")
             return None
 
+    # ===== 作者信息获取能力 =====
+    def fetch_author_info(self, sec_user_id: str) -> Dict[str, Any]:
+        """
+        根据 sec_user_id 获取抖音作者信息（返回原始 API 响应）
+
+        Args:
+            sec_user_id (str): 抖音作者的 sec_user_id
+
+        Returns:
+            Dict[str, Any]: API 返回的原始作者信息
+
+        Raises:
+            requests.RequestException: 请求异常
+            ValueError: 参数错误
+        """
+        if not sec_user_id or not isinstance(sec_user_id, str):
+            raise ValueError("sec_user_id 不能为空")
+
+        url = f"{self.base_url}/douyin/app/v3/handler_user_profile"
+        params = {'sec_user_id': sec_user_id}
+
+        return self._make_request(url, params)
+
+    def get_author_adapter(self):
+        """获取抖音作者适配器"""
+        from ..adapters import DouyinAuthorAdapter
+        return DouyinAuthorAdapter()
+
 
 # 便捷函数
 def fetch_douyin_video(aweme_id: str) -> Optional[Dict[str, Any]]:
