@@ -24,7 +24,7 @@ def run_search_once(settings) -> None:
     log.info("关键词数量: %d", len(keywords))
 
     # 2) 逐一执行业务（不额外打印结果）
-    channel = Channel.XIAOHONGSHU
+    channel = Channel.DOUYIN
     total = 0
     for k in keywords:
         kw = (k.keyword or "").strip()

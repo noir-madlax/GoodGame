@@ -37,11 +37,19 @@ class PostType(str, Enum):
     IMAGE = "image"
 
 
+class AuthorFetchStatus(str, Enum):
+    """作者信息获取状态"""
+    NOT_FETCHED = "not_fetched"  # 未获取
+    SUCCESS = "success"          # 获取成功
+    FAILED = "failed"            # 获取失败
+
+
 __all__ = [
     "AnalysisStatus",
     "RelevantStatus",
     "Channel",
     "PromptName",
     "PostType",
+    "AuthorFetchStatus",
 ]
 

@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field, HttpUrl, constr
 from pydantic import field_validator
-from .enums import AnalysisStatus, RelevantStatus, PostType
+from .enums import AnalysisStatus, RelevantStatus, PostType, Channel, AuthorFetchStatus
 
 
 # Pydantic models with validation constraints
@@ -49,6 +49,11 @@ class PlatformPost(BaseModel):
         description="相关性状态：unknown=未知, no=不相关, yes=相关, maybe=可能相关",
     )
 
+    # 作者信息获取状态（TEXT + CHECK）。DB 默认 'not_fetched'。
+    author_fetch_status: AuthorFetchStatus = Field(
+        default=AuthorFetchStatus.NOT_FETCHED,
+        description="作者信息获取状态：not_fetched=未获取, success=获取成功, failed=获取失败",
+    )
 
     # LLM/规则判定的详细结果（JSON 存档，形态不固定：可能为 dict/list/str），使用 Any 以兼容
     relevant_result: Optional[Any] = None
@@ -187,3 +192,23 @@ class ProjectSettings(BaseModel):
     nav_search_settings_enabled: bool = False
     nav_analysis_rules_enabled: bool = False
     nav_alert_push_enabled: bool = False
+
+
+class Author(BaseModel):
+    """作者信息模型，对应 gg_authors 表"""
+    id: Optional[int] = Field(default=None, ge=1)
+    platform: Channel
+    platform_author_id: NonEmptyStr
+    sec_uid: Optional[str] = None
+    nickname: Optional[str] = None
+    avatar_url: Optional[HttpUrl] = None
+    share_url: Optional[HttpUrl] = None
+    follower_count: int = Field(default=0, ge=0)
+    signature: Optional[str] = None
+    location: Optional[str] = None
+    account_cert_info: Optional[str] = None
+    verification_type: Optional[int] = None
+    raw_response: Optional[Dict[str, Any]] = None
+    user_deleted: Optional[bool] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None

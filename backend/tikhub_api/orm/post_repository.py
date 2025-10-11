@@ -194,6 +194,50 @@ class PostRepository:
         return None
 
     @staticmethod
+    def update_author_fetch_status(post_id: int, status: str) -> Optional[PlatformPost]:
+        """更新作者信息获取状态
+
+        Args:
+            post_id: 帖子ID
+            status: 作者获取状态 (not_fetched/success/failed)
+
+        Returns:
+            None (成功即返回 None，需要读取请再查一次)
+        """
+        client = get_client()
+        payload: Dict[str, Any] = {"author_fetch_status": status}
+        _ = (
+            client.table(TABLE)
+            .update(payload)
+            .eq("id", post_id)
+            .execute()
+        )
+        return None
+
+    @staticmethod
+    def list_by_author_fetch_status(status: str, limit: int = 50, offset: int = 0) -> List[PlatformPost]:
+        """根据作者获取状态查询帖子列表
+
+        Args:
+            status: 作者获取状态 (not_fetched/success/failed)
+            limit: 返回数量限制
+            offset: 偏移量
+
+        Returns:
+            帖子列表
+        """
+        client = get_client()
+        resp = (
+            client.table(TABLE)
+            .select("*")
+            .eq("author_fetch_status", status)
+            .order("id", desc=True)
+            .range(offset, offset + max(limit - 1, 0))
+            .execute()
+        )
+        return [PostRepository._row_to_model(r) for r in (resp.data or [])]
+
+    @staticmethod
     def _row_to_model(row: Dict[str, Any]) -> PlatformPost:
         if not row:
             return PlatformPost()
@@ -218,6 +262,7 @@ class PostRepository:
             video_url=row.get("video_url"),
             analysis_status=row.get("analysis_status", "init"),
             relevant_status=row.get("relevant_status", "unknown"),
+            author_fetch_status=row.get("author_fetch_status", "not_fetched"),
             relevant_result=row.get("relevant_result"),
             raw_details=row.get("raw_details"),
             published_at=_parse_dt(row.get("published_at")),

@@ -132,7 +132,7 @@ class DouyinVideoAdapter:
         post_type = PostType.VIDEO  # 抖音此接口以视频为主，后续如检测到图文可调整
         original_url = aweme_detail.get('share_url') or (aweme_detail.get('share_info') or {}).get('share_url')
         author = aweme_detail.get('author', {}) or {}
-        author_id = str(author.get('uid') or '') or None
+        author_id = str(author.get('sec_uid') or '') or None
         author_name = str(author.get('nickname') or '') or None
         share_count = int((aweme_detail.get('statistics') or {}).get('share_count') or statistics.get('share_count') or 0)
         duration_ms = int(aweme_detail.get('duration') or 0)
@@ -435,7 +435,7 @@ class DouyinCommentAdapter:
             platform_comment_id=str(raw.get('cid', '')),
             parent_comment_id=None,
             parent_platform_comment_id=None,
-            author_id=str(user.get('uid', '') or ''),
+            author_id=str(user.get('sec_uid', '') or ''),
             author_name=str(user.get('nickname', '') or ''),
             author_avatar_url=avatar_url,
             content=str(raw.get('text', '') or ''),
@@ -488,7 +488,7 @@ class DouyinCommentAdapter:
                     platform_comment_id=cid,
                     parent_comment_id=parent_db_id,
                     parent_platform_comment_id=parent_platform_cid,
-                    author_id=str(user.get('uid', '') or ''),
+                    author_id=str(user.get('sec_uid', '') or ''),
                     author_name=str(user.get('nickname', '') or ''),
                     author_avatar_url=avatar_url,
                     content=str(raw.get('text', '') or ''),
