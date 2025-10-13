@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import List, Dict, Any, Optional
 
+
 from tikhub_api.orm.post_repository import PostRepository
 from tikhub_api.orm.enums import RelevantStatus, AnalysisStatus, PromptName
 from .gemini_client import GeminiClient
@@ -12,11 +13,15 @@ from common.prompt_renderer import render_prompt
 
 from jobs.logger import get_logger
 
+from jobs.config import Settings
+
 log = get_logger(__name__)
 
 class ScreeningService:
     def __init__(self, model: Optional[str] = None, api_key: Optional[str] = None) -> None:
-        self.client = GeminiClient(model=model, api_key=api_key)
+        settings = Settings.from_env()
+        key = api_key or settings.GEMINI_API_KEY_SCREENING
+        self.client = GeminiClient(model=model, api_key=key)
 
     def fetch_candidates(self, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
         # 仅挑选 relevant_status='unknown' 的内容；当前需求固定只取 1 条（硬编码）

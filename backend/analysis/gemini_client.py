@@ -17,31 +17,9 @@ except Exception as e:  # pragma: no cover
     genai = None  # type: ignore
     types = None  # type: ignore
 
-try:
-    from dotenv import load_dotenv, find_dotenv  # type: ignore
-except Exception:  # pragma: no cover
-    load_dotenv = None  # type: ignore
-    find_dotenv = None  # type: ignore
-
-# 优先全局查找 .env（兼容项目其他模块的方式）
-if 'GEMINI_API_KEY' not in os.environ and load_dotenv and find_dotenv:
-    try:
-        load_dotenv(find_dotenv())  # 向上查找最近的 .env
-    except Exception:
-        pass
-# 补充尝试 backend/.env（相对 analysis 目录）
-if 'GEMINI_API_KEY' not in os.environ and load_dotenv:
-    try:
-        _here = os.path.abspath(os.path.dirname(__file__))
-        _backend_env = os.path.abspath(os.path.join(_here, '..', '.env'))
-        if os.path.exists(_backend_env):
-            load_dotenv(_backend_env, override=False)
-    except Exception:
-        pass
 
 ANALYSIS_MODEL_NAME = "gemini-2.5-pro"
 SCREENING_MODEL_NAME = "gemini-2.5-flash"
-API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 def _normalize_model_name(model: str | None) -> str:
     """兼容传入类似 "google/gemini-2.5-pro" 的名字，转为 SDK 需要的 "gemini-2.5-pro"。
@@ -69,10 +47,10 @@ class GeminiClient:
             )
         self.screening_model = _normalize_model_name(SCREENING_MODEL_NAME)
         self.analysis_model = _normalize_model_name(ANALYSIS_MODEL_NAME)
-        self.api_key = (api_key or API_KEY).strip()
+        self.api_key = (api_key or "").strip()
         self.timeout = timeout  # 目前 SDK 暂无直接超时参数，保留占位
         if not self.api_key:
-            raise RuntimeError("GEMINI_API_KEY is required")
+            raise RuntimeError("api_key is required when creating GeminiClient")
         self.client = genai.Client(api_key=self.api_key)
 
     def _wait_file_active(self, name: str, timeout_sec: int = 120) -> None:

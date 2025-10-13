@@ -1,9 +1,10 @@
 from __future__ import annotations
 from typing import Any, Dict, Optional, List, Tuple
-import os
 import requests
 
 from jobs.logger import get_logger
+from jobs.config import Settings
+
 
 from .gemini_client import GeminiClient
 from .analysis_prompt_builder import get_system_prompt
@@ -35,7 +36,7 @@ class AnalysisService:
     """
 
     def __init__(self, gemini_client: Optional[GeminiClient] = None) -> None:
-        self.gemini = gemini_client or GeminiClient()
+        self.gemini = gemini_client or GeminiClient(api_key=Settings.from_env().GEMINI_API_KEY_ANALYZE)
         self.downloader = VideoDownloader()
 
     def analyze_post(self, post_id: int) -> Dict[str, Any]:

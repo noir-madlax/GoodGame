@@ -55,6 +55,10 @@ class Settings:
     # Logging
     LOG_LEVEL: str = "INFO"
 
+    # Gemini
+    GEMINI_API_KEY_ANALYZE: str = ""
+    GEMINI_API_KEY_SCREENING: str = ""
+
     @staticmethod
     def from_env() -> "Settings":
         return Settings(
@@ -78,5 +82,7 @@ class Settings:
             API_WORKERS=_getenv_int("API_WORKERS", 1),
             API_RELOAD=_getenv_bool("API_RELOAD", False),
             LOG_LEVEL=_getenv_str("LOG_LEVEL", "INFO"),
+            GEMINI_API_KEY_ANALYZE=_getenv_str("GEMINI_API_KEY_ANALYZE", ""),
+            GEMINI_API_KEY_SCREENING=_getenv_str("GEMINI_API_KEY_SCREENING", ""),
         )
 
