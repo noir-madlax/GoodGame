@@ -341,7 +341,7 @@ class AnalysisService:
             raise RuntimeError("google-genai SDK 未正确安装")
         video_part = types.Part(
             file_data=types.FileData(file_uri=file_uri, mime_type=mime_type),
-            video_metadata=types.VideoMetadata(fps=5),
+            video_metadata=types.VideoMetadata(fps=1),
         )
         return [video_part], str(file_uri)
 
