@@ -7,6 +7,7 @@ from services.author_service import (
     fetch_and_save_author_by_post_id,
 )
 from tikhub_api.orm.post_repository import PostRepository
+from tikhub_api.orm import AuthorRepository, AuthorFetchStatus
 from common.request_context import set_project_id, reset_project_id
 
 log = get_logger(__name__)
@@ -32,11 +33,26 @@ class AuthorLane(BaseLane):
                 return 0
 
             post = posts[0]
-            post_id = getattr(post, "id", None)
+            post_id = post.id
             if not post_id:
                 log.debug("[AuthorLane] candidate missing id, skip")
                 return 0
 
+            # 提交前：若作者已存在，则回写状态为 SUCCESS 并跳过提交
+            platform_str = post.platform
+            platform_author_id = post.author_id
+            if platform_author_id:
+                existing = AuthorRepository.get_by_platform_author(platform_str, str(platform_author_id))
+                if existing:
+                    PostRepository.update_author_fetch_status(int(post_id), AuthorFetchStatus.SUCCESS.value)
+                    log.info(
+                        "[AuthorLane] author already exists, mark success and skip: post_id=%s platform=%s author_id=%s",
+                        post_id,
+                        platform_str,
+                        platform_author_id,
+                    )
+                    return 0
+   
             self._busy = True
             self.executor.submit(self._run_one_wrapper, int(post_id))
             log.info("[AuthorLane] submitted 1 task, marked as busy: post_id=%s", post_id)
