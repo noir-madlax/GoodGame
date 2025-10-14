@@ -237,8 +237,9 @@ class XiaohongshuFetcher(BaseFetcher, CommentsProvider):
             url = f"{self.base_url}{self.XHS_SEARCH_API}"
             log.info("[Xiaohongshu] 开始请求 (keyword=%s, page=%s) params=%s", keyword, page, json.dumps(params, ensure_ascii=False, indent=2))
             result = self._make_request(url, params, method="GET")
+            log.info("[Xiaohongshu] 请求完成 (keyword=%s, page=%s,返回总条数=%s)", keyword, page, len(result.get("data", {}).get("data", {}).get("items", [])))
             if not self._check_api_response(result):
-                print(f"搜索接口返回异常: {result}")
+                log.error(f"搜索接口返回异常: {result}")
                 break
 
             data = result.get("data") or {}
@@ -262,19 +263,25 @@ class XiaohongshuFetcher(BaseFetcher, CommentsProvider):
             for it in items:
                 try:
                     if not isinstance(it, dict):
+                        log.warning(f"[Xiaohongshu] 跳过非字典项: {type(it)}")
                         continue
-                    if str(it.get("model_type") or "").lower() != "note":
+                    model_type = str(it.get("model_type") or "").lower()
+                    if model_type != "note":
+                        log.debug(f"[Xiaohongshu] 跳过非笔记项: model_type={model_type}")
                         continue
                     note = it.get("note") or {}
                     if not isinstance(note, dict) or not note:
+                        log.warning(f"[Xiaohongshu] 笔记数据为空或非字典: {type(note)}")
                         continue
                     page_batch.append(note)
                     emitted += 1
                     if emitted >= total_needed:
                         break
-                except Exception:
+                except Exception as e:
+                    log.error(f"[Xiaohongshu] 处理单条数据失败: {e}")
                     continue
 
+            log.info(f"[Xiaohongshu] 本页提取笔记数: {len(page_batch)}")
             if page_batch:
                 yield page_batch
 

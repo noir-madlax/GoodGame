@@ -140,12 +140,15 @@ class BaseFetcher(ABC):
                     buffer.append(post)
                     if len(buffer) >= batch_size:
                         saved = PostRepository.upsert_posts(buffer)
+                        log.info(f"[{self.platform_name}] 批量落库成功: {len(saved)} 条")
                         yield saved
                         buffer = []
-                except Exception:
+                except Exception as e:
+                    log.error(f"[{self.platform_name}] 转换条目失败，跳过: {e}", exc_info=True)
                     continue
         if buffer:
             saved = PostRepository.upsert_posts(buffer)
+            log.info(f"[{self.platform_name}] 最后一批落库成功: {len(saved)} 条")
             yield saved
 
     def get_search_posts(self, keyword: str):
