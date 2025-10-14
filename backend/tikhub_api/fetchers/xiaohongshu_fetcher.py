@@ -109,20 +109,36 @@ class XiaohongshuFetcher(BaseFetcher, CommentsProvider):
         """
         try:
             details = self.get_video_details(note_id)
-            if not details:
+            if not isinstance(details, dict) or not details:
                 return None
-            video = (details.get("video") or {})
-            # 优先多清晰度列表
-            url_info_list = video.get("url_info_list") or []
-            urls = [x.get("url") for x in url_info_list if isinstance(x, dict) and x.get("url")]
-            if urls:
-                return urls
-            # 回落到单一 url 字段
-            if isinstance(video.get("url"), str) and video.get("url"):
-                return [video.get("url")]
+
+            # 新结构：data.data.videoInfo.videoUrl
+            vinfo = details.get("videoInfo") or details.get("video_info") or {}
+            if isinstance(vinfo, dict):
+                vurl = vinfo.get("videoUrl") or vinfo.get("video_url")
+                if isinstance(vurl, str) and vurl.strip():
+                    return [vurl.strip()]
+
+                # 兼容旧字段
+                url_info_list = vinfo.get("url_info_list") or []
+                urls = [x.get("url") for x in url_info_list if isinstance(x, dict) and x.get("url")]
+                if urls:
+                    return urls
+                if isinstance(vinfo.get("url"), str) and vinfo.get("url"):
+                    return [vinfo.get("url")]
+
+            # 进一步兼容：部分返回可能把视频放在 details["video"]
+            video = details.get("video") or {}
+            if isinstance(video, dict):
+                url_info_list = video.get("url_info_list") or []
+                urls = [x.get("url") for x in url_info_list if isinstance(x, dict) and x.get("url")]
+                if urls:
+                    return urls
+                if isinstance(video.get("url"), str) and video.get("url"):
+                    return [video.get("url")]
             return None
         except Exception as e:
-            print(f"获取下载链接失败: {str(e)}")
+            log.error(f"获取下载链接失败: {e}")
             return None
 
 

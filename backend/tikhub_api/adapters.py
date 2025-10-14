@@ -266,6 +266,12 @@ class XiaohongshuVideoAdapter:
             except Exception:
                 published_at = None
 
+        # 仅接受绝对 URL，避免 Pydantic 校验报错
+        if isinstance(cover_url, str) and not cover_url.strip().lower().startswith(("http://", "https://")):
+            cover_url = None
+        if isinstance(video_url, str) and not video_url.strip().lower().startswith(("http://", "https://")):
+            video_url = None
+
         return PlatformPost(
             project_id=get_project_id(),
             platform="xiaohongshu",
@@ -388,6 +394,12 @@ class XiaohongshuVideoAdapter:
                 published_at = datetime.fromtimestamp(ts / 1000.0 if ts > 10**12 else ts)
             except Exception:
                 published_at = None
+
+        # 仅接受绝对 URL，避免 Pydantic 校验报错
+        if isinstance(cover_url, str) and not cover_url.strip().lower().startswith(("http://", "https://")):
+            cover_url = None
+        if isinstance(video_url, str) and not video_url.strip().lower().startswith(("http://", "https://")):
+            video_url = None
 
         return PlatformPost(
             project_id=get_project_id(),

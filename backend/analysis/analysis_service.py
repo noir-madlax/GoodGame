@@ -61,7 +61,7 @@ class AnalysisService:
                 raise RuntimeError("google-genai SDK 未正确安装")
 
             # 2) 构建 prompt 与调用 generate_content（公共逻辑）
-            log.info(f"开始调用 Gemini 生成内容：post_id={post_id}")
+            log.info(f"开始构建 prompt：post_id={post_id}")
             prompt_name = PromptName.ANALYZE_VIDEO if post.post_type == PostType.VIDEO else PromptName.ANALYZE_PICTURE
             system_prompt = get_system_prompt(prompt_name,post.project_id)
             config = types.GenerateContentConfig(
@@ -70,6 +70,7 @@ class AnalysisService:
                 system_instruction=system_prompt,
             )
 
+            log.info(f"开始调用 Gemini 生成内容：post_id={post_id}")
             resp = self.gemini.client.models.generate_content(
                 model=self.gemini.analysis_model,
                 contents=full_parts,
@@ -298,16 +299,16 @@ class AnalysisService:
         video_urls: List[str]
         try:
             video_urls = fetcher.get_download_url_by_post_id(post_id) or []
-            log.info(f"获取视频下载地址成功：post_id={post_id}，count={len(video_urls)}")
+            log.info(f"获取视频下载地址返回：post_id={post_id}，count={len(video_urls)}")
         except Exception as e:
             video_urls = []
             log.error(
                 f"获取视频下载地址失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}"
             )
 
-        if not video_urls:
+        if not video_urls or len(video_urls) == 0:
             raise ValueError(f"post {post_id} 获取下载地址失败")
-
+        
         # 按顺序尝试下载，每个 URL 至多重试一次
         data: Optional[bytes] = None
         chosen_url: Optional[str] = None
