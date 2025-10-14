@@ -63,6 +63,7 @@ def fetch_and_save_author_by_post_id(post_id: int) -> Optional["Author"]:
         saved = AuthorRepository.upsert_author(author)
         # 标记成功
         PostRepository.update_author_fetch_status(post_id, AuthorFetchStatus.SUCCESS.value)
+        log.info("作者信息已保存：post_id=%s, platform=%s, author_id=%s", post_id, platform, author_id)
         return saved
     except Exception as e:
         log.error("fetch_and_save_author_by_post_id 失败：%s", e)

@@ -208,33 +208,15 @@ class BaseFetcher(ABC):
         try:
             result = self.fetch_author_info(author_id)
             if not self._check_api_response(result):
+                log.error(f"[{self.platform_name}] 获取作者信息失败: {author_id}")
                 return None
 
-            # 子类需要实现如何从 API 响应中提取 user 数据
-            user_data = self._extract_user_data(result)
-            if not user_data:
-                return None
-
+            # 将原始报文直接交由适配器处理
             adapter = self.get_author_adapter()
-            return adapter.to_author(user_data)
+            return adapter.to_author(result)
         except Exception:
             return None
 
-    def _extract_user_data(self, api_response: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """
-        从 API 响应中提取 user 数据（子类可重写）
-        默认实现：返回 data.user
-
-        Args:
-            api_response: API 原始响应
-
-        Returns:
-            Optional[Dict[str, Any]]: user 数据，失败返回 None
-        """
-        data = api_response.get('data')
-        if data and isinstance(data, dict):
-            return data.get('user')
-        return None
 
     def get_preferred_download_url(self, video_id: str) -> Optional[List[str]]:
         """

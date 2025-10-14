@@ -517,23 +517,37 @@ class DouyinAuthorAdapter:
     """抖音作者数据 -> Author 适配器"""
 
     @staticmethod
-    def to_author(user_data: Dict[str, Any]) -> Author:
+    def to_author(raw: Dict[str, Any]) -> Author:
         """
-        将抖音作者信息转换为 Author 模型
-
-        Args:
-            user_data: 抖音 API 返回的 user 对象（data.user）
-
-        Returns:
-            Author: 作者模型对象
+        将抖音作者原始报文转换为 Author 模型。
+        兼容以下输入：
+        - 顶层 response（含 data.user）
+        - 仅 data 容器（含 user）
+        - 直接 user 字典（含 uid/sec_uid/nickname 等）
         """
-        if not isinstance(user_data, dict):
-            raise ValueError("user_data 必须是字典类型")
+        if not isinstance(raw, dict):
+            raise ValueError("raw 必须是字典类型")
 
-        # 提取头像 URL（优先使用 avatar_larger）
+        # 归一化：提取 user 字典
+        user: Optional[Dict[str, Any]] = None
+        u = raw.get('user') if isinstance(raw, dict) else None
+        if isinstance(u, dict):
+            user = u
+        if user is None and isinstance(raw.get('data'), dict):
+            data_obj = raw.get('data')
+            if isinstance(data_obj.get('user'), dict):
+                user = data_obj.get('user')  # type: ignore[assignment]
+            elif isinstance(data_obj.get('data'), dict) and isinstance(data_obj.get('data').get('user'), dict):
+                user = data_obj.get('data').get('user')  # type: ignore[assignment]
+        if user is None and any(k in raw for k in ('uid', 'sec_uid', 'nickname')):
+            user = raw  # type: ignore[assignment]
+        if not isinstance(user, dict):
+            raise ValueError("无法从传入数据中解析出抖音 user 对象")
+
+        # 头像：优先使用 avatar_larger -> avatar_medium -> avatar_thumb -> avatar_300x300
         avatar_url = None
         for avatar_key in ('avatar_larger', 'avatar_medium', 'avatar_thumb', 'avatar_300x300'):
-            avatar_obj = user_data.get(avatar_key) or {}
+            avatar_obj = user.get(avatar_key) or {}
             if isinstance(avatar_obj, dict):
                 url_list = avatar_obj.get('url_list') or []
                 if url_list and isinstance(url_list, list):
@@ -547,74 +561,200 @@ class DouyinAuthorAdapter:
                     if avatar_url:
                         break
 
-        # 提取分享链接
+        # 分享链接
         share_url = None
-        share_info = user_data.get('share_info') or {}
+        share_info = user.get('share_info') or {}
         if isinstance(share_info, dict):
             share_url_raw = share_info.get('share_url')
             if isinstance(share_url_raw, str) and share_url_raw:
-                # 补全协议
-                if not share_url_raw.startswith('http'):
-                    share_url = f"https://{share_url_raw}"
-                else:
-                    share_url = share_url_raw
+                share_url = share_url_raw if share_url_raw.startswith('http') else f"https://{share_url_raw}"
 
-        # 提取地理位置信息
+        # 地理位置
         location = None
-        ip_location = user_data.get('ip_location')
+        ip_location = user.get('ip_location')
         if isinstance(ip_location, str) and ip_location:
             # 去掉 "IP属地：" 前缀
             location = ip_location.replace('IP属地：', '').strip()
         if not location:
             # 尝试其他位置字段
             for loc_key in ('location', 'city', 'province'):
-                loc_val = user_data.get(loc_key)
+                loc_val = user.get(loc_key)
                 if isinstance(loc_val, str) and loc_val.strip():
                     location = loc_val.strip()
                     break
 
-        # account_cert_info 可能是 JSON 字符串或字典
-        account_cert_info = user_data.get('account_cert_info')
+        # 认证信息：允许为 dict 或 str
+        account_cert_info = user.get('account_cert_info')
         if isinstance(account_cert_info, dict):
-            import json
-            account_cert_info = json.dumps(account_cert_info, ensure_ascii=False)
+            import json as _json
+            account_cert_info = _json.dumps(account_cert_info, ensure_ascii=False)
         elif not isinstance(account_cert_info, str):
             account_cert_info = None
 
         return Author(
             platform=Channel.DOUYIN,
-            platform_author_id=str(user_data.get('uid', '')),
-            sec_uid=str(user_data.get('sec_uid', '') or ''),
-            nickname=str(user_data.get('nickname', '') or ''),
+            platform_author_id=str(user.get('uid', '')),
+            sec_uid=str(user.get('sec_uid', '') or ''),
+            nickname=str(user.get('nickname', '') or ''),
             avatar_url=avatar_url,
             share_url=share_url,
-            follower_count=int(user_data.get('follower_count') or 0),
-            signature=str(user_data.get('signature', '') or '') or None,
+            follower_count=int(user.get('follower_count') or 0),
+            signature=str(user.get('signature', '') or '') or None,
             location=location,
             account_cert_info=account_cert_info,
-            verification_type=int(user_data.get('verification_type') or 0),
-            raw_response=user_data,
+            verification_type=int(user.get('verification_type') or 0),
+            raw_response=user,
         )
 
 
 class XiaohongshuAuthorAdapter:
-    """小红书作者数据 -> Author 适配器（占位）"""
+    """小红书作者数据 -> Author 适配器
+
+    适配多种原始形态：
+    - 直接传入用户字典（含 userid/red_id 等）
+    - 传入带有 user 字段的字典（如 data.user）
+    - 传入 TikHub 顶层响应或 data 容器（如 response.data.data）
+    该适配器会内部解析并规整为统一字段后再输出 Author。
+    """
 
     @staticmethod
-    def to_author(user_data: Dict[str, Any]) -> Author:
-        """
-        将小红书作者信息转换为 Author 模型（暂未实现）
+    def to_author(raw: Dict[str, Any]) -> Author:
+        """将小红书作者信息转换为 Author 模型（在适配器内部抹平结构差异）"""
+        if not isinstance(raw, Dict):  # type: ignore[arg-type]
+            raise ValueError("raw 必须是字典类型")
 
-        Args:
-            user_data: 小红书 API 返回的用户对象
+        # 1) 归一化：从可能的多种层级中提取到“用户字典” user
+        user: Optional[Dict[str, Any]] = None
 
-        Returns:
-            Author: 作者模型对象
+        # a. 顶层就有 user
+        u = raw.get("user") if isinstance(raw, dict) else None
+        if isinstance(u, dict):
+            user = u
 
-        Raises:
-            NotImplementedError: 暂未实现
-        """
-        raise NotImplementedError("小红书作者适配器暂未实现")
+        # b. 顶层的 data 容器
+        if user is None:
+            data_obj = raw.get("data") if isinstance(raw, dict) else None
+            if isinstance(data_obj, dict):
+                # data.user
+                if isinstance(data_obj.get("user"), dict):
+                    user = data_obj.get("user")  # type: ignore[assignment]
+                # data.data（TikHub 小红书 user_info 的用户体直挂在这里）
+                inner = data_obj.get("data")
+                if user is None and isinstance(inner, dict):
+                    # 通过关键字段判断像不像用户对象
+                    if any(k in inner for k in ("userid", "red_id", "nickname", "images", "imageb")):
+                        user = inner  # type: ignore[assignment]
+
+        # c. 若原对象本身看起来就是用户对象
+        if user is None and isinstance(raw, dict):
+            if any(k in raw for k in ("userid", "red_id", "nickname", "images", "imageb")):
+                user = raw
+
+        # d. 兜底：data 看起来像用户对象
+        if user is None and isinstance(raw.get("data"), dict):
+            data_obj2 = raw.get("data")
+            if any(k in data_obj2 for k in ("userid", "red_id", "nickname")):
+                user = data_obj2  # type: ignore[assignment]
+
+        if not isinstance(user, dict):
+            raise ValueError("无法从传入数据中解析出小红书用户对象")
+
+        # 2) 字段映射
+        # 头像：优先大图 imageb，其次 images
+        avatar_url = None
+        for k in ("imageb", "images"):
+            v = user.get(k)
+            if isinstance(v, str) and v.strip():
+                avatar_url = v.strip()
+                break
+
+        # 主页分享链接
+        share_url = None
+        share_link = user.get("share_link")
+        if isinstance(share_link, str) and share_link.strip():
+            share_url = share_link.strip()
+
+        # 粉丝数：优先 fans 字段；回落到 interactions 中 type=="fans" 或 name=="粉丝"
+        follower_count = 0
+        fans_val = user.get("fans")
+        if isinstance(fans_val, (int, float)):
+            follower_count = int(fans_val)
+        else:
+            interactions = user.get("interactions") or []
+            if isinstance(interactions, list):
+                for it in interactions:
+                    if not isinstance(it, dict):
+                        continue
+                    t = str(it.get("type") or "").lower()
+                    n = str(it.get("name") or "")
+                    if t == "fans" or n == "粉丝":
+                        c = it.get("count")
+                        if isinstance(c, (int, float)):
+                            follower_count = int(c)
+                            break
+
+        # 个性签名
+        signature = None
+        desc_val = user.get("desc")
+        if isinstance(desc_val, str) and desc_val.strip():
+            signature = desc_val.strip()
+        else:
+            user_desc_info = user.get("user_desc_info") or {}
+            if isinstance(user_desc_info, dict):
+                d = user_desc_info.get("desc")
+                if isinstance(d, str) and d.strip():
+                    signature = d.strip()
+
+        # 位置：优先 ip_location，其次 location
+        location = None
+        ip_loc = user.get("ip_location")
+        if isinstance(ip_loc, str) and ip_loc.strip():
+            location = ip_loc.strip()
+        else:
+            loc = user.get("location")
+            if isinstance(loc, str) and loc.strip():
+                location = loc.strip()
+
+        # 认证信息：整理为 JSON 字符串
+        account_cert_info = None
+        try:
+            import json as _json
+            cert = {
+                "red_official_verified": bool(user.get("red_official_verified")),
+                "red_official_verify_type": user.get("red_official_verify_type"),
+                "red_official_verify_content": user.get("red_official_verify_content"),
+            }
+            account_cert_info = _json.dumps(cert, ensure_ascii=False)
+        except Exception:
+            account_cert_info = None
+
+        # 认证类型：映射到统一字段 verification_type
+        verification_type = None
+        vt = user.get("red_official_verify_type")
+        if isinstance(vt, (int, float)):
+            verification_type = int(vt)
+
+        # 基础 ID/昵称
+        platform_author_id = str(user.get("userid") or user.get("red_id") or "")
+        if not platform_author_id:
+            raise ValueError("缺少必要的 userid/red_id 作为平台作者 ID")
+        nickname = user.get("nickname")
+        nickname = str(nickname).strip() if isinstance(nickname, str) else None
+
+        return Author(
+            platform=Channel.XIAOHONGSHU,
+            platform_author_id=platform_author_id,
+            sec_uid=None,
+            nickname=nickname,
+            avatar_url=avatar_url,
+            share_url=share_url,
+            follower_count=follower_count,
+            signature=signature,
+            location=location,
+            account_cert_info=account_cert_info,
+            verification_type=verification_type,
+            raw_response=user,
+        )
 
 
 class XiaohongshuCommentAdapter:
