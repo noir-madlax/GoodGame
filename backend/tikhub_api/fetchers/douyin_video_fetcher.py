@@ -13,11 +13,6 @@ log = get_logger(__name__)
 # 接口路径占位：请根据实际文档更新
 DOUYIN_SEARCH_API = "/douyin/search/fetch_general_search_v3"
 
-#
-
-
-##
-
 # 默认请求体（仅占位示例）：首次请求 cursor=0, search_id=""
 DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
     "keyword": "火锅", #搜索关键词，如 "猫咪"
@@ -28,8 +23,6 @@ DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
     "content_type": "1",  # 0: 不限，1: 视频，2: 图片，3: 文章
     "search_id": "", #搜索ID（分页时使用）
 }
-
-
 
 class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, DanmakuProvider, CommentsProvider):
     """抖音视频获取器，用于调用 TikHub API 获取抖音视频信息"""
@@ -165,9 +158,15 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
                     aweme = it.get("aweme_info") or {}
                     if not isinstance(aweme, dict):
                         continue
+                    # 检查 aweme_info 是否包含必要的 aweme_id 字段
+                    aweme_id = aweme.get("aweme_id")
+                    if not aweme_id:
+                        log.warning("[Douyin] 跳过无 aweme_id 的条目: %s", it.get("type"))
+                        continue
                     details_like = {"aweme_detail": aweme}
                     gathered.append(details_like)
-                except Exception:
+                except Exception as e:
+                    log.error("[Douyin] 处理搜索条目异常: %s", e)
                     continue
 
             # 翻页字段（抖音返回路径修正）
@@ -219,11 +218,20 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
                 try:
                     if not isinstance(it, dict):
                         continue
+                    # 过滤非视频类型
+                    if int(it.get("type") or 0) != 1:
+                        continue
                     aweme = it.get("aweme_info") or {}
                     if not isinstance(aweme, dict):
                         continue
+                    # 检查 aweme_info 是否包含必要的 aweme_id 字段
+                    aweme_id = aweme.get("aweme_id")
+                    if not aweme_id:
+                        log.warning("[Douyin] 跳过无 aweme_id 的条目: %s", it.get("type"))
+                        continue
                     page_batch.append({"aweme_detail": aweme})
-                except Exception:
+                except Exception as e:
+                    log.error("[Douyin] 处理搜索条目异常: %s", e)
                     continue
 
             log.info("[Douyin] 本页条目: %d (keyword=%s, cursor=%s, search_id=%s)", len(page_batch), keyword, str(cursor), search_id)

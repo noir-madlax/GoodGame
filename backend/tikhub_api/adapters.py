@@ -9,6 +9,9 @@ from .orm import PostType
 from .utils.url_validator import filter_valid_video_urls
 
 from common.request_context import get_project_id
+from jobs.logger import get_logger
+
+log = get_logger(__name__)
 
 
 # ===== 评论适配器协议 =====
@@ -100,7 +103,29 @@ class DouyinVideoAdapter:
     """抖音视频数据 -> PlatformPost 适配器"""
 
     def to_post(self, details: Dict[str, Any]) -> PlatformPost:
+
         aweme_detail = details.get('aweme_detail', {}) or {}
+
+        # 调试日志：检查 details 和 aweme_detail 的内容
+        if not aweme_detail:
+            log.warning("[DouyinVideoAdapter] aweme_detail 为空，details keys: %s", list(details.keys()))
+
+        # 兼容多种位置的 aweme_id，必要时回退到 group_id/id
+        platform_item_id = (
+            details.get('aweme_id')
+            or aweme_detail.get('aweme_id')
+            or (aweme_detail.get('statistics') or {}).get('aweme_id')
+            or (aweme_detail.get('status') or {}).get('aweme_id')
+            or details.get('group_id')
+            or aweme_detail.get('group_id')
+            or details.get('id')
+            or aweme_detail.get('id')
+        )
+
+        # 调试日志：检查 platform_item_id 提取结果
+        if not platform_item_id:
+            log.error("[DouyinVideoAdapter] 无法提取 platform_item_id，aweme_detail keys: %s", list(aweme_detail.keys()) if aweme_detail else "None")
+
         video = aweme_detail.get('video', {}) or {}
         statistics = aweme_detail.get('statistics', {}) or {}
 
@@ -140,7 +165,7 @@ class DouyinVideoAdapter:
         return PlatformPost(
             project_id=get_project_id(),
             platform="douyin",
-            platform_item_id=str(aweme_detail.get('aweme_id', '')),
+            platform_item_id=platform_item_id,
             title=str(aweme_detail.get('desc', '') or '').strip() or '无标题',
             content=None,
             post_type=post_type,

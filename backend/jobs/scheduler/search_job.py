@@ -8,6 +8,7 @@ from tikhub_api.orm import (
     SearchKeyword,
 )
 from tikhub_api.workflow import run_channel_search_and_upsert
+from common.request_context import set_project_id
 
 log = get_logger(__name__)
 
@@ -19,12 +20,15 @@ def run_search_once(settings) -> None:
     """
     log.info("[Scheduler] run_search_once: start")
 
+    # 临时设置固定的 project_id
+    set_project_id("67f480b5-3691-447c-af85-37f6227c9365")
+
     # 1) 查询所有关键词（search_keywords 全量）
     keywords: List[SearchKeyword] = SearchKeywordRepository.list_all(limit=2000, offset=0)
     log.info("关键词数量: %d", len(keywords))
 
     # 2) 逐一执行业务（不额外打印结果）
-    channel = Channel.XIAOHONGSHU
+    channel = Channel.DOUYIN
     total = 0
     for k in keywords:
         kw = (k.keyword or "").strip()
