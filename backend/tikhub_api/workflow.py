@@ -41,6 +41,7 @@ class WorkflowOptions:
     # 其他控制项
     force_refresh: bool = False
     page_size: int = 20  # 评论分页等用途
+    max_comments: int = 1000  # 最大同步评论数量
     # 批处理控制
     batch_size: int = 20  # 搜索结果按批落库大小
     concurrency: int = 1  # 处理并发：当前按 1 顺序处理，后续只需改数字即可
@@ -111,7 +112,7 @@ def run_video_workflow(
         if report.post_id is None:
             report.steps["comments"] = StepResult(ok=False, skipped=True, error="缺少 post_id 或详情未入库")
         else:
-            b_res = _step_sync_comments(fetcher, video_id, int(report.post_id), options.page_size)
+            b_res = _step_sync_comments(fetcher, video_id, int(report.post_id), options.page_size, options.max_comments)
             report.steps["comments"] = b_res
     else:
         report.steps["comments"] = StepResult(ok=True, skipped=True)
@@ -163,7 +164,7 @@ def _step_sync_details_and_upsert(fetcher, video_id: str) -> StepResult:
         return StepResult(ok=False, error=f"入库统一领域模型出错: {e}")
 
 
-def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 20) -> StepResult:
+def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 20, max_comments: int = 1000) -> StepResult:
     """同步评论（支持多平台）
 
     通过 fetcher.get_comment_adapter() 动态获取对应平台的评论适配器，
@@ -175,6 +176,9 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
     - 抖音：使用 cursor (int) 和 has_more (0/1)
     - 小红书：使用 cursor (str) 和 has_more (bool)
     - 统一处理：检查 comments 是否为空，以及 has_more 和 cursor 变化
+
+    Args:
+        max_comments: 最大同步评论数量，默认 1000 条
     """
     try:
         # 动态导入
@@ -196,7 +200,7 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
 
         cursor = 0  # 初始游标（抖音用int，小红书会转为str）
         total_top = 0
-        log.info("开始同步顶层评论：视频ID=%s，post_id=%s", video_id, post_id)
+        log.info("开始同步顶层评论：视频ID=%s，post_id=%s，最大数量=%s", video_id, post_id, max_comments)
 
         while True:
             page = fetcher.get_video_comments(video_id, cursor, page_size) or {}
@@ -239,6 +243,11 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
             total_top += len(models)
             log.info("视频ID=%s，post_id=%s，顶层评论累计入库：%s 条", video_id, post_id, total_top)
 
+            # 检查是否达到最大数量限制
+            if total_top >= max_comments:
+                log.info("视频ID=%s，post_id=%s，已达到最大评论数量限制：%s 条，停止同步", video_id, post_id, max_comments)
+                break
+
             # 翻页判断：有更多数据且游标发生变化
             if has_more == 1 and next_cursor != cursor:
                 cursor = next_cursor
@@ -252,9 +261,14 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
 
 
 
-def sync_comments_for_post_id(post_id: int, page_size: int = 20) -> StepResult:
+def sync_comments_for_post_id(post_id: int, page_size: int = 20, max_comments: int = 1000) -> StepResult:
     """公开方法：按 post_id 同步评论，成功后将 analysis_status 置为 pending。
     封装 _step_sync_comments 以及状态回写逻辑，供 worker/CLI 复用。
+
+    Args:
+        post_id: 帖子ID
+        page_size: 每页评论数量，默认 20
+        max_comments: 最大同步评论数量，默认 1000 条
     """
     try:
         # 延迟导入，兼容作为模块或脚本运行
@@ -275,7 +289,7 @@ def sync_comments_for_post_id(post_id: int, page_size: int = 20) -> StepResult:
 
         # 创建对应平台 fetcher 并调用内部实现
         fetcher = create_fetcher(str(platform))
-        res = _step_sync_comments(fetcher, str(video_id), int(post_id), page_size=page_size)
+        res = _step_sync_comments(fetcher, str(video_id), int(post_id), page_size=page_size, max_comments=max_comments)
 
         # 成功且未跳过时，写回 analysis_status=pending；失败则写回 comments_failed
         if getattr(res, "ok", False) and not getattr(res, "skipped", False):
