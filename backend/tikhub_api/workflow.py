@@ -41,7 +41,7 @@ class WorkflowOptions:
     # 其他控制项
     force_refresh: bool = False
     page_size: int = 20  # 评论分页等用途
-    max_comments: int = 1000  # 最大同步评论数量
+    max_comments: int = 100  # 最大同步评论数量
     # 批处理控制
     batch_size: int = 20  # 搜索结果按批落库大小
     concurrency: int = 1  # 处理并发：当前按 1 顺序处理，后续只需改数字即可
@@ -164,7 +164,7 @@ def _step_sync_details_and_upsert(fetcher, video_id: str) -> StepResult:
         return StepResult(ok=False, error=f"入库统一领域模型出错: {e}")
 
 
-def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 20, max_comments: int = 1000) -> StepResult:
+def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 20, max_comments: int = 100) -> StepResult:
     """同步评论（支持多平台）
 
     通过 fetcher.get_comment_adapter() 动态获取对应平台的评论适配器，
@@ -178,7 +178,7 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
     - 统一处理：检查 comments 是否为空，以及 has_more 和 cursor 变化
 
     Args:
-        max_comments: 最大同步评论数量，默认 1000 条
+        max_comments: 最大同步评论数量，默认 100 条
     """
     try:
         # 动态导入
@@ -261,14 +261,14 @@ def _step_sync_comments(fetcher, video_id: str, post_id: int, page_size: int = 2
 
 
 
-def sync_comments_for_post_id(post_id: int, page_size: int = 20, max_comments: int = 1000) -> StepResult:
+def sync_comments_for_post_id(post_id: int, page_size: int = 20, max_comments: int = 100) -> StepResult:
     """公开方法：按 post_id 同步评论，成功后将 analysis_status 置为 pending。
     封装 _step_sync_comments 以及状态回写逻辑，供 worker/CLI 复用。
 
     Args:
         post_id: 帖子ID
         page_size: 每页评论数量，默认 20
-        max_comments: 最大同步评论数量，默认 1000 条
+        max_comments: 最大同步评论数量，默认 100 条
     """
     try:
         # 延迟导入，兼容作为模块或脚本运行
