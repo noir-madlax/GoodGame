@@ -116,6 +116,6 @@ def build_user_msg(row: Dict[str, Any]) -> str:
         share_count=row.get("share_count") or 0,
         post_type=row.get("post_type") or "",
         duration_ms=row.get("duration_ms") or 0,
-        row_details=row.get("raw_details") or "",
+        # row_details=row.get("raw_details") or "",
     )
 

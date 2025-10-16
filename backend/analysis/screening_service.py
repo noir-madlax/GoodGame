@@ -76,7 +76,7 @@ class ScreeningService:
                 decision = self.decide_status(row)  # {status, result}
                 relevant_status = decision.get("status", "unknown")
                 relevant_result = decision.get("result")
-                # 若模型未能给出明确结论，保守标记为 unknown
+
                 allowed = {e.value for e in RelevantStatus}
                 if relevant_status not in allowed:
                     log.error({"post_id": post_id, "error": f"invalid relevant_status: {relevant_status}"})
