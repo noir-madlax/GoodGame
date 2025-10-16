@@ -15,7 +15,7 @@ USER_TEMPLATE = (
     "平台: {platform} | 作者: {author_name} | 发布时间: {published_at}\n"
     "互动: 播放={play_count}, 点赞={like_count}, 评论={comment_count}, 分享={share_count}\n"
     "其他: 类型={post_type}, 时长毫秒={duration_ms}\n"
-    "原始报文：{row_details}"
+    # "原始报文：{row_details}"
 )
 
 SYSTEM_PROMPT = """
