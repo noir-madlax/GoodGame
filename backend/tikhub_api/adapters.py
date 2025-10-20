@@ -139,10 +139,11 @@ class DouyinVideoAdapter:
                 break
 
         # 取下载直链，并校验可用性（某些链接可能无法实际下载）
+        # 现在存储所有有效的 URL，而不是只取第一个
         download_addr = video.get('download_addr') or {}
         url_list = download_addr.get('url_list') or []
         valid_urls = filter_valid_video_urls(url_list)
-        video_url = valid_urls[0] if valid_urls else None
+        video_url = valid_urls if valid_urls else None
 
         # 发布时间（抖音可能返回 create_time: epoch 秒）
         published_at = None
@@ -253,7 +254,8 @@ class XiaohongshuVideoAdapter:
                                 if isinstance(b, str) and b:
                                     candidates.append(b)
             valid_urls = filter_valid_video_urls(candidates)
-            video_url = valid_urls[0] if valid_urls else None
+            # 存储所有有效的 URL
+            video_url = valid_urls if valid_urls else None
 
         # 回落到 web_v2 结构：video.url_info_list / video.url
         if not video_url:
@@ -266,7 +268,8 @@ class XiaohongshuVideoAdapter:
             if isinstance(video.get("url"), str) and video.get("url"):
                 candidates.append(video.get("url"))
             valid_urls = filter_valid_video_urls(candidates)
-            video_url = valid_urls[0] if valid_urls else None
+            # 存储所有有效的 URL
+            video_url = valid_urls if valid_urls else None
 
         # 封面：优先图文首图；若没有尝试从视频字段兜底
         images = raw.get("images_list") or []
@@ -294,8 +297,14 @@ class XiaohongshuVideoAdapter:
         # 仅接受绝对 URL，避免 Pydantic 校验报错
         if isinstance(cover_url, str) and not cover_url.strip().lower().startswith(("http://", "https://")):
             cover_url = None
-        if isinstance(video_url, str) and not video_url.strip().lower().startswith(("http://", "https://")):
-            video_url = None
+        # video_url 现在是列表，过滤掉非绝对 URL
+        if isinstance(video_url, list):
+            video_url = [
+                url for url in video_url
+                if isinstance(url, str) and url.strip().lower().startswith(("http://", "https://"))
+            ]
+            if not video_url:
+                video_url = None
 
         return PlatformPost(
             project_id=get_project_id(),
@@ -394,7 +403,8 @@ class XiaohongshuVideoAdapter:
                     candidates.append(u)
 
             valid_urls = filter_valid_video_urls(candidates)
-            video_url = valid_urls[0] if valid_urls else None
+            # 存储所有有效的 URL
+            video_url = valid_urls if valid_urls else None
 
             # 封面兜底（如 videoInfo 存在缩略图字段）
             for k in ("coverUrl", "thumbnail", "thumb", "poster"):
@@ -423,8 +433,14 @@ class XiaohongshuVideoAdapter:
         # 仅接受绝对 URL，避免 Pydantic 校验报错
         if isinstance(cover_url, str) and not cover_url.strip().lower().startswith(("http://", "https://")):
             cover_url = None
-        if isinstance(video_url, str) and not video_url.strip().lower().startswith(("http://", "https://")):
-            video_url = None
+        # video_url 现在是列表，过滤掉非绝对 URL
+        if isinstance(video_url, list):
+            video_url = [
+                url for url in video_url
+                if isinstance(url, str) and url.strip().lower().startswith(("http://", "https://"))
+            ]
+            if not video_url:
+                video_url = None
 
         return PlatformPost(
             project_id=get_project_id(),

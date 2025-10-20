@@ -42,7 +42,7 @@ type PostRow = {
   title: string;
   cover_url: string | null;
   original_url: string | null;
-  video_url?: string | null;
+  video_url?: string[] | string | null;  // 支持列表（新格式）或单个字符串（旧格式）
   author_name: string | null;
   author_follower_count?: number | null;
   like_count: number;
@@ -796,7 +796,11 @@ export default function VideoAnalysisDetail() {
                 isInfluencer: isInfluencer,
               } as AuthorTooltipData}
               originalUrl={post.original_url || undefined}
-              videoUrl={post.video_url || undefined}
+              videoUrl={
+                Array.isArray(post.video_url)
+                  ? post.video_url[0] || undefined
+                  : post.video_url || undefined
+              }
               brandRelevance={
                 analysis?.brand_relevance
                   ? analysis.brand_relevance

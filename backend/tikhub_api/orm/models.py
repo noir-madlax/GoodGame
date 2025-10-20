@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, Dict, Any, Literal
+from typing import Optional, Dict, Any, Literal, List
 from datetime import datetime
 
 from pydantic import BaseModel, Field, HttpUrl, constr
@@ -35,7 +35,7 @@ class PlatformPost(BaseModel):
     comment_count: int = Field(default=0, ge=0)
 
     cover_url: Optional[HttpUrl] = None
-    video_url: Optional[HttpUrl] = None
+    video_url: Optional[List[HttpUrl]] = None
 
     # 分析状态（TEXT + CHECK）。DB 默认 'init'。建议使用枚举 AnalysisStatus 来引用。
     analysis_status: AnalysisStatus = Field(
