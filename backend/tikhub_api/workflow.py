@@ -379,7 +379,13 @@ def _step_download_video(fetcher, unified_post, video_id: str, video_dir: str) -
         # 获取下载链接
         download_urls: List[str] = []
         if unified_post and getattr(unified_post, "video_url", None):
-            download_urls = [str(unified_post.video_url)]
+            # video_url 现在是列表类型
+            video_url = getattr(unified_post, "video_url")
+            if isinstance(video_url, list):
+                download_urls = [str(u) for u in video_url if u]
+            else:
+                # 兼容旧数据（单个字符串）
+                download_urls = [str(video_url)]
         else:
             urls = fetcher.get_download_urls(video_id) or []
             download_urls = [str(u) for u in urls if u]

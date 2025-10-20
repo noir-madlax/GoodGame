@@ -293,35 +293,70 @@ class AnalysisService:
         return parts
 
     def _prepare_video_parts(self, post: PlatformPost, fetcher) -> Tuple[List[Any], str]:
-        """下载→上传→构建视频 Part，返回 (parts, source_key)。"""
-        post_id = int(post.id or 0)
-        # 获取下载地址（一定是 URL 列表）
-        video_urls: List[str]
-        try:
-            video_urls = fetcher.get_download_url_by_post_id(post_id) or []
-            log.info(f"获取视频下载地址返回：post_id={post_id}，count={len(video_urls)}")
-        except Exception as e:
-            video_urls = []
-            log.error(
-                f"获取视频下载地址失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}"
-            )
+        """下载→上传→构建视频 Part，返回 (parts, source_key)。
 
-        if not video_urls or len(video_urls) == 0:
-            raise ValueError(f"post {post_id} 获取下载地址失败")
-        
-        # 按顺序尝试下载，每个 URL 至多重试一次
+        下载策略：
+        1. 优先使用 post.video_url 中存储的 URL 列表
+        2. 如果全部失败，再使用 fetcher 从平台接口获取最新下载地址
+        """
+        post_id = int(post.id or 0)
+
+        # 第一步：尝试使用 post.video_url 中存储的 URL 列表
+        stored_video_urls: List[str] = []
+        video_url_attr = getattr(post, "video_url", None)
+        if video_url_attr:
+            if isinstance(video_url_attr, list):
+                # 新格式：列表类型
+                stored_video_urls = [str(u) for u in video_url_attr if u]
+            elif isinstance(video_url_attr, str):
+                # 兼容旧格式：单个字符串
+                stored_video_urls = [str(video_url_attr)]
+
+        log.info(f"从 post.video_url 获取到 {len(stored_video_urls)} 个存储的下载地址：post_id={post_id}")
+
+        # 按顺序尝试下载存储的 URL
         data: Optional[bytes] = None
         chosen_url: Optional[str] = None
-        for idx, u in enumerate(video_urls):
-            log.info(f"尝试下载视频：post_id={post_id}，idx={idx}，url={u}")
+
+        for idx, u in enumerate(stored_video_urls):
+            log.info(f"尝试下载视频（存储URL）：post_id={post_id}，idx={idx}/{len(stored_video_urls)}，url={u}")
             data = self.downloader.download_video_as_bytes_with_retry(str(u), max_retries=1)
             if data is not None:
                 chosen_url = str(u)
+                log.info(f"下载成功（存储URL）：post_id={post_id}，idx={idx}，url={chosen_url}")
                 break
-            log.warning(f"下载失败，继续尝试下一个 URL：post_id={post_id}，idx={idx}，url={u}")
+            log.warning(f"下载失败（存储URL），继续尝试下一个：post_id={post_id}，idx={idx}，url={u}")
 
+        # 第二步：如果存储的 URL 全部失败，从平台接口获取最新下载地址
         if data is None:
-            raise RuntimeError(f"下载视频失败：所有候选 URL 均不可用，count={len(video_urls)}")
+            log.info(f"存储的 URL 全部失败，尝试从平台接口获取最新下载地址：post_id={post_id}")
+            fetcher_urls: List[str] = []
+            try:
+                fetcher_urls = fetcher.get_download_url_by_post_id(post_id) or []
+                log.info(f"从平台接口获取到 {len(fetcher_urls)} 个下载地址：post_id={post_id}")
+            except Exception as e:
+                log.error(
+                    f"从平台接口获取下载地址失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}"
+                )
+
+            # 尝试下载平台接口返回的 URL
+            for idx, u in enumerate(fetcher_urls):
+                log.info(f"尝试下载视频（平台URL）：post_id={post_id}，idx={idx}/{len(fetcher_urls)}，url={u}")
+                data = self.downloader.download_video_as_bytes_with_retry(str(u), max_retries=1)
+                if data is not None:
+                    chosen_url = str(u)
+                    log.info(f"下载成功（平台URL）：post_id={post_id}，idx={idx}，url={chosen_url}")
+                    break
+                log.warning(f"下载失败（平台URL），继续尝试下一个：post_id={post_id}，idx={idx}，url={u}")
+
+        # 第三步：检查是否成功下载
+        if data is None:
+            total_tried = len(stored_video_urls) + len(fetcher_urls if 'fetcher_urls' in locals() else [])
+            raise RuntimeError(
+                f"下载视频失败：所有候选 URL 均不可用，"
+                f"存储URL数={len(stored_video_urls)}，平台URL数={len(fetcher_urls if 'fetcher_urls' in locals() else [])}，"
+                f"总尝试数={total_tried}"
+            )
 
         log.info(f"下载完成：post_id={post_id}，选用 URL={chosen_url}，大小={len(data)} 字节")
 
