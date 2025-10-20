@@ -18,7 +18,7 @@ except Exception as e:  # pragma: no cover
     types = None  # type: ignore
 
 
-ANALYSIS_MODEL_NAME = "gemini-2.5-pro"
+ANALYSIS_MODEL_NAME = "gemini-2.5-flash"
 SCREENING_MODEL_NAME = "gemini-2.5-flash"
 
 def _normalize_model_name(model: str | None) -> str:

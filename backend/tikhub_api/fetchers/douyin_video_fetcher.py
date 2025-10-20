@@ -18,7 +18,7 @@ DOUYIN_SEARCH_DEFAULT_PAYLOAD: Dict[str, Any] = {
     "keyword": "火锅", #搜索关键词，如 "猫咪"
     "cursor": 0,  #翻页游标（首次请求传 0）
     "sort_type": "0", #排序方式：0: 综合排序，1: 最多点赞，2: 最新发布
-    "publish_time": "7",#0: 不限，1: 最近一天，7: 最近一周，180: 最近半年
+    "publish_time": "1",#0: 不限，1: 最近一天，7: 最近一周，180: 最近半年
     "filter_duration": "0", #0: 不限，0-1: 1分钟以内，1-5: 1-5分钟，5-10000: 5分钟以上
     "content_type": "1",  # 0: 不限，1: 视频，2: 图片，3: 文章
     "search_id": "", #搜索ID（分页时使用）
