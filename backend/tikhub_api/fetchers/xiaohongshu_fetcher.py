@@ -235,61 +235,83 @@ class XiaohongshuFetcher(BaseFetcher, CommentsProvider):
                 params["session_id"] = session_id
 
             url = f"{self.base_url}{self.XHS_SEARCH_API}"
-            log.info("[Xiaohongshu] 开始请求 (keyword=%s, page=%s) params=%s", keyword, page, json.dumps(params, ensure_ascii=False, indent=2))
-            result = self._make_request(url, params, method="GET")
-            log.info("[Xiaohongshu] 请求完成 (keyword=%s, page=%s,返回总条数=%s)", keyword, page, len(result.get("data", {}).get("data", {}).get("items", [])))
-            if not self._check_api_response(result):
-                log.error(f"搜索接口返回异常: {result}")
-                break
 
-            data = result.get("data") or {}
-            # 兼容不同返回：token 可能在 data 或 data.data 内，命名可能为 searchId/sessionId 或下划线风格
-            container = data
-            inner = container.get("data") or {}
-            items = inner.get("items") or container.get("items") or []
+            try:
+                result = self._make_request(url, params, method="GET")
 
-            # 提取下一页所需 token
-            search_id_new = container.get("searchId") or inner.get("searchId") or container.get("search_id") or inner.get("search_id")
-            session_id_new = container.get("sessionId") or inner.get("sessionId") or container.get("session_id") or inner.get("session_id")
-            if isinstance(search_id_new, str) and search_id_new:
-                search_id = search_id_new
-            if isinstance(session_id_new, str) and session_id_new:
-                session_id = session_id_new
+                # 记录成功的请求
+                self._log_search_request(
+                    keyword=keyword,
+                    page_number=page,
+                    request_params=params,
+                    response_data=result
+                )
 
-            if not isinstance(items, list) or not items:
-                break
+                log.info("[Xiaohongshu] 请求完成 (keyword=%s, page=%s,返回总条数=%s)", keyword, page, len(result.get("data", {}).get("data", {}).get("items", [])))
+                if not self._check_api_response(result):
+                    log.error(f"搜索接口返回异常: {result}")
+                    break
 
-            page_batch: List[Dict[str, Any]] = []
-            for it in items:
-                try:
-                    if not isinstance(it, dict):
-                        log.warning(f"[Xiaohongshu] 跳过非字典项: {type(it)}")
+                # 数据解析逻辑（移到 try 块内）
+                data = result.get("data") or {}
+                # 兼容不同返回：token 可能在 data 或 data.data 内，命名可能为 searchId/sessionId 或下划线风格
+                container = data
+                inner = container.get("data") or {}
+                items = inner.get("items") or container.get("items") or []
+
+                # 提取下一页所需 token
+                search_id_new = container.get("searchId") or inner.get("searchId") or container.get("search_id") or inner.get("search_id")
+                session_id_new = container.get("sessionId") or inner.get("sessionId") or container.get("session_id") or inner.get("session_id")
+                if isinstance(search_id_new, str) and search_id_new:
+                    search_id = search_id_new
+                if isinstance(session_id_new, str) and session_id_new:
+                    session_id = session_id_new
+
+                if not isinstance(items, list) or not items:
+                    break
+
+                page_batch: List[Dict[str, Any]] = []
+                for it in items:
+                    try:
+                        if not isinstance(it, dict):
+                            log.warning(f"[Xiaohongshu] 跳过非字典项: {type(it)}")
+                            continue
+                        model_type = str(it.get("model_type") or "").lower()
+                        if model_type != "note":
+                            log.debug(f"[Xiaohongshu] 跳过非笔记项: model_type={model_type}")
+                            continue
+                        note = it.get("note") or {}
+                        if not isinstance(note, dict) or not note:
+                            log.warning(f"[Xiaohongshu] 笔记数据为空或非字典: {type(note)}")
+                            continue
+                        page_batch.append(note)
+                        emitted += 1
+                        if emitted >= total_needed:
+                            break
+                    except Exception as e:
+                        log.error(f"[Xiaohongshu] 处理单条数据失败: {e}")
                         continue
-                    model_type = str(it.get("model_type") or "").lower()
-                    if model_type != "note":
-                        log.debug(f"[Xiaohongshu] 跳过非笔记项: model_type={model_type}")
-                        continue
-                    note = it.get("note") or {}
-                    if not isinstance(note, dict) or not note:
-                        log.warning(f"[Xiaohongshu] 笔记数据为空或非字典: {type(note)}")
-                        continue
-                    page_batch.append(note)
-                    emitted += 1
-                    if emitted >= total_needed:
-                        break
-                except Exception as e:
-                    log.error(f"[Xiaohongshu] 处理单条数据失败: {e}")
-                    continue
 
-            log.info(f"[Xiaohongshu] 本页提取笔记数: {len(page_batch)}")
-            if page_batch:
-                yield page_batch
+                log.info(f"[Xiaohongshu] 本页提取笔记数: {len(page_batch)}")
+                if page_batch:
+                    yield page_batch
 
-            # 翻页：若本页有数据且未达上限则继续下一页
-            if items and emitted < total_needed:
-                page += 1
-            else:
-                break
+                # 翻页：若本页有数据且未达上限则继续下一页
+                if items and emitted < total_needed:
+                    page += 1
+                else:
+                    break
+
+            except Exception as e:
+                # 记录失败的请求
+                log.error(f"[Xiaohongshu] 搜索请求失败: {e}", exc_info=True)
+                self._log_search_request(
+                    keyword=keyword,
+                    page_number=page,
+                    request_params=params,
+                    error_message=str(e)
+                )
+                raise
 
     # 兼容命名：fetch_search_page
     def fetch_search_page(self) -> List[Dict[str, Any]]:

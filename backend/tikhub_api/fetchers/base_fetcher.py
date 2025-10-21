@@ -371,6 +371,51 @@ class BaseFetcher(ABC):
         # 默认检查 code 字段，子类可以重写此方法
         return response.get('code') == 200
 
+    def _log_search_request(
+        self,
+        keyword: str,
+        page_number: int,
+        request_params: Dict[str, Any],
+        response_data: Optional[Dict[str, Any]] = None,
+        error_message: Optional[str] = None
+    ) -> None:
+        """
+        记录搜索请求到数据库（gg_search_response_logs 表）
+
+        Args:
+            keyword: 搜索关键词
+            page_number: 页码
+            request_params: 请求参数（完整的 payload 或 params）
+            response_data: 响应数据（可选，成功时传入）
+            error_message: 错误信息（可选，失败时传入）
+        """
+        try:
+            from common.request_context import get_project_id, get_batch_id
+            from ..orm import SearchResponseLogRepository
+
+            project_id = get_project_id()
+            if not project_id:
+                log.warning(f"[{self.platform_name}] 未设置 project_id，跳过搜索日志记录")
+                return
+
+            batch_id = get_batch_id()
+            status = "success" if response_data and not error_message else "error"
+
+            SearchResponseLogRepository.create({
+                "project_id": project_id,
+                "keyword": keyword,
+                "platform": self.platform_name.lower(),
+                "page_number": page_number,
+                "batch_id": batch_id,
+                "request_params": request_params,
+                "response_data": response_data,
+                "response_status": status,
+                "error_message": error_message
+            })
+            log.debug(f"[{self.platform_name}] 已记录搜索日志: keyword={keyword}, page={page_number}, batch_id={batch_id}, status={status}")
+        except Exception as e:
+            log.error(f"[{self.platform_name}] 记录搜索日志失败: {e}", exc_info=True)
+
     def __str__(self) -> str:
         """字符串表示"""
         return f"{self.__class__.__name__}(platform={self.platform_name})"

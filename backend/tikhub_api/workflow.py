@@ -649,8 +649,11 @@ def run_video_full_by_id(platform: str, video_id: str, options: WorkflowOptions 
 # 渠道入口（仅查询并落库）：按批抓取→适配→批量 upsert，不触发后续工作流
 # 返回处理的帖子总数（尽力统计）
 def run_channel_search_and_upsert(channel: str, keyword: str) -> int:
+    from common.request_context import get_batch_id
+
     try:
-        log.info("run_channel_search_and_upsert: channel=%s, keyword=%s", channel, keyword)
+        batch_id = get_batch_id()
+        log.info("run_channel_search_and_upsert: channel=%s, keyword=%s, batch_id=%s", channel, keyword, batch_id)
         fetcher = create_fetcher(channel)
 
         total = 0

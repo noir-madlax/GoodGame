@@ -194,66 +194,91 @@ class DouyinVideoFetcher(BaseFetcher, VideoPostProvider, VideoDurationProvider, 
         cursor = 0
         search_id = ""
         has_more = 1
+        page_number = 1  # 添加页码计数器
+
         while has_more == 1:
             payload = dict(DOUYIN_SEARCH_DEFAULT_PAYLOAD)
             payload["keyword"] = keyword
             payload["cursor"] = cursor
             payload["search_id"] = search_id
 
-            log.info("[Douyin] 开始请求 (keyword=%s) JSON body=\n%s", keyword, json.dumps(payload, ensure_ascii=False, indent=2))
+            log.info("[Douyin] 开始请求 (keyword=%s, page=%d) JSON body=\n%s", keyword, page_number, json.dumps(payload, ensure_ascii=False, indent=2))
 
             url = f"{self.base_url}{DOUYIN_SEARCH_API}"
-            result = self._make_request(url, payload, method="POST")
-            if not self._check_api_response(result):
-                log.info(f"搜索接口返回异常: {result}")
-                break
 
-            data = result.get("data") or {}
-            inner_list = data.get("data")
-            items = inner_list if isinstance(inner_list, list) else []
+            try:
+                result = self._make_request(url, payload, method="POST")
 
-            # 组装本页 batch
-            page_batch: List[Dict[str, Any]] = []
-            for it in items:
-                try:
-                    if not isinstance(it, dict):
-                        continue
-                    # 过滤非视频类型
-                    if int(it.get("type") or 0) != 1:
-                        continue
-                    aweme = it.get("aweme_info") or {}
-                    if not isinstance(aweme, dict):
-                        continue
-                    # 检查 aweme_info 是否包含必要的 aweme_id 字段
-                    aweme_id = aweme.get("aweme_id")
-                    if not aweme_id:
-                        log.warning("[Douyin] 跳过无 aweme_id 的条目: %s", it.get("type"))
-                        continue
-                    page_batch.append({"aweme_detail": aweme})
-                except Exception as e:
-                    log.error("[Douyin] 处理搜索条目异常: %s", e)
-                    continue
+                # 记录成功的请求
+                self._log_search_request(
+                    keyword=keyword,
+                    page_number=page_number,
+                    request_params=payload,
+                    response_data=result
+                )
 
-            log.info("[Douyin] 本页条目: %d (keyword=%s, cursor=%s, search_id=%s)", len(page_batch), keyword, str(cursor), search_id)
-            if page_batch:
-                yield page_batch
+                if not self._check_api_response(result):
+                    log.info(f"搜索接口返回异常: {result}")
+                    break
 
-            # 翻页字段（抖音返回路径修正）
-            inner = data if isinstance(data, dict) else {}
-            # $.data.cursor
-            next_cursor = int(inner.get("cursor") or cursor)
-            # $.data.extra.logid  -> 作为下一次请求的 search_id
-            extra = inner.get("extra") or {}
-            search_id_val = extra.get("logid")
-            if search_id_val:
-                search_id = str(search_id_val)
-            # $.data.has_more
-            has_more = 1 if int(inner.get("has_more") or 0) == 1 else 0
-            if next_cursor == payload["cursor"] and has_more == 1:
-                # 防止服务端错误导致死循环
-                has_more = 0
-            cursor = next_cursor
-            log.info("[Douyin] 下一页 (has_more=%s, keyword=%s, cursor=%s, search_id=%s)", inner.get("has_more"), keyword, str(cursor), search_id)
+                data = result.get("data") or {}
+                inner_list = data.get("data")
+                items = inner_list if isinstance(inner_list, list) else []
+
+                # 组装本页 batch
+                page_batch: List[Dict[str, Any]] = []
+                for it in items:
+                    try:
+                        if not isinstance(it, dict):
+                            continue
+                        # 过滤非视频类型
+                        if int(it.get("type") or 0) != 1:
+                            continue
+                        aweme = it.get("aweme_info") or {}
+                        if not isinstance(aweme, dict):
+                            continue
+                        # 检查 aweme_info 是否包含必要的 aweme_id 字段
+                        aweme_id = aweme.get("aweme_id")
+                        if not aweme_id:
+                            log.warning("[Douyin] 跳过无 aweme_id 的条目: %s", it.get("type"))
+                            continue
+                        page_batch.append({"aweme_detail": aweme})
+                    except Exception as e:
+                        log.error("[Douyin] 处理搜索条目异常: %s", e)
+                        continue
+
+                log.info("[Douyin] 本页条目: %d (keyword=%s, page=%d, cursor=%s, search_id=%s)", len(page_batch), keyword, page_number, str(cursor), search_id)
+                if page_batch:
+                    yield page_batch
+
+                # 翻页字段（抖音返回路径修正）
+                inner = data if isinstance(data, dict) else {}
+                # $.data.cursor
+                next_cursor = int(inner.get("cursor") or cursor)
+                # $.data.extra.logid  -> 作为下一次请求的 search_id
+                extra = inner.get("extra") or {}
+                search_id_val = extra.get("logid")
+                if search_id_val:
+                    search_id = str(search_id_val)
+                # $.data.has_more
+                has_more = 1 if int(inner.get("has_more") or 0) == 1 else 0
+                if next_cursor == payload["cursor"] and has_more == 1:
+                    # 防止服务端错误导致死循环
+                    has_more = 0
+                cursor = next_cursor
+                page_number += 1  # 页码递增
+                log.info("[Douyin] 下一页 (has_more=%s, keyword=%s, page=%d, cursor=%s, search_id=%s)", inner.get("has_more"), keyword, page_number, str(cursor), search_id)
+
+            except Exception as e:
+                # 记录失败的请求
+                log.error("[Douyin] 搜索请求失败: %s", e, exc_info=True)
+                self._log_search_request(
+                    keyword=keyword,
+                    page_number=page_number,
+                    request_params=payload,
+                    error_message=str(e)
+                )
+                raise
 
     # 兼容命名
     def fetch_search_page(self) -> List[Dict[str, Any]]:

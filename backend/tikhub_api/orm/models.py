@@ -212,3 +212,25 @@ class Author(BaseModel):
     user_deleted: Optional[bool] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
+
+
+class SearchResponseLog(BaseModel):
+    """搜索响应日志模型，对应 gg_search_response_logs 表"""
+    id: Optional[int] = Field(default=None, ge=1)
+    project_id: NonEmptyStr
+    keyword: NonEmptyStr
+    platform: str = Field(default="douyin")
+    page_number: int = Field(default=1, ge=1)
+    batch_id: Optional[str] = None  # 批次号，标识一次定时任务执行
+
+    # JSONB 字段
+    request_params: Optional[Dict[str, Any]] = None
+    response_data: Optional[Dict[str, Any]] = None
+
+    # 元数据
+    request_timestamp: Optional[datetime] = None
+    response_status: Optional[str] = None
+    error_message: Optional[str] = None
+
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
