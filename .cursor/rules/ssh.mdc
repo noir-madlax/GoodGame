@@ -1,0 +1,14 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+用这个ssh配置访问我lighstsail上的服务器：
+
+Host GoodGame-HDL
+    HostName 34.217.176.84
+    User ec2-user
+    IdentityFile ~/.ssh/LightsailDefaultKey-us-west-2-hdl.pem
+    IdentitiesOnly yes
+
+这样可以登陆服务器
