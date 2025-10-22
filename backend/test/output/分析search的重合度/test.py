@@ -122,6 +122,39 @@ def extract_content_ids(platform: str, response_data: Optional[Dict[str, Any]]) 
         return []
 
 
+def extract_guide_search_words(response_data: Optional[Dict[str, Any]]) -> List[str]:
+    """
+    从 response_data 中提取推荐搜索词
+    路径: response_data.data.guide_search_words[].word
+    
+    注意：目前只有抖音平台有此字段
+    """
+    guide_words = []
+    try:
+        if not response_data or 'data' not in response_data:
+            return guide_words
+        
+        data = response_data.get('data', {})
+        if not isinstance(data, dict):
+            return guide_words
+        
+        guide_search_words = data.get('guide_search_words', [])
+        if not isinstance(guide_search_words, list):
+            return guide_words
+        
+        # 提取每个元素中的 word 字段
+        for item in guide_search_words:
+            if isinstance(item, dict) and 'word' in item:
+                word = item.get('word')
+                if word:
+                    guide_words.append(str(word))
+    
+    except Exception as e:
+        print(f"  ⚠️  提取推荐搜索词时出错: {e}")
+    
+    return guide_words
+
+
 # ============================================================================
 # 第二部分：重复度分析功能
 # ============================================================================
@@ -211,7 +244,7 @@ def process_content_extraction(platform: str, limit: int = None, dry_run: bool =
     try:
         # 查询记录
         query = supabase.table("gg_search_response_logs") \
-            .select("id, platform, keyword, response_data, content_ids") \
+            .select("id, platform, keyword, response_data, content_ids, guide_search_words") \
             .eq("platform", platform) \
             .not_.is_("response_data", "null")
         
@@ -236,24 +269,34 @@ def process_content_extraction(platform: str, limit: int = None, dry_run: bool =
             response_data = record.get('response_data')
             existing_content_ids = record.get('content_ids')
             
-            # 如果已经有content_ids，跳过
+            # 检查是否需要更新
+            existing_guide_words = record.get('guide_search_words')
+            update_guide_words_only = False
+            
             if existing_content_ids and not dry_run:
-                skip_count += 1
-                if idx <= 5:  # 只显示前5条
-                    print(f"记录 {idx} (ID: {record_id}): 已有content_ids，跳过")
-                continue
+                # 如果已经有content_ids，只需要更新guide_search_words
+                update_guide_words_only = True
+                if idx <= 5:
+                    print(f"记录 {idx} (ID: {record_id}): 已有content_ids，只更新guide_search_words")
             
             # 提取内容ID
             content_ids = extract_content_ids(platform, response_data)
             
-            if idx <= 5 or not content_ids:  # 显示前5条或提取失败的
-                print(f"记录 {idx} (ID: {record_id}):")
-                print(f"  关键词: {keyword}")
-                print(f"  提取到的内容ID数量: {len(content_ids)}")
-                if content_ids:
-                    print(f"  示例ID: {content_ids[:3]}{'...' if len(content_ids) > 3 else ''}")
+            # 提取推荐搜索词（guide_search_words）
+            guide_words = extract_guide_search_words(response_data)
             
-            if not content_ids:
+            if idx <= 10 or not content_ids:  # 显示前10条或提取失败的
+                if not update_guide_words_only:  # 只在非仅更新guide_words模式下显示
+                    print(f"记录 {idx} (ID: {record_id}):")
+                    print(f"  关键词: {keyword}")
+                    print(f"  提取到的内容ID数量: {len(content_ids)}")
+                    if content_ids:
+                        print(f"  示例ID: {content_ids[:3]}{'...' if len(content_ids) > 3 else ''}")
+                    print(f"  推荐搜索词数量: {len(guide_words)}")
+                    if guide_words:
+                        print(f"  推荐词: {guide_words[:5]}{'...' if len(guide_words) > 5 else ''}")
+            
+            if not content_ids and not update_guide_words_only:
                 error_count += 1
                 if idx <= 5:
                     print(f"  ⚠️  未提取到内容ID")
@@ -261,11 +304,35 @@ def process_content_extraction(platform: str, limit: int = None, dry_run: bool =
             
             if not dry_run:
                 try:
-                    supabase.table("gg_search_response_logs") \
-                        .update({"content_ids": json.dumps(content_ids)}) \
-                        .eq("id", record_id) \
-                        .execute()
-                    success_count += 1
+                    if update_guide_words_only:
+                        # 只更新 guide_search_words
+                        if guide_words:
+                            supabase.table("gg_search_response_logs") \
+                                .update({"guide_search_words": guide_words}) \
+                                .eq("id", record_id) \
+                                .execute()
+                            success_count += 1
+                            if idx <= 10:
+                                print(f"  ✓ 更新guide_search_words成功 ({len(guide_words)}个词)")
+                        else:
+                            # 没有推荐词，不更新
+                            success_count += 1  # 仍然计为成功，因为这是正常情况
+                            if idx <= 10:
+                                print(f"  - 无推荐搜索词，跳过")
+                    else:
+                        # 更新 content_ids 和 guide_search_words
+                        update_data = {
+                            "content_ids": content_ids
+                        }
+                        # 只有当有推荐搜索词时才更新该字段
+                        if guide_words:
+                            update_data["guide_search_words"] = guide_words
+                        
+                        supabase.table("gg_search_response_logs") \
+                            .update(update_data) \
+                            .eq("id", record_id) \
+                            .execute()
+                        success_count += 1
                 except Exception as e:
                     error_count += 1
                     if idx <= 5:
