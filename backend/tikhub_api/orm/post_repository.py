@@ -1,7 +1,7 @@
 from __future__ import annotations
-import json
 from typing import List, Optional, Dict, Any
 from datetime import datetime
+import json
 
 from .supabase_client import get_client
 from .models import PlatformPost
@@ -261,6 +261,7 @@ class PostRepository:
             comment_count=row.get("comment_count", 0),
             cover_url=row.get("cover_url"),
             video_url=json.loads(row.get("video_url") or "[]"),
+            image_urls=row.get("image_urls"),
             analysis_status=row.get("analysis_status", "init"),
             relevant_status=row.get("relevant_status", "unknown"),
             author_fetch_status=row.get("author_fetch_status", "not_fetched"),

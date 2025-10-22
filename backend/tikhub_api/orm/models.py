@@ -36,6 +36,7 @@ class PlatformPost(BaseModel):
 
     cover_url: Optional[HttpUrl] = None
     video_url: Optional[List[HttpUrl]] = None
+    image_urls: Optional[List[HttpUrl]] = None  # 图文笔记的图片地址列表
 
     # 分析状态（TEXT + CHECK）。DB 默认 'init'。建议使用枚举 AnalysisStatus 来引用。
     analysis_status: AnalysisStatus = Field(

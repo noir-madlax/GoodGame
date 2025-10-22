@@ -385,13 +385,29 @@ class AnalysisService:
     def _prepare_image_parts(self, post: PlatformPost, fetcher) -> Tuple[List[Any], str]:
         """下载→上传多张图片→构建图片 Parts（可包含文案 Part）。返回 (parts, source_key)。"""
         post_id = int(post.id or 0)
+
+        # 1) 优先使用 PlatformPost.image_urls 字段中的图片地址
+        primary_urls: List[str] = []
         try:
-            image_urls = fetcher.get_image_urls_by_post_id(post_id) or []
+            if getattr(post, "image_urls", None):
+                primary_urls = [str(u).strip() for u in (post.image_urls or []) if str(u).strip()]
         except Exception as e:
-            image_urls = []
-            log.error(
-                f"获取图片 URL 列表失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}"
-            )
+            log.warning(f"读取 post.image_urls 失败：post_id={post_id}，err={e}")
+            primary_urls = []
+        used_post_field = len(primary_urls) > 0
+
+        image_urls: List[str] = primary_urls
+
+        # 2) 若 post.image_urls 为空，则回退到 fetcher 重新获取
+        if not image_urls:
+            try:
+                image_urls = fetcher.get_image_urls_by_post_id(post_id) or []
+            except Exception as e:
+                image_urls = []
+                log.error(
+                    f"获取图片 URL 列表失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}"
+                )
+
         if not image_urls:
             raise ValueError(f"post {post_id} 未获取到图片 URL 列表")
 
@@ -429,8 +445,55 @@ class AnalysisService:
                 else:
                     log.warning(f"图片上传未返回 uri：post_id={post_id}，idx={idx}，url={url}")
             except Exception as ue:
-                log.warning(f"图片处理失败：post_id={post_id}，idx={idx}，url={url}，err={ue}")
+                log.error(f"图片处理失败：post_id={post_id}，idx={idx}，url={url}，err={ue}")
                 continue
+
+        # 若优先使用 post.image_urls 上传均失败，尝试 fallback：通过 fetcher 重新获取并上传
+        if not uploaded and used_post_field:
+            log.info(f"post.image_urls 上传均失败，尝试使用 fetcher 重新获取图片 URL：post_id={post_id}")
+            try:
+                fallback_urls = fetcher.get_image_urls_by_post_id(post_id) or []
+            except Exception as e:
+                fallback_urls = []
+                log.error(
+                    f"fallback 获取图片 URL 列表失败：post_id={post_id}, platform={getattr(post, 'platform', None)}, err={e}"
+                )
+
+            for idx, url in enumerate(fallback_urls):
+                try:
+                    r = requests.get(str(url), timeout=30)
+                    if getattr(r, "status_code", 0) != 200:
+                        log.warning(f"下载图片失败：post_id={post_id}，status={getattr(r, 'status_code', None)}，url={url}")
+                        continue
+                    data = r.content
+                    ctype = r.headers.get("Content-Type") or ""
+                    mime: str
+                    url_l = str(url).lower()
+                    if ctype.startswith("image/"):
+                        mime = ctype.split(";")[0].strip()
+                    elif url_l.endswith(".png"):
+                        mime = "image/png"
+                    elif url_l.endswith(".webp"):
+                        mime = "image/webp"
+                    elif url_l.endswith(".gif"):
+                        mime = "image/gif"
+                    else:
+                        mime = "image/jpeg"
+
+                    display_name = f"post_{post.id or 'unknown'}_fb_{idx}"
+                    log.info(
+                        f"上传图片到 Gemini（fallback）：post_id={post_id}，idx={idx}，mime={mime}，url={url}"
+                    )
+                    upload = self.gemini.upload_file(data, display_name=display_name, mime_type=mime)
+                    uri = upload.get("uri")
+                    if uri:
+                        uploaded.append((str(uri), mime))
+                        log.info(f"图片上传完成（fallback）：post_id={post_id}，idx={idx}，uri={uri}")
+                    else:
+                        log.warning(f"图片上传未返回 uri（fallback）：post_id={post_id}，idx={idx}，url={url}")
+                except Exception as ue:
+                    log.error(f"图片处理失败（fallback）：post_id={post_id}，idx={idx}，url={url}，err={ue}")
+                    continue
 
         if not uploaded:
             raise RuntimeError("无可用图片可供分析（上传均失败）")

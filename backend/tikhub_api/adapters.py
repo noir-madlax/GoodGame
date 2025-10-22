@@ -198,6 +198,10 @@ class XiaohongshuVideoAdapter:
         # details 既可能是 web_v2 的 note_list[0]，也可能是 app/search_notes 的 note 对象
         raw = details or {}
 
+        # 帖子类型：根据 type 字段判断（normal=图文, video=视频）
+        note_type = str(raw.get("type") or "").lower()
+        post_type = PostType.VIDEO if note_type == "video" else PostType.IMAGE
+
         note_id = str(raw.get("id") or "")
         title = str(raw.get("title") or "").strip() or "无标题"
         content = raw.get("desc") or None
@@ -271,16 +275,36 @@ class XiaohongshuVideoAdapter:
             # 存储所有有效的 URL
             video_url = valid_urls if valid_urls else None
 
-        # 封面：优先图文首图；若没有尝试从视频字段兜底
+        # 提取图片列表（图文笔记）
+        image_urls = None
         images = raw.get("images_list") or []
         if isinstance(images, list) and images:
+            # 提取封面（第一张图）
             first = images[0] or {}
-            cover_url = first.get("url") or first.get("url_size_large") or first.get("original") or first.get("thumb")
+            if isinstance(first, dict):
+                cover_url = first.get("url_size_large") or first.get("url") or first.get("original") or first.get("thumb")
+
+            # 提取所有图片 URL（优先 url_size_large，其次 url，再次 original）
+            img_candidates: List[str] = []
+            for img in images:
+                if not isinstance(img, dict):
+                    continue
+                # 优先级：url_size_large > url > original > thumb
+                img_url = img.get("url_size_large") or img.get("url") or img.get("original") or img.get("thumb")
+                if isinstance(img_url, str) and img_url.strip():
+                    img_candidates.append(img_url.strip())
+
+            # 过滤出有效的 HTTP/HTTPS URL
+            if img_candidates:
+                valid_img_urls = [
+                    url for url in img_candidates
+                    if url.lower().startswith(("http://", "https://"))
+                ]
+                image_urls = valid_img_urls if valid_img_urls else None
+
+        # 封面兜底：若没有从图片列表获取到，尝试从视频字段兜底
         if not cover_url and isinstance(video.get("thumbnail_dim"), str):
             cover_url = video.get("thumbnail_dim")
-
-        # 帖子类型：仅保留两类：video / image
-        post_type = PostType.VIDEO if (video_info_v2 or video) else PostType.IMAGE
 
         # 发布时间：兼容 timestamp(秒)/time(秒)/update_time(毫秒)
         published_at = None
@@ -323,6 +347,7 @@ class XiaohongshuVideoAdapter:
             comment_count=comment_count,
             cover_url=cover_url,
             video_url=video_url,
+            image_urls=image_urls,
             raw_details=details,
             published_at=published_at,
         )
@@ -338,6 +363,10 @@ class XiaohongshuVideoAdapter:
         - userInfo.nickName/userId
         """
         raw = details or {}
+
+        # 帖子类型：根据 type 字段判断（normal=图文, video=视频）
+        note_type = str(raw.get("type") or "").lower()
+        post_type = PostType.VIDEO if note_type == "video" else PostType.IMAGE
 
         # 基本字段
         note_id = str(raw.get("noteId") or raw.get("id") or "")
@@ -411,14 +440,32 @@ class XiaohongshuVideoAdapter:
                 if not cover_url and isinstance(video_info.get(k), str):
                     cover_url = video_info.get(k)
 
-        # 封面优先用首图；若没有再用上面 videoInfo 兜底
-        if not cover_url and isinstance(images_list, list) and images_list:
-            first = images_list[0] or {}
-            if isinstance(first, dict):
-                cover_url = first.get("url") or first.get("original") or first.get("thumb")
+        # 提取图片列表（图文笔记）
+        image_urls = None
+        if isinstance(images_list, list) and images_list:
+            # 提取封面（第一张图）
+            if not cover_url:
+                first = images_list[0] or {}
+                if isinstance(first, dict):
+                    cover_url = first.get("url_size_large") or first.get("url") or first.get("original") or first.get("thumb")
 
-        # 帖子类型：videoInfo 存在则视为视频，否则为图文
-        post_type = PostType.VIDEO if (isinstance(video_info, dict) and video_info) else PostType.IMAGE
+            # 提取所有图片 URL（优先 url_size_large，其次 url，再次 original）
+            img_candidates: List[str] = []
+            for img in images_list:
+                if not isinstance(img, dict):
+                    continue
+                # 优先级：url_size_large > url > original > thumb
+                img_url = img.get("url_size_large") or img.get("url") or img.get("original") or img.get("thumb")
+                if isinstance(img_url, str) and img_url.strip():
+                    img_candidates.append(img_url.strip())
+
+            # 过滤出有效的 HTTP/HTTPS URL
+            if img_candidates:
+                valid_img_urls = [
+                    url for url in img_candidates
+                    if url.lower().startswith(("http://", "https://"))
+                ]
+                image_urls = valid_img_urls if valid_img_urls else None
 
         # 发布时间：优先 time.createTime (毫秒)，其次尝试顶层 createTime(字符串)忽略
         published_at = None
@@ -459,6 +506,7 @@ class XiaohongshuVideoAdapter:
             comment_count=comment_count,
             cover_url=cover_url,
             video_url=video_url,
+            image_urls=image_urls,
             raw_details=details,
             published_at=published_at,
         )
