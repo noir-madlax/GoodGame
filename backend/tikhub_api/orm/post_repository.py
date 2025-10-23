@@ -216,22 +216,36 @@ class PostRepository:
         return None
 
     @staticmethod
-    def list_by_author_fetch_status(status: str, limit: int = 50, offset: int = 0) -> List[PlatformPost]:
-        """根据作者获取状态查询帖子列表
+    def list_by_author_fetch_status(
+        status: str,
+        limit: int = 50,
+        offset: int = 0,
+        relevant_status: Optional[List[str]] = None
+    ) -> List[PlatformPost]:
+        """根据作者获取状态查询帖子列表，可选过滤相关性状态
 
         Args:
             status: 作者获取状态 (not_fetched/success/failed)
             limit: 返回数量限制
             offset: 偏移量
+            relevant_status: 可选的相关性状态列表，如 ["yes", "maybe"]。为 None 时不过滤
 
         Returns:
             帖子列表
         """
         client = get_client()
-        resp = (
+        query = (
             client.table(TABLE)
             .select("*")
             .eq("author_fetch_status", status)
+        )
+
+        # 如果指定了 relevant_status，则添加 IN 过滤
+        if relevant_status is not None and len(relevant_status) > 0:
+            query = query.in_("relevant_status", relevant_status)
+
+        resp = (
+            query
             .order("id", desc=True)
             .range(offset, offset + max(limit - 1, 0))
             .execute()

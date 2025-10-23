@@ -10,7 +10,7 @@ from typing import Optional
 
 from jobs.logger import get_logger
 
-from tikhub_api.orm import PostRepository, AuthorRepository, AuthorFetchStatus, Author
+from tikhub_api.orm import PostRepository, AuthorRepository, AuthorFetchStatus, Author, RelevantStatus
 from tikhub_api.fetchers import FetcherFactory
 
 log = get_logger(__name__)
@@ -79,7 +79,7 @@ def fetch_and_save_author_by_post_id(post_id: int) -> Optional["Author"]:
 
 def list_posts_with_author_not_fetched(limit: int = 50) -> list["PlatformPost"]:
     """
-    按作者获取状态=未获取(not_fetched) 查询帖子列表。
+    按作者获取状态=未获取(not_fetched) 且相关性状态为 YES 或 MAYBE 查询帖子列表。
     Args:
         limit: 需要的条数
     Returns:
@@ -92,6 +92,7 @@ def list_posts_with_author_not_fetched(limit: int = 50) -> list["PlatformPost"]:
             status=AuthorFetchStatus.NOT_FETCHED.value,
             limit=limit,
             offset=0,
+            relevant_status=[RelevantStatus.YES.value, RelevantStatus.MAYBE.value],
         )
     except Exception as e:
         log.error("list_posts_with_author_not_fetched 失败：%s", e)
