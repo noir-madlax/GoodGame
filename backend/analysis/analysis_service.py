@@ -54,7 +54,10 @@ class AnalysisService:
                 )
                 raise
 
-            # 1) 构建完整的 contents（包含文本和媒体）
+            # 2) 小红书平台需要补全详情信息
+            post = self._ensure_post_details_complete(post, fetcher)
+
+            # 3) 构建完整的 contents（包含文本和媒体）
             full_parts, source_key = self._build_full_contents(post, fetcher)
 
             if types is None:
@@ -514,6 +517,61 @@ class AnalysisService:
         source_key = ",".join([u for (u, _) in uploaded])
         return parts, source_key
 
+
+    def _ensure_post_details_complete(self, post: PlatformPost, fetcher) -> PlatformPost:
+        """
+        确保帖子详情完整（专门处理小红书平台）
+
+        小红书搜索接口返回的信息不全，需要调用 get_video_details 获取完整详情并更新数据库。
+        抖音等其他平台不需要此步骤。
+
+        参数:
+            post: 帖子对象
+            fetcher: 平台 fetcher
+
+        返回:
+            更新后的帖子对象（如果是小红书）或原帖子对象（其他平台）
+        """
+        from tikhub_api.orm.enums import Channel
+
+        # 只处理小红书平台
+        if str(post.platform) != Channel.XIAOHONGSHU.value:
+            return post
+
+        log.info(f"小红书帖子需要补全详情：post_id={post.id}, platform_item_id={post.platform_item_id}")
+
+        try:
+            # 调用 get_video_details 获取完整详情
+            platform_item_id = str(post.platform_item_id)
+            details = fetcher.get_video_details(platform_item_id)
+
+            if not details:
+                log.warning(f"获取小红书详情失败，返回为空：post_id={post.id}, platform_item_id={platform_item_id}")
+                return post
+
+            log.info(f"成功获取小红书详情：post_id={post.id}, platform_item_id={platform_item_id}")
+
+            # 使用适配器将详情转换为 PlatformPost
+            adapter = fetcher.get_adapter()
+            updated_post = adapter.to_post_single(details)
+
+            # 保留原有的 id 和 project_id
+            updated_post.id = post.id
+            updated_post.project_id = post.project_id
+            updated_post.author_fetch_status = post.author_fetch_status
+            updated_post.relevant_status = post.relevant_status
+            updated_post.analysis_status = post.analysis_status
+
+            # 更新数据库
+            saved_post = PostRepository.upsert_post(updated_post)
+            log.info(f"小红书详情已更新到数据库：post_id={saved_post.id}, platform_item_id={saved_post.platform_item_id}")
+
+            return saved_post
+
+        except Exception as e:
+            log.error(f"补全小红书详情失败：post_id={post.id}, platform_item_id={post.platform_item_id}, err={e}")
+            # 失败时返回原 post，不中断分析流程
+            return post
 
     def _get_post(self, post_id: int) -> PlatformPost:
         post = PostRepository.get_by_id(post_id)

@@ -14,7 +14,7 @@ NonEmptyStr = constr(strip_whitespace=True, min_length=1)
 
 class PlatformPost(BaseModel):
     id: Optional[int] = Field(default=None, ge=1)
-    project_id: NonEmptyStr
+    project_id: Optional[str] = None
 
     platform: NonEmptyStr
     platform_item_id: NonEmptyStr
