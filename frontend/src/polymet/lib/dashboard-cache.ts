@@ -50,6 +50,8 @@ export type DashboardCacheState = {
   globalPostsLite: { id: number; platform: string; platform_item_id: string }[];
   globalMaps: AnalysisMaps;
   kpiPrev: { prev: { id: number; platform: string; platform_item_id: string }[]; label?: string };
+  globalTotalCount: number; // SQL层面的真实总数（用于KPI显示）
+  globalPreviousTotalCount: number; // 上一周期的真实总数
   chartState: { level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string };
   scrollTop: number;
   lastUpdated: number;
