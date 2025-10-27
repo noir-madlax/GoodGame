@@ -170,6 +170,9 @@ export default function ContentDashboard() {
     setGlobalPostsLite(cache.globalPostsLite);
     setGlobalMaps(cache.globalMaps);
     setKpiPrev(cache.kpiPrev);
+    // 恢复SQL层面的真实总数
+    setGlobalTotalCount(cache.globalTotalCount || 0);
+    setGlobalPreviousTotalCount(cache.globalPreviousTotalCount || 0);
     setChartState(cache.chartState);
     setLoading(false);
     setLoadingMore(false);
@@ -428,6 +431,9 @@ export default function ContentDashboard() {
   const [globalPostsLite, setGlobalPostsLite] = useState<{ id: number; platform: string; platform_item_id: string }[]>([]);
   const [globalMaps, setGlobalMaps] = useState<AnalysisMaps>({ relevanceMap: {}, severityMap: {} as any, creatorTypeMap: {} });
   const [kpiPrev, setKpiPrev] = useState<{ prev: { id: number; platform: string; platform_item_id: string }[]; label?: string }>({ prev: [] });
+  // 新增：存储SQL层面的真实总数（用于KPI显示）
+  const [globalTotalCount, setGlobalTotalCount] = useState<number>(0);
+  const [globalPreviousTotalCount, setGlobalPreviousTotalCount] = useState<number>(0);
   const [chartState, setChartState] = useState<{ level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string }>({ level: "primary" });
 
   // 根据筛选项加载“全库统计”数据集（独立于分页列表）
@@ -452,6 +458,9 @@ export default function ContentDashboard() {
           setGlobalPostsLite(ds.posts);
           setGlobalMaps(ds.maps);
           setKpiPrev({ prev: ds.previousPosts, label: ds.previousLabel });
+          // 设置SQL层面的真实总数
+          setGlobalTotalCount(ds.totalCount);
+          setGlobalPreviousTotalCount(ds.previousTotalCount);
         }
       } finally {
         if (!cancelled) setGlobalLoading(false);
@@ -461,7 +470,12 @@ export default function ContentDashboard() {
     return () => { cancelled = true; };
   }, [filters, supabase, activeProjectId]);
 
-  const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps, { previousPosts: kpiPrev.prev as any, previousLabel: kpiPrev.label }), [globalPostsLite, globalMaps, kpiPrev]);
+  const kpi = useMemo(() => calculateKPI(globalPostsLite, globalMaps, { 
+    previousPosts: kpiPrev.prev as any, 
+    previousLabel: kpiPrev.label,
+    totalCount: globalTotalCount, // 传入SQL层面的真实总数
+    previousTotalCount: globalPreviousTotalCount
+  }), [globalPostsLite, globalMaps, kpiPrev, globalTotalCount, globalPreviousTotalCount]);
   const relevanceChart = useMemo(() => buildRelevanceChartData(globalPostsLite, globalMaps), [globalPostsLite, globalMaps]);
 
   // 新增：为 KPI 概览准备细分统计数据（总视频 -> 相关性；相关视频 -> 严重度；高优先级 -> 创作者）
@@ -598,6 +612,8 @@ export default function ContentDashboard() {
       globalPostsLite,
       globalMaps,
       kpiPrev,
+      globalTotalCount, // 新增：缓存SQL层面的真实总数
+      globalPreviousTotalCount, // 新增：缓存上一周期的真实总数
       chartState,
       scrollTop: (() => {
         const container = document.querySelector(DASHBOARD_SCROLL_SELECTOR);
@@ -606,7 +622,7 @@ export default function ContentDashboard() {
       })(),
       lastUpdated: Date.now(),
     });
-  }, [activeProjectId, filters, oldestFirst, page, hasMore, totalCount, allRows, posts, risks, sentiments, relevances, totalRiskCn, totalRiskReason, influencerMap, globalPostsLite, globalMaps, kpiPrev, chartState, loading, globalLoading]);
+  }, [activeProjectId, filters, oldestFirst, page, hasMore, totalCount, allRows, posts, risks, sentiments, relevances, totalRiskCn, totalRiskReason, influencerMap, globalPostsLite, globalMaps, kpiPrev, globalTotalCount, globalPreviousTotalCount, chartState, loading, globalLoading]);
 
   useEffect(() => {
     const handleBeforeUnload = () => {

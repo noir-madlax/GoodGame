@@ -59,14 +59,18 @@ export type GlobalAnalyticsFilters = {
 };
 
 export interface GlobalDataset {
-  // 被 KPI/图表消费的“全库（已按筛选过滤）帖子样本”
+  // 被 KPI/图表消费的"全库（已按筛选过滤）帖子样本"
   posts: PostLite[];
-  // 上一周期帖子样本（用于 KPI 对比）；当选择“全部时间”时为空
+  // 上一周期帖子样本（用于 KPI 对比）；当选择"全部时间"时为空
   previousPosts: PostLite[];
   // 上一周期展示用标签（如 昨天 / 第3-4天 / 上个7天），全部时间下为空
   previousLabel?: string;
   // 与 posts 对应的映射（相关性/严重度/创作者类型）。
   maps: AnalysisMaps;
+  // 当前周期的真实总数（从数据库count获取，用于KPI显示准确的总数）
+  totalCount: number;
+  // 上一周期的真实总数
+  previousTotalCount: number;
 }
 
 /**
@@ -142,7 +146,10 @@ export const loadGlobalDataset = async (
     q = q.gte("published_at", currentStartDate.toISOString());
   }
   
-  const { data: postRows } = await q;
+  // 增加limit以获取更多数据（用于分析映射），但主要依赖count获取真实总数
+  q = q.limit(200000);
+  
+  const { data: postRows, count: currentTotalCount } = await q;
   type PostRow = {
     id: number; platform: string; platform_item_id: string;
     published_at?: string | null; created_at: string; relevant_status?: string | null;
@@ -151,10 +158,11 @@ export const loadGlobalDataset = async (
   
   // 查询上一周期数据（如果需要）
   let previousFiltered: PostRow[] = [];
+  let previousTotalCount = 0;
   if (previousStartDate && previousEndDate) {
     let prevQ = sb
       .from("gg_platform_post")
-      .select("id, platform, platform_item_id, published_at, created_at, relevant_status");
+      .select("id, platform, platform_item_id, published_at, created_at, relevant_status", { count: "exact" });
     if (options?.projectId) {
       prevQ = prevQ.eq("project_id", options.projectId);
     }
@@ -164,9 +172,11 @@ export const loadGlobalDataset = async (
     }
     prevQ = prevQ.gte("published_at", previousStartDate.toISOString());
     prevQ = prevQ.lt("published_at", previousEndDate.toISOString());
+    prevQ = prevQ.limit(200000);
     
-    const { data: prevRows } = await prevQ;
+    const { data: prevRows, count: prevCount } = await prevQ;
     previousFiltered = (prevRows || []) as PostRow[];
+    previousTotalCount = prevCount || 0;
   }
 
   // 2) 拉取分析映射（brand_relevance/total_risk/creatorTypes）
@@ -218,7 +228,18 @@ export const loadGlobalDataset = async (
     postsLite = postsLite.filter((p) => set.has(maps.creatorTypeMap[p.platform_item_id] || "未标注"));
   }
 
-  return { posts: postsLite, previousPosts: previousPostsLite, previousLabel, maps };
+  // 注意：totalCount是SQL层面的总数（受时间/平台筛选影响），
+  // 如果用户选择了相关性/优先级/创作者类型筛选，这些是前端筛选，
+  // 所以实际的posts.length可能小于totalCount。
+  // 在KPI计算中，我们会根据是否有筛选来决定显示哪个数值。
+  return { 
+    posts: postsLite, 
+    previousPosts: previousPostsLite, 
+    previousLabel, 
+    maps,
+    totalCount: currentTotalCount || 0,
+    previousTotalCount: previousTotalCount || 0
+  };
 };
 
 /**
@@ -246,11 +267,20 @@ export const mapTotalRiskToCn = (val?: string | null): SeverityLevel => {
 };
 
 /**
- * 计算 KPI 三项。这里的 previous 仅做示例：按当前值的 80%/85%/90% 估算。
- * 若后续有真实“上一周期”数据，可在此替换来源。
+ * 计算 KPI 三项。
+ * @param posts - 当前周期的帖子列表（可能已应用前端筛选）
+ * @param maps - 分析映射数据
+ * @param options - 可选参数，包括上一周期数据、标签、以及SQL层面的真实总数
  */
-export function calculateKPI(posts: PostLite[], maps: AnalysisMaps, options?: { previousPosts?: PostLite[]; previousLabel?: string }): KPIResult {
-  const total = posts.length;
+export function calculateKPI(posts: PostLite[], maps: AnalysisMaps, options?: { 
+  previousPosts?: PostLite[]; 
+  previousLabel?: string; 
+  totalCount?: number; // SQL层面的真实总数（优先使用此值）
+  previousTotalCount?: number; // 上一周期的真实总数
+}): KPIResult {
+  // 优先使用options中的totalCount（从数据库count获取的真实总数），
+  // 如果没有提供，则回退到posts.length（前端筛选后的数量）
+  const total = options?.totalCount !== undefined ? options.totalCount : posts.length;
   const relevant = posts.filter((p) => {
     const rel = maps.relevanceMap[p.platform_item_id];
     // 口径修正：仅将“相关”计入 KPI 的“相关内容”，不再包含“疑似相关/营销”。
@@ -261,7 +291,8 @@ export function calculateKPI(posts: PostLite[], maps: AnalysisMaps, options?: { 
 
   const prev = options?.previousPosts || [];
   const prevLabel = options?.previousLabel;
-  const prevTotal = prev.length;
+  // 同样优先使用previousTotalCount（数据库count），否则使用prev.length
+  const prevTotal = options?.previousTotalCount !== undefined ? options.previousTotalCount : prev.length;
   const prevRelevant = prev.filter((p) => maps.relevanceMap[p.platform_item_id] === "相关").length;
   const prevHigh = prev.filter((p) => maps.severityMap[p.platform_item_id] === "高").length;
 
