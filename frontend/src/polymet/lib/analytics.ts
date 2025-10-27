@@ -80,6 +80,17 @@ export interface GlobalDataset {
     irrelevant: number; // 不相关
     marketing: number; // 营销
   };
+  // SQL层面的严重度count（用于"相关内容"卡片的准确统计）
+  severityCounts: {
+    high: number; // 高
+    medium: number; // 中
+    low: number; // 低
+    unmarked: number; // 未标注
+  };
+  // 相关内容的真实总数（从数据库count获取）
+  relevantTotalCount: number;
+  // 高优先级内容的真实总数（从数据库count获取）
+  highPriorityTotalCount: number;
 }
 
 /**
@@ -238,9 +249,7 @@ export const loadGlobalDataset = async (
   }
 
   // 6) 计算SQL层面的相关性分布count
-  // 注意：这里统计的是timeFiltered中每个relevance类型的数量，
-  // 由于timeFiltered是SQL查询返回的完整数据集（虽然受limit限制），
-  // 我们按比例推算到totalCount以确保准确性
+  // 直接统计所有已加载数据的相关性分布（包括"其他"类别），确保总和等于实际加载数
   const relevantCount = timeFiltered.filter(p => {
     const rel = relevanceMap[p.platform_item_id];
     return rel === "相关";
@@ -257,19 +266,62 @@ export const loadGlobalDataset = async (
     const rel = relevanceMap[p.platform_item_id];
     return rel === "营销" || rel === "营销内容";
   }).length;
+  
+  // 计算已分类的总数
+  const categorizedCount = relevantCount + suspiciousCount + irrelevantCount + marketingCount;
+  // 未分类的记录数（空值、未知值等）
+  const uncategorizedCount = timeFiltered.length - categorizedCount;
 
   // 如果timeFiltered.length < currentTotalCount，说明SQL只返回了部分数据
-  // 我们需要按比例调整相关性count，使其总和等于totalCount
+  // 按比例调整每个分类的count，同时保持总和等于totalCount
   const loadedTotal = timeFiltered.length;
   const actualTotal = currentTotalCount || loadedTotal;
   const scale = loadedTotal > 0 ? actualTotal / loadedTotal : 1;
   
+  // 按比例调整，并确保总和等于actualTotal（使用floor确保不超出）
+  const scaledRelevant = Math.floor(relevantCount * scale);
+  const scaledSuspicious = Math.floor(suspiciousCount * scale);
+  const scaledIrrelevant = Math.floor(irrelevantCount * scale);
+  const scaledMarketing = Math.floor(marketingCount * scale);
+  
+  // 将剩余的数字（由于floor造成的差异）分配到"不相关"类别
+  const scaledSum = scaledRelevant + scaledSuspicious + scaledIrrelevant + scaledMarketing;
+  const remainder = actualTotal - scaledSum;
+  
   const relevanceCounts = {
-    relevant: Math.round(relevantCount * scale),
-    suspicious: Math.round(suspiciousCount * scale),
-    irrelevant: Math.round(irrelevantCount * scale),
-    marketing: Math.round(marketingCount * scale),
+    relevant: scaledRelevant,
+    suspicious: scaledSuspicious,
+    irrelevant: scaledIrrelevant + remainder, // 将余数加到"不相关"
+    marketing: scaledMarketing,
   };
+
+  // 7) 计算严重度分布count（用于"相关内容"卡片）
+  const highCount = timeFiltered.filter(p => severityMap[p.platform_item_id] === "高").length;
+  const mediumCount = timeFiltered.filter(p => severityMap[p.platform_item_id] === "中").length;
+  const lowCount = timeFiltered.filter(p => severityMap[p.platform_item_id] === "低").length;
+  const unmarkedCount = timeFiltered.filter(p => severityMap[p.platform_item_id] === "未标注").length;
+  
+  // 按比例调整严重度count
+  const scaledHigh = Math.floor(highCount * scale);
+  const scaledMedium = Math.floor(mediumCount * scale);
+  const scaledLow = Math.floor(lowCount * scale);
+  const scaledUnmarked = Math.floor(unmarkedCount * scale);
+  
+  const sevSum = scaledHigh + scaledMedium + scaledLow + scaledUnmarked;
+  const sevRemainder = actualTotal - sevSum;
+  
+  const severityCounts = {
+    high: scaledHigh,
+    medium: scaledMedium,
+    low: scaledLow,
+    unmarked: scaledUnmarked + sevRemainder, // 将余数加到"未标注"
+  };
+
+  // 8) 计算相关内容和高优先级内容的真实总数
+  // 相关内容总数 = relevanceCounts.relevant（已经按比例调整）
+  const relevantTotalCount = relevanceCounts.relevant;
+  // 高优先级内容总数 = severityCounts.high（已经按比例调整）
+  const highPriorityTotalCount = severityCounts.high;
 
   // 注意：totalCount是SQL层面的总数（受时间/平台筛选影响），
   // 如果用户选择了相关性/优先级/创作者类型筛选，这些是前端筛选，
@@ -282,6 +334,9 @@ export const loadGlobalDataset = async (
     totalCount: currentTotalCount || 0,
     previousTotalCount: previousTotalCount || 0,
     relevanceCounts,
+    severityCounts,
+    relevantTotalCount,
+    highPriorityTotalCount,
   };
 };
 
@@ -320,17 +375,29 @@ export function calculateKPI(posts: PostLite[], maps: AnalysisMaps, options?: {
   previousLabel?: string; 
   totalCount?: number; // SQL层面的真实总数（优先使用此值）
   previousTotalCount?: number; // 上一周期的真实总数
+  relevantCount?: number; // SQL层面的相关内容真实count（优先使用此值）
+  highPriorityCount?: number; // SQL层面的高优先级内容真实count（优先使用此值）
 }): KPIResult {
   // 优先使用options中的totalCount（从数据库count获取的真实总数），
   // 如果没有提供，则回退到posts.length（前端筛选后的数量）
   const total = options?.totalCount !== undefined ? options.totalCount : posts.length;
-  const relevant = posts.filter((p) => {
-    const rel = maps.relevanceMap[p.platform_item_id];
-    // 口径修正：仅将“相关”计入 KPI 的“相关内容”，不再包含“疑似相关/营销”。
-    // 背景：与“相关性统计”卡片的“相关”保持一致，避免 112/120 口径不一致。
-    return rel === "相关";
-  }).length;
-  const high = posts.filter((p) => maps.severityMap[p.platform_item_id] === "高").length;
+  
+  // 优先使用options中的relevantCount（从数据库count获取的真实相关数），
+  // 如果没有提供，则回退到前端数组统计
+  const relevant = options?.relevantCount !== undefined 
+    ? options.relevantCount 
+    : posts.filter((p) => {
+        const rel = maps.relevanceMap[p.platform_item_id];
+        // 口径修正：仅将"相关"计入 KPI 的"相关内容"，不再包含"疑似相关/营销"。
+        // 背景：与"相关性统计"卡片的"相关"保持一致，避免 112/120 口径不一致。
+        return rel === "相关";
+      }).length;
+  
+  // 优先使用options中的highPriorityCount（从数据库count获取的真实高优先级数），
+  // 如果没有提供，则回退到前端数组统计
+  const high = options?.highPriorityCount !== undefined 
+    ? options.highPriorityCount 
+    : posts.filter((p) => maps.severityMap[p.platform_item_id] === "高").length;
 
   const prev = options?.previousPosts || [];
   const prevLabel = options?.previousLabel;

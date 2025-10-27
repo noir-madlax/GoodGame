@@ -53,6 +53,9 @@ export type DashboardCacheState = {
   globalTotalCount: number; // SQL层面的真实总数（用于KPI显示）
   globalPreviousTotalCount: number; // 上一周期的真实总数
   globalRelevanceCounts: { relevant: number; suspicious: number; irrelevant: number; marketing: number }; // SQL层面的相关性分布count
+  globalSeverityCounts: { high: number; medium: number; low: number; unmarked: number }; // SQL层面的严重度分布count
+  globalRelevantTotal: number; // 相关内容真实总数
+  globalHighPriorityTotal: number; // 高优先级内容真实总数
   chartState: { level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string };
   scrollTop: number;
   lastUpdated: number;
