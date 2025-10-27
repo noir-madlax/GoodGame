@@ -91,6 +91,39 @@ export const loadGlobalDataset = async (
 ): Promise<GlobalDataset> => {
   // 1) 拉取基础帖子（时间/平台范围）；不分页
   const { timeRange, platforms } = filters;
+  
+  // 计算时间范围的起始日期
+  const today = new Date();
+  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  let currentStartDate: Date | null = null;
+  let previousStartDate: Date | null = null;
+  let previousEndDate: Date | null = null;
+  let previousLabel: string | undefined = undefined;
+  
+  if (timeRange === "今天") {
+    currentStartDate = startOfToday;
+    const ps = new Date(startOfToday.getTime()); 
+    ps.setDate(ps.getDate() - 1);
+    previousStartDate = ps;
+    previousEndDate = startOfToday;
+    previousLabel = "昨天";
+  } else if (timeRange === "近2天" || timeRange === "近3天" || timeRange === "近7天" || timeRange === "近15天" || timeRange === "近30天") {
+    const map: Record<string, number> = { "近2天": 2, "近3天": 3, "近7天": 7, "近15天": 15, "近30天": 30 };
+    const n = map[timeRange];
+    const s = new Date(startOfToday.getTime()); 
+    s.setDate(s.getDate() - (n - 1));
+    currentStartDate = s;
+    
+    const ps = new Date(startOfToday.getTime()); 
+    ps.setDate(ps.getDate() - (2 * n));
+    const pe = new Date(startOfToday.getTime()); 
+    pe.setDate(pe.getDate() - (n - 1));
+    previousStartDate = ps;
+    previousEndDate = pe;
+    previousLabel = `上个${n}天`;
+  }
+  
+  // 构建当前周期查询（在SQL层面做时间过滤）
   let q = sb
     .from("gg_platform_post")
     .select(
@@ -104,46 +137,36 @@ export const loadGlobalDataset = async (
     const keys = platforms.map((p) => normalizePlatformLabelToKey(p));
     q = q.in("platform", keys);
   }
-  // 由于时间范围需要灵活窗口（今天/近N天/全部），交由前端裁切
-  const { data: postRows } = await q.limit(200000); // 安全上限；业务可根据体量调整
+  // 在SQL层面做时间过滤（性能优化的关键）
+  if (currentStartDate) {
+    q = q.gte("published_at", currentStartDate.toISOString());
+  }
+  
+  const { data: postRows } = await q;
   type PostRow = {
     id: number; platform: string; platform_item_id: string;
     published_at?: string | null; created_at: string; relevant_status?: string | null;
   };
-  const basePosts = (postRows || []) as PostRow[];
-  const today = new Date();
-  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const startDaysAgo = (n: number) => new Date(startOfToday.getFullYear(), startOfToday.getMonth(), startOfToday.getDate() - (n - 1));
-  const filterBetween = (arr: PostRow[], s: Date, e: Date) => arr.filter((p) => {
-    const t = new Date((p.published_at || p.created_at));
-    return t >= s && t < e;
-  });
-  let timeFiltered = basePosts;
+  const timeFiltered = (postRows || []) as PostRow[];
+  
+  // 查询上一周期数据（如果需要）
   let previousFiltered: PostRow[] = [];
-  let previousLabel: string | undefined = undefined;
-  if (timeRange === "今天") {
-    const s = startOfToday;
-    const e = new Date(startOfToday.getTime()); e.setDate(e.getDate() + 1);
-    timeFiltered = filterBetween(basePosts, s, e);
-    const ps = new Date(startOfToday.getTime()); ps.setDate(ps.getDate() - 1);
-    previousFiltered = filterBetween(basePosts, ps, s);
-    previousLabel = "昨天";
-  } else if (timeRange === "近2天" || timeRange === "近3天" || timeRange === "近7天" || timeRange === "近15天" || timeRange === "近30天") {
-    const map: Record<string, number> = { "近2天": 2, "近3天": 3, "近7天": 7, "近15天": 15, "近30天": 30 } as const as any;
-    const n = map[timeRange];
-    const s = new Date(startOfToday.getTime()); s.setDate(s.getDate() - (n - 1));
-    const e = new Date(startOfToday.getTime()); e.setDate(e.getDate() + 1);
-    timeFiltered = filterBetween(basePosts, s, e);
-    const ps = new Date(startOfToday.getTime()); ps.setDate(ps.getDate() - (2 * n));
-    const pe = new Date(startOfToday.getTime()); pe.setDate(pe.getDate() - (n - 1));
-    previousFiltered = filterBetween(basePosts, ps, pe);
-    // 文案统一：近N天 -> 上个N天
-    previousLabel = `上个${n}天`;
-  } else {
-    // 全部时间：不显示上一周期
-    timeFiltered = basePosts;
-    previousFiltered = [];
-    previousLabel = undefined;
+  if (previousStartDate && previousEndDate) {
+    let prevQ = sb
+      .from("gg_platform_post")
+      .select("id, platform, platform_item_id, published_at, created_at, relevant_status");
+    if (options?.projectId) {
+      prevQ = prevQ.eq("project_id", options.projectId);
+    }
+    if (platforms && platforms.length > 0) {
+      const keys = platforms.map((p) => normalizePlatformLabelToKey(p));
+      prevQ = prevQ.in("platform", keys);
+    }
+    prevQ = prevQ.gte("published_at", previousStartDate.toISOString());
+    prevQ = prevQ.lt("published_at", previousEndDate.toISOString());
+    
+    const { data: prevRows } = await prevQ;
+    previousFiltered = (prevRows || []) as PostRow[];
   }
 
   // 2) 拉取分析映射（brand_relevance/total_risk/creatorTypes）
