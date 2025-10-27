@@ -124,13 +124,8 @@ export default function ContentDashboard() {
   const riskScenario = "all"; // 本页一期不暴露风险场景选择；保留旧变量
   const channel = filters.platforms.length === 1 ? (filters.platforms[0] === "抖音" ? "douyin" : filters.platforms[0] === "小红书" ? "xiaohongshu" : "all") : "all";
   const contentType = "all";
-  const timeRange: "all" | "today" | "week" | "month" = (() => {
-    const m = filters.timeRange;
-    if (m === "今天") return "today";
-    if (m === "近7天") return "week";
-    if (m === "近15天" || m === "近30天") return "month";
-    return "all";
-  })();
+  // 将中文时间范围直接传给 resolveStartAt，它现在支持中文
+  const timeRange = filters.timeRange;
   const sentiment = "all" as const; // 本版先不提供情绪筛选入口
   const relevance = filters.relevance[0] || "all";
   const [oldestFirst, setOldestFirst] = useState(false); // 排序方向（false=最新优先，true=最旧优先）
@@ -225,6 +220,18 @@ export default function ContentDashboard() {
             .order("published_at", { ascending: oldestFirst, nullsFirst: oldestFirst })
             .order("created_at", { ascending: oldestFirst })
             .order("id", { ascending: oldestFirst });
+          
+          // 添加 project_id 筛选
+          if (activeProjectId) {
+            q = q.eq("project_id", activeProjectId);
+          }
+          
+          // 在 SQL 层面做时间过滤（性能优化）
+          const startAt = resolveStartAt(timeRange);
+          if (startAt) {
+            q = q.gte("published_at", startAt.toISOString());
+          }
+          
           if (channel !== "all") q = q.eq("platform", channel);
           if (contentType !== "all") q = q.eq("post_type", contentType);
           return q;
@@ -235,32 +242,15 @@ export default function ContentDashboard() {
           setTotalCount(count || 0);
         }
 
-        // 统一分页：去除“一次性全量加载”的分支，始终按 PAGE_SIZE 分批拉取
+        // 统一分页：去除"一次性全量加载"的分支，始终按 PAGE_SIZE 分批拉取
         const start = batchIndex * PAGE_SIZE;
         const end = start + PAGE_SIZE - 1;
         const { data: postData } = await buildBaseQuery().range(start, end);
         const postsSafe: PostRow[] = ((postData || []) as unknown) as PostRow[];
 
-        // 前端时间范围过滤（优先使用 published_at，否则使用 created_at）
-        // 时间过滤：支持 今天/近2/近3/近7/15/30/全部
-        const baseStartAt = resolveStartAt(timeRange);
-        let filteredByTime = filterByTime(postsSafe, baseStartAt);
-        if (filters.timeRange === "近2天") {
-          const today = new Date();
-          const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-          filteredByTime = filteredByTime.filter((p) => { const t = new Date((p.published_at || p.created_at)); return t >= start && t < end; });
-        }
-        if (filters.timeRange === "近3天") {
-          const today = new Date();
-          const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
-          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-          filteredByTime = filteredByTime.filter((p) => { const t = new Date((p.published_at || p.created_at)); return t >= start && t < end; });
-        }
-        if (filters.timeRange === "近15天") {
-          const d = new Date(); d.setDate(d.getDate() - 15);
-          filteredByTime = filterByTime(postsSafe, d);
-        }
+        // SQL 层面已经做了时间过滤，前端不再需要二次过滤
+        // 保留 filteredByTime 变量名以保持代码连贯性
+        let filteredByTime = postsSafe;
 
         // 已移除：示例性平台/类型集合统计与额外 post_type 查询（无消费方）
 
@@ -695,6 +685,7 @@ export default function ContentDashboard() {
         normalizePlatform={normalizePlatform}
         influencerMap={influencerMap}
         matchCount={monitoringMatchCount}
+        totalCount={totalCount}
       />
 
       {/* 弹窗：导入链接分析（请求与 Toast 在组件内部处理） */}

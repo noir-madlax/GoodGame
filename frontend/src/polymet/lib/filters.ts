@@ -181,22 +181,38 @@ export const fetchGlobalFilterEnums = async (sb: any) => {
 
 
 
-// 功能：将 "today/week/month" 转换为起始时间，all 返回 null。
+// 功能：将时间范围转换为起始时间，all 返回 null。
 // 使用位置：ContentDashboard -> 首屏与滚动加载后的客户端过滤。
-export const resolveStartAt = (timeRange: "all" | "today" | "week" | "month") => {
+// 支持：today/week/month/近7天/近15天/近30天/全部时间
+export const resolveStartAt = (timeRange: "all" | "today" | "week" | "month" | string) => {
   const now = new Date();
-  if (timeRange === "today") return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  if (timeRange === "week") {
-    const d = new Date(now);
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  
+  if (timeRange === "today" || timeRange === "今天") {
+    return startOfToday;
+  }
+  if (timeRange === "week" || timeRange === "近7天") {
+    const d = new Date(startOfToday);
     d.setDate(d.getDate() - 7);
     return d;
   }
+  if (timeRange === "近15天") {
+    const d = new Date(startOfToday);
+    d.setDate(d.getDate() - 15);
+    return d;
+  }
+  if (timeRange === "近30天") {
+    const d = new Date(startOfToday);
+    d.setDate(d.getDate() - 30);
+    return d;
+  }
+  // month 保持兼容性（向前推1个月）
   if (timeRange === "month") {
     const d = new Date(now);
     d.setMonth(now.getMonth() - 1);
     return d;
   }
-  return null;
+  return null; // all 或其他
 };
 
 // 功能：根据起始时间过滤列表（使用 published_at 优先，否则使用 created_at）。
