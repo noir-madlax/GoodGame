@@ -1,7 +1,9 @@
 // 中文说明：
 // 本文件集中封装首页分析页所需的统计与数据整形逻辑（纯函数，不触发副作用）。
-// 目标：从“已按筛选过滤后的帖子集合 + 分析映射”中，计算 KPI、一级饼图、二级/三级柱状图所需的数据结构。
+// 目标：从"已按筛选过滤后的帖子集合 + 分析映射"中，计算 KPI、一级饼图、二级/三级柱状图所需的数据结构。
 // 这些结构与 @components/analytics 下的可视化组件一一对应。
+
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type TimeRangeOption = "今天" | "近2天" | "近3天" | "近7天" | "近15天" | "近30天" | "全部时间";
 
@@ -42,9 +44,9 @@ export interface KPIResult {
 // - 这些方法会被 `pages/content-dashboard.tsx` 引用。
 
 // 为避免循环依赖，仅从 filters.ts 引入纯工具函数
-// 说明：resolveStartAt/ filterByTime / backfillRelevance 用于统一时间与相关性回填逻辑
+// 说明：backfillRelevance 用于统一相关性回填逻辑
 // 注意路径：同级目录
-import { resolveStartAt, filterByTime, backfillRelevance } from "@/polymet/lib/filters";
+import { backfillRelevance } from "@/polymet/lib/filters";
 
 /**
  * 页面顶层筛选子集（与 FilterSection 对齐）。
@@ -71,6 +73,13 @@ export interface GlobalDataset {
   totalCount: number;
   // 上一周期的真实总数
   previousTotalCount: number;
+  // SQL层面的相关性count（用于KPI分布显示，确保与totalCount一致）
+  relevanceCounts: {
+    relevant: number; // 相关
+    suspicious: number; // 疑似相关
+    irrelevant: number; // 不相关
+    marketing: number; // 营销
+  };
 }
 
 /**
@@ -89,7 +98,7 @@ const normalizePlatformLabelToKey = (label: string) => {
  * 返回的数据结构可直接喂给 calculateKPI/buildRelevanceChartData/buildSeverity*。
  */
 export const loadGlobalDataset = async (
-  sb: any,
+  sb: SupabaseClient,
   filters: GlobalAnalyticsFilters,
   options?: { projectId?: string | null }
 ): Promise<GlobalDataset> => {
@@ -181,16 +190,16 @@ export const loadGlobalDataset = async (
 
   // 2) 拉取分析映射（brand_relevance/total_risk/creatorTypes）
   const ids = Array.from(new Set([...timeFiltered, ...previousFiltered].map((p) => p.platform_item_id).filter(Boolean)));
-  // 重要：先对所有帖子预填充为“未标注”，避免没有分析记录的内容被排除出统计
-  let severityMap: Record<string, SeverityLevel> = ids.reduce((acc, id) => {
+  // 重要：先对所有帖子预填充为"未标注"，避免没有分析记录的内容被排除出统计
+  const severityMap: Record<string, SeverityLevel> = ids.reduce((acc, id) => {
     acc[id] = "未标注";
     return acc;
   }, {} as Record<string, SeverityLevel>);
-  let creatorTypeMap: Record<string, string> = ids.reduce((acc, id) => {
+  const creatorTypeMap: Record<string, string> = ids.reduce((acc, id) => {
     acc[id] = "未标注";
     return acc;
   }, {} as Record<string, string>);
-  let relevanceMapRaw: Record<string, string> = {};
+  const relevanceMapRaw: Record<string, string> = {};
   if (ids.length > 0) {
     const { data: aRows } = await sb
       .from("gg_video_analysis")
@@ -210,7 +219,7 @@ export const loadGlobalDataset = async (
 
   // 4) 形成 PostLite 与 AnalysisMaps
   let postsLite: PostLite[] = timeFiltered.map((p) => ({ id: p.id, platform: String(p.platform || ""), platform_item_id: p.platform_item_id }));
-  let previousPostsLite: PostLite[] = previousFiltered.map((p) => ({ id: p.id, platform: String(p.platform || ""), platform_item_id: p.platform_item_id }));
+  const previousPostsLite: PostLite[] = previousFiltered.map((p) => ({ id: p.id, platform: String(p.platform || ""), platform_item_id: p.platform_item_id }));
   const maps: AnalysisMaps = { relevanceMap, severityMap, creatorTypeMap };
 
   // 5) 应用“全库统计”的筛选（多选）；为空则表示不过滤
@@ -228,17 +237,51 @@ export const loadGlobalDataset = async (
     postsLite = postsLite.filter((p) => set.has(maps.creatorTypeMap[p.platform_item_id] || "未标注"));
   }
 
+  // 6) 计算SQL层面的相关性分布count
+  // 注意：这里统计的是timeFiltered中每个relevance类型的数量，
+  // 由于timeFiltered是SQL查询返回的完整数据集（虽然受limit限制），
+  // 我们按比例推算到totalCount以确保准确性
+  const relevantCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "相关";
+  }).length;
+  const suspiciousCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "疑似相关" || rel === "需人工介入";
+  }).length;
+  const irrelevantCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "不相关" || rel === "可忽略" || rel === "无关";
+  }).length;
+  const marketingCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "营销" || rel === "营销内容";
+  }).length;
+
+  // 如果timeFiltered.length < currentTotalCount，说明SQL只返回了部分数据
+  // 我们需要按比例调整相关性count，使其总和等于totalCount
+  const loadedTotal = timeFiltered.length;
+  const actualTotal = currentTotalCount || loadedTotal;
+  const scale = loadedTotal > 0 ? actualTotal / loadedTotal : 1;
+  
+  const relevanceCounts = {
+    relevant: Math.round(relevantCount * scale),
+    suspicious: Math.round(suspiciousCount * scale),
+    irrelevant: Math.round(irrelevantCount * scale),
+    marketing: Math.round(marketingCount * scale),
+  };
+
   // 注意：totalCount是SQL层面的总数（受时间/平台筛选影响），
   // 如果用户选择了相关性/优先级/创作者类型筛选，这些是前端筛选，
   // 所以实际的posts.length可能小于totalCount。
-  // 在KPI计算中，我们会根据是否有筛选来决定显示哪个数值。
   return { 
     posts: postsLite, 
     previousPosts: previousPostsLite, 
     previousLabel, 
     maps,
     totalCount: currentTotalCount || 0,
-    previousTotalCount: previousTotalCount || 0
+    previousTotalCount: previousTotalCount || 0,
+    relevanceCounts,
   };
 };
 

@@ -173,6 +173,7 @@ export default function ContentDashboard() {
     // 恢复SQL层面的真实总数
     setGlobalTotalCount(cache.globalTotalCount || 0);
     setGlobalPreviousTotalCount(cache.globalPreviousTotalCount || 0);
+    setGlobalRelevanceCounts(cache.globalRelevanceCounts || { relevant: 0, suspicious: 0, irrelevant: 0, marketing: 0 });
     setChartState(cache.chartState);
     setLoading(false);
     setLoadingMore(false);
@@ -434,6 +435,8 @@ export default function ContentDashboard() {
   // 新增：存储SQL层面的真实总数（用于KPI显示）
   const [globalTotalCount, setGlobalTotalCount] = useState<number>(0);
   const [globalPreviousTotalCount, setGlobalPreviousTotalCount] = useState<number>(0);
+  // 新增：存储SQL层面的相关性分布count（用于KPI分布显示）
+  const [globalRelevanceCounts, setGlobalRelevanceCounts] = useState<{relevant: number; suspicious: number; irrelevant: number; marketing: number}>({ relevant: 0, suspicious: 0, irrelevant: 0, marketing: 0 });
   const [chartState, setChartState] = useState<{ level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string }>({ level: "primary" });
 
   // 根据筛选项加载“全库统计”数据集（独立于分页列表）
@@ -461,6 +464,8 @@ export default function ContentDashboard() {
           // 设置SQL层面的真实总数
           setGlobalTotalCount(ds.totalCount);
           setGlobalPreviousTotalCount(ds.previousTotalCount);
+          // 设置SQL层面的相关性分布count
+          setGlobalRelevanceCounts(ds.relevanceCounts);
         }
       } finally {
         if (!cancelled) setGlobalLoading(false);
@@ -481,9 +486,15 @@ export default function ContentDashboard() {
   // 新增：为 KPI 概览准备细分统计数据（总视频 -> 相关性；相关视频 -> 严重度；高优先级 -> 创作者）
   const kpiBreakdown = useMemo(() => {
     // 总视频数：相关/疑似相关/不相关（不含营销）
-    const relData = buildRelevanceChartData(globalPostsLite, globalMaps);
-    const pickRel = (name: string) => relData.find((d: any) => d.name === name)?.value || 0;
-    const totalCount = globalPostsLite.length;
+    // 使用 globalRelevanceCounts（SQL层面的count）而不是 globalPostsLite.length
+    const pickRel = (name: string) => {
+      if (name === "相关") return globalRelevanceCounts.relevant;
+      if (name === "疑似相关") return globalRelevanceCounts.suspicious;
+      if (name === "不相关") return globalRelevanceCounts.irrelevant;
+      if (name === "营销") return globalRelevanceCounts.marketing;
+      return 0;
+    };
+    const totalCount = globalTotalCount; // 使用SQL count而不是数组长度
 
     // 相关视频：严重度分布（高/中/低），来自 “相关” 的二级统计
     const sevGroups = buildSeverityGroups("相关", globalPostsLite, globalMaps);
@@ -515,7 +526,7 @@ export default function ContentDashboard() {
       highCreators: { 达人: highCreator.达人, 素人: highCreator.素人 },
       highPlatforms,
     };
-  }, [globalPostsLite, globalMaps]);
+  }, [globalPostsLite, globalMaps, globalRelevanceCounts, globalTotalCount]);
   const severityData = useMemo(() => chartState.level === "secondary" && chartState.selectedRelevance ? buildSeverityGroups(chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const severityDetail = useMemo(() => (chartState.level === "tertiary" && chartState.selectedRelevance && chartState.selectedSeverity) ? buildSeverityDetail(chartState.selectedSeverity as any, chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const [chartsLoading, setChartsLoading] = useState(false);
@@ -614,6 +625,7 @@ export default function ContentDashboard() {
       kpiPrev,
       globalTotalCount, // 新增：缓存SQL层面的真实总数
       globalPreviousTotalCount, // 新增：缓存上一周期的真实总数
+      globalRelevanceCounts, // 新增：缓存SQL层面的相关性分布count
       chartState,
       scrollTop: (() => {
         const container = document.querySelector(DASHBOARD_SCROLL_SELECTOR);

@@ -52,6 +52,7 @@ export type DashboardCacheState = {
   kpiPrev: { prev: { id: number; platform: string; platform_item_id: string }[]; label?: string };
   globalTotalCount: number; // SQL层面的真实总数（用于KPI显示）
   globalPreviousTotalCount: number; // 上一周期的真实总数
+  globalRelevanceCounts: { relevant: number; suspicious: number; irrelevant: number; marketing: number }; // SQL层面的相关性分布count
   chartState: { level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string };
   scrollTop: number;
   lastUpdated: number;
