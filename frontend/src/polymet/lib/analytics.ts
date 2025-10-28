@@ -239,14 +239,19 @@ export const loadGlobalDataset = async (
     return acc;
   }, {} as Record<string, string>);
   const relevanceMapRaw: Record<string, string> = {};
-  if (ids.length > 0) {
+  // 改为直接查询project_id，避免URL过长问题
+  if (options?.projectId) {
     const { data: aRows } = await sb
       .from("gg_video_analysis")
       .select("platform_item_id, brand_relevance, total_risk, total_risk_reason, \"creatorTypes\"")
-      .in("platform_item_id", ids);
+      .eq("project_id", options.projectId)
+      .limit(20000); // 设置合理的limit
+    
     type ARow = { platform_item_id: string; brand_relevance?: string | null; total_risk?: string | null; total_risk_reason?: string | null; creatorTypes?: string | null };
     (aRows || []).forEach((r: ARow) => {
       if (!r.platform_item_id) return;
+      // 只处理我们需要的ID
+      if (!ids.includes(r.platform_item_id)) return;
       if (r.brand_relevance) relevanceMapRaw[r.platform_item_id] = String(r.brand_relevance);
       severityMap[r.platform_item_id] = mapTotalRiskToCn(r.total_risk || "");
       creatorTypeMap[r.platform_item_id] = String(r.creatorTypes || "未标注") || "未标注";
