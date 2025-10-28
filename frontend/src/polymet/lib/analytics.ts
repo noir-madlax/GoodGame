@@ -194,15 +194,27 @@ export const loadGlobalDataset = async (
     q = q.gte("published_at", currentStartDate.toISOString());
   }
   
-  // 增加limit以获取更多数据（用于分析映射），但主要依赖count获取真实总数
-  q = q.limit(200000);
-  
-  const { data: postRows, count: currentTotalCount } = await q;
+  // 分批查询以突破Supabase的max-rows限制（默认1000）
   type PostRow = {
     id: number; platform: string; platform_item_id: string;
     published_at?: string | null; created_at: string; relevant_status?: string | null;
   };
-  const timeFiltered = (postRows || []) as PostRow[];
+  let timeFiltered: PostRow[] = [];
+  let currentTotalCount = 0;
+  
+  // 首次查询获取总数
+  const { count: totalCount } = await q.range(0, 0);
+  currentTotalCount = totalCount || 0;
+  
+  // 分批查询（每批999条，确保不超过Supabase的max-rows限制）
+  const batchSize = 999;
+  for (let offset = 0; offset < currentTotalCount; offset += batchSize) {
+    const end = Math.min(offset + batchSize - 1, currentTotalCount - 1);
+    const { data: batchRows } = await q.range(offset, end);
+    if (batchRows && batchRows.length > 0) {
+      timeFiltered = timeFiltered.concat(batchRows as PostRow[]);
+    }
+  }
   
   // 查询上一周期数据（如果需要）
   let previousFiltered: PostRow[] = [];
@@ -220,11 +232,19 @@ export const loadGlobalDataset = async (
     }
     prevQ = prevQ.gte("published_at", previousStartDate.toISOString());
     prevQ = prevQ.lt("published_at", previousEndDate.toISOString());
-    prevQ = prevQ.limit(200000);
     
-    const { data: prevRows, count: prevCount } = await prevQ;
-    previousFiltered = (prevRows || []) as PostRow[];
-    previousTotalCount = prevCount || 0;
+    // 分批查询上一周期数据
+    const { count: prevTotalCount } = await prevQ.range(0, 0);
+    previousTotalCount = prevTotalCount || 0;
+    
+    const batchSize = 999;
+    for (let offset = 0; offset < previousTotalCount; offset += batchSize) {
+      const end = Math.min(offset + batchSize - 1, previousTotalCount - 1);
+      const { data: batchRows } = await prevQ.range(offset, end);
+      if (batchRows && batchRows.length > 0) {
+        previousFiltered = previousFiltered.concat(batchRows as PostRow[]);
+      }
+    }
   }
 
   // 2) 拉取分析映射（brand_relevance/total_risk/creatorTypes）
@@ -241,21 +261,29 @@ export const loadGlobalDataset = async (
   const relevanceMapRaw: Record<string, string> = {};
   // 改为直接查询project_id，避免URL过长问题
   if (options?.projectId) {
-    const { data: aRows } = await sb
+    let analysisQuery = sb
       .from("gg_video_analysis")
-      .select("platform_item_id, brand_relevance, total_risk, total_risk_reason, \"creatorTypes\"")
-      .eq("project_id", options.projectId)
-      .limit(20000); // 设置合理的limit
+      .select("platform_item_id, brand_relevance, total_risk, total_risk_reason, \"creatorTypes\"", { count: "exact" })
+      .eq("project_id", options.projectId);
+    
+    // 分批查询分析数据
+    const { count: analysisCount } = await analysisQuery.range(0, 0);
+    const analysisTotal = analysisCount || 0;
     
     type ARow = { platform_item_id: string; brand_relevance?: string | null; total_risk?: string | null; total_risk_reason?: string | null; creatorTypes?: string | null };
-    (aRows || []).forEach((r: ARow) => {
-      if (!r.platform_item_id) return;
-      // 只处理我们需要的ID
-      if (!ids.includes(r.platform_item_id)) return;
-      if (r.brand_relevance) relevanceMapRaw[r.platform_item_id] = String(r.brand_relevance);
-      severityMap[r.platform_item_id] = mapTotalRiskToCn(r.total_risk || "");
-      creatorTypeMap[r.platform_item_id] = String(r.creatorTypes || "未标注") || "未标注";
-    });
+    
+    const batchSize = 999;
+    for (let offset = 0; offset < analysisTotal; offset += batchSize) {
+      const end = Math.min(offset + batchSize - 1, analysisTotal - 1);
+      const { data: batchRows } = await analysisQuery.range(offset, end);
+      (batchRows || []).forEach((r: ARow) => {
+        if (!r.platform_item_id) return;
+        if (!ids.includes(r.platform_item_id)) return;
+        if (r.brand_relevance) relevanceMapRaw[r.platform_item_id] = String(r.brand_relevance);
+        severityMap[r.platform_item_id] = mapTotalRiskToCn(r.total_risk || "");
+        creatorTypeMap[r.platform_item_id] = String(r.creatorTypes || "未标注") || "未标注";
+      });
+    }
   }
 
   // 3) 相关性回填（细分覆盖初筛）
