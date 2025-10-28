@@ -80,13 +80,41 @@ export interface GlobalDataset {
     irrelevant: number; // 不相关
     marketing: number; // 营销
   };
-  // SQL层面的严重度count（用于"相关内容"卡片的准确统计）
+  // SQL层面的严重度count（全局统计，用于统计所有内容的严重度）
   severityCounts: {
     high: number; // 高
     medium: number; // 中
     low: number; // 低
     unmarked: number; // 未标注
   };
+  // SQL层面的相关内容的严重度count（只统计"相关"类别，用于"相关内容"卡片）
+  relevantSeverityCounts: {
+    high: number; // 相关内容中严重度为高的数量
+    medium: number; // 相关内容中严重度为中的数量
+    low: number; // 相关内容中严重度为低的数量
+    unmarked: number; // 相关内容中严重度为未标注的数量
+  };
+  // 高优先级内容的创作者和平台分布（用于"高优先级内容"卡片的细分统计）
+  highPriorityBreakdown: {
+    creatorTypes: {
+      达人: number;
+      素人: number;
+      未标注: number;
+    };
+    platforms: {
+      抖音: number;
+      小红书: number;
+      其他: number;
+    };
+  };
+  // 各相关性类别的严重度分布（用于二级图表）
+  severityByRelevance: Record<string, {
+    high: number;
+    medium: number;
+    low: number;
+    unmarked: number;
+    total: number;
+  }>;
   // 相关内容的真实总数（从数据库count获取）
   relevantTotalCount: number;
   // 高优先级内容的真实总数（从数据库count获取）
@@ -317,7 +345,108 @@ export const loadGlobalDataset = async (
     unmarked: scaledUnmarked + sevRemainder, // 将余数加到"未标注"
   };
 
-  // 8) 计算相关内容和高优先级内容的真实总数
+  // 8) 计算相关内容的严重度分布（只统计"相关"类别的内容）
+  // 这是"相关内容"卡片中高中低的正确统计口径
+  const relevantHighCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "相关" && severityMap[p.platform_item_id] === "高";
+  }).length;
+  const relevantMediumCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "相关" && severityMap[p.platform_item_id] === "中";
+  }).length;
+  const relevantLowCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "相关" && severityMap[p.platform_item_id] === "低";
+  }).length;
+  const relevantUnmarkedCount = timeFiltered.filter(p => {
+    const rel = relevanceMap[p.platform_item_id];
+    return rel === "相关" && severityMap[p.platform_item_id] === "未标注";
+  }).length;
+
+  // 按比例调整相关内容的严重度count
+  const scaledRelevantHigh = Math.floor(relevantHighCount * scale);
+  const scaledRelevantMedium = Math.floor(relevantMediumCount * scale);
+  const scaledRelevantLow = Math.floor(relevantLowCount * scale);
+  const scaledRelevantUnmarked = Math.floor(relevantUnmarkedCount * scale);
+
+  const relevantSevSum = scaledRelevantHigh + scaledRelevantMedium + scaledRelevantLow + scaledRelevantUnmarked;
+  const relevantSevRemainder = scaledRelevant - relevantSevSum;
+
+  const relevantSeverityCounts = {
+    high: scaledRelevantHigh,
+    medium: scaledRelevantMedium,
+    low: scaledRelevantLow,
+    unmarked: scaledRelevantUnmarked + relevantSevRemainder, // 将余数加到"未标注"
+  };
+
+  // 9) 计算高优先级内容的创作者和平台分布
+  const highPriorityPosts = timeFiltered.filter(p => severityMap[p.platform_item_id] === "高");
+  const highCreatorDaren = highPriorityPosts.filter(p => creatorTypeMap[p.platform_item_id] === "达人").length;
+  const highCreatorSuren = highPriorityPosts.filter(p => creatorTypeMap[p.platform_item_id] === "素人").length;
+  const highCreatorUnmarked = highPriorityPosts.filter(p => creatorTypeMap[p.platform_item_id] === "未标注").length;
+  const highPlatformDouyin = highPriorityPosts.filter(p => p.platform.toLowerCase() === "douyin").length;
+  const highPlatformXhs = highPriorityPosts.filter(p => p.platform.toLowerCase() === "xiaohongshu").length;
+
+  // 按比例调整高优先级的细分统计
+  const scaledHighCreatorDaren = Math.floor(highCreatorDaren * scale);
+  const scaledHighCreatorSuren = Math.floor(highCreatorSuren * scale);
+  const scaledHighCreatorUnmarked = Math.floor(highCreatorUnmarked * scale);
+  const scaledHighPlatformDouyin = Math.floor(highPlatformDouyin * scale);
+  const scaledHighPlatformXhs = Math.floor(highPlatformXhs * scale);
+
+  const highPriorityBreakdown = {
+    creatorTypes: {
+      达人: scaledHighCreatorDaren,
+      素人: scaledHighCreatorSuren,
+      未标注: scaledHighCreatorUnmarked,
+    },
+    platforms: {
+      抖音: scaledHighPlatformDouyin,
+      小红书: scaledHighPlatformXhs,
+      其他: scaledHigh - scaledHighPlatformDouyin - scaledHighPlatformXhs,
+    },
+  };
+
+  // 10) 计算各相关性类别的严重度分布（用于二级图表）
+  const severityByRelevance: Record<string, { high: number; medium: number; low: number; unmarked: number; total: number }> = {};
+
+  const relevanceTypes = ["相关", "疑似相关", "不相关", "营销"];
+  relevanceTypes.forEach(relType => {
+    const postsInRel = timeFiltered.filter(p => {
+      const rel = relevanceMap[p.platform_item_id];
+      if (relType === "疑似相关") return rel === "疑似相关" || rel === "需人工介入";
+      if (relType === "不相关") return rel === "不相关" || rel === "可忽略" || rel === "无关";
+      if (relType === "营销") return rel === "营销" || rel === "营销内容";
+      return rel === relType;
+    });
+
+    const highInRel = postsInRel.filter(p => severityMap[p.platform_item_id] === "高").length;
+    const mediumInRel = postsInRel.filter(p => severityMap[p.platform_item_id] === "中").length;
+    const lowInRel = postsInRel.filter(p => severityMap[p.platform_item_id] === "低").length;
+    const unmarkedInRel = postsInRel.filter(p => severityMap[p.platform_item_id] === "未标注").length;
+
+    // 按比例调整
+    const scaledHighInRel = Math.floor(highInRel * scale);
+    const scaledMediumInRel = Math.floor(mediumInRel * scale);
+    const scaledLowInRel = Math.floor(lowInRel * scale);
+    const scaledUnmarkedInRel = Math.floor(unmarkedInRel * scale);
+
+    const totalInRel = postsInRel.length;
+    const scaledTotalInRel = Math.floor(totalInRel * scale);
+    const relSevSum = scaledHighInRel + scaledMediumInRel + scaledLowInRel + scaledUnmarkedInRel;
+    const relSevRemainder = scaledTotalInRel - relSevSum;
+
+    severityByRelevance[relType] = {
+      high: scaledHighInRel,
+      medium: scaledMediumInRel,
+      low: scaledLowInRel,
+      unmarked: scaledUnmarkedInRel + relSevRemainder,
+      total: scaledTotalInRel,
+    };
+  });
+
+  // 11) 计算相关内容和高优先级内容的真实总数
   // 相关内容总数 = relevanceCounts.relevant（已经按比例调整）
   const relevantTotalCount = relevanceCounts.relevant;
   // 高优先级内容总数 = severityCounts.high（已经按比例调整）
@@ -335,6 +464,9 @@ export const loadGlobalDataset = async (
     previousTotalCount: previousTotalCount || 0,
     relevanceCounts,
     severityCounts,
+    relevantSeverityCounts, // 新增：相关内容的严重度分布
+    highPriorityBreakdown, // 新增：高优先级内容的创作者和平台分布
+    severityByRelevance, // 新增：各相关性类别的严重度分布
     relevantTotalCount,
     highPriorityTotalCount,
   };

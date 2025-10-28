@@ -175,6 +175,9 @@ export default function ContentDashboard() {
     setGlobalPreviousTotalCount(cache.globalPreviousTotalCount || 0);
     setGlobalRelevanceCounts(cache.globalRelevanceCounts || { relevant: 0, suspicious: 0, irrelevant: 0, marketing: 0 });
     setGlobalSeverityCounts(cache.globalSeverityCounts || { high: 0, medium: 0, low: 0, unmarked: 0 });
+    setGlobalRelevantSeverityCounts(cache.globalRelevantSeverityCounts || { high: 0, medium: 0, low: 0, unmarked: 0 });
+    setGlobalHighPriorityBreakdown(cache.globalHighPriorityBreakdown || { creatorTypes: { 达人: 0, 素人: 0, 未标注: 0 }, platforms: { 抖音: 0, 小红书: 0, 其他: 0 } });
+    setGlobalSeverityByRelevance(cache.globalSeverityByRelevance || {});
     setGlobalRelevantTotal(cache.globalRelevantTotal || 0);
     setGlobalHighPriorityTotal(cache.globalHighPriorityTotal || 0);
     setChartState(cache.chartState);
@@ -440,8 +443,17 @@ export default function ContentDashboard() {
   const [globalPreviousTotalCount, setGlobalPreviousTotalCount] = useState<number>(0);
   // 新增：存储SQL层面的相关性分布count（用于KPI分布显示）
   const [globalRelevanceCounts, setGlobalRelevanceCounts] = useState<{relevant: number; suspicious: number; irrelevant: number; marketing: number}>({ relevant: 0, suspicious: 0, irrelevant: 0, marketing: 0 });
-  // 新增：存储SQL层面的严重度分布count（用于KPI分布显示）
+  // 新增：存储SQL层面的严重度分布count（全局统计）
   const [globalSeverityCounts, setGlobalSeverityCounts] = useState<{high: number; medium: number; low: number; unmarked: number}>({ high: 0, medium: 0, low: 0, unmarked: 0 });
+  // 新增：存储SQL层面的相关内容的严重度分布count（只统计"相关"类别）
+  const [globalRelevantSeverityCounts, setGlobalRelevantSeverityCounts] = useState<{high: number; medium: number; low: number; unmarked: number}>({ high: 0, medium: 0, low: 0, unmarked: 0 });
+  // 新增：存储高优先级内容的创作者和平台分布
+  const [globalHighPriorityBreakdown, setGlobalHighPriorityBreakdown] = useState<{
+    creatorTypes: { 达人: number; 素人: number; 未标注: number };
+    platforms: { 抖音: number; 小红书: number; 其他: number };
+  }>({ creatorTypes: { 达人: 0, 素人: 0, 未标注: 0 }, platforms: { 抖音: 0, 小红书: 0, 其他: 0 } });
+  // 新增：存储各相关性类别的严重度分布（用于二级图表）
+  const [globalSeverityByRelevance, setGlobalSeverityByRelevance] = useState<Record<string, {high: number; medium: number; low: number; unmarked: number; total: number}>>({});
   // 新增：存储相关内容和高优先级内容的真实总数
   const [globalRelevantTotal, setGlobalRelevantTotal] = useState<number>(0);
   const [globalHighPriorityTotal, setGlobalHighPriorityTotal] = useState<number>(0);
@@ -476,6 +488,12 @@ export default function ContentDashboard() {
           setGlobalRelevanceCounts(ds.relevanceCounts);
           // 设置SQL层面的严重度分布count
           setGlobalSeverityCounts(ds.severityCounts);
+          // 设置SQL层面的相关内容的严重度分布count
+          setGlobalRelevantSeverityCounts(ds.relevantSeverityCounts);
+          // 设置高优先级内容的创作者和平台分布
+          setGlobalHighPriorityBreakdown(ds.highPriorityBreakdown);
+          // 设置各相关性类别的严重度分布
+          setGlobalSeverityByRelevance(ds.severityByRelevance);
           // 设置相关内容和高优先级内容的真实总数
           setGlobalRelevantTotal(ds.relevantTotalCount);
           setGlobalHighPriorityTotal(ds.highPriorityTotalCount);
@@ -512,35 +530,23 @@ export default function ContentDashboard() {
     const totalCount = globalTotalCount; // 使用SQL count而不是数组长度
 
     // 相关视频：严重度分布（高/中/低），使用SQL层面的count
-    // 注意：这里的严重度统计是全局的（包括所有相关性类型），
-    // 如果需要只统计"相关"类别的严重度，需要进一步筛选
-    // 为了简化，我们使用全局严重度count并计算百分比
+    // 重要修正：使用 globalRelevantSeverityCounts（只统计"相关"类别的严重度）
+    // 而不是 globalSeverityCounts（全局严重度，包括所有相关性类型）
     const findSev = (name: string) => {
       let count = 0;
-      if (name === "高") count = globalSeverityCounts.high;
-      else if (name === "中") count = globalSeverityCounts.medium;
-      else if (name === "低") count = globalSeverityCounts.low;
-      const totalSev = globalSeverityCounts.high + globalSeverityCounts.medium + globalSeverityCounts.low + globalSeverityCounts.unmarked;
-      const percentage = totalSev > 0 ? Math.round((count / totalSev) * 100) : 0;
+      if (name === "高") count = globalRelevantSeverityCounts.high;
+      else if (name === "中") count = globalRelevantSeverityCounts.medium;
+      else if (name === "低") count = globalRelevantSeverityCounts.low;
+      // 这里返回的count是绝对数量，不需要计算百分比
+      const percentage = globalRelevantTotal > 0 ? Math.round((count / globalRelevantTotal) * 100) : 0;
       return { count, percentage };
     };
 
-    // 高优先级视频：创作者分布（达人/素人），在所有帖子中 severity=高 的子集中统计
-    let highCreator = { 达人: 0, 素人: 0 } as { [k: string]: number };
-    // 高优先级视频：平台分布（抖音/小红书）
-    let highPlatforms = { 抖音: 0, 小红书: 0 } as { [k: string]: number };
-    if (globalPostsLite.length > 0) {
-      globalPostsLite.forEach((p) => {
-        if (globalMaps.severityMap[p.platform_item_id] === "高") {
-          const ct = String(globalMaps.creatorTypeMap[p.platform_item_id] || "未标注");
-          if (ct === "达人") highCreator.达人 += 1;
-          if (ct === "素人") highCreator.素人 += 1;
-          const plat = String(p.platform || "").toLowerCase();
-          if (plat === "douyin") highPlatforms.抖音 += 1;
-          if (plat === "xiaohongshu") highPlatforms.小红书 += 1;
-        }
-      });
-    }
+    // 高优先级视频：创作者分布（达人/素人），直接使用SQL统计的结果
+    // 重要修正：使用 globalHighPriorityBreakdown（SQL统计）
+    // 而不是遍历 globalPostsLite 数组（可能不完整）
+    const highCreator = globalHighPriorityBreakdown.creatorTypes;
+    const highPlatforms = globalHighPriorityBreakdown.platforms;
 
     return {
       totalRelevance: { 相关: pickRel("相关"), 疑似相关: pickRel("疑似相关"), 不相关: pickRel("不相关"), total: totalCount },
@@ -548,8 +554,62 @@ export default function ContentDashboard() {
       highCreators: { 达人: highCreator.达人, 素人: highCreator.素人 },
       highPlatforms,
     };
-  }, [globalPostsLite, globalMaps, globalRelevanceCounts, globalSeverityCounts, globalTotalCount]);
-  const severityData = useMemo(() => chartState.level === "secondary" && chartState.selectedRelevance ? buildSeverityGroups(chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
+  }, [globalRelevanceCounts, globalRelevantSeverityCounts, globalHighPriorityBreakdown, globalTotalCount, globalRelevantTotal]);
+  // 二级图表数据：基于SQL预先统计的数据
+  const severityData = useMemo(() => {
+    if (chartState.level !== "secondary" || !chartState.selectedRelevance) return null;
+    
+    const selectedRel = chartState.selectedRelevance;
+    const relData = globalSeverityByRelevance[selectedRel];
+    
+    // 如果SQL统计中没有该相关性类别的数据，回退到使用buildSeverityGroups
+    if (!relData) {
+      return buildSeverityGroups(selectedRel, globalPostsLite, globalMaps);
+    }
+    
+    // 使用SQL统计的数据，但需要计算创作者和平台分布（从globalPostsLite中筛选）
+    const normalizeRel = (v?: string) => {
+      const s = String(v || "").trim();
+      if (s === "需人工介入") return "疑似相关";
+      if (s === "可忽略" || s === "无关") return "不相关";
+      if (s === "营销内容") return "营销";
+      return s;
+    };
+    
+    const filtered = globalPostsLite.filter((p) => {
+      const rel = normalizeRel(globalMaps.relevanceMap[p.platform_item_id] || "");
+      if (selectedRel === "营销") return rel === "营销" || rel === "营销内容";
+      return rel === selectedRel;
+    });
+    
+    const sevList: ("高" | "中" | "低" | "未标注")[] = ["高", "中", "低", "未标注"];
+    const countPlatform = (list: typeof filtered, key: string) => 
+      list.filter((x) => String(x.platform || "").toLowerCase().includes(key)).length;
+    
+    return {
+      relevanceType: selectedRel,
+      totalCount: relData.total, // 使用SQL统计的总数
+      data: sevList.map((s) => {
+        const arr = filtered.filter((p) => globalMaps.severityMap[p.platform_item_id] === s);
+        const count = s === "高" ? relData.high : s === "中" ? relData.medium : s === "低" ? relData.low : relData.unmarked;
+        return {
+          severity: s,
+          total: count, // 使用SQL统计的count
+          percentage: relData.total > 0 ? Math.round((count / relData.total) * 100 * 10) / 10 : 0,
+          creators: {
+            达人: arr.filter((p) => (globalMaps.creatorTypeMap[p.platform_item_id] || "未标注") === "达人").length,
+            素人: arr.filter((p) => (globalMaps.creatorTypeMap[p.platform_item_id] || "未标注") === "素人").length,
+            未标注: arr.filter((p) => !globalMaps.creatorTypeMap[p.platform_item_id] || globalMaps.creatorTypeMap[p.platform_item_id] === "未标注").length,
+          },
+          platforms: {
+            抖音: countPlatform(arr, "douyin"),
+            小红书: countPlatform(arr, "xiaohongshu"),
+            其他: Math.max(0, arr.length - countPlatform(arr, "douyin") - countPlatform(arr, "xiaohongshu")),
+          },
+        };
+      }),
+    };
+  }, [chartState, globalSeverityByRelevance, globalPostsLite, globalMaps]);
   const severityDetail = useMemo(() => (chartState.level === "tertiary" && chartState.selectedRelevance && chartState.selectedSeverity) ? buildSeverityDetail(chartState.selectedSeverity as any, chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const [chartsLoading, setChartsLoading] = useState(false);
 
@@ -648,7 +708,10 @@ export default function ContentDashboard() {
       globalTotalCount, // 新增：缓存SQL层面的真实总数
       globalPreviousTotalCount, // 新增：缓存上一周期的真实总数
       globalRelevanceCounts, // 新增：缓存SQL层面的相关性分布count
-      globalSeverityCounts, // 新增：缓存SQL层面的严重度分布count
+      globalSeverityCounts, // 新增：缓存SQL层面的严重度分布count（全局）
+      globalRelevantSeverityCounts, // 新增：缓存SQL层面的相关内容的严重度分布count
+      globalHighPriorityBreakdown, // 新增：缓存高优先级内容的创作者和平台分布
+      globalSeverityByRelevance, // 新增：缓存各相关性类别的严重度分布
       globalRelevantTotal, // 新增：缓存相关内容真实总数
       globalHighPriorityTotal, // 新增：缓存高优先级内容真实总数
       chartState,
@@ -659,7 +722,7 @@ export default function ContentDashboard() {
       })(),
       lastUpdated: Date.now(),
     });
-  }, [activeProjectId, filters, oldestFirst, page, hasMore, totalCount, allRows, posts, risks, sentiments, relevances, totalRiskCn, totalRiskReason, influencerMap, globalPostsLite, globalMaps, kpiPrev, globalTotalCount, globalPreviousTotalCount, chartState, loading, globalLoading]);
+  }, [activeProjectId, filters, oldestFirst, page, hasMore, totalCount, allRows, posts, risks, sentiments, relevances, totalRiskCn, totalRiskReason, influencerMap, globalPostsLite, globalMaps, kpiPrev, globalTotalCount, globalPreviousTotalCount, globalRelevanceCounts, globalSeverityCounts, globalRelevantSeverityCounts, globalHighPriorityBreakdown, globalSeverityByRelevance, globalRelevantTotal, globalHighPriorityTotal, chartState, loading, globalLoading]);
 
   useEffect(() => {
     const handleBeforeUnload = () => {

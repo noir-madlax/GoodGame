@@ -53,7 +53,13 @@ export type DashboardCacheState = {
   globalTotalCount: number; // SQL层面的真实总数（用于KPI显示）
   globalPreviousTotalCount: number; // 上一周期的真实总数
   globalRelevanceCounts: { relevant: number; suspicious: number; irrelevant: number; marketing: number }; // SQL层面的相关性分布count
-  globalSeverityCounts: { high: number; medium: number; low: number; unmarked: number }; // SQL层面的严重度分布count
+  globalSeverityCounts: { high: number; medium: number; low: number; unmarked: number }; // SQL层面的严重度分布count（全局）
+  globalRelevantSeverityCounts: { high: number; medium: number; low: number; unmarked: number }; // SQL层面的相关内容的严重度分布count（只统计"相关"类别）
+  globalHighPriorityBreakdown: { // 高优先级内容的创作者和平台分布
+    creatorTypes: { 达人: number; 素人: number; 未标注: number };
+    platforms: { 抖音: number; 小红书: number; 其他: number };
+  };
+  globalSeverityByRelevance: Record<string, { high: number; medium: number; low: number; unmarked: number; total: number }>; // 各相关性类别的严重度分布
   globalRelevantTotal: number; // 相关内容真实总数
   globalHighPriorityTotal: number; // 高优先级内容真实总数
   chartState: { level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string };
