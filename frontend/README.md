@@ -1,4 +1,4 @@
-## 导入链接分析 API 契约（草案）
+## 导入链接分析 API 契约（草案1）
 
 前端最小集成所需的后端接口定义如下，供后端同学 Review：
 
@@ -6,22 +6,29 @@
 
 - 方法：POST `/api/import/analyze`
 - 请求体：
+
 ```json
 { "url": "https://www.douyin.com/video/xxxx" }
 ```
+
 - 返回（之一）：
+
 ```json
 { "status": "exists", "analysisId": "123456" }
 ```
+
 表示该链接先前已分析过，前端应直接跳详情。
 
 - 返回（之二）：
+
 ```json
 { "status": "queued", "taskId": "task_abc123" }
 ```
+
 表示已受理为异步任务。前端会给出 Toast 提示“几分钟后在标记内容与处理页查看”。
 
 - 返回（之三，错误）：
+
 ```json
 { "status": "error", "message": "unsupported url" }
 ```
@@ -32,6 +39,7 @@
 
 - 方法：GET `/api/tasks/:taskId`
 - 返回：
+
 ```json
 { "status": "queued" | "running" | "succeeded" | "failed", "analysisId": "123456", "message": "optional" }
 ```
