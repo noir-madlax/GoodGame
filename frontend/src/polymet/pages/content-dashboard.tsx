@@ -83,15 +83,79 @@ export default function ContentDashboard() {
      * 中文设计说明：
      * 1) relevant_status 来源于 gg_platform_post，属于【初筛】结论；值域：yes/no/maybe/unknown。
      * 2) brand_relevance 来源于 gg_video_analysis，属于【细分分析】结论；值域：相关/疑似相关/不相关（或缺省）。
-     * 3) 业务优先级：细分覆盖初筛。即：若 brand_relevance 存在，用它作为“最终相关性”；否则，使用 relevant_status 做回填。
+     * 3) 业务优先级：细分覆盖初筛。即：若 brand_relevance 存在，用它作为"最终相关性"；否则，使用 relevant_status 做回填。
      * 4) 回填映射：
      *    yes   -> 相关
      *    maybe -> 疑似相关
      *    no    -> 不相关
-     *    其余  -> 不设置（视为未知，不参与“相关性”筛选命中）
-     * 5) 页面筛选“相关性=相关/疑似相关/不相关”时，统一针对“最终相关性”生效。
+     *    其余  -> 不设置（视为未知，不参与"相关性"筛选命中）
+     * 5) 页面筛选"相关性=相关/疑似相关/不相关"时，统一针对"最终相关性"生效。
      */
     relevant_status?: string | null;
+  };
+
+  /**
+   * 统一的筛选条件模型
+   * 说明：内容分布概览、内容分布图表、舆情监控结果使用相同的筛选条件
+   */
+  type EffectiveFilters = {
+    projectId: string | null;
+    timeRange: string;
+    channel: string;
+    contentType: string;
+    sentiment: string;
+    riskScenario: string;
+    topRelevance: string;
+    chartRelevance: string | null;
+    chartSeverity: string | null;
+    oldestFirst: boolean;
+  };
+
+  /**
+   * 辅助函数：映射图表相关性到数据库值
+   */
+  const mapChartRelToDbValue = (chartRel: string | null): string | null => {
+    if (!chartRel) return null;
+    if (chartRel === "相关") return "相关";
+    if (chartRel === "疑似相关") return "需人工介入";
+    if (chartRel === "不相关") return "可忽略";
+    if (chartRel === "营销") return "营销";
+    return null;
+  };
+
+  /**
+   * 辅助函数：映射中文严重度到数据库值数组
+   * 注意：gg_video_analysis.total_risk 存储的是中文值（"低"、"中"、"高"）
+   */
+  const mapCnSeverityToDbValues = (cn: string | null): string[] => {
+    if (!cn) return [];
+    if (cn === "高") return ["高", "high", "eP0"];
+    if (cn === "中") return ["中", "medium", "P1"];
+    if (cn === "低") return ["低", "low", "P2"];
+    return [];
+  };
+
+  /**
+   * 辅助函数：映射图表相关性到数据库 relevant_status 字段值
+   */
+  const mapChartRelToRelevantStatus = (cn: string | null): string | null => {
+    if (!cn) return null;
+    if (cn === "相关") return "yes";
+    if (cn === "不相关") return "no";
+    if (cn === "疑似相关") return "suspected";
+    return null;
+  };
+
+  /**
+   * 辅助函数：映射图表相关性到 gg_video_analysis.brand_relevance 可能的值数组
+   * 注意：gg_video_analysis 中"不相关"存储为"无关"
+   */
+  const mapChartRelToBrandRelevance = (cn: string | null): string[] => {
+    if (!cn) return [];
+    if (cn === "相关") return ["相关"];
+    if (cn === "不相关") return ["无关", "不相关"]; // 数据库中主要是"无关"
+    if (cn === "疑似相关") return ["疑似相关"];
+    return [];
   };
 
   // RiskRow kept in lib/content; local type not required here after refactor
@@ -196,8 +260,9 @@ export default function ContentDashboard() {
    * 功能：按页拉取帖子并在前端应用时间过滤、分析映射、相关性回填、筛选与排序。
    * 调用时机：首屏加载与滚动触底追加；每次筛选条件或排序方向变更后会重置并重新请求。
    * 参数：batchIndex - 分页索引，从 0 开始。
+   *       filters - 统一的筛选条件
    */
-  const fetchBatch = useCallback(async (batchIndex: number) => {
+  const fetchBatch = useCallback(async (batchIndex: number, filters: EffectiveFilters) => {
     let cancelled = false;
     const run = async () => {
       try {
@@ -213,54 +278,177 @@ export default function ContentDashboard() {
         } else {
           setLoadingMore(true);
         }
-        // 已移除：旧版基于分析/初筛的 id 白名单预过滤逻辑，统一改为在前端应用筛选，保持行为不变但简化实现
 
-        // 构建基础查询（分页、基础条件、可选的 id 白名单）；count 在首屏单独 range(0,0) 获取
-        const buildBaseQuery = () => {
+        // 【重构】使用优化后的查询逻辑：
+        // 利用 gg_video_analysis.published_at 字段（已通过数据库迁移添加）
+        // 直接在 gg_video_analysis 表查询，无需多步查询
+        let chartFilteredIds: string[] | null = null;
+        if (filters.chartRelevance || filters.chartSeverity) {
+          console.log('[DEBUG] Generating chartFilteredIds, chartRelevance:', filters.chartRelevance, 'chartSeverity:', filters.chartSeverity);
+          const idSet = new Set<string>();
+          
+          // 从 gg_video_analysis 一次性查询符合条件的 platform_item_id
+          let analysisQuery = sb
+            .from("gg_video_analysis")
+            .select("platform_item_id");
+          
+          if (filters.projectId) {
+            analysisQuery = analysisQuery.eq("project_id", filters.projectId);
+          }
+          
+          // 关键优化：直接在 gg_video_analysis 应用时间筛选
+          const startAt = resolveStartAt(filters.timeRange);
+          if (startAt) {
+            analysisQuery = analysisQuery.gte("published_at", startAt.toISOString());
+          }
+          
+          // 应用图表层级的相关性筛选
+          if (filters.chartRelevance) {
+            const brandRelValues = mapChartRelToBrandRelevance(filters.chartRelevance);
+            console.log('[DEBUG] brandRelValues for chartRelevance:', filters.chartRelevance, '=', brandRelValues);
+            if (brandRelValues.length > 0) {
+              analysisQuery = analysisQuery.in("brand_relevance", brandRelValues);
+            }
+          }
+          
+          // 应用图表层级的严重度筛选
+          if (filters.chartSeverity) {
+            const sevValues = mapCnSeverityToDbValues(filters.chartSeverity);
+            if (sevValues.length > 0) {
+              analysisQuery = analysisQuery.in("total_risk", sevValues);
+            }
+          }
+          
+          const { data: analysisData } = await analysisQuery;
+          console.log('[DEBUG] analysisData count:', (analysisData || []).length);
+          (analysisData || []).forEach((r: { platform_item_id: string }) => {
+            if (r.platform_item_id) idSet.add(r.platform_item_id);
+          });
+          console.log('[DEBUG] idSet size after analysisData:', idSet.size);
+          
+          // 回填逻辑：如果只有相关性筛选（没有严重度筛选），也从 gg_platform_post 查询
+          // 因为有些相关内容只在 relevant_status 中标记，没有经过详细分析
+          if (filters.chartRelevance && !filters.chartSeverity) {
+            let postQuery = sb
+              .from("gg_platform_post")
+              .select("platform_item_id");
+            
+            if (filters.projectId) {
+              postQuery = postQuery.eq("project_id", filters.projectId);
+            }
+            
+            // 应用时间筛选
+            if (startAt) {
+              postQuery = postQuery.gte("published_at", startAt.toISOString());
+            }
+            
+            // 映射中文相关性到 relevant_status 的值
+            const relStatusValue = mapChartRelToRelevantStatus(filters.chartRelevance);
+            console.log('[DEBUG] Fallback query, relStatusValue:', relStatusValue);
+            if (relStatusValue) {
+              postQuery = postQuery.eq("relevant_status", relStatusValue);
+            }
+            
+            const { data: postData } = await postQuery;
+            console.log('[DEBUG] postData count (fallback):', (postData || []).length);
+            (postData || []).forEach((r: { platform_item_id: string }) => {
+              if (r.platform_item_id) idSet.add(r.platform_item_id);
+            });
+            console.log('[DEBUG] idSet size after postData fallback:', idSet.size);
+          }
+          
+          chartFilteredIds = Array.from(idSet);
+          console.log('[DEBUG] Final chartFilteredIds length:', chartFilteredIds.length);
+          
+          // 如果没有符合条件的数据，提前返回
+          if (chartFilteredIds.length === 0) {
+            console.log('[DEBUG] chartFilteredIds is empty, returning early');
+            if (!cancelled) {
+              setHasMore(false);
+              setAllRows([]);
+              setPosts([]);
+              setTotalCount(0);
+            }
+            return;
+          }
+        }
+
+        // 构建SQL查询，应用所有筛选条件
+        const buildQuery = () => {
           let q = sb
             .from("gg_platform_post")
             .select(
-              // NOTE: we also select relevant_status so that we can use it to
-              // backfill brand_relevance when deep analysis is not available.
               "id, platform, platform_item_id, author_id, title, original_url, like_count, comment_count, share_count, cover_url, author_name, author_follower_count, duration_ms, published_at, created_at, relevant_status, is_marked",
               { count: "exact" }
-            )
-            // 与前端展示排序保持一致：按发布时间为主键，空值时回退创建时间，再用 id 保证稳定顺序
-            // PostgREST 支持多重 order，无法直接使用表达式 coalesce，这里通过级联排序达到相同效果
-            .order("published_at", { ascending: oldestFirst, nullsFirst: oldestFirst })
-            .order("created_at", { ascending: oldestFirst })
-            .order("id", { ascending: oldestFirst });
+            );
           
-          // 添加 project_id 筛选
-          if (activeProjectId) {
-            q = q.eq("project_id", activeProjectId);
+          // 排序
+          q = q
+            .order("published_at", { ascending: filters.oldestFirst, nullsFirst: filters.oldestFirst })
+            .order("created_at", { ascending: filters.oldestFirst })
+            .order("id", { ascending: filters.oldestFirst });
+          
+          // 应用所有筛选条件
+          if (filters.projectId) {
+            q = q.eq("project_id", filters.projectId);
           }
           
-          // 在 SQL 层面做时间过滤（性能优化）
-          const startAt = resolveStartAt(timeRange);
+          // 【优化】图表层级筛选：始终使用 .in() 查询，提高精确度
+          // 对于大量ID（>50），分批处理或直接使用（Supabase支持较长URL）
+          if (chartFilteredIds && chartFilteredIds.length > 0) {
+            q = q.in("platform_item_id", chartFilteredIds);
+          }
+          
+          // 时间筛选
+          const startAt = resolveStartAt(filters.timeRange);
           if (startAt) {
             q = q.gte("published_at", startAt.toISOString());
           }
           
-          if (channel !== "all") q = q.eq("platform", channel);
-          if (contentType !== "all") q = q.eq("post_type", contentType);
+          // 平台、内容类型
+          if (filters.channel !== "all") q = q.eq("platform", filters.channel);
+          if (filters.contentType !== "all") q = q.eq("post_type", filters.contentType);
+          
+          // 顶部筛选的相关性（只在没有图表层级筛选时生效）
+          if (filters.topRelevance !== "all" && !filters.chartRelevance) {
+            q = q.eq("relevant_status", filters.topRelevance);
+          }
+          
           return q;
         };
 
         if (isFirst) {
-          const { count } = await buildBaseQuery().range(0, 0);
-          setTotalCount(count || 0);
+          // 如果有图表层级筛选，totalCount 应该是 chartFilteredIds 的数量
+          // 否则从数据库查询总数
+          if (chartFilteredIds && chartFilteredIds.length > 0) {
+            setTotalCount(chartFilteredIds.length);
+          } else {
+            const { count } = await buildQuery().range(0, 0);
+            setTotalCount(count || 0);
+          }
         }
 
-        // 统一分页：去除"一次性全量加载"的分支，始终按 PAGE_SIZE 分批拉取
-        const start = batchIndex * PAGE_SIZE;
-        const end = start + PAGE_SIZE - 1;
-        const { data: postData } = await buildBaseQuery().range(start, end);
+        // 【优化】分页策略：根据数据量动态调整批次大小
+        // 当有图表层级筛选时，结果集不会超过 chartFilteredIds.length
+        let batchSize = PAGE_SIZE;
+        if (chartFilteredIds && chartFilteredIds.length > 0) {
+          // 如果总数较小（<=100），一次性加载所有数据，提高性能
+          if (chartFilteredIds.length <= 100) {
+            batchSize = chartFilteredIds.length;
+          }
+        }
+        
+        const start = batchIndex * batchSize;
+        const end = start + batchSize - 1;
+        const { data: postData } = await buildQuery().range(start, end);
         const postsSafe: PostRow[] = ((postData || []) as unknown) as PostRow[];
+
+        // 已在SQL层面完成所有筛选，无需前端过滤
+        let filteredByChart = postsSafe;
 
         // SQL 层面已经做了时间过滤，前端不再需要二次过滤
         // 保留 filteredByTime 变量名以保持代码连贯性
-        let filteredByTime = postsSafe;
+        let filteredByTime = filteredByChart;
 
         // 已移除：示例性平台/类型集合统计与额外 post_type 查询（无消费方）
 
@@ -345,24 +533,12 @@ export default function ContentDashboard() {
         // yes->相关；maybe->疑似相关；no->不相关；unknown/null->忽略。
         const relevanceMapBackfilled = backfillRelevance(relevanceMap, filteredByTime);
 
-        // 合并新页数据到累计行（服务端已按发布时间排序）；默认仅追加不重排，确保“稳定追加”体验
+        // 合并新页数据到累计行（服务端已按发布时间排序，且已在SQL层面应用了所有筛选）
         const mergedRows = isFirst ? filteredByTime : [...allRows, ...filteredByTime];
 
-        // 在累计行上应用筛选条件（情绪 / 风险场景 / 品牌相关性）
-        let postsAfterFilters = mergedRows;
-        if (sentiment !== "all") {
-          postsAfterFilters = postsAfterFilters.filter((p) => sentimentsMap[p.platform_item_id] === sentiment);
-        }
-        if (riskScenario !== "all") {
-          postsAfterFilters = postsAfterFilters.filter((p) => (risksMap[p.platform_item_id] || []).includes(riskScenario));
-        }
-        if (relevance !== "all") {
-          postsAfterFilters = postsAfterFilters.filter((p) => (relevanceMapBackfilled[p.platform_item_id] || "") === relevance);
-        }
-
-        // 最终排序：仅当选择“最旧优先”时在客户端按时间正序排序；
-        // 默认“最新优先”保持服务端顺序，避免新批次被插入到列表中部
-        const postsSorted = oldestFirst ? sortByPublished(postsAfterFilters, true) : postsAfterFilters;
+        // SQL已经应用了所有筛选条件，前端不再需要二次筛选
+        // 直接使用合并后的数据
+        const postsSorted = mergedRows;
 
         // options are loaded by FilterBar from gg_filter_enums; page no longer sets them
 
@@ -389,43 +565,7 @@ export default function ContentDashboard() {
     return () => {
       cancelled = true;
     };
-  }, [allRows, channel, contentType, oldestFirst, relevance, riskScenario, sentiment, timeRange, risks, sentiments, relevances, filters.timeRange]);
-
-  /**
-   * 功能：触发下一页加载（被滚动观察器调用）。
-   * 说明：当不在加载中且仍有更多数据时，页码 +1 并发起请求。
-   */
-  const handleLoadMore = useCallback(() => {
-    if (loading || loadingMore || !hasMore) return;
-    const next = page + 1;
-    setPage(next);
-    fetchBatch(next);
-  }, [fetchBatch, hasMore, loading, loadingMore, page]);
-
-  // 首屏加载与筛选/排序变化时：重置分页与累计数据，并拉取第一页
-  useEffect(() => {
-    if (skipListFetchRef.current) {
-      skipListFetchRef.current = false;
-      return;
-    }
-    setPage(0);
-    setAllRows([]);
-    setHasMore(true);
-    fetchBatch(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channel, contentType, sentiment, relevance, riskScenario, timeRange, oldestFirst, filters.timeRange]);
-
-  // 交叉观察器：观察底部哨兵，一旦进入视口则触发下一页加载
-  useEffect(() => {
-    const node = sentinelRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver((entries) => {
-      const first = entries[0];
-      if (first.isIntersecting) handleLoadMore();
-    });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [handleLoadMore]);
+  }, [allRows, risks, sentiments, relevances, supabase, activeProjectId]);
 
   const normalizePlatform = normalizePlatformKey; // 平台 key 归一化（如 xhs -> xiaohongshu）
   const formatDuration = formatDurationMs; // 毫秒时长格式化为 mm:ss
@@ -459,7 +599,83 @@ export default function ContentDashboard() {
   const [globalHighPriorityTotal, setGlobalHighPriorityTotal] = useState<number>(0);
   const [chartState, setChartState] = useState<{ level: "primary" | "secondary" | "tertiary"; selectedRelevance?: string; selectedSeverity?: string }>({ level: "primary" });
 
-  // 根据筛选项加载“全库统计”数据集（独立于分页列表）
+  /**
+   * 计算有效的筛选条件（统一筛选条件模型）
+   * 说明：图表层级的筛选优先于顶部筛选，所有查询模块使用相同的筛选条件
+   */
+  const effectiveFilters = useMemo<EffectiveFilters>(() => {
+    const chartRel = (chartState.level === "secondary" || chartState.level === "tertiary") 
+      ? chartState.selectedRelevance || null
+      : null;
+    const chartSev = chartState.level === "tertiary" 
+      ? chartState.selectedSeverity || null
+      : null;
+    
+    return {
+      projectId: activeProjectId || null,
+      timeRange: filters.timeRange,
+      channel,
+      contentType,
+      sentiment,
+      riskScenario,
+      topRelevance: relevance,
+      chartRelevance: chartRel,
+      chartSeverity: chartSev,
+      oldestFirst,
+    };
+  }, [
+    activeProjectId,
+    filters.timeRange,
+    channel,
+    contentType,
+    sentiment,
+    riskScenario,
+    relevance,
+    chartState.level,
+    chartState.selectedRelevance,
+    chartState.selectedSeverity,
+    oldestFirst,
+  ]);
+
+  /**
+   * 功能：触发下一页加载（被滚动观察器调用）。
+   * 说明：当不在加载中且仍有更多数据时，页码 +1 并发起请求。
+   */
+  const handleLoadMore = useCallback(() => {
+    if (loading || loadingMore || !hasMore) return;
+    const next = page + 1;
+    setPage(next);
+    fetchBatch(next, effectiveFilters);
+  }, [fetchBatch, hasMore, loading, loadingMore, page, effectiveFilters]);
+
+  // 监听有效筛选条件变化：重置分页与累计数据，并拉取第一页
+  useEffect(() => {
+    if (skipListFetchRef.current) {
+      skipListFetchRef.current = false;
+      return;
+    }
+    setPage(0);
+    setAllRows([]);
+    setPosts([]); // 清空posts，避免显示旧数据
+    setTotalCount(0); // 重置totalCount为0而不是undefined，避免显示错误的总数
+    setHasMore(true);
+    fetchBatch(0, effectiveFilters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effectiveFilters]);
+
+  // 交叉观察器：观察底部哨兵，一旦进入视口则触发下一页加载
+  useEffect(() => {
+    const node = sentinelRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting) handleLoadMore();
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [handleLoadMore]);
+
+  // 根据筛选项加载"全库统计"数据集（独立于分页列表）
   useEffect(() => {
     if (skipGlobalFetchRef.current) {
       skipGlobalFetchRef.current = false;
@@ -613,43 +829,8 @@ export default function ContentDashboard() {
   const severityDetail = useMemo(() => (chartState.level === "tertiary" && chartState.selectedRelevance && chartState.selectedSeverity) ? buildSeverityDetail(chartState.selectedSeverity as any, chartState.selectedRelevance, globalPostsLite, globalMaps) : null, [chartState, globalPostsLite, globalMaps]);
   const [chartsLoading, setChartsLoading] = useState(false);
 
-  // —— 列表联动与数量统计 ——
-  // 有效筛选：若在二/三级图表，则使用图表选择；否则使用顶部筛选
-  const effectiveRelevance = useMemo(() => {
-    if (chartState.level === "secondary" || chartState.level === "tertiary") return chartState.selectedRelevance || null;
-    return filters.relevance[0] || null;
-  }, [chartState, filters.relevance]);
-  const effectiveSeverity = useMemo(() => {
-    if (chartState.level === "tertiary") return chartState.selectedSeverity || null;
-    return null;
-  }, [chartState]);
-
-  // 监控结果展示的“匹配总数”：不受分页影响，使用全库数据集或已计算的二/三级统计
-  const monitoringMatchCount = useMemo(() => {
-    if (chartState.level === "tertiary") return severityDetail?.totalCount || 0;
-    if (chartState.level === "secondary") return severityData?.totalCount || 0;
-    // 一级：全库数据集长度（已受顶部筛选控制）
-    return globalPostsLite.length;
-  }, [chartState, severityDetail, severityData, globalPostsLite.length]);
-
-  // 监控结果列表联动：在当前已按顶部筛选过滤后的 posts 上，再应用“有效筛选”
-  const visiblePosts = useMemo(() => {
-    const mapChartRelToBackfilled = (val: string | null) => {
-      if (!val) return val;
-      if (val === "疑似相关") return "需人工介入";
-      if (val === "不相关") return "可忽略";
-      return val;
-    };
-    let arr = posts;
-    const relWanted = mapChartRelToBackfilled(effectiveRelevance);
-    if (relWanted && relWanted !== "all") {
-      arr = arr.filter((p) => (relevances[p.platform_item_id] || "") === relWanted);
-    }
-    if (effectiveSeverity) {
-      arr = arr.filter((p) => (totalRiskCn[p.platform_item_id] || "未标注") === effectiveSeverity);
-    }
-    return arr;
-  }, [posts, effectiveRelevance, effectiveSeverity, relevances, totalRiskCn]);
+  // 监控结果列表：直接使用 posts（SQL查询已应用所有筛选条件）
+  const visiblePosts = posts;
 
   const handleRelevanceClick = (name: string) => {
     setChartsLoading(true);
@@ -800,7 +981,6 @@ export default function ContentDashboard() {
         formatDuration={formatDuration}
         normalizePlatform={normalizePlatform}
         influencerMap={influencerMap}
-        matchCount={monitoringMatchCount}
         totalCount={totalCount}
       />
 

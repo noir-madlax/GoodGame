@@ -42,7 +42,6 @@ export default function MonitoringResults({
   normalizePlatform,
   influencerMap,
   currentFilters,
-  matchCount,
   totalCount,
 }: {
   posts: PostRowLite[];
@@ -63,11 +62,10 @@ export default function MonitoringResults({
   normalizePlatform: (k: string) => string;
   influencerMap?: Record<string, boolean>;
   currentFilters?: { relevance: string | null; priority: string | null };
-  matchCount?: number;
   totalCount?: number;
 }) {
-  // 优先使用 totalCount（来自 SQL count 查询），否则使用 matchCount（全库统计），最后使用 posts.length
-  const displayCount = totalCount !== undefined && totalCount > 0 ? totalCount : (matchCount ?? posts.length);
+  // 直接使用 totalCount（来自 SQL count 查询），如果没有则使用 posts.length
+  const displayCount = totalCount ?? posts.length;
   
   return (
     <div className="space-y-6">
