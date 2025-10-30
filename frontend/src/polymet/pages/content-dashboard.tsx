@@ -283,6 +283,7 @@ export default function ContentDashboard() {
         // 利用 gg_video_analysis.published_at 字段（已通过数据库迁移添加）
         // 直接在 gg_video_analysis 表查询，无需多步查询
         let chartFilteredIds: string[] | null = null;
+        
         if (filters.chartRelevance || filters.chartSeverity) {
           console.log('[DEBUG] Generating chartFilteredIds, chartRelevance:', filters.chartRelevance, 'chartSeverity:', filters.chartSeverity);
           const idSet = new Set<string>();
@@ -319,41 +320,132 @@ export default function ContentDashboard() {
             }
           }
           
-          const { data: analysisData } = await analysisQuery;
-          console.log('[DEBUG] analysisData count:', (analysisData || []).length);
-          (analysisData || []).forEach((r: { platform_item_id: string }) => {
-            if (r.platform_item_id) idSet.add(r.platform_item_id);
-          });
+          // 【修复】使用分批查询突破Supabase的max-rows限制（默认1000条）
+          // 首先获取总数（使用单独的count查询）
+          const countQuery = sb.from("gg_video_analysis").select("*", { count: "exact", head: true });
+          // 复制所有筛选条件到count查询
+          let analysisCountQuery = countQuery;
+          if (filters.projectId) {
+            analysisCountQuery = analysisCountQuery.eq("project_id", filters.projectId);
+          }
+          if (startAt) {
+            analysisCountQuery = analysisCountQuery.gte("published_at", startAt.toISOString());
+          }
+          if (filters.chartRelevance) {
+            const brandRelValues = mapChartRelToBrandRelevance(filters.chartRelevance);
+            if (brandRelValues.length > 0) {
+              analysisCountQuery = analysisCountQuery.in("brand_relevance", brandRelValues);
+            }
+          }
+          if (filters.chartSeverity) {
+            const sevValues = mapCnSeverityToDbValues(filters.chartSeverity);
+            if (sevValues.length > 0) {
+              analysisCountQuery = analysisCountQuery.in("total_risk", sevValues);
+            }
+          }
+          const { count: analysisCount } = await analysisCountQuery;
+          console.log('[DEBUG] analysisCount:', analysisCount || 0);
+          
+          // 分批查询（每批999条）
+          const batchSize = 999;
+          const totalAnalysisCount = analysisCount || 0;
+          for (let offset = 0; offset < totalAnalysisCount; offset += batchSize) {
+            const end = Math.min(offset + batchSize - 1, totalAnalysisCount - 1);
+            const { data: batchData } = await analysisQuery.range(offset, end);
+            if (batchData && batchData.length > 0) {
+              batchData.forEach((r: { platform_item_id: string }) => {
+                if (r.platform_item_id) idSet.add(r.platform_item_id);
+              });
+            }
+          }
           console.log('[DEBUG] idSet size after analysisData:', idSet.size);
           
           // 回填逻辑：如果只有相关性筛选（没有严重度筛选），也从 gg_platform_post 查询
           // 因为有些相关内容只在 relevant_status 中标记，没有经过详细分析
+          // 【关键修复】只包含在gg_video_analysis中没有brand_relevance记录的内容，避免重复计数
           if (filters.chartRelevance && !filters.chartSeverity) {
-            let postQuery = sb
-              .from("gg_platform_post")
+            // 首先获取所有有brand_relevance的platform_item_id（无论相关性如何）
+            let allAnalysisQuery = sb
+              .from("gg_video_analysis")
               .select("platform_item_id");
             
             if (filters.projectId) {
-              postQuery = postQuery.eq("project_id", filters.projectId);
+              allAnalysisQuery = allAnalysisQuery.eq("project_id", filters.projectId);
             }
-            
-            // 应用时间筛选
             if (startAt) {
-              postQuery = postQuery.gte("published_at", startAt.toISOString());
+              allAnalysisQuery = allAnalysisQuery.gte("published_at", startAt.toISOString());
             }
             
-            // 映射中文相关性到 relevant_status 的值
+            // 分批获取所有有brand_relevance的ID
+            const allAnalysisCountQuery = sb.from("gg_video_analysis").select("*", { count: "exact", head: true });
+            let tempQuery = allAnalysisCountQuery;
+            if (filters.projectId) {
+              tempQuery = tempQuery.eq("project_id", filters.projectId);
+            }
+            if (startAt) {
+              tempQuery = tempQuery.gte("published_at", startAt.toISOString());
+            }
+            const { count: allAnalysisCount } = await tempQuery;
+            
+            const allAnalysisIds = new Set<string>();
+            for (let offset = 0; offset < (allAnalysisCount || 0); offset += batchSize) {
+              const end = Math.min(offset + batchSize - 1, (allAnalysisCount || 0) - 1);
+              const { data: batchData } = await allAnalysisQuery.range(offset, end);
+              if (batchData && batchData.length > 0) {
+                batchData.forEach((r: { platform_item_id: string }) => {
+                  if (r.platform_item_id) allAnalysisIds.add(r.platform_item_id);
+                });
+              }
+            }
+            console.log('[DEBUG] Total IDs with brand_relevance:', allAnalysisIds.size);
+            
+            // 然后查询gg_platform_post，只包含不在allAnalysisIds中的内容
             const relStatusValue = mapChartRelToRelevantStatus(filters.chartRelevance);
             console.log('[DEBUG] Fallback query, relStatusValue:', relStatusValue);
-            if (relStatusValue) {
-              postQuery = postQuery.eq("relevant_status", relStatusValue);
-            }
             
-            const { data: postData } = await postQuery;
-            console.log('[DEBUG] postData count (fallback):', (postData || []).length);
-            (postData || []).forEach((r: { platform_item_id: string }) => {
-              if (r.platform_item_id) idSet.add(r.platform_item_id);
-            });
+            if (relStatusValue) {
+              // 由于Supabase不支持NOT IN，我们需要先获取所有匹配的数据，然后在客户端过滤
+              let postQuery = sb
+                .from("gg_platform_post")
+                .select("platform_item_id");
+              
+              if (filters.projectId) {
+                postQuery = postQuery.eq("project_id", filters.projectId);
+              }
+              if (startAt) {
+                postQuery = postQuery.gte("published_at", startAt.toISOString());
+              }
+              postQuery = postQuery.eq("relevant_status", relStatusValue);
+              
+              // 获取总数
+              let postCountQuery = sb.from("gg_platform_post").select("*", { count: "exact", head: true });
+              if (filters.projectId) {
+                postCountQuery = postCountQuery.eq("project_id", filters.projectId);
+              }
+              if (startAt) {
+                postCountQuery = postCountQuery.gte("published_at", startAt.toISOString());
+              }
+              postCountQuery = postCountQuery.eq("relevant_status", relStatusValue);
+              const { count: postCount } = await postCountQuery;
+              console.log('[DEBUG] postCount (fallback before filter):', postCount || 0);
+              
+              // 分批查询并过滤
+              let addedCount = 0;
+              for (let offset = 0; offset < (postCount || 0); offset += batchSize) {
+                const end = Math.min(offset + batchSize - 1, (postCount || 0) - 1);
+                const { data: batchData } = await postQuery.range(offset, end);
+                if (batchData && batchData.length > 0) {
+                  batchData.forEach((r: { platform_item_id: string }) => {
+                    // 【关键】只添加那些不在allAnalysisIds中的ID
+                    if (r.platform_item_id && !allAnalysisIds.has(r.platform_item_id)) {
+                      idSet.add(r.platform_item_id);
+                      addedCount++;
+                    }
+                  });
+                }
+              }
+              console.log('[DEBUG] IDs added from fallback (after filter):', addedCount);
+            }
             console.log('[DEBUG] idSet size after postData fallback:', idSet.size);
           }
           
@@ -373,8 +465,13 @@ export default function ContentDashboard() {
           }
         }
 
+        // 【修复】处理大量ID的分批查询逻辑
+        // 当 chartFilteredIds 数量超过阈值时，需要分批查询以避免 URL 过长
+        const MAX_IDS_PER_QUERY = 100; // Supabase .in() 查询的最大ID数量
+        const needsBatchQuery = chartFilteredIds && chartFilteredIds.length > MAX_IDS_PER_QUERY;
+        
         // 构建SQL查询，应用所有筛选条件
-        const buildQuery = () => {
+        const buildQuery = (idsSubset?: string[]) => {
           let q = sb
             .from("gg_platform_post")
             .select(
@@ -393,10 +490,10 @@ export default function ContentDashboard() {
             q = q.eq("project_id", filters.projectId);
           }
           
-          // 【优化】图表层级筛选：始终使用 .in() 查询，提高精确度
-          // 对于大量ID（>50），分批处理或直接使用（Supabase支持较长URL）
-          if (chartFilteredIds && chartFilteredIds.length > 0) {
-            q = q.in("platform_item_id", chartFilteredIds);
+          // 【优化】图表层级筛选：使用传入的 ID 子集或完整的 chartFilteredIds
+          const idsToUse = idsSubset || chartFilteredIds;
+          if (idsToUse && idsToUse.length > 0) {
+            q = q.in("platform_item_id", idsToUse);
           }
           
           // 时间筛选
@@ -418,30 +515,62 @@ export default function ContentDashboard() {
         };
 
         if (isFirst) {
-          // 如果有图表层级筛选，totalCount 应该是 chartFilteredIds 的数量
-          // 否则从数据库查询总数
+          // 【修复】totalCount 就是 chartFilteredIds 的数量（已经过滤）
           if (chartFilteredIds && chartFilteredIds.length > 0) {
             setTotalCount(chartFilteredIds.length);
+            console.log('[DEBUG] Total count:', chartFilteredIds.length);
           } else {
+            // 没有图表筛选时，从数据库查询总数
             const { count } = await buildQuery().range(0, 0);
             setTotalCount(count || 0);
           }
         }
 
-        // 【优化】分页策略：根据数据量动态调整批次大小
-        // 当有图表层级筛选时，结果集不会超过 chartFilteredIds.length
+        // 【优化】分页策略与数据查询
         let batchSize = PAGE_SIZE;
-        if (chartFilteredIds && chartFilteredIds.length > 0) {
-          // 如果总数较小（<=100），一次性加载所有数据，提高性能
-          if (chartFilteredIds.length <= 100) {
+        let postsSafe: PostRow[] = [];
+        
+        if (needsBatchQuery) {
+          // 【修复】需要分批查询时的逻辑
+          console.log('[DEBUG] Using batch query for', chartFilteredIds!.length, 'IDs');
+          
+          // 计算当前批次需要查询的数据范围
+          const start = batchIndex * batchSize;
+          const end = start + batchSize - 1;
+          
+          // 如果起始位置超出 chartFilteredIds 范围，说明没有更多数据
+          if (start >= chartFilteredIds!.length) {
+            setHasMore(false);
+            if (!cancelled) {
+              setLoading(false);
+              setLoadingMore(false);
+            }
+            return;
+          }
+          
+          // 从 chartFilteredIds 中取出需要的ID
+          const idsToFetch = chartFilteredIds!.slice(start, Math.min(end + 1, chartFilteredIds!.length));
+          console.log('[DEBUG] Fetching IDs from', start, 'to', Math.min(end, chartFilteredIds!.length - 1), '(', idsToFetch.length, 'IDs)');
+          
+          // 使用这些ID查询数据
+          const { data: postData } = await buildQuery(idsToFetch);
+          postsSafe = ((postData || []) as unknown) as PostRow[];
+          
+          // 检查是否还有更多数据
+          if (end >= chartFilteredIds!.length - 1) {
+            setHasMore(false);
+          }
+        } else {
+          // 数据量较小，使用原有的范围查询逻辑
+          if (chartFilteredIds && chartFilteredIds.length <= 100) {
             batchSize = chartFilteredIds.length;
           }
+          
+          const start = batchIndex * batchSize;
+          const end = start + batchSize - 1;
+          const { data: postData } = await buildQuery().range(start, end);
+          postsSafe = ((postData || []) as unknown) as PostRow[];
         }
-        
-        const start = batchIndex * batchSize;
-        const end = start + batchSize - 1;
-        const { data: postData } = await buildQuery().range(start, end);
-        const postsSafe: PostRow[] = ((postData || []) as unknown) as PostRow[];
 
         // 已在SQL层面完成所有筛选，无需前端过滤
         let filteredByChart = postsSafe;
