@@ -1,0 +1,110 @@
+{
+  "video_info": {
+    "original_video": "video1_comedy_king.mp4",
+    "suspected_video": "video2_xhs_chenmingfei.mp4",
+    "analysis_date": "2025-11-05 18:28:56"
+  },
+  "content_similarity": {
+    "score": 95,
+    "description": "The content is almost identical. The stand-up routine performed by Chen Mingfei is the same in both videos. The jokes, anecdotes, and overall structure of the performance are consistent.",
+    "evidence": [
+      "Both videos feature Chen Mingfei performing the same stand-up routine about his experiences as a Chinese language major and his anxieties about AI.",
+      "The jokes about the aunt on the train, the women in the rope-skipping team, and the AI replacing writers are present in both videos.",
+      "The punchlines and comedic timing are consistent across both videos."
+    ]
+  },
+  "visual_similarity": {
+    "score": 80,
+    "description": "The visual similarity is high, but there are differences in the presentation. The original video is a professionally produced TV show with multiple camera angles, audience shots, and graphics. The suspected video appears to be a recording of the TV show, likely from a screen or lower-quality source.",
+    "evidence": [
+      "The suspected video shows the same stage setup and background as the original.",
+      "The suspected video includes the same graphics and text overlays as the original, although they may appear less sharp.",
+      "The suspected video lacks the dynamic camera work and editing of the original, suggesting it was not directly sourced from the original production."
+    ]
+  },
+  "audio_similarity": {
+    "score": 90,
+    "description": "The audio is very similar, but the suspected video likely has lower audio quality due to being recorded from a screen or secondary source. The content of the audio is the same.",
+    "evidence": [
+      "The same jokes and punchlines are delivered in both videos.",
+      "The audience laughter and reactions are present in both videos.",
+      "The suspected video may have some background noise or distortion not present in the original."
+    ]
+  },
+  "temporal_similarity": {
+    "score": 98,
+    "description": "The temporal structure is nearly identical. The order of jokes, the pacing of the performance, and the overall length are very similar.",
+    "evidence": [
+      "The jokes are presented in the same sequence in both videos.",
+      "The timing of the punchlines and audience reactions is consistent.",
+      "The overall duration of the performance is nearly the same in both videos."
+    ]
+  },
+  "modification_analysis": {
+    "detected_modifications": [],
+    "cropping": "No significant cropping detected.",
+    "mirroring": "No mirroring detected.",
+    "speed_change": "No significant speed changes detected.",
+    "watermark_changes": "The suspected video contains watermarks from the original source (iQIYI).",
+    "color_grading": "No significant color grading changes detected.",
+    "other_modifications": "The suspected video appears to be a screen recording, resulting in lower resolution and potential artifacts."
+  },
+  "difference_analysis": {
+    "content_differences": [],
+    "visual_differences": [
+      "The original video has higher resolution and professional camera work.",
+      "The suspected video has lower resolution and appears to be a screen recording.",
+      "The original video does not have any watermarks, while the suspected video has iQIYI watermarks."
+    ],
+    "audio_differences": [
+      "The original video has higher audio fidelity.",
+      "The suspected video may have some background noise or distortion."
+    ]
+  },
+  "creativity_assessment": {
+    "has_substantial_creativity": false,
+    "creativity_score": 5,
+    "description": "The suspected video shows minimal creativity. It is essentially a recording of the original performance with no significant additions or alterations.",
+    "evidence": [
+      "The suspected video does not add any new jokes, commentary, or visual elements.",
+      "The only changes are due to the recording process, such as lower resolution and the presence of watermarks."
+    ]
+  },
+  "infringement_assessment": {
+    "overall_similarity_score": 95,
+    "risk_level": "HIGH",
+    "risk_score": 85,
+    "reasoning": "The suspected video is a near-identical copy of the original performance, with minimal creative input. The presence of watermarks from the original source suggests that it was not authorized. The high content and temporal similarity, combined with the lack of substantial creative changes, indicates a high risk of copyright infringement.",
+    "key_indicators": [
+      "High content similarity (95%)",
+      "High temporal similarity (98%)",
+      "Lack of substantial creative changes",
+      "Presence of watermarks from the original source"
+    ],
+    "mitigating_factors": [],
+    "aggravating_factors": [
+      "Near-identical copy of the original performance",
+      "Likely unauthorized recording and distribution"
+    ]
+  },
+  "conclusion": {
+    "is_plagiarism": true,
+    "confidence_level": "HIGH",
+    "summary": "The suspected video is a clear case of plagiarism. It is a near-identical copy of the original performance with minimal creative input and likely unauthorized distribution.",
+    "key_findings": [
+      "The content, structure, and timing of the performance are almost identical.",
+      "The suspected video appears to be a screen recording of the original TV show.",
+      "There is no evidence of substantial creative changes or additions."
+    ],
+    "recommendations": [
+      "The copyright holder should consider taking action to remove the suspected video from XHS.",
+      "Content creators should be educated about copyright law and the importance of obtaining permission before using copyrighted material."
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 172072,
+    "response_tokens": 1365,
+    "total_tokens": 173437,
+    "model": "gemini-2.0-flash-exp"
+  }
+}
