@@ -1,0 +1,91 @@
+{
+  "video_info": {
+    "original_video": "bilibili_music_video.mp4",
+    "suspected_video": "video1_original.mp4",
+    "analysis_date": "2025-11-05 19:20:57"
+  },
+  "content_similarity": {
+    "score": 0,
+    "description": "原始视频是一个音乐视频，展示了歌手在舞台上表演歌曲的场景，包括歌词、舞台灯光和歌手的表演。疑似抄袭视频是一个情景喜剧片段，讲述了一个家庭内部争夺遗产的故事，包含人物对话、情节发展和喜剧表演。两者在内容类型和主题上完全不同。",
+    "evidence": []
+  },
+  "visual_similarity": {
+    "score": 0,
+    "description": "原始视频的视觉元素主要集中在舞台灯光、歌手的形象和歌词的展示上。疑似抄袭视频的视觉元素是室内场景、演员的服装和表演动作。两者在画面构图、色彩和视觉风格上没有相似之处。",
+    "evidence": []
+  },
+  "audio_similarity": {
+    "score": 0,
+    "description": "原始视频的音频是歌曲的演唱和背景音乐。疑似抄袭视频的音频是演员的对话和背景音效。两者在音频内容上没有相似之处。",
+    "evidence": []
+  },
+  "temporal_similarity": {
+    "score": 0,
+    "description": "原始视频的时间结构是歌曲的播放时长。疑似抄袭视频的时间结构是情景喜剧片段的情节发展。两者在时间结构上没有相似之处。",
+    "evidence": []
+  },
+  "modification_analysis": {
+    "detected_modifications": [],
+    "cropping": "未检测到裁剪。",
+    "mirroring": "未检测到镜像。",
+    "speed_change": "未检测到变速。",
+    "watermark_changes": "未检测到水印变化。",
+    "color_grading": "未检测到调色。",
+    "other_modifications": "未检测到其他修改。"
+  },
+  "difference_analysis": {
+    "content_differences": [
+      "视频类型不同：原始视频是音乐视频，疑似抄袭视频是情景喜剧片段。",
+      "主题不同：原始视频的主题是歌曲的表达，疑似抄袭视频的主题是家庭内部的遗产争夺。",
+      "人物不同：原始视频是歌手，疑似抄袭视频是演员。"
+    ],
+    "visual_differences": [
+      "场景不同：原始视频是舞台，疑似抄袭视频是室内场景。",
+      "画面风格不同：原始视频是音乐视频的视觉风格，疑似抄袭视频是情景喜剧的视觉风格。"
+    ],
+    "audio_differences": [
+      "音频内容不同：原始视频是歌曲的演唱和背景音乐，疑似抄袭视频是演员的对话和背景音效。"
+    ]
+  },
+  "creativity_assessment": {
+    "has_substantial_creativity": true,
+    "creativity_score": 95,
+    "description": "疑似抄袭视频具有很高的创作性，它是一个独立的情景喜剧片段，有自己的剧本、人物和情节。该视频在原始视频的基础上进行了实质性的改变和创新。",
+    "evidence": [
+      "疑似抄袭视频有完整的故事情节和人物设定。",
+      "疑似抄袭视频有自己的剧本和对话。",
+      "疑似抄袭视频的表演风格是情景喜剧。"
+    ]
+  },
+  "infringement_assessment": {
+    "overall_similarity_score": 0,
+    "risk_level": "LOW",
+    "risk_score": 5,
+    "reasoning": "两个视频的内容类型和主题完全不同，视觉和音频元素也没有相似之处。疑似抄袭视频具有很高的创作性，因此侵权风险很低。",
+    "key_indicators": [],
+    "mitigating_factors": [
+      "两个视频的内容类型和主题完全不同。",
+      "视觉和音频元素没有相似之处。",
+      "疑似抄袭视频具有很高的创作性。"
+    ],
+    "aggravating_factors": []
+  },
+  "conclusion": {
+    "is_plagiarism": false,
+    "confidence_level": "HIGH",
+    "summary": "疑似抄袭视频不是对原始视频的抄袭或搬运，它是一个独立的情景喜剧片段。",
+    "key_findings": [
+      "两个视频的内容类型和主题完全不同。",
+      "疑似抄袭视频具有很高的创作性。"
+    ],
+    "recommendations": [
+      "无需采取进一步行动。"
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 965980,
+    "response_tokens": 1129,
+    "total_tokens": 967109,
+    "model": "gemini-2.0-flash-exp"
+  }
+}

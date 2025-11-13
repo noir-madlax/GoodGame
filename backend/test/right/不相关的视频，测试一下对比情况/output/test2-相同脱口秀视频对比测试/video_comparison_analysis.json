@@ -1,0 +1,115 @@
+{
+  "video_info": {
+    "original_video": "video1_comedy_king.mp4",
+    "suspected_video": "video2_xhs_chenmingfei.mp4",
+    "analysis_date": "2025-11-05 19:17:45"
+  },
+  "content_similarity": {
+    "score": 95,
+    "description": "两个视频的内容高度相似。video2_xhs_chenmingfei.mp4 截取了 video1_comedy_king.mp4 的部分脱口秀表演片段，内容几乎完全一致，都是陈鸣飞关于中文系和AI写作的脱口秀段子。",
+    "evidence": [
+      "两个视频都包含陈鸣飞讲述的关于大学专业是中文系，以及对AI写作的看法。",
+      "两个视频都包含“卧薪尝胆”的梗，以及对“人机协同”的调侃。",
+      "两个视频都包含“我拿你当教父，你跟我玩谍中谍”的段子。"
+    ]
+  },
+  "visual_similarity": {
+    "score": 90,
+    "description": "视觉相似度很高。video2_xhs_chenmingfei.mp4 直接截取了 video1_comedy_king.mp4 的画面，只是进行了裁剪和添加了字幕。",
+    "evidence": [
+      "两个视频都显示陈鸣飞在舞台上表演脱口秀。",
+      "两个视频的舞台背景、灯光、观众席等视觉元素基本一致。",
+      "video2_xhs_chenmingfei.mp4 进行了裁剪，并添加了字幕。"
+    ]
+  },
+  "audio_similarity": {
+    "score": 95,
+    "description": "音频相似度很高。video2_xhs_chenmingfei.mp4 直接使用了 video1_comedy_king.mp4 的音频，只是可能进行了音量调整。",
+    "evidence": [
+      "两个视频都包含陈鸣飞的脱口秀表演声音。",
+      "两个视频的背景音乐、观众笑声等音频元素基本一致。",
+      "video2_xhs_chenmingfei.mp4 可能进行了音量调整。"
+    ]
+  },
+  "temporal_similarity": {
+    "score": 80,
+    "description": "时间结构相似度较高。video2_xhs_chenmingfei.mp4 截取了 video1_comedy_king.mp4 的部分片段，但保留了原始视频的片段顺序和节奏。",
+    "evidence": [
+      "video2_xhs_chenmingfei.mp4 的片段顺序与 video1_comedy_king.mp4 的片段顺序一致。",
+      "video2_xhs_chenmingfei.mp4 的片段节奏与 video1_comedy_king.mp4 的片段节奏基本一致。",
+      "video2_xhs_chenmingfei.mp4 的时长比 video1_comedy_king.mp4 短。"
+    ]
+  },
+  "modification_analysis": {
+    "detected_modifications": [
+      "裁剪",
+      "添加字幕"
+    ],
+    "cropping": "video2_xhs_chenmingfei.mp4 对 video1_comedy_king.mp4 进行了裁剪，去除了部分画面。",
+    "mirroring": "未检测到镜像修改。",
+    "speed_change": "未检测到变速修改。",
+    "watermark_changes": "未检测到水印变化。",
+    "color_grading": "未检测到调色修改。",
+    "other_modifications": "video2_xhs_chenmingfei.mp4 添加了字幕。"
+  },
+  "difference_analysis": {
+    "content_differences": [
+      "video2_xhs_chenmingfei.mp4 截取了 video1_comedy_king.mp4 的部分片段，内容不完整。",
+      "video2_xhs_chenmingfei.mp4 添加了字幕。"
+    ],
+    "visual_differences": [
+      "video2_xhs_chenmingfei.mp4 进行了裁剪，画面不完整。",
+      "video2_xhs_chenmingfei.mp4 添加了字幕，增加了视觉元素。"
+    ],
+    "audio_differences": [
+      "video2_xhs_chenmingfei.mp4 可能进行了音量调整。"
+    ]
+  },
+  "creativity_assessment": {
+    "has_substantial_creativity": false,
+    "creativity_score": 10,
+    "description": "video2_xhs_chenmingfei.mp4 几乎没有创作性。只是对 video1_comedy_king.mp4 进行了简单的裁剪和添加字幕，没有实质性的二次创作。",
+    "evidence": [
+      "video2_xhs_chenmingfei.mp4 没有对原始视频的内容进行任何修改。",
+      "video2_xhs_chenmingfei.mp4 只是对原始视频的画面进行了裁剪和添加字幕。"
+    ]
+  },
+  "infringement_assessment": {
+    "overall_similarity_score": 95,
+    "risk_level": "HIGH",
+    "risk_score": 90,
+    "reasoning": "video2_xhs_chenmingfei.mp4 高度相似于 video1_comedy_king.mp4，几乎是直接搬运了原始视频的部分内容，且没有进行实质性的二次创作，侵权风险很高。",
+    "key_indicators": [
+      "内容高度相似。",
+      "视觉高度相似。",
+      "音频高度相似。",
+      "没有实质性的二次创作。"
+    ],
+    "mitigating_factors": [],
+    "aggravating_factors": [
+      "直接搬运原始视频的部分内容。",
+      "没有进行实质性的二次创作。"
+    ]
+  },
+  "conclusion": {
+    "is_plagiarism": true,
+    "confidence_level": "HIGH",
+    "summary": "video2_xhs_chenmingfei.mp4 涉嫌抄袭 video1_comedy_king.mp4 的内容，属于高风险侵权行为。",
+    "key_findings": [
+      "video2_xhs_chenmingfei.mp4 高度相似于 video1_comedy_king.mp4。",
+      "video2_xhs_chenmingfei.mp4 几乎是直接搬运了原始视频的部分内容。",
+      "video2_xhs_chenmingfei.mp4 没有进行实质性的二次创作。"
+    ],
+    "recommendations": [
+      "建议立即删除 video2_xhs_chenmingfei.mp4。",
+      "建议联系 video2_xhs_chenmingfei.mp4 的发布者，要求其停止侵权行为。",
+      "建议对 video2_xhs_chenmingfei.mp4 的发布者采取法律措施。"
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 172200,
+    "response_tokens": 1633,
+    "total_tokens": 173833,
+    "model": "gemini-2.0-flash-exp"
+  }
+}

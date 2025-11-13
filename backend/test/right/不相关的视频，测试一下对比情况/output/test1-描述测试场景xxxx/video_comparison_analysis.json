@@ -1,0 +1,91 @@
+{
+  "video_info": {
+    "original_video": "video1_comedy_king.mp4",
+    "suspected_video": "video1_original.mp4",
+    "analysis_date": "2025-11-05 18:53:09"
+  },
+  "content_similarity": {
+    "score": 0,
+    "description": "内容完全不同。video1_comedy_king.mp4 是脱口秀表演，主要内容是表演者在舞台上进行单人喜剧表演，主题围绕大学生活和专业选择的困惑展开。video1_original.mp4 是一个情景喜剧片段，讲述一个家族争夺遗产的故事，包含多名演员和复杂的剧情。",
+    "evidence": []
+  },
+  "visual_similarity": {
+    "score": 0,
+    "description": "视觉元素完全不同。video1_comedy_king.mp4 的视觉元素是舞台、灯光、观众等脱口秀常见的元素。video1_original.mp4 的视觉元素是室内场景、演员服装、道具等情景喜剧的元素。",
+    "evidence": []
+  },
+  "audio_similarity": {
+    "score": 0,
+    "description": "音频内容完全不同。video1_comedy_king.mp4 的音频是脱口秀演员的语音和观众的笑声。video1_original.mp4 的音频是演员的对话和情景喜剧的背景音乐。",
+    "evidence": []
+  },
+  "temporal_similarity": {
+    "score": 0,
+    "description": "时间结构完全不同。video1_comedy_king.mp4 是一个完整的脱口秀表演，有开始、发展和高潮。video1_original.mp4 是一个情景喜剧的片段，只有部分剧情。",
+    "evidence": []
+  },
+  "modification_analysis": {
+    "detected_modifications": [],
+    "cropping": "无裁剪",
+    "mirroring": "无镜像",
+    "speed_change": "无变速",
+    "watermark_changes": "无水印变化",
+    "color_grading": "无调色",
+    "other_modifications": "无其他修改"
+  },
+  "difference_analysis": {
+    "content_differences": [
+      "video1_comedy_king.mp4 是脱口秀，video1_original.mp4 是情景喜剧",
+      "video1_comedy_king.mp4 主题是大学生活，video1_original.mp4 主题是家族遗产争夺",
+      "video1_comedy_king.mp4 是单人表演，video1_original.mp4 是多人表演"
+    ],
+    "visual_differences": [
+      "video1_comedy_king.mp4 的视觉元素是舞台，video1_original.mp4 的视觉元素是室内场景",
+      "video1_comedy_king.mp4 的画面构图是单人，video1_original.mp4 的画面构图是多人"
+    ],
+    "audio_differences": [
+      "video1_comedy_king.mp4 的音频是脱口秀演员的语音，video1_original.mp4 的音频是演员的对话",
+      "video1_comedy_king.mp4 没有背景音乐，video1_original.mp4 有背景音乐"
+    ]
+  },
+  "creativity_assessment": {
+    "has_substantial_creativity": true,
+    "creativity_score": 100,
+    "description": "两个视频都是原创内容，具有各自的创作性。脱口秀的创作性在于段子的设计和表演，情景喜剧的创作性在于剧情的设计和角色的塑造。",
+    "evidence": []
+  },
+  "infringement_assessment": {
+    "overall_similarity_score": 0,
+    "risk_level": "LOW",
+    "risk_score": 0,
+    "reasoning": "两个视频的内容、视觉和音频元素完全不同，时间结构也不同，不存在抄袭或搬运行为。因此，侵权风险等级为低。",
+    "key_indicators": [],
+    "mitigating_factors": [
+      "视频类型不同",
+      "主题不同",
+      "视觉元素不同",
+      "音频元素不同"
+    ],
+    "aggravating_factors": []
+  },
+  "conclusion": {
+    "is_plagiarism": false,
+    "confidence_level": "HIGH",
+    "summary": "两个视频是完全不同的内容类型，不存在抄袭或搬运行为。",
+    "key_findings": [
+      "视频类型不同",
+      "主题不同",
+      "视觉元素不同",
+      "音频元素不同"
+    ],
+    "recommendations": [
+      "无需采取任何措施"
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 446958,
+    "response_tokens": 1129,
+    "total_tokens": 448087,
+    "model": "gemini-2.0-flash-exp"
+  }
+}
