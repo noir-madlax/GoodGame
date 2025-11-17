@@ -1,0 +1,52 @@
+{
+  "kol_info": {
+    "rank": 4,
+    "name": "Daily-cici",
+    "xingtu_kol_id": "6870169841878171662",
+    "nick_name": "Daily-cici",
+    "fans_count": 1435293
+  },
+  "interface": "cp_info",
+  "timestamp": "2025-11-14T12:03:32.452507",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "dc67e71a-e0a7-4398-ab7d-55e8096ceb8f",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 20:03:32",
+    "time_stamp": 1763093012,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_cp_info_v1_api_v1_douyin_xingtu_kol_cp_info_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/dc67e71a-e0a7-4398-ab7d-55e8096ceb8f?sign=2d4f2d070295713aa13aef2fe222bf6224e78ccf78cebfa186efbe811d653c31",
+    "router": "/api/v1/douyin/xingtu/kol_cp_info_v1",
+    "params": {
+      "kolId": "6870169841878171662"
+    },
+    "data": {
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "expect_cpe": {
+        "cpe_1_20": "2000",
+        "cpe_21_60": "2770",
+        "cpe_60": "4001"
+      },
+      "expect_cpm": {
+        "cpm_1_20": "49712",
+        "cpm_21_60": "68832",
+        "cpm_60": "99424"
+      },
+      "expect_vv": {
+        "value": 261506
+      },
+      "hot_item": {
+        "value": 600
+      }
+    }
+  }
+}

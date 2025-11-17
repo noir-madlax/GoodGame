@@ -1,0 +1,61 @@
+{
+  "test_metadata": {
+    "test_date": "2025-11-13T18:12:51.052905",
+    "api_interface": "fetch_hot_account_search_list",
+    "api_endpoint": "/api/v1/douyin/billboard/fetch_hot_account_search_list",
+    "test_count": 5,
+    "success_count": 0
+  },
+  "test_results": [
+    {
+      "rank": 1,
+      "name": "程十安an",
+      "mention_count": 3,
+      "search_result": {
+        "error": "HTTP 422",
+        "message": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"cursor\"],\"msg\":\"Field required\",\"input\":null}]}"
+      },
+      "timestamp": "2025-11-13T18:12:49.599457"
+    },
+    {
+      "rank": 2,
+      "name": "骆王宇",
+      "mention_count": 3,
+      "search_result": {
+        "error": "HTTP 422",
+        "message": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"cursor\"],\"msg\":\"Field required\",\"input\":null}]}"
+      },
+      "timestamp": "2025-11-13T18:12:49.952910"
+    },
+    {
+      "rank": 3,
+      "name": "勇仔leo",
+      "mention_count": 2,
+      "search_result": {
+        "error": "HTTP 422",
+        "message": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"cursor\"],\"msg\":\"Field required\",\"input\":null}]}"
+      },
+      "timestamp": "2025-11-13T18:12:50.316010"
+    },
+    {
+      "rank": 4,
+      "name": "Daily-cici",
+      "mention_count": 2,
+      "search_result": {
+        "error": "HTTP 422",
+        "message": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"cursor\"],\"msg\":\"Field required\",\"input\":null}]}"
+      },
+      "timestamp": "2025-11-13T18:12:50.684137"
+    },
+    {
+      "rank": 5,
+      "name": "大夏天理性护肤",
+      "mention_count": 2,
+      "search_result": {
+        "error": "HTTP 422",
+        "message": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"cursor\"],\"msg\":\"Field required\",\"input\":null}]}"
+      },
+      "timestamp": "2025-11-13T18:12:51.051535"
+    }
+  ]
+}

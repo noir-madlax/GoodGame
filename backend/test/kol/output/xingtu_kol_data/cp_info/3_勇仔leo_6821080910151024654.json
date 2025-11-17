@@ -1,0 +1,52 @@
+{
+  "kol_info": {
+    "rank": 3,
+    "name": "勇仔leo",
+    "xingtu_kol_id": "6821080910151024654",
+    "nick_name": "勇仔leo",
+    "fans_count": 6740158
+  },
+  "interface": "cp_info",
+  "timestamp": "2025-11-14T12:03:16.386211",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "26843f01-39ad-4930-b3b2-2db1ac515a3c",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 20:03:16",
+    "time_stamp": 1763092996,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_cp_info_v1_api_v1_douyin_xingtu_kol_cp_info_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/26843f01-39ad-4930-b3b2-2db1ac515a3c?sign=cadf3f3188bac470b60aa28f30083462de223247d42c700b79686dc833f10bee",
+    "router": "/api/v1/douyin/xingtu/kol_cp_info_v1",
+    "params": {
+      "kolId": "6821080910151024654"
+    },
+    "data": {
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "expect_cpe": {
+        "cpe_1_20": "1582",
+        "cpe_21_60": "3143",
+        "cpe_60": "3766"
+      },
+      "expect_cpm": {
+        "cpm_1_20": "55203",
+        "cpm_21_60": "109670",
+        "cpm_60": "131384"
+      },
+      "expect_vv": {
+        "value": 271722
+      },
+      "hot_item": {
+        "value": 300
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "request": {
+    "url": "https://api.tikhub.io/api/v1/douyin/xingtu/search_kol_v1",
+    "method": "GET",
+    "headers": {
+      "accept": "application/json",
+      "Authorization": "Bearer 44wGVlZTxXwGkXQljmuJ...(隐藏)"
+    },
+    "params": {
+      "keyword": "护肤",
+      "page": 1,
+      "count": 20,
+      "sort_type": 1,
+      "platformSource": "_1"
+    },
+    "timestamp": "2025-11-14T14:08:18.177890"
+  },
+  "response": {
+    "status_code": 200,
+    "headers": {
+      "Date": "Fri, 14 Nov 2025 06:08:18 GMT",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Connection": "keep-alive",
+      "Server": "cloudflare",
+      "Nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "Vary": "Accept-Encoding",
+      "x-request-id": "39b42768-2311-4bd4-bdb1-64b9cf808ce3",
+      "X-Upstream-Server": "146.190.39.116:80",
+      "X-Upstream-Status": "200",
+      "X-Upstream-Response-Time": "-",
+      "Content-Encoding": "gzip",
+      "cf-cache-status": "DYNAMIC",
+      "Speculation-Rules": "\"/cdn-cgi/speculation\"",
+      "Report-To": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Ohj9TJokrqRxLD2oqSnNoZ%2BNdLA%2FuXwTkrBa8ebjQJMkzQGW1geXJnzObhJirzLjuD%2Fma8xVe%2FHsZZ9uaAJ%2B6GHyiOuO2iqizsTZqw%3D%3D\"}]}",
+      "CF-RAY": "99e4554fac9fdeea-SEA",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "body": {
+      "code": 200,
+      "request_id": "39b42768-2311-4bd4-bdb1-64b9cf808ce3",
+      "message": "Request successful. This request will incur a charge.",
+      "message_zh": "请求成功，本次请求将被计费。",
+      "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+      "time": "2025-11-13 22:08:18",
+      "time_stamp": 1763100498,
+      "time_zone": "America/Los_Angeles",
+      "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/search_kol_v1_api_v1_douyin_xingtu_search_kol_v1_get",
+      "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+      "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+      "cache_url": "https://cache.tikhub.io/api/v1/cache/public/39b42768-2311-4bd4-bdb1-64b9cf808ce3?sign=108843ae70743b4a5aeffb5186af9f28336ab043795575545527b04bb1be439c",
+      "router": "/api/v1/douyin/xingtu/search_kol_v1",
+      "params": {
+        "keyword": "护肤",
+        "page": "1",
+        "count": "20",
+        "sort_type": "1",
+        "platformSource": "_1"
+      },
+      "data": {
+        "base_resp": {
+          "status_code": 10003,
+          "status_message": "您的客户权益等级过低，暂时无法访问更多数据[2025111414081703B4E1F7883911EBFEB7]"
+        }
+      }
+    },
+    "timestamp": "2025-11-14T14:08:18.177972"
+  }
+}

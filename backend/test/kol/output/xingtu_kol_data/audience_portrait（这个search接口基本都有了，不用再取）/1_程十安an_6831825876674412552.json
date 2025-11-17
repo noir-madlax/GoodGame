@@ -1,0 +1,447 @@
+{
+  "kol_info": {
+    "rank": 1,
+    "name": "程十安an",
+    "xingtu_kol_id": "6831825876674412552",
+    "nick_name": "程十安an",
+    "fans_count": 22133832
+  },
+  "interface": "audience_portrait",
+  "timestamp": "2025-11-14T12:02:35.662108",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "06ec2d29-8541-4bca-9045-c9c2673c3448",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 20:02:35",
+    "time_stamp": 1763092955,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_audience_portrait_v1_api_v1_douyin_xingtu_kol_audience_portrait_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/06ec2d29-8541-4bca-9045-c9c2673c3448?sign=dcbd9662a707b799d7eb1b09b4e8ae9d7f590be60b65e054e0e98d1e000516dd",
+    "router": "/api/v1/douyin/xingtu/kol_audience_portrait_v1",
+    "params": {
+      "kolId": "6831825876674412552"
+    },
+    "data": {
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "distributions": [
+        {
+          "description": "苹果手机占比52%, 消费能力较好",
+          "distribution_list": [
+            {
+              "distribution_key": "荣耀",
+              "distribution_value": "118820"
+            },
+            {
+              "distribution_key": "oppo",
+              "distribution_value": "159733"
+            },
+            {
+              "distribution_key": "华为",
+              "distribution_value": "225125"
+            },
+            {
+              "distribution_key": "vivo",
+              "distribution_value": "161760"
+            },
+            {
+              "distribution_key": "小米",
+              "distribution_value": "118825"
+            },
+            {
+              "distribution_key": "iPhone",
+              "distribution_value": "1022480"
+            },
+            {
+              "distribution_key": "红米",
+              "distribution_value": "62124"
+            },
+            {
+              "distribution_key": "其他",
+              "distribution_value": "94515"
+            }
+          ],
+          "image": [
+            "苹果手机较多"
+          ],
+          "origin_type": 3,
+          "type": 8,
+          "type_display": "设备品牌分布"
+        },
+        {
+          "description": "18到23岁居多,占比47%",
+          "distribution_list": [
+            {
+              "distribution_key": "50+",
+              "distribution_value": "18968"
+            },
+            {
+              "distribution_key": "41-50",
+              "distribution_value": "34055"
+            },
+            {
+              "distribution_key": "31-40",
+              "distribution_value": "257460"
+            },
+            {
+              "distribution_key": "24-30",
+              "distribution_value": "525153"
+            },
+            {
+              "distribution_key": "18-23",
+              "distribution_value": "751764"
+            }
+          ],
+          "image": [
+            "18到23岁居多"
+          ],
+          "origin_type": 1,
+          "type": 2,
+          "type_display": "年龄分布"
+        },
+        {
+          "description": "一线居多,占比32%",
+          "distribution_list": [
+            {
+              "distribution_key": "五线",
+              "distribution_value": "207659"
+            },
+            {
+              "distribution_key": "四线",
+              "distribution_value": "301426"
+            },
+            {
+              "distribution_key": "二线",
+              "distribution_value": "384866"
+            },
+            {
+              "distribution_key": "三线",
+              "distribution_value": "421897"
+            },
+            {
+              "distribution_key": "一线",
+              "distribution_value": "627372"
+            }
+          ],
+          "image": [
+            "一线居多"
+          ],
+          "origin_type": 5,
+          "type": 32,
+          "type_display": "城市等级分布"
+        },
+        {
+          "description": "分布最多的1个城市北京(11%)",
+          "distribution_list": [
+            {
+              "distribution_key": "广州",
+              "distribution_value": "44937"
+            },
+            {
+              "distribution_key": "成都",
+              "distribution_value": "45679"
+            },
+            {
+              "distribution_key": "郑州",
+              "distribution_value": "47144"
+            },
+            {
+              "distribution_key": "重庆",
+              "distribution_value": "41874"
+            },
+            {
+              "distribution_key": "深圳",
+              "distribution_value": "40356"
+            },
+            {
+              "distribution_key": "西安",
+              "distribution_value": "39950"
+            },
+            {
+              "distribution_key": "北京",
+              "distribution_value": "50411"
+            },
+            {
+              "distribution_key": "上海",
+              "distribution_value": "43715"
+            },
+            {
+              "distribution_key": "武汉",
+              "distribution_value": "36806"
+            },
+            {
+              "distribution_key": "杭州",
+              "distribution_value": "33578"
+            }
+          ],
+          "image": [
+            "北京居多"
+          ],
+          "origin_type": 8,
+          "type": 256,
+          "type_display": "城市分布"
+        },
+        {
+          "description": "Z世代居多,占比34%",
+          "distribution_list": [
+            {
+              "distribution_key": "小镇青年",
+              "distribution_value": "475357"
+            },
+            {
+              "distribution_key": "小镇中老年",
+              "distribution_value": "18271"
+            },
+            {
+              "distribution_key": "资深中产",
+              "distribution_value": "26828"
+            },
+            {
+              "distribution_key": "都市银发",
+              "distribution_value": "9656"
+            },
+            {
+              "distribution_key": "新锐白领",
+              "distribution_value": "302913"
+            },
+            {
+              "distribution_key": "精致妈妈",
+              "distribution_value": "201549"
+            },
+            {
+              "distribution_key": "都市蓝领",
+              "distribution_value": "228759"
+            },
+            {
+              "distribution_key": "Z世代",
+              "distribution_value": "671880"
+            }
+          ],
+          "image": [
+            "Z世代居多"
+          ],
+          "origin_type": 10,
+          "type": 1024,
+          "type_display": "八大人群分布"
+        },
+        {
+          "description": "分布最多的3个兴趣随拍(53%),明星(11%),时尚(9%)",
+          "distribution_list": [
+            {
+              "distribution_key": "随拍",
+              "distribution_value": "887319"
+            },
+            {
+              "distribution_key": "明星",
+              "distribution_value": "183809"
+            },
+            {
+              "distribution_key": "时尚",
+              "distribution_value": "165269"
+            },
+            {
+              "distribution_key": "亲子",
+              "distribution_value": "126149"
+            },
+            {
+              "distribution_key": "动物",
+              "distribution_value": "103703"
+            },
+            {
+              "distribution_key": "二次元",
+              "distribution_value": "80278"
+            },
+            {
+              "distribution_key": "美食",
+              "distribution_value": "78648"
+            },
+            {
+              "distribution_key": "体育",
+              "distribution_value": "43312"
+            }
+          ],
+          "image": [
+            "随拍,明星,时尚居多"
+          ],
+          "origin_type": 6,
+          "type": 64,
+          "type_display": "兴趣分布"
+        },
+        {
+          "description": "女性居多,占比92%",
+          "distribution_list": [
+            {
+              "distribution_key": "male",
+              "distribution_value": "143529"
+            },
+            {
+              "distribution_key": "female",
+              "distribution_value": "1818667"
+            }
+          ],
+          "image": [
+            "女性居多"
+          ],
+          "origin_type": 0,
+          "type": 1,
+          "type_display": "性别分布"
+        },
+        {
+          "description": "分布最多的3个省份广东(9%),河南(8%),山东(7%)",
+          "distribution_list": [
+            {
+              "distribution_key": "安徽",
+              "distribution_value": "82976"
+            },
+            {
+              "distribution_key": "海南",
+              "distribution_value": "11886"
+            },
+            {
+              "distribution_key": "湖南",
+              "distribution_value": "69839"
+            },
+            {
+              "distribution_key": "澳门",
+              "distribution_value": "433"
+            },
+            {
+              "distribution_key": "江苏",
+              "distribution_value": "129720"
+            },
+            {
+              "distribution_key": "天津",
+              "distribution_value": "25112"
+            },
+            {
+              "distribution_key": "浙江",
+              "distribution_value": "107321"
+            },
+            {
+              "distribution_key": "北京",
+              "distribution_value": "50411"
+            },
+            {
+              "distribution_key": "宁夏",
+              "distribution_value": "9975"
+            },
+            {
+              "distribution_key": "四川",
+              "distribution_value": "98576"
+            },
+            {
+              "distribution_key": "新疆",
+              "distribution_value": "34150"
+            },
+            {
+              "distribution_key": "陕西",
+              "distribution_value": "71852"
+            },
+            {
+              "distribution_key": "香港",
+              "distribution_value": "2157"
+            },
+            {
+              "distribution_key": "云南",
+              "distribution_value": "58837"
+            },
+            {
+              "distribution_key": "福建",
+              "distribution_value": "52771"
+            },
+            {
+              "distribution_key": "甘肃",
+              "distribution_value": "31125"
+            },
+            {
+              "distribution_key": "上海",
+              "distribution_value": "43715"
+            },
+            {
+              "distribution_key": "广西",
+              "distribution_value": "44678"
+            },
+            {
+              "distribution_key": "辽宁",
+              "distribution_value": "47932"
+            },
+            {
+              "distribution_key": "广东",
+              "distribution_value": "187209"
+            },
+            {
+              "distribution_key": "河南",
+              "distribution_value": "162781"
+            },
+            {
+              "distribution_key": "河北",
+              "distribution_value": "99114"
+            },
+            {
+              "distribution_key": "黑龙江",
+              "distribution_value": "32404"
+            },
+            {
+              "distribution_key": "贵州",
+              "distribution_value": "43326"
+            },
+            {
+              "distribution_key": "西藏",
+              "distribution_value": "5800"
+            },
+            {
+              "distribution_key": "重庆",
+              "distribution_value": "41874"
+            },
+            {
+              "distribution_key": "山西",
+              "distribution_value": "52121"
+            },
+            {
+              "distribution_key": "内蒙古",
+              "distribution_value": "32101"
+            },
+            {
+              "distribution_key": "吉林",
+              "distribution_value": "27590"
+            },
+            {
+              "distribution_key": "台湾",
+              "distribution_value": "1877"
+            },
+            {
+              "distribution_key": "山东",
+              "distribution_value": "139484"
+            },
+            {
+              "distribution_key": "青海",
+              "distribution_value": "8373"
+            },
+            {
+              "distribution_key": "湖北",
+              "distribution_value": "79060"
+            },
+            {
+              "distribution_key": "江西",
+              "distribution_value": "56630"
+            }
+          ],
+          "image": [
+            "广东,河南,山东居多"
+          ],
+          "origin_type": 2,
+          "type": 4,
+          "type_display": "省份分布"
+        }
+      ],
+      "last_update_time": "1763032131"
+    }
+  }
+}

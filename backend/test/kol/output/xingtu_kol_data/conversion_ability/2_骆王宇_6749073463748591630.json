@@ -1,0 +1,59 @@
+{
+  "kol_info": {
+    "rank": 2,
+    "name": "骆王宇",
+    "xingtu_kol_id": "6749073463748591630",
+    "nick_name": "骆王宇",
+    "fans_count": 15716795
+  },
+  "interface": "conversion_ability",
+  "timestamp": "2025-11-14T12:04:51.209226",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "40ab6ef9-df5a-44e5-abe6-a62bdb2e6109",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 20:04:51",
+    "time_stamp": 1763093091,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_conversion_ability_analysis_v1_api_v1_douyin_xingtu_kol_conversion_ability_analysis_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/40ab6ef9-df5a-44e5-abe6-a62bdb2e6109?sign=1786bfea3d18ed699019ade15727b6254f0e2b07cbcc7790cac18205f731f349",
+    "router": "/api/v1/douyin/xingtu/kol_conversion_ability_analysis_v1",
+    "params": {
+      "kolId": "6749073463748591630",
+      "_range": "_3"
+    },
+    "data": {
+      "avg_sales_amount_range": "50万-100万",
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "category_items": [
+        {
+          "name": "美妆",
+          "rate": 1,
+          "sale_amount_range": "1万-5万"
+        }
+      ],
+      "component_click_cnt_range": "5万-10万",
+      "component_click_rate_range": "6%-8%",
+      "gpm_range": "150以上",
+      "rec_product_cnt": {
+        "value": "2"
+      },
+      "rec_product_price_range": "500-1000",
+      "related_cpc_range": "8-10",
+      "related_video_cnt": {
+        "value": "6"
+      },
+      "video_vv_median": {
+        "value": "1534170"
+      }
+    }
+  }
+}

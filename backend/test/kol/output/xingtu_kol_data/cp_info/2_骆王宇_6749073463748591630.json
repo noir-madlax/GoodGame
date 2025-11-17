@@ -1,0 +1,52 @@
+{
+  "kol_info": {
+    "rank": 2,
+    "name": "骆王宇",
+    "xingtu_kol_id": "6749073463748591630",
+    "nick_name": "骆王宇",
+    "fans_count": 15716795
+  },
+  "interface": "cp_info",
+  "timestamp": "2025-11-14T12:03:11.940790",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "d74a700b-9fb2-4e76-b225-7b59d9b00c85",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 20:03:11",
+    "time_stamp": 1763092991,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_cp_info_v1_api_v1_douyin_xingtu_kol_cp_info_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/d74a700b-9fb2-4e76-b225-7b59d9b00c85?sign=a09924e3d7413e22610e6da0e9e2f0cead6b61805996c7fbb7a8ff3593582f66",
+    "router": "/api/v1/douyin/xingtu/kol_cp_info_v1",
+    "params": {
+      "kolId": "6749073463748591630"
+    },
+    "data": {
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "expect_cpe": {
+        "cpe_1_20": "1187",
+        "cpe_21_60": "2375",
+        "cpe_60": "2533"
+      },
+      "expect_cpm": {
+        "cpm_1_20": "21123",
+        "cpm_21_60": "42247",
+        "cpm_60": "45064"
+      },
+      "expect_vv": {
+        "value": 710100
+      },
+      "hot_item": {
+        "value": 1200
+      }
+    }
+  }
+}

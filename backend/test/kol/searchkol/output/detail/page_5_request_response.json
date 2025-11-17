@@ -1,0 +1,2340 @@
+{
+  "page_num": 5,
+  "request_payload": {
+    "keyword": "护肤",
+    "cursor": 80,
+    "offset": 0,
+    "page": 4,
+    "search_id": "2025111414362700FCCEF25D29A060B5DB",
+    "count": 20,
+    "search_channel": "aweme_user_web",
+    "sort_type": 0,
+    "publish_time": 0
+  },
+  "response": {
+    "code": 200,
+    "request_id": "30423746-355d-4a00-84dd-f316b8b12b01",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 22:36:46",
+    "time_stamp": 1763102206,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Search-API/fetch_user_search_v4_api_v1_douyin_search_fetch_user_search_v4_post",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/30423746-355d-4a00-84dd-f316b8b12b01?sign=69aef3399f69c0ab3938156a5388e18e24c84f5a4a5e9f7842cfea2fb54273d9",
+    "router": "/api/v1/douyin/search/fetch_user_search_v4",
+    "params": {
+      "keyword": "护肤",
+      "cursor": 80,
+      "offset": 0,
+      "page": 4,
+      "search_id": "2025111414362700FCCEF25D29A060B5DB"
+    },
+    "data": {
+      "config": {
+        "keyword": "护肤",
+        "has_more": 1,
+        "is_filter_search": 0,
+        "search_nil_info": null,
+        "next_page": {
+          "keyword": "护肤",
+          "search_request_id": "2025111414362700FCCEF25D29A060B5DB",
+          "search_id": "2025111414362700FCCEF25D29A060B5DB",
+          "cursor": 100,
+          "poi_search_info": ""
+        },
+        "card_count": 19,
+        "extra_fresh_struct": null,
+        "ad_info": null,
+        "filter_bar": {
+          "filter_settings": [
+            {
+              "items": [
+                {
+                  "title": "不限",
+                  "value": "",
+                  "log_value": "fans_all"
+                },
+                {
+                  "title": "1000以下",
+                  "value": "0_1k",
+                  "log_value": "fans_0_1k"
+                },
+                {
+                  "title": "1000-1w",
+                  "value": "1k_1w",
+                  "log_value": "fans_1k_1w"
+                },
+                {
+                  "title": "1w-10w",
+                  "value": "1w_10w",
+                  "log_value": "fans_1w_10w"
+                },
+                {
+                  "title": "10w-100w",
+                  "value": "10w_100w",
+                  "log_value": "fans_10w_100"
+                },
+                {
+                  "title": "100w以上",
+                  "value": "100w_",
+                  "log_value": "fans_100w_"
+                }
+              ],
+              "title": "粉丝数量",
+              "name": "douyin_user_fans",
+              "default_index": 0,
+              "log_name": "by_user_fans"
+            },
+            {
+              "items": [
+                {
+                  "log_value": "type_all",
+                  "title": "不限",
+                  "value": ""
+                },
+                {
+                  "log_value": "type_common",
+                  "title": "普通用户",
+                  "value": "common_user"
+                },
+                {
+                  "title": "企业认证",
+                  "value": "enterprise_user",
+                  "log_value": "type_enterprise"
+                },
+                {
+                  "title": "个人认证",
+                  "value": "personal_user",
+                  "log_value": "type_personal"
+                }
+              ],
+              "title": "用户类型",
+              "name": "douyin_user_type",
+              "default_index": 0,
+              "log_name": "by_user_type"
+            }
+          ]
+        },
+        "extra": {
+          "req_start_ts": 1763102205450,
+          "is_filter_search": 0,
+          "hidden_filter": false
+        },
+        "feedback": {
+          "url": "aweme://webview/?url=https%3A%2F%2Faweme.snssdk.com%2Ffalcon%2Ffe_app_react%2Fquestionnaire%2Findex.html%3Fcontainer_bgcolor%3D00000000%26do_not_remove_card_after_feedback%3D0%26enable_new_feedback_ui%3D0%26enter_from%3Dsearch_result%26experimental_adjust_pan%3D1%26experimental_fix_status_bar%3D1%26feedback_rank%3Dfeedback_rank_value%26fid%3D100021%26forbidden_anim%3D1%26hide_loading%3D1%26hide_nav_bar%3D1%26hide_status_bar%3D1%26initialQuestionNum%3D6%26is_aladdin%3D0%26loading_bgcolor%3D00000000%26log_pb%3D%257B%2522impr_id%2522%253A%25222025111414364527283645364DDC06F4F8%2522%257D%26search_content_type%3Daweme_user_page%26search_id%3D2025111414362700FCCEF25D29A060B5DB%26search_keyword%3D%2525E6%25258A%2525A4%2525E8%252582%2525A4%26search_score%3D0%26should_full_screen%3D1&forbidden_anim=1",
+          "text_first": "找不到想找的帐号？",
+          "text_second": "告诉我们"
+        },
+        "pre_loadmore_config": null,
+        "poi_search_info": ""
+      },
+      "data": [
+        {
+          "user_info": {
+            "uid": "544997874347123",
+            "nickname": "澳兰黛护肤旗舰店",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_ed0121b3cdcd473b1b4560f5fbadd540.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 836916,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "Aocilenda2011",
+            "room_id": 7572347445372308251,
+            "verification_type": 1,
+            "enterprise_verify_reason": "旗舰店账号",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAHxc0sJSnjN6ZYdeMzzY9lwYoR8Ok2XJdsxN6xGzinW0",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "room_data": "{\"id\":7572347445372308251,\"id_str\":\"7572347445372308251\",\"owner_user_id\":544997874347123,\"user_count\":44,\"extra\":{},\"client_version\":100903,\"stream_id\":118317931411014108,\"stream_id_str\":\"118317931411014108\",\"stream_url\":{\"id\":118317931411014108,\"id_str\":\"118317931411014108\",\"resolution_name\":{\"FULL_HD1\":\"蓝光\",\"HD1\":\"超清\",\"ORIGION\":\"原画\",\"SD1\":\"标清\",\"SD2\":\"高清\"},\"default_resolution\":\"HD1\",\"extra\":{\"height\":1920,\"width\":1080},\"rtmp_pull_url\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=e9e3be535cdaaa78543aa684d3cf587c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_or4\",\"flv_pull_url\":{\"FULL_HD1\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=e9e3be535cdaaa78543aa684d3cf587c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_or4\",\"HD1\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_hd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f0835295b106019afe8d5eeb1fba9971\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_hd\",\"SD1\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_ld.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=4dde6f0c45fbb57cf09af566652bc092\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_ld\",\"SD2\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_sd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=4e7cf1c430af5c0868d2606d8cca3515\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_sd\"},\"candidate_resolution\":[\"SD1\",\"SD2\",\"HD1\"],\"hls_pull_url\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=67cda7a48084740ee26cdbae969f8813\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\",\"hls_pull_url_params\":\"{\\\"VCodec\\\":\\\"h264\\\",\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableLowLatencyFLV\\\":1,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"NetworkAdapt\\\":{\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0},\\\"PlayingIntervalMs\\\":20000,\\\"FastOpenDuration\\\":-1800}\",\"rtmp_pull_url_params\":\"{\\\"EnableLowLatencyFLV\\\":1,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0},\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"VCodec\\\":\\\"h264\\\"}\",\"flv_pull_url_params\":{\"HD1\":\"{\\\"VCodec\\\":\\\"h264\\\",\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableLowLatencyFLV\\\":1,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"NetworkAdapt\\\":{\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0},\\\"PlayingIntervalMs\\\":20000,\\\"FastOpenDuration\\\":-1800}\",\"SD1\":\"{\\\"BufferDataMs\\\":1000,\\\"PlayingIntervalMs\\\":20000,\\\"EnableLowLatencyFLV\\\":1,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"VCodec\\\":\\\"h264\\\",\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0},\\\"P2PFastOpenDuration\\\":-1500}\",\"SD2\":\"{\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableLowLatencyFLV\\\":1,\\\"VCodec\\\":\\\"h264\\\",\\\"BufferDataMs\\\":1000,\\\"NetworkAdapt\\\":{\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500},\\\"FastOpenDuration\\\":-1800,\\\"EnableOnlyAudioInAoRes\\\":0}\"},\"live_core_sdk_data\":{\"pull_data\":{\"stream_data\":\"{\\\"common\\\":{\\\"ts\\\":\\\"1763102205\\\",\\\"session_id\\\":\\\"089-2025111414364527283645364DDC06F4F8-vVTDPL\\\",\\\"stream\\\":\\\"118317931411014108\\\",\\\"version\\\":0,\\\"rule_ids\\\":\\\"{\\\\\\\"ab_version_trace\\\\\\\":null,\\\\\\\"sched\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"result\\\\\\\\\\\\\\\":{\\\\\\\\\\\\\\\"hit\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"default\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"cdn\\\\\\\\\\\\\\\":538}}\\\\\\\"}\\\",\\\"common_trace\\\":\\\"{\\\\\\\"StrategyTrace\\\\\\\":{\\\\\\\"Neptune\\\\\\\":{\\\\\\\"PlayStream\\\\\\\":{\\\\\\\"ids\\\\\\\":null}}},\\\\\\\"BusinessType\\\\\\\":\\\\\\\"default_business\\\\\\\",\\\\\\\"SceneNames\\\\\\\":[\\\\\\\"ecom\\\\\\\"],\\\\\\\"SceneTags\\\\\\\":{\\\\\\\"ecom\\\\\\\":\\\\\\\"\\\\\\\"},\\\\\\\"BigeventAnchorLevel\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"BizType\\\\\\\":\\\\\\\"ecom_room\\\\\\\",\\\\\\\"SceneType\\\\\\\":\\\\\\\"亲子生活垂类达人\\\\\\\"}\\\",\\\"app_id\\\":\\\"100102\\\",\\\"major_anchor_level\\\":\\\"common\\\",\\\"mode\\\":\\\"Normal\\\",\\\"lines\\\":{\\\"main\\\":\\\"line_538\\\"},\\\"p2p_params\\\":{\\\"PcdnIsolationConfig\\\":{\\\"StunV4Domain\\\":\\\"vc-mirror.ndcpp.com\\\",\\\"StunV6Domain\\\":\\\"vc-mirror-v6.ndcpp.com\\\",\\\"HoleV4Domain\\\":\\\"vcl-hole.ndcppx.com\\\",\\\"HoleV6Domain\\\":\\\"vcl-hole-v6.ndcppx.com\\\",\\\"IsolationName\\\":\\\"isolation2\\\",\\\"FsV4Domain\\\":\\\"vcl-brain.ndcppx.com\\\",\\\"FsV6Domain\\\":\\\"vcl-brain-v6.ndcppx.com\\\"}},\\\"stream_data_content_encoding\\\":\\\"default\\\",\\\"common_sdk_params\\\":{\\\"main\\\":\\\"{}\\\"},\\\"stream_name\\\":\\\"stream-118317931411014108\\\",\\\"main_push_id\\\":476,\\\"backup_push_id\\\":0},\\\"data\\\":{\\\"sd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_sd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=4e7cf1c430af5c0868d2606d8cca3515\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_sd\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_sd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f60eb4a8a04189148397f4e9ce5d864e\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317931411014108_sd.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f2a85bff1bc2b482fa3f3525d39dbe6a\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_lls_sd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500},\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"vbitrate\\\\\\\":2000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"sd\\\",\\\"bitrateKbps\\\":1508,\\\"updatedTime\\\":1763100631002}}},\\\"ao\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108.flv?arch_hrchy=w1\\u0026eupf_relay_mode=err\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026only_audio=1\\u0026sign=93f967150e882d20c92ef46b51a6c9e6\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv\\\",\\\"hls\\\":\\\"\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":0,\\\\\\\"resolution\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":0}\\\",\\\"enableEncryption\\\":false}},\\\"hd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_hd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f0835295b106019afe8d5eeb1fba9971\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_hd\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=67cda7a48084740ee26cdbae969f8813\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317931411014108_hd.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=20b62d63845ac4cccc46a753383fadd7\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_lls_hd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"vbitrate\\\\\\\":4000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"hd\\\",\\\"bitrateKbps\\\":3112,\\\"updatedTime\\\":1763102203003}}},\\\"origin\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=e9e3be535cdaaa78543aa684d3cf587c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_or4\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_or4.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=83853955a7ed2788a26532c1b4be7cb8\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317931411014108_or4.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f1ca019b25290173a6690cf5c04c3bf5\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_lls_or4\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":3550000,\\\\\\\"resolution\\\\\\\":\\\\\\\"1080x1920\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\"}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"or4\\\",\\\"bitrateKbps\\\":3130,\\\"updatedTime\\\":1763102196001}}},\\\"ld\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317931411014108_ld.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=4dde6f0c45fbb57cf09af566652bc092\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_ld\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_ld.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=0a9b0718c7037d95ed92d59e503309ee\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317931411014108_ld.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=8674f62087f6b49763731acca2c609b6\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_lls_ld\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"vbitrate\\\\\\\":1000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"540x960\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":25}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"ld\\\",\\\"bitrateKbps\\\":751,\\\"updatedTime\\\":1763075105003}}},\\\"md\\\":{\\\"main\\\":{\\\"flv\\\":\\\"https://pull-flv-l11-admin.douyincdn.com/third/stream-118317931411014108_md.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=17efd0ad73b3b7782067eadfccb2b7c1\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_flv_md\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_md.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=79eb78722dced5ba62d836a0ae63e791\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317931411014108_md.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=2139351768807936c7fae16d73b05658\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\\u0026unique_id=stream-118317931411014108_476_lls_md\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"vbitrate\\\\\\\":800000,\\\\\\\"resolution\\\\\\\":\\\\\\\"360x640\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":15}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"md\\\",\\\"bitrateKbps\\\":641,\\\"updatedTime\\\":1763075651002}}}}}\",\"options\":{\"default_quality\":{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3},\"qualities\":[{\"name\":\"标清\",\"sdk_key\":\"ld\",\"v_codec\":\"264\",\"resolution\":\"540x960\",\"level\":1,\"v_bit_rate\":1000000,\"fps\":25},{\"name\":\"高清\",\"sdk_key\":\"sd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":2,\"v_bit_rate\":2000000,\"fps\":30},{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3,\"v_bit_rate\":4000000,\"fps\":30},{\"name\":\"蓝光\",\"sdk_key\":\"origin\",\"v_codec\":\"264\",\"resolution\":\"1080x1920\",\"level\":4,\"v_bit_rate\":3550000}]}},\"push_data\":{\"push_stream_level\":4}},\"hls_pull_url_map\":{\"FULL_HD1\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_or4.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=83853955a7ed2788a26532c1b4be7cb8\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\",\"HD1\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=67cda7a48084740ee26cdbae969f8813\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\",\"SD1\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_ld.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=0a9b0718c7037d95ed92d59e503309ee\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\",\"SD2\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317931411014108_sd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f60eb4a8a04189148397f4e9ce5d864e\\u0026t_id=089-2025111414364527283645364DDC06F4F8-vVTDPL\"},\"stream_control_type\":4,\"stream_orientation\":1,\"play\":{\"horizontal\":\"main\",\"vertical\":\"main\"}},\"live_type_third_party\":true,\"live_room_mode\":1,\"paid_live_data\":{},\"ecom_data\":{\"room_cart_v2\":{\"show_cart\":1}},\"pack_meta\":{\"scene\":\"aweme_head_struct(prod_single_dc/rpc/topo)\",\"env\":\"prod\",\"dc\":\"hl\",\"cluster\":\"feed\"},\"others\":{\"anchor_together_live\":{\"scene\":1}},\"pico_info\":{\"virtual_live_bg_images\":{}},\"game_data\":{\"game_tag_info\":{\"is_game\":2}}}",
+            "can_set_geofencing": null,
+            "room_id_str": "7572347445372308251",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "旗舰店账号",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "澳兰黛护肤旗舰店"
+              },
+              {
+                "text": "粉丝: 83.7万"
+              },
+              {
+                "text": "旗舰店账号"
+              }
+            ],
+            "live_status": 1,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "enable_inner_live": false,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"旗舰店账号\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "user_info": {
+            "uid": "2858380405245616",
+            "nickname": "朱朱护肤优选",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_251048995543804e9e2d4e5870a6df22.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 891576,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "zuzu688",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "店铺账号",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAPJVb53QwFdFUwRWQyn1vmurN-ogtSMVLadSJZ0nDZ_MRSEUSw_-ekCev9-_dw0IB",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "店铺账号",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "朱朱护肤优选"
+              },
+              {
+                "text": "粉丝: 89.2万"
+              },
+              {
+                "text": "店铺账号"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"店铺账号\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "333857929571871",
+            "nickname": "袋鼠妈妈护肤直播间",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_2db9a7310593fa351ab5634ec9d49b35.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 318256,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "dsmm_005",
+            "room_id": 7572341483466967859,
+            "verification_type": 1,
+            "enterprise_verify_reason": "旗舰店授权号",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAxq1VeRDBnQ3qMhXb3DF7EA6eVw_izwYnWoTUB3LMSuc",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "room_data": "{\"id\":7572341483466967859,\"id_str\":\"7572341483466967859\",\"owner_user_id\":333857929571871,\"user_count\":27,\"extra\":{},\"client_version\":100903,\"stream_id\":118317836248023516,\"stream_id_str\":\"118317836248023516\",\"stream_url\":{\"id\":118317836248023516,\"id_str\":\"118317836248023516\",\"resolution_name\":{\"FULL_HD1\":\"蓝光\",\"HD1\":\"超清\",\"ORIGION\":\"原画\",\"SD1\":\"标清\",\"SD2\":\"高清\"},\"default_resolution\":\"HD1\",\"extra\":{\"height\":1920,\"width\":1080},\"rtmp_pull_url\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=c8f3000c67168550fbc9e271e8344225\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_or4\",\"flv_pull_url\":{\"FULL_HD1\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_uhd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=6d0b6ad4af06892236317971adb3c660\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_uhd\",\"HD1\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_hd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=6bf395db64f235c39b4e460703c66b91\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_hd\",\"SD1\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_ld.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=209a83d4d41b17f7b74e00172f149529\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_ld\",\"SD2\":\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_sd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=0297e6f8585836509d31295d52c0a3c4\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_sd\"},\"candidate_resolution\":[\"SD1\",\"SD2\",\"HD1\",\"FULL_HD1\"],\"hls_pull_url\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=d7afe012115893fbc86060a0794d07c0\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\",\"hls_pull_url_params\":\"{\\\"NetworkAdapt\\\":{\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500},\\\"PlayingIntervalMs\\\":20000,\\\"EnableLowLatencyFLV\\\":1,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"P2PFastOpenDuration\\\":-1500,\\\"VCodec\\\":\\\"h264\\\"}\",\"rtmp_pull_url_params\":\"{\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"EnableLowLatencyFLV\\\":1,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1},\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"VCodec\\\":\\\"h264\\\"}\",\"flv_pull_url_params\":{\"FULL_HD1\":\"{\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0},\\\"VCodec\\\":\\\"h264\\\",\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"EnableLowLatencyFLV\\\":1}\",\"HD1\":\"{\\\"NetworkAdapt\\\":{\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500},\\\"PlayingIntervalMs\\\":20000,\\\"EnableLowLatencyFLV\\\":1,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"P2PFastOpenDuration\\\":-1500,\\\"VCodec\\\":\\\"h264\\\"}\",\"SD1\":\"{\\\"NetworkAdapt\\\":{\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500},\\\"VCodec\\\":\\\"h264\\\",\\\"EnableLowLatencyFLV\\\":1,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500}\",\"SD2\":\"{\\\"EnableLowLatencyFLV\\\":1,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableOnlyAudioInAoRes\\\":0,\\\"NetworkAdapt\\\":{\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1},\\\"PlayingIntervalMs\\\":20000,\\\"VCodec\\\":\\\"h264\\\"}\"},\"live_core_sdk_data\":{\"pull_data\":{\"stream_data\":\"{\\\"common\\\":{\\\"ts\\\":\\\"1763102205\\\",\\\"session_id\\\":\\\"089-2025111414364527283645364DDC06F4F8-PQHQDV\\\",\\\"stream\\\":\\\"118317836248023516\\\",\\\"version\\\":0,\\\"rule_ids\\\":\\\"{\\\\\\\"ab_version_trace\\\\\\\":null,\\\\\\\"sched\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"result\\\\\\\\\\\\\\\":{\\\\\\\\\\\\\\\"hit\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"default\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"cdn\\\\\\\\\\\\\\\":538}}\\\\\\\"}\\\",\\\"common_trace\\\":\\\"{\\\\\\\"StrategyTrace\\\\\\\":{\\\\\\\"Neptune\\\\\\\":{\\\\\\\"PlayStream\\\\\\\":{\\\\\\\"ids\\\\\\\":null}}},\\\\\\\"BusinessType\\\\\\\":\\\\\\\"default_business\\\\\\\",\\\\\\\"SceneNames\\\\\\\":[\\\\\\\"ecom\\\\\\\"],\\\\\\\"SceneTags\\\\\\\":{\\\\\\\"ecom\\\\\\\":\\\\\\\"\\\\\\\"},\\\\\\\"BigeventAnchorLevel\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"BizType\\\\\\\":\\\\\\\"ecom_room\\\\\\\",\\\\\\\"SceneType\\\\\\\":\\\\\\\"亲子生活垂类达人\\\\\\\"}\\\",\\\"app_id\\\":\\\"100102\\\",\\\"major_anchor_level\\\":\\\"common\\\",\\\"mode\\\":\\\"Normal\\\",\\\"lines\\\":{\\\"main\\\":\\\"line_538\\\"},\\\"p2p_params\\\":{\\\"PcdnIsolationConfig\\\":{\\\"IsolationName\\\":\\\"isolation1\\\",\\\"FsV4Domain\\\":\\\"vcl-brain.ndcpp.com\\\",\\\"FsV6Domain\\\":\\\"vcl-brain-v6.ndcpp.com\\\",\\\"StunV4Domain\\\":\\\"vc-mirror.ndcpp.com\\\",\\\"StunV6Domain\\\":\\\"vc-mirror-v6.ndcpp.com\\\",\\\"HoleV4Domain\\\":\\\"vcl-hole.ndcpp.com\\\",\\\"HoleV6Domain\\\":\\\"vcl-hole-v6.ndcpp.com\\\"}},\\\"stream_data_content_encoding\\\":\\\"default\\\",\\\"common_sdk_params\\\":{\\\"main\\\":\\\"{}\\\"},\\\"stream_name\\\":\\\"stream-118317836248023516\\\",\\\"main_push_id\\\":476,\\\"backup_push_id\\\":0},\\\"data\\\":{\\\"md\\\":{\\\"main\\\":{\\\"flv\\\":\\\"https://pull-flv-l11-admin.douyincdn.com/third/stream-118317836248023516_md.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=0c342865548f001d927630884f3c33cc\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_md\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_md.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=43269d2e63b7ced3c2f46083efc97cd5\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317836248023516_md.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=65f613fde2052f0859d06f5b8a87fc8e\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_lls_md\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"vbitrate\\\\\\\":800000,\\\\\\\"resolution\\\\\\\":\\\\\\\"360x640\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":15}\\\",\\\"enableEncryption\\\":false}},\\\"uhd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_uhd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=6d0b6ad4af06892236317971adb3c660\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_uhd\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_uhd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=89bf7fc94503773e805e718e6a52c84d\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317836248023516_uhd.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=66396d6264d9a78eb4161a6667861756\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_lls_uhd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"vbitrate\\\\\\\":6000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"1080x1920\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":45}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"uhd\\\",\\\"bitrateKbps\\\":4725,\\\"updatedTime\\\":1763095359000}}},\\\"origin\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=c8f3000c67168550fbc9e271e8344225\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_or4\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_or4.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=210be92e365ef815bcd56b06a0675e09\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317836248023516_or4.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=fed54850083fba83352980625ed96cd0\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_lls_or4\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":6017000,\\\\\\\"resolution\\\\\\\":\\\\\\\"1080x1920\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\"}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"or4\\\",\\\"bitrateKbps\\\":6051,\\\"updatedTime\\\":1763102201001}}},\\\"ao\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516.flv?arch_hrchy=w1\\u0026eupf_relay_mode=err\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026only_audio=1\\u0026sign=bc0336e5bf81f99d4bca53408c24f3fd\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv\\\",\\\"hls\\\":\\\"\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":0,\\\\\\\"resolution\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":0}\\\",\\\"enableEncryption\\\":false}},\\\"sd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_sd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=0297e6f8585836509d31295d52c0a3c4\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_sd\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_sd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=ecae16b8851a88b302bca012169ed56c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317836248023516_sd.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=bdd1e5db5fee2f5d9640b6970cf15302\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_lls_sd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":2000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"sd\\\",\\\"bitrateKbps\\\":1502,\\\"updatedTime\\\":1763101960003}}},\\\"ld\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_ld.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=209a83d4d41b17f7b74e00172f149529\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_ld\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_ld.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f627bc619c6e1bbad86f0085dfa5ac62\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317836248023516_ld.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=83b4353b19682f2a67b7e7a1639eee05\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_lls_ld\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500},\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"vbitrate\\\\\\\":1000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"540x960\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":25}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"ld\\\",\\\"bitrateKbps\\\":859,\\\"updatedTime\\\":1763101902000}}},\\\"hd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l11.douyincdn.com/third/stream-118317836248023516_hd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=6bf395db64f235c39b4e460703c66b91\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_flv_hd\\\",\\\"hls\\\":\\\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=d7afe012115893fbc86060a0794d07c0\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l11.douyincdn.com/third/stream-118317836248023516_hd.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=d396cefa894de806fe3290b0770c984b\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\\u0026unique_id=stream-118317836248023516_476_lls_hd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"EnableOnlyAudioInAoRes\\\\\\\":0,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":4000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"hd\\\",\\\"bitrateKbps\\\":3106,\\\"updatedTime\\\":1763102200004}}}}}\",\"options\":{\"default_quality\":{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3},\"qualities\":[{\"name\":\"标清\",\"sdk_key\":\"ld\",\"v_codec\":\"264\",\"resolution\":\"540x960\",\"level\":1,\"v_bit_rate\":1000000,\"fps\":25},{\"name\":\"高清\",\"sdk_key\":\"sd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":2,\"v_bit_rate\":2000000,\"fps\":30},{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3,\"v_bit_rate\":4000000,\"fps\":30},{\"name\":\"蓝光\",\"sdk_key\":\"uhd\",\"v_codec\":\"264\",\"resolution\":\"1080x1920\",\"level\":4,\"v_bit_rate\":6017000,\"fps\":45}]}},\"push_data\":{\"push_stream_level\":4}},\"hls_pull_url_map\":{\"FULL_HD1\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_uhd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=89bf7fc94503773e805e718e6a52c84d\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\",\"HD1\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=d7afe012115893fbc86060a0794d07c0\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\",\"SD1\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_ld.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=f627bc619c6e1bbad86f0085dfa5ac62\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\",\"SD2\":\"http://pull-hls-l11.douyincdn.com/third/stream-118317836248023516_sd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=ecae16b8851a88b302bca012169ed56c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-PQHQDV\"},\"stream_control_type\":4,\"stream_orientation\":1,\"play\":{\"horizontal\":\"main\",\"vertical\":\"main\"}},\"live_type_third_party\":true,\"live_room_mode\":1,\"paid_live_data\":{},\"ecom_data\":{\"room_cart_v2\":{\"show_cart\":1}},\"pack_meta\":{\"scene\":\"aweme_head_struct(prod_single_dc/rpc/topo)\",\"env\":\"prod\",\"dc\":\"hl\",\"cluster\":\"feed\"},\"others\":{\"anchor_together_live\":{\"scene\":1}},\"pico_info\":{\"virtual_live_bg_images\":{}},\"game_data\":{\"game_tag_info\":{\"is_game\":2}}}",
+            "can_set_geofencing": null,
+            "room_id_str": "7572341483466967859",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "旗舰店授权号",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "袋鼠妈妈护肤直播间"
+              },
+              {
+                "text": "粉丝: 31.8万"
+              },
+              {
+                "text": "旗舰店授权号"
+              }
+            ],
+            "live_status": 1,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "enable_inner_live": false,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"旗舰店授权号\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null
+        },
+        {
+          "user_info": {
+            "uid": "2573277583124568",
+            "nickname": "亿隆护肤",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_bfce2d8164e31a0454d34b429115b82e.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 154672,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "72591812412",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "店铺账号",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAsqwjBeIx-MSE70PB5xRdkWTHmosTgMDClxPnbNVexpPTT9x6Ld54bHkmf1s2NTHc",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "店铺账号",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "亿隆护肤"
+              },
+              {
+                "text": "粉丝: 15.5万"
+              },
+              {
+                "text": "店铺账号"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"店铺账号\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "3878709834816560",
+            "nickname": "TST庭秘密护肤",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_9e7d48357ce7243895dbf4a6e73a53ee.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 388178,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "TST199188he",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAak18WowSCm7CYNvsFXbB5vjzfgZuJsZSoRpQsiK8MZ-wAKH5unu5r-0cIMjF691g",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：TST199188he",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "TST庭秘密护肤"
+              },
+              {
+                "text": "粉丝: 38.8万"
+              },
+              {
+                "text": "抖音号：TST199188he"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null
+        },
+        {
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "3913863727944759",
+            "nickname": "护肤学霸蚊子（测评版）",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813c001_o0W9U9DH3AroIqDwA1uB9tgInbAfeAAtYCAkXQ.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 1000131,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "zw686666",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAbeIim9TwvE2xb5ibjW9VwCUh6AJjgke2oQuuFyvsrle-d3mlX4B3pFsLV2mxfLdA",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：zw686666",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "护肤学霸蚊子（测评版）"
+              },
+              {
+                "text": "粉丝: 100.0万"
+              },
+              {
+                "text": "抖音号：zw686666"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null
+        },
+        {
+          "user_info": {
+            "uid": "1943553076630308",
+            "nickname": "护肤",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_eb26c82d1eaf5f46d076995d35d0c02c.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 5582,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "6794697j",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAvBkovt_ITsIWxnjq0WwPfCwhgEKF0id_lEOiClMv5TvThkci5OuaqpJTqA-hEHac",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：6794697j",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "护肤"
+              },
+              {
+                "text": "粉丝: 5582"
+              },
+              {
+                "text": "抖音号：6794697j"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "3469694681220644",
+            "nickname": "梦梦护肤",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_baef2633cffabea64f635cda2646eff9.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 606961,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "w858892",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAA2ZyBFJpdL66vu3OaRnmACG_kGC4CSGjOd9xbGYDRBs9fI48Qejm3Vz0sHwi0Tfyy",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：w858892",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "梦梦护肤"
+              },
+              {
+                "text": "粉丝: 60.7万"
+              },
+              {
+                "text": "抖音号：w858892"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false
+        },
+        {
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "95548503675",
+            "nickname": "/大林子护肤",
+            "gender": 0,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_a7de02a9af32c247f9530dca7932fced.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 586425,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "dlz88800",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAMGsi-EA8FLeMwyvoul35dHMo6w7a0XgZtlYmqD_UqNA",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：dlz88800",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "/大林子护肤"
+              },
+              {
+                "text": "粉丝: 58.6万"
+              },
+              {
+                "text": "抖音号：dlz88800"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null
+        },
+        {
+          "user_info": {
+            "uid": "646159791555771",
+            "nickname": "羽素护肤旗舰店",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_20131f264dcf482fbced1cc003a08e26.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 700781,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "xiannvxiaoqi666",
+            "room_id": 7572333217982745378,
+            "verification_type": 1,
+            "enterprise_verify_reason": "店铺账号",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAG4NScIyihRYxJY7GGz50hKmU2NxR8VYzVvvT-uNAwl0",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "room_data": "{\"id\":7572333217982745378,\"id_str\":\"7572333217982745378\",\"owner_user_id\":646159791555771,\"user_count\":56,\"extra\":{},\"client_version\":100903,\"stream_id\":694778459902968595,\"stream_id_str\":\"694778459902968595\",\"stream_url\":{\"id\":694778459902968595,\"id_str\":\"694778459902968595\",\"resolution_name\":{\"FULL_HD1\":\"蓝光\",\"HD1\":\"超清\",\"ORIGION\":\"原画\",\"SD1\":\"标清\",\"SD2\":\"高清\"},\"default_resolution\":\"HD1\",\"extra\":{\"height\":1920,\"width\":1080},\"rtmp_pull_url\":\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=bb6f74e90adfdff0a6136ca277817743\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_or4\",\"flv_pull_url\":{\"FULL_HD1\":\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=bb6f74e90adfdff0a6136ca277817743\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_or4\",\"HD1\":\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_hd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=01ab3bd7711f809199970e4641017531\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_hd\",\"SD1\":\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_ld.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=a6f63ff4baeee6bd8cf36421774337d6\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_ld\",\"SD2\":\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_sd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=167b44987a2175590b56800e9fdec496\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_sd\"},\"candidate_resolution\":[\"SD1\",\"SD2\",\"HD1\"],\"hls_pull_url\":\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=5915abc1be73616b5aea04519712bc3c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\",\"hls_pull_url_params\":\"{\\\"NetworkAdapt\\\":{\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500},\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableLowLatencyFLV\\\":1,\\\"VCodec\\\":\\\"h264\\\",\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800}\",\"rtmp_pull_url_params\":\"{\\\"VCodec\\\":\\\"h264\\\",\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"Enabled\\\":0},\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableLowLatencyFLV\\\":1}\",\"flv_pull_url_params\":{\"HD1\":\"{\\\"NetworkAdapt\\\":{\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500},\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableLowLatencyFLV\\\":1,\\\"VCodec\\\":\\\"h264\\\",\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800}\",\"SD1\":\"{\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500},\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"EnableLowLatencyFLV\\\":1,\\\"VCodec\\\":\\\"h264\\\",\\\"BufferDataMs\\\":1000}\",\"SD2\":\"{\\\"EnableLowLatencyFLV\\\":1,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0},\\\"PlayingIntervalMs\\\":20000,\\\"P2PFastOpenDuration\\\":-1500,\\\"VCodec\\\":\\\"h264\\\"}\"},\"live_core_sdk_data\":{\"pull_data\":{\"stream_data\":\"{\\\"common\\\":{\\\"ts\\\":\\\"1763102205\\\",\\\"session_id\\\":\\\"089-2025111414364527283645364DDC06F4F8-sDorcJ\\\",\\\"stream\\\":\\\"694778459902968595\\\",\\\"version\\\":0,\\\"rule_ids\\\":\\\"{\\\\\\\"ab_version_trace\\\\\\\":{\\\\\\\"3045\\\\\\\":[1682411907243]},\\\\\\\"sched\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"result\\\\\\\\\\\\\\\":{\\\\\\\\\\\\\\\"hit\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"default\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"cdn\\\\\\\\\\\\\\\":1034}}\\\\\\\"}\\\",\\\"common_trace\\\":\\\"{\\\\\\\"StrategyTrace\\\\\\\":{\\\\\\\"Neptune\\\\\\\":{\\\\\\\"PlayStream\\\\\\\":{\\\\\\\"ids\\\\\\\":null}}},\\\\\\\"BusinessType\\\\\\\":\\\\\\\"default_business\\\\\\\",\\\\\\\"SceneNames\\\\\\\":[\\\\\\\"ecom\\\\\\\"],\\\\\\\"SceneTags\\\\\\\":{\\\\\\\"ecom\\\\\\\":\\\\\\\"\\\\\\\"},\\\\\\\"BigeventAnchorLevel\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"BizType\\\\\\\":\\\\\\\"ecom_room\\\\\\\",\\\\\\\"SceneType\\\\\\\":\\\\\\\"美妆垂类达人\\\\\\\"}\\\",\\\"app_id\\\":\\\"100102\\\",\\\"major_anchor_level\\\":\\\"common\\\",\\\"mode\\\":\\\"Normal\\\",\\\"lines\\\":{\\\"main\\\":\\\"line_1034\\\"},\\\"p2p_params\\\":{\\\"PcdnIsolationConfig\\\":{\\\"HoleV4Domain\\\":\\\"vcl-hole.ndcppx.com\\\",\\\"HoleV6Domain\\\":\\\"vcl-hole-v6.ndcppx.com\\\",\\\"IsolationName\\\":\\\"isolation2\\\",\\\"FsV4Domain\\\":\\\"vcl-brain.ndcppx.com\\\",\\\"FsV6Domain\\\":\\\"vcl-brain-v6.ndcppx.com\\\",\\\"StunV4Domain\\\":\\\"vc-mirror.ndcpp.com\\\",\\\"StunV6Domain\\\":\\\"vc-mirror-v6.ndcpp.com\\\"}},\\\"stream_data_content_encoding\\\":\\\"default\\\",\\\"common_sdk_params\\\":{\\\"main\\\":\\\"{}\\\"},\\\"stream_name\\\":\\\"stream-694778459902968595\\\",\\\"main_push_id\\\":787,\\\"backup_push_id\\\":0},\\\"data\\\":{\\\"ao\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595.flv?arch_hrchy=w1\\u0026eupf_relay_mode=err\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026only_audio=1\\u0026sign=60f4ab28d99823dfc71d35c770c6890e\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv\\\",\\\"hls\\\":\\\"\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9},\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"vbitrate\\\\\\\":0,\\\\\\\"resolution\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":0}\\\",\\\"enableEncryption\\\":false}},\\\"md\\\":{\\\"main\\\":{\\\"flv\\\":\\\"https://pull-flv-l13-admin.douyincdn.com/third/stream-694778459902968595_md.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026fs_time=-2100\\u0026major_anchor_level=common\\u0026sign=9c6a487c93f38edbf2fe8c50161efb9e\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_md\\\",\\\"hls\\\":\\\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_md.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026fs_time=-2100\\u0026major_anchor_level=common\\u0026sign=5d1e9157a9f28decb375342a4c1f9de3\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l13.douyincdn.com/third/stream-694778459902968595_md.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026fs_time=-2100\\u0026major_anchor_level=common\\u0026sign=3363e2a715e7e0ac4bc55eb8c6782dd5\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_lls_md\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":800000,\\\\\\\"resolution\\\\\\\":\\\\\\\"360x640\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":15}\\\",\\\"enableEncryption\\\":false}},\\\"hd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_hd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=01ab3bd7711f809199970e4641017531\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_hd\\\",\\\"hls\\\":\\\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=5915abc1be73616b5aea04519712bc3c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l13.douyincdn.com/third/stream-694778459902968595_hd.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=48afc368a84495e144129c4ae1928c73\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_lls_hd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"vbitrate\\\\\\\":4000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"hd\\\",\\\"bitrateKbps\\\":3138,\\\"updatedTime\\\":1763102192848}}},\\\"sd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_sd.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=167b44987a2175590b56800e9fdec496\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_sd\\\",\\\"hls\\\":\\\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_sd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=4764f00c192fcb54acf47040efbc1e5b\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l13.douyincdn.com/third/stream-694778459902968595_sd.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=0965ffdf45161bd021fa014115971cd4\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_lls_sd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":2000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"sd\\\",\\\"bitrateKbps\\\":2054,\\\"updatedTime\\\":1763102197097}}},\\\"origin\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_or4.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=bb6f74e90adfdff0a6136ca277817743\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_or4\\\",\\\"hls\\\":\\\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_or4.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=64b6480b5a660a7d40c97763bb77b366\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l13.douyincdn.com/third/stream-694778459902968595_or4.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=289b2d93c83c6293451bc9d20ebf6b80\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_lls_or4\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"vbitrate\\\\\\\":3977000,\\\\\\\"resolution\\\\\\\":\\\\\\\"1080x1920\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\"}\\\",\\\"enableEncryption\\\":false}},\\\"ld\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l13.douyincdn.com/third/stream-694778459902968595_ld.flv?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=a6f63ff4baeee6bd8cf36421774337d6\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_flv_ld\\\",\\\"hls\\\":\\\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_ld.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=2b651c950a79e4d19b4e44e309125c53\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l13.douyincdn.com/third/stream-694778459902968595_ld.sdp?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=63d8bd9815b17cccb505f1e6ff22da60\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\\u0026unique_id=stream-694778459902968595_787_lls_ld\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"vbitrate\\\\\\\":1000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"540x960\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":25}\\\",\\\"enableEncryption\\\":false,\\\"templateRealTimeInfo\\\":{\\\"name\\\":\\\"ld\\\",\\\"bitrateKbps\\\":1104,\\\"updatedTime\\\":1763102197207}}}}}\",\"options\":{\"default_quality\":{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3},\"qualities\":[{\"name\":\"标清\",\"sdk_key\":\"ld\",\"v_codec\":\"264\",\"resolution\":\"540x960\",\"level\":1,\"v_bit_rate\":1000000,\"fps\":25},{\"name\":\"高清\",\"sdk_key\":\"sd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":2,\"v_bit_rate\":2000000,\"fps\":30},{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3,\"v_bit_rate\":4000000,\"fps\":30},{\"name\":\"蓝光\",\"sdk_key\":\"origin\",\"v_codec\":\"264\",\"resolution\":\"1080x1920\",\"level\":4,\"v_bit_rate\":3977000}]}},\"push_data\":{\"push_stream_level\":4}},\"hls_pull_url_map\":{\"FULL_HD1\":\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_or4.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=64b6480b5a660a7d40c97763bb77b366\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\",\"HD1\":\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_hd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=5915abc1be73616b5aea04519712bc3c\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\",\"SD1\":\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_ld.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=2b651c950a79e4d19b4e44e309125c53\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\",\"SD2\":\"http://pull-hls-l13.douyincdn.com/third/stream-694778459902968595_sd.m3u8?arch_hrchy=w1\\u0026exp_hrchy=w1\\u0026expire=1763707005\\u0026major_anchor_level=common\\u0026sign=4764f00c192fcb54acf47040efbc1e5b\\u0026t_id=089-2025111414364527283645364DDC06F4F8-sDorcJ\"},\"stream_control_type\":4,\"stream_orientation\":1,\"play\":{\"horizontal\":\"main\",\"vertical\":\"main\"}},\"live_type_third_party\":true,\"live_room_mode\":1,\"paid_live_data\":{},\"ecom_data\":{\"room_cart_v2\":{\"show_cart\":1}},\"pack_meta\":{\"scene\":\"aweme_head_struct(prod_single_dc/rpc/topo)\",\"env\":\"prod\",\"dc\":\"hl\",\"cluster\":\"feed\"},\"others\":{\"anchor_together_live\":{\"scene\":1}},\"pico_info\":{\"virtual_live_bg_images\":{}},\"game_data\":{\"game_tag_info\":{\"is_game\":2}}}",
+            "can_set_geofencing": null,
+            "room_id_str": "7572333217982745378",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "店铺账号",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "羽素护肤旗舰店"
+              },
+              {
+                "text": "粉丝: 70.1万"
+              },
+              {
+                "text": "店铺账号"
+              }
+            ],
+            "live_status": 1,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "enable_inner_live": false,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"店铺账号\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "user_info": {
+            "uid": "3650803496388151",
+            "nickname": "护肤专家李丹（商品在橱窗）",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_ef8ce780ef464ff0bbc57aa290a064c4.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 349124,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "78306492293",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAaS9wPHRp9ppQYpVUv-5guhL007P-4-ac2jfN0VYF4y3OaAdCZJts5SEGNLNTHiBW",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：78306492293",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "护肤专家李丹（商品在橱窗）"
+              },
+              {
+                "text": "粉丝: 34.9万"
+              },
+              {
+                "text": "抖音号：78306492293"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "user_info": {
+            "uid": "2845987408196855",
+            "nickname": "瀚丞讲护肤",
+            "gender": 1,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_a8ca83fcdeaeddd7299c1c1eab0f5504.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 323402,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "FAYELINDYLEE",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAt63_wbj6CCSm-b8WdmZIDzRJrZRthna-PFqCeocf-n5LQ9sW6ZGLnhk05MgLWBUo",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：FAYELINDYLEE",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "瀚丞讲护肤"
+              },
+              {
+                "text": "粉丝: 32.3万"
+              },
+              {
+                "text": "抖音号：FAYELINDYLEE"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "356711932102695",
+            "nickname": "唐洋洋护肤",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_c80faeaa9a7bde30808e10caed100cb5.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 312565,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "59006922966",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "杭州旭燊文化传媒有限公司",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAA09msac5iY17XrAMWSRdfbuzb2j9F6bRlnnJTFgtFxtI",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "杭州旭燊文化传媒有限公司",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "唐洋洋护肤"
+              },
+              {
+                "text": "粉丝: 31.3万"
+              },
+              {
+                "text": "杭州旭燊文化传媒有限公司"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"杭州旭燊文化传媒有限公司\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          }
+        },
+        {
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "3879535600211359",
+            "nickname": "精心护肤企业店",
+            "gender": 0,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813c000-ce_oIf9EAduQtD2BAKcy0EMI0ddwAF0EnAHXeDeAE.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 1652033,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "56488631712",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "店铺账号",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAWe6_-7SfI--TuaQu6HmcSkt7N5m2kU8rcVHKRXJHcJCFepCbNevRZrlfSDGZftuT",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "店铺账号",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "精心护肤企业店"
+              },
+              {
+                "text": "粉丝: 165.2万"
+              },
+              {
+                "text": "店铺账号"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"店铺账号\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null
+        },
+        {
+          "user_info": {
+            "uid": "3271742431166664",
+            "nickname": "谷雨护肤旗舰店",
+            "gender": 0,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_456aa9fc8969209ca4a4956aa73f3826.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 542619,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "guyusuixintui",
+            "room_id": 7571594226442586899,
+            "verification_type": 1,
+            "enterprise_verify_reason": "旗舰店账号",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAIw8cpLLe5xIKtRR6h8v2TKk4jZPvyYXeUX-CaLpxdu6DsY3zijLnEbO-Y0Lm0Wws",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "room_data": "{\"id\":7571594226442586899,\"id_str\":\"7571594226442586899\",\"owner_user_id\":3271742431166664,\"user_count\":32,\"extra\":{},\"client_version\":100807,\"stream_id\":406536538677838310,\"stream_id_str\":\"406536538677838310\",\"stream_url\":{\"id\":406536538677838310,\"id_str\":\"406536538677838310\",\"resolution_name\":{\"FULL_HD1\":\"蓝光\",\"HD1\":\"超清\",\"ORIGION\":\"原画\",\"SD1\":\"标清\",\"SD2\":\"高清\"},\"default_resolution\":\"HD1\",\"extra\":{\"height\":1920,\"width\":1080},\"rtmp_pull_url\":\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_or4.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=a0739b8604c902907245829dc3b80b00\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_or4\",\"flv_pull_url\":{\"FULL_HD1\":\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_or4.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=a0739b8604c902907245829dc3b80b00\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_or4\",\"HD1\":\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_hd.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=1c55762a8ac454621f11419e19848d9f\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_hd\",\"SD1\":\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_ld.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=d28660b85df0cc1b3fc98e1ba9cdda3f\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_ld\",\"SD2\":\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_sd.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=5b366bb93c6ceb75b3d90d477e7c7e49\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_sd\"},\"candidate_resolution\":[\"SD1\",\"SD2\",\"HD1\"],\"hls_pull_url\":\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_hd.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=0a7e6864f2c05711a4afdd3036d6914a\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\",\"hls_pull_url_params\":\"{\\\"VCodec\\\":\\\"h264\\\",\\\"P2PFastOpenDuration\\\":-1500,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500},\\\"PlayingIntervalMs\\\":20000,\\\"EnableLowLatencyFLV\\\":1}\",\"rtmp_pull_url_params\":\"{\\\"EnableLowLatencyFLV\\\":1,\\\"VCodec\\\":\\\"h264\\\",\\\"P2PFastOpenDuration\\\":-1500,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500},\\\"PlayingIntervalMs\\\":20000}\",\"flv_pull_url_params\":{\"HD1\":\"{\\\"VCodec\\\":\\\"h264\\\",\\\"P2PFastOpenDuration\\\":-1500,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500},\\\"PlayingIntervalMs\\\":20000,\\\"EnableLowLatencyFLV\\\":1}\",\"SD1\":\"{\\\"P2PFastOpenDuration\\\":-1500,\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"HurrySpeed\\\":1.1,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0,\\\"Enabled\\\":0},\\\"VCodec\\\":\\\"h264\\\",\\\"PlayingIntervalMs\\\":20000,\\\"EnableLowLatencyFLV\\\":1}\",\"SD2\":\"{\\\"BufferDataMs\\\":1000,\\\"FastOpenDuration\\\":-1800,\\\"NetworkAdapt\\\":{\\\"HurrySpeed\\\":1.1,\\\"HurryStartMs\\\":4000,\\\"HurryStopType\\\":1,\\\"SlowMillisecond\\\":1500,\\\"SlowSpeed\\\":0.9,\\\"SlowTime\\\":1500,\\\"Enabled\\\":0,\\\"HurryMillisecond\\\":3500,\\\"HurryTime\\\":3500,\\\"HurryType\\\":0},\\\"PlayingIntervalMs\\\":20000,\\\"EnableLowLatencyFLV\\\":1,\\\"VCodec\\\":\\\"h264\\\",\\\"P2PFastOpenDuration\\\":-1500}\"},\"live_core_sdk_data\":{\"pull_data\":{\"stream_data\":\"{\\\"common\\\":{\\\"ts\\\":\\\"1763102205\\\",\\\"session_id\\\":\\\"089-2025111414364527283645364DDC06F4F8-YRwj6E\\\",\\\"stream\\\":\\\"406536538677838310\\\",\\\"version\\\":0,\\\"rule_ids\\\":\\\"{\\\\\\\"ab_version_trace\\\\\\\":null,\\\\\\\"sched\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"result\\\\\\\\\\\\\\\":{\\\\\\\\\\\\\\\"hit\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"default\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"cdn\\\\\\\\\\\\\\\":547}}\\\\\\\"}\\\",\\\"common_trace\\\":\\\"{\\\\\\\"StrategyTrace\\\\\\\":{\\\\\\\"Neptune\\\\\\\":{\\\\\\\"PlayStream\\\\\\\":{\\\\\\\"ids\\\\\\\":null}}},\\\\\\\"BusinessType\\\\\\\":\\\\\\\"default_business\\\\\\\",\\\\\\\"SceneNames\\\\\\\":[\\\\\\\"ecom\\\\\\\"],\\\\\\\"SceneTags\\\\\\\":{\\\\\\\"ecom\\\\\\\":\\\\\\\"\\\\\\\"},\\\\\\\"BigeventAnchorLevel\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"BizType\\\\\\\":\\\\\\\"ecom_room\\\\\\\",\\\\\\\"SceneType\\\\\\\":\\\\\\\"美妆垂类达人\\\\\\\"}\\\",\\\"app_id\\\":\\\"100102\\\",\\\"major_anchor_level\\\":\\\"common\\\",\\\"mode\\\":\\\"Normal\\\",\\\"lines\\\":{\\\"main\\\":\\\"line_547\\\"},\\\"p2p_params\\\":{\\\"PcdnIsolationConfig\\\":{\\\"HoleV6Domain\\\":\\\"vcl-hole-v6.ndcppx.com\\\",\\\"IsolationName\\\":\\\"isolation2\\\",\\\"FsV4Domain\\\":\\\"vcl-brain.ndcppx.com\\\",\\\"FsV6Domain\\\":\\\"vcl-brain-v6.ndcppx.com\\\",\\\"StunV4Domain\\\":\\\"vc-mirror.ndcpp.com\\\",\\\"StunV6Domain\\\":\\\"vc-mirror-v6.ndcpp.com\\\",\\\"HoleV4Domain\\\":\\\"vcl-hole.ndcppx.com\\\"}},\\\"stream_data_content_encoding\\\":\\\"default\\\",\\\"common_sdk_params\\\":{\\\"main\\\":\\\"{}\\\"},\\\"stream_name\\\":\\\"stream-406536538677838310\\\",\\\"main_push_id\\\":486,\\\"backup_push_id\\\":0},\\\"data\\\":{\\\"hd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_hd.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=1c55762a8ac454621f11419e19848d9f\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_hd\\\",\\\"hls\\\":\\\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_hd.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=0a7e6864f2c05711a4afdd3036d6914a\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l26.douyincdn.com/third/stream-406536538677838310_hd.sdp?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=39529e6936ce66efa5ffd0df56abc971\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_lls_hd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"vbitrate\\\\\\\":4000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false}},\\\"ld\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_ld.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=d28660b85df0cc1b3fc98e1ba9cdda3f\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_ld\\\",\\\"hls\\\":\\\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_ld.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=942b0f9a1d7dc3ca15d724f3b4494f1e\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l26.douyincdn.com/third/stream-406536538677838310_ld.sdp?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=71c19addea1fd34885817ec8e2eea605\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_lls_ld\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0},\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"vbitrate\\\\\\\":1000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"540x960\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":25}\\\",\\\"enableEncryption\\\":false}},\\\"sd\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_sd.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=5b366bb93c6ceb75b3d90d477e7c7e49\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_sd\\\",\\\"hls\\\":\\\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_sd.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=6bcda679a24dcfb3cdf650decbcdcb89\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l26.douyincdn.com/third/stream-406536538677838310_sd.sdp?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=25effa96dd3d1993b37569600bfa2b78\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_lls_sd\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"vbitrate\\\\\\\":2000000,\\\\\\\"resolution\\\\\\\":\\\\\\\"720x1280\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":30}\\\",\\\"enableEncryption\\\":false}},\\\"ao\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310.flv?arch_hrchy=c1\\u0026eupf_relay_mode=err\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026only_audio=1\\u0026sign=36e07d5a1689e8fb65e7d20b37e9c09a\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv\\\",\\\"hls\\\":\\\"\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"vbitrate\\\\\\\":0,\\\\\\\"resolution\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":0}\\\",\\\"enableEncryption\\\":false}},\\\"md\\\":{\\\"main\\\":{\\\"flv\\\":\\\"https://pull-flv-l26-admin.douyincdn.com/third/stream-406536538677838310_md.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=e83ba9ff08595980dccfc80902085b3f\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_md\\\",\\\"hls\\\":\\\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_md.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=dd7abf141bdeccf11cb2205a209bee26\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l26.douyincdn.com/third/stream-406536538677838310_md.sdp?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=91be05a354ca0f3c7201085956383808\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_lls_md\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"vbitrate\\\\\\\":800000,\\\\\\\"resolution\\\\\\\":\\\\\\\"360x640\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\",\\\\\\\"fps\\\\\\\":15}\\\",\\\"enableEncryption\\\":false}},\\\"origin\\\":{\\\"main\\\":{\\\"flv\\\":\\\"http://pull-flv-l26.douyincdn.com/third/stream-406536538677838310_or4.flv?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=a0739b8604c902907245829dc3b80b00\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_flv_or4\\\",\\\"hls\\\":\\\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_or4.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=c2e771d48ddde013ea9e1309beb845a1\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\\",\\\"cmaf\\\":\\\"\\\",\\\"dash\\\":\\\"\\\",\\\"lls\\\":\\\"http://pull-lls-l26.douyincdn.com/third/stream-406536538677838310_or4.sdp?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=286f7f6624948a59ee5c478f42a71162\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\\u0026unique_id=stream-406536538677838310_486_lls_or4\\\",\\\"tsl\\\":\\\"\\\",\\\"tile\\\":\\\"\\\",\\\"http_ts\\\":\\\"\\\",\\\"ll_hls\\\":\\\"\\\",\\\"sdk_params\\\":\\\"{\\\\\\\"EnableLowLatencyFLV\\\\\\\":1,\\\\\\\"VCodec\\\\\\\":\\\\\\\"h264\\\\\\\",\\\\\\\"P2PFastOpenDuration\\\\\\\":-1500,\\\\\\\"BufferDataMs\\\\\\\":1000,\\\\\\\"FastOpenDuration\\\\\\\":-1800,\\\\\\\"NetworkAdapt\\\\\\\":{\\\\\\\"HurryStopType\\\\\\\":1,\\\\\\\"SlowMillisecond\\\\\\\":1500,\\\\\\\"SlowSpeed\\\\\\\":0.9,\\\\\\\"SlowTime\\\\\\\":1500,\\\\\\\"HurrySpeed\\\\\\\":1.1,\\\\\\\"HurryStartMs\\\\\\\":4000,\\\\\\\"HurryTime\\\\\\\":3500,\\\\\\\"HurryType\\\\\\\":0,\\\\\\\"Enabled\\\\\\\":0,\\\\\\\"HurryMillisecond\\\\\\\":3500},\\\\\\\"PlayingIntervalMs\\\\\\\":20000,\\\\\\\"vbitrate\\\\\\\":4461000,\\\\\\\"resolution\\\\\\\":\\\\\\\"1080x1920\\\\\\\",\\\\\\\"gop\\\\\\\":2,\\\\\\\"drType\\\\\\\":\\\\\\\"sdr\\\\\\\"}\\\",\\\"enableEncryption\\\":false}}}}\",\"options\":{\"default_quality\":{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3},\"qualities\":[{\"name\":\"标清\",\"sdk_key\":\"ld\",\"v_codec\":\"264\",\"resolution\":\"540x960\",\"level\":1,\"v_bit_rate\":1000000,\"fps\":25},{\"name\":\"高清\",\"sdk_key\":\"sd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":2,\"v_bit_rate\":2000000,\"fps\":30},{\"name\":\"超清\",\"sdk_key\":\"hd\",\"v_codec\":\"264\",\"resolution\":\"720x1280\",\"level\":3,\"v_bit_rate\":4000000,\"fps\":30},{\"name\":\"蓝光\",\"sdk_key\":\"origin\",\"v_codec\":\"264\",\"resolution\":\"1080x1920\",\"level\":4,\"v_bit_rate\":4461000}]}},\"push_data\":{\"push_stream_level\":4}},\"hls_pull_url_map\":{\"FULL_HD1\":\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_or4.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=c2e771d48ddde013ea9e1309beb845a1\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\",\"HD1\":\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_hd.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=0a7e6864f2c05711a4afdd3036d6914a\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\",\"SD1\":\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_ld.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=942b0f9a1d7dc3ca15d724f3b4494f1e\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\",\"SD2\":\"http://pull-hls-l26.douyincdn.com/third/stream-406536538677838310_sd.m3u8?arch_hrchy=c1\\u0026expire=6920087d\\u0026major_anchor_level=common\\u0026sign=6bcda679a24dcfb3cdf650decbcdcb89\\u0026t_id=089-2025111414364527283645364DDC06F4F8-YRwj6E\"},\"stream_control_type\":4,\"stream_orientation\":1,\"play\":{\"horizontal\":\"main\",\"vertical\":\"main\"}},\"live_type_third_party\":true,\"live_room_mode\":1,\"paid_live_data\":{},\"ecom_data\":{\"room_cart_v2\":{\"show_cart\":1}},\"pack_meta\":{\"scene\":\"aweme_head_struct(prod_single_dc/rpc/topo)\",\"env\":\"prod\",\"dc\":\"hl\",\"cluster\":\"feed\"},\"others\":{\"anchor_together_live\":{\"scene\":1}},\"pico_info\":{\"virtual_live_bg_images\":{}},\"game_data\":{\"game_tag_info\":{\"is_game\":2}}}",
+            "can_set_geofencing": null,
+            "room_id_str": "7571594226442586899",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "旗舰店账号",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "谷雨护肤旗舰店"
+              },
+              {
+                "text": "粉丝: 54.3万"
+              },
+              {
+                "text": "旗舰店账号"
+              }
+            ],
+            "live_status": 1,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "enable_inner_live": false,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{\"label_style\":5,\"label_text\":\"旗舰店账号\",\"is_biz_account\":1}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null
+        },
+        {
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "544948497169917",
+            "nickname": "广药白云山护肤",
+            "gender": 0,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-i-0813_o0mACJQXtCBEDAF91AFIcC3AAUAOgwfBBAMDEe.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 627468,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "Renhe1818",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAA37TL_vwgbnmk8aRsBqiXId-o2F5OAGeFuuhhn3US9CU",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：Renhe1818",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "广药白云山护肤"
+              },
+              {
+                "text": "粉丝: 62.7万"
+              },
+              {
+                "text": "抖音号：Renhe1818"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null
+        },
+        {
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "3026323091755464",
+            "nickname": "朵朵教护肤",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_fa7183dd7c3324fe7aa62128bc1f45bb.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 477642,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "32148554602",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAd9ETQV3ijmRt9tkVTtcItFpTrjl23ehJ-oy4XxjNBkKOSoESRlcDUH5tIpDwszl5",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：32148554602",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "朵朵教护肤"
+              },
+              {
+                "text": "粉丝: 47.8万"
+              },
+              {
+                "text": "抖音号：32148554602"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null,
+          "is_red_phone_number": null
+        },
+        {
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "1363850858335175",
+            "nickname": "杨啡啡科学护肤",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_8bbcdc8552b55d79b0cd4d0e1462cc07.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 319750,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "yff0821",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAAVAbk55DLCqqBn9WqeY7p7JWr9CtKONwUZWv0djROfJGT9fRWcBKJbtePLpCzLsYX",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：yff0821",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "杨啡啡科学护肤"
+              },
+              {
+                "text": "粉丝: 32.0万"
+              },
+              {
+                "text": "抖音号：yff0821"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null
+        },
+        {
+          "is_red_phone_number": null,
+          "phone_number_encrypted": null,
+          "user_info": {
+            "uid": "2797618411344827",
+            "nickname": "甜甜姐｜高级护肤导师",
+            "gender": 2,
+            "avatar_larger": {
+              "uri": "1080x1080/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_thumb": {
+              "uri": "100x100/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "avatar_medium": {
+              "uri": "720x720/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856",
+              "url_list": [
+                "https://p3.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662",
+                "https://p6.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662",
+                "https://p9.douyinpic.com/aweme/720x720/aweme-avatar/tos-cn-avt-0015_01e40787aceebfdd4321753a738cc856.jpeg?from=2956013662"
+              ],
+              "width": 720,
+              "height": 720
+            },
+            "follow_status": 0,
+            "follower_count": 1340654,
+            "weibo_verify": "",
+            "custom_verify": "",
+            "unique_id": "81389827754",
+            "room_id": 0,
+            "verification_type": 1,
+            "enterprise_verify_reason": "",
+            "followers_detail": null,
+            "platform_sync_info": null,
+            "secret": 0,
+            "geofencing": null,
+            "follower_status": 0,
+            "cover_url": null,
+            "item_list": null,
+            "new_story_cover": null,
+            "is_star": false,
+            "type_label": null,
+            "ad_cover_url": null,
+            "relative_users": null,
+            "cha_list": null,
+            "sec_uid": "MS4wLjABAAAACIz3Qah2STLybJrZI8q6tgejBEWbeyXMI2hzGM4tzt00NdBg7uVRaai7P96YAf_h",
+            "need_points": null,
+            "homepage_bottom_toast": null,
+            "can_set_geofencing": null,
+            "room_id_str": "0",
+            "white_cover_url": null,
+            "user_tags": [],
+            "ban_user_functions": null,
+            "versatile_display": "抖音号：81389827754",
+            "card_entries": null,
+            "display_info": [
+              {
+                "title": "甜甜姐｜高级护肤导师"
+              },
+              {
+                "text": "粉丝: 134.1万"
+              },
+              {
+                "text": "抖音号：81389827754"
+              }
+            ],
+            "live_status": 0,
+            "card_entries_not_display": null,
+            "card_sort_priority": null,
+            "interest_tags": null,
+            "link_item_list": null,
+            "user_permissions": null,
+            "offline_info_list": null,
+            "signature_extra": null,
+            "personal_tag_list": null,
+            "cf_list": null,
+            "im_role_ids": null,
+            "not_seen_item_id_list": null,
+            "follower_list_secondary_information_struct": null,
+            "endorsement_info_list": null,
+            "text_extra": null,
+            "contrail_list": null,
+            "data_label_list": null,
+            "not_seen_item_id_list_v2": null,
+            "special_people_labels": null,
+            "familiar_visitor_user": null,
+            "avatar_schema_list": null,
+            "profile_mob_params": null,
+            "verification_permission_ids": null,
+            "batch_unfollow_relation_desc": null,
+            "batch_unfollow_contain_tabs": null,
+            "creator_tag_list": null,
+            "account_cert_info": "{}",
+            "private_relation_list": null,
+            "follower_count_str": "",
+            "identity_labels": null,
+            "profile_component_disabled": null
+          },
+          "is_nickname_recall": null,
+          "is_red_uniqueid": false,
+          "is_private_letter": null
+        }
+      ]
+    },
+    "_request_payload": {
+      "keyword": "护肤",
+      "cursor": 80,
+      "offset": 0,
+      "page": 4,
+      "search_id": "2025111414362700FCCEF25D29A060B5DB",
+      "count": 20,
+      "search_channel": "aweme_user_web",
+      "sort_type": 0,
+      "publish_time": 0
+    }
+  }
+}

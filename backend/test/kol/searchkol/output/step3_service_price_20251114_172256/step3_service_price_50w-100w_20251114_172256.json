@@ -1,0 +1,329 @@
+{
+  "metadata": {
+    "generated_at": "2025-11-14T17:22:56.416756",
+    "follower_range": "50w-100w",
+    "total_kols": 3,
+    "success_count": 3,
+    "data_source": "TikHub Service Price API (接口1.4)"
+  },
+  "results": [
+    {
+      "kol_id": "7081127375710191630",
+      "nickname": "芊雨护肤",
+      "success": true,
+      "industry_tags": [
+        "传媒资讯-其他传媒资讯",
+        "零售-综合类2C电商",
+        "美妆-护肤"
+      ],
+      "price_count": 0,
+      "response": {
+        "code": 200,
+        "request_id": "4ccf8ac4-26b5-4ff3-a3b1-2e0bd04d1a4b",
+        "message": "Request successful. This request will incur a charge.",
+        "message_zh": "请求成功，本次请求将被计费。",
+        "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+        "time": "2025-11-14 01:22:45",
+        "time_stamp": 1763112165,
+        "time_zone": "America/Los_Angeles",
+        "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_service_price_v1_api_v1_douyin_xingtu_kol_service_price_v1_get",
+        "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+        "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+        "cache_url": "https://cache.tikhub.io/api/v1/cache/public/4ccf8ac4-26b5-4ff3-a3b1-2e0bd04d1a4b?sign=620d961e0b15fc5fe786de21c7a27ada7365666b178e746f623b8b455d99b407",
+        "router": "/api/v1/douyin/xingtu/kol_service_price_v1",
+        "params": {
+          "kolId": "7081127375710191630",
+          "platformChannel": "_1"
+        },
+        "data": {
+          "activity_info": [],
+          "base_resp": {
+            "status_code": 0,
+            "status_message": "Success"
+          },
+          "hot_list_ranks": [],
+          "industry_tags": [
+            "传媒资讯-其他传媒资讯",
+            "零售-综合类2C电商",
+            "美妆-护肤"
+          ],
+          "price_info": []
+        }
+      }
+    },
+    {
+      "kol_id": "6881871621611601928",
+      "nickname": "美妆成分专家莫同学",
+      "success": true,
+      "industry_tags": [
+        "日化-日化洗护",
+        "美妆-高档化妆品",
+        "美妆-护肤"
+      ],
+      "price_count": 8,
+      "response": {
+        "code": 200,
+        "request_id": "8cc4cfe9-0f05-420a-bd58-ab55e0fed1ac",
+        "message": "Request successful. This request will incur a charge.",
+        "message_zh": "请求成功，本次请求将被计费。",
+        "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+        "time": "2025-11-14 01:22:51",
+        "time_stamp": 1763112171,
+        "time_zone": "America/Los_Angeles",
+        "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_service_price_v1_api_v1_douyin_xingtu_kol_service_price_v1_get",
+        "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+        "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+        "cache_url": "https://cache.tikhub.io/api/v1/cache/public/8cc4cfe9-0f05-420a-bd58-ab55e0fed1ac?sign=2c770b7cf22454098100fbe35523c382a53537ddd1a2c9161d1e212cd8cda8c4",
+        "router": "/api/v1/douyin/xingtu/kol_service_price_v1",
+        "params": {
+          "kolId": "6881871621611601928",
+          "platformChannel": "_1"
+        },
+        "data": {
+          "activity_info": [],
+          "base_resp": {
+            "status_code": 0,
+            "status_message": "Success"
+          },
+          "hot_list_ranks": [],
+          "industry_tags": [
+            "日化-日化洗护",
+            "美妆-高档化妆品",
+            "美妆-护肤"
+          ],
+          "price_info": [
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "1-20s视频",
+              "do_fold": false,
+              "enable": true,
+              "end_time": "2145916800",
+              "field": "price",
+              "has_discount": false,
+              "is_open": true,
+              "need_price": true,
+              "online_status": 1,
+              "origin_price": 20000,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "price": 20000,
+              "settlement_desc": "固定价格",
+              "settlement_type": 2,
+              "start_time": "1756656000",
+              "task_category": 1,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 1
+            },
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "21-60s视频",
+              "do_fold": false,
+              "enable": true,
+              "end_time": "2145916800",
+              "field": "long_video_price",
+              "has_discount": false,
+              "is_open": true,
+              "need_price": true,
+              "online_status": 1,
+              "origin_price": 30000,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "price": 30000,
+              "settlement_desc": "固定价格",
+              "settlement_type": 2,
+              "start_time": "1756656000",
+              "task_category": 1,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 2
+            },
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "60s以上视频",
+              "do_fold": false,
+              "enable": true,
+              "end_time": "2145916800",
+              "field": "price",
+              "has_discount": false,
+              "is_open": true,
+              "need_price": true,
+              "online_status": 1,
+              "origin_price": 30000,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "price": 30000,
+              "settlement_desc": "固定价格",
+              "settlement_type": 2,
+              "start_time": "1756656000",
+              "task_category": 1,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 71
+            },
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "按自然播放量结算",
+              "do_fold": true,
+              "enable": false,
+              "field": "price",
+              "has_discount": false,
+              "is_open": false,
+              "need_price": true,
+              "online_status": 1,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "settlement_desc": "按自然播放量结算",
+              "settlement_type": 30,
+              "task_category": 1,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 92
+            },
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "单视频推送广告平台",
+              "enable": true,
+              "end_time": "2145916800",
+              "field": "price",
+              "has_discount": false,
+              "is_open": true,
+              "need_price": true,
+              "online_status": 1,
+              "origin_price": 100,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "price": 100,
+              "settlement_desc": "固定价格",
+              "settlement_type": 2,
+              "start_time": "1626393600",
+              "task_category": 103,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 103
+            },
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "多视频推送广告平台",
+              "enable": true,
+              "end_time": "2145916800",
+              "field": "price",
+              "has_discount": false,
+              "is_open": true,
+              "need_price": true,
+              "online_status": 1,
+              "origin_price": 100,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "price": 100,
+              "settlement_desc": "固定价格",
+              "settlement_type": 2,
+              "start_time": "1626393600",
+              "task_category": 103,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 104
+            },
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "下载",
+              "enable": true,
+              "end_time": "2145916800",
+              "field": "price",
+              "has_discount": false,
+              "is_open": true,
+              "need_price": true,
+              "online_status": 1,
+              "origin_price": 100,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "price": 100,
+              "settlement_desc": "固定价格",
+              "settlement_type": 2,
+              "start_time": "1626393600",
+              "task_category": 103,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 105
+            },
+            {
+              "activity_info": [],
+              "author_id": "6881871621611601928",
+              "desc": "抖音短视频共创-参与达人",
+              "do_fold": true,
+              "enable": true,
+              "end_time": "2145916800",
+              "field": "price",
+              "has_discount": false,
+              "is_open": true,
+              "need_price": true,
+              "online_status": 1,
+              "origin_price": 20000,
+              "platform_activity_id": "0",
+              "platform_source": 1,
+              "price": 20000,
+              "settlement_desc": "固定价格",
+              "settlement_type": 2,
+              "start_time": "1650853923",
+              "task_category": 1,
+              "task_category_status": 1,
+              "template_list": [],
+              "video_type": 91
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kol_id": "7195772528277585978",
+      "nickname": "三针护肤甄选个体店冯三针直播号",
+      "success": true,
+      "industry_tags": [
+        "汽车-汽车综合服务平台",
+        "传媒资讯-其他传媒资讯",
+        "美妆-护肤"
+      ],
+      "price_count": 0,
+      "response": {
+        "code": 200,
+        "request_id": "6b2ad8b6-c90e-44c1-9f26-280452de0235",
+        "message": "Request successful. This request will incur a charge.",
+        "message_zh": "请求成功，本次请求将被计费。",
+        "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+        "time": "2025-11-14 01:22:55",
+        "time_stamp": 1763112175,
+        "time_zone": "America/Los_Angeles",
+        "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_service_price_v1_api_v1_douyin_xingtu_kol_service_price_v1_get",
+        "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+        "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+        "cache_url": "https://cache.tikhub.io/api/v1/cache/public/6b2ad8b6-c90e-44c1-9f26-280452de0235?sign=6c19cebf02cf7fd8eb82c0160b313696a6cf6b7c7b085efe68e62010691b023a",
+        "router": "/api/v1/douyin/xingtu/kol_service_price_v1",
+        "params": {
+          "kolId": "7195772528277585978",
+          "platformChannel": "_1"
+        },
+        "data": {
+          "activity_info": [],
+          "base_resp": {
+            "status_code": 0,
+            "status_message": "Success"
+          },
+          "hot_list_ranks": [],
+          "industry_tags": [
+            "汽车-汽车综合服务平台",
+            "传媒资讯-其他传媒资讯",
+            "美妆-护肤"
+          ],
+          "price_info": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "kol_info": {
+    "rank": 5,
+    "name": "大夏天理性护肤",
+    "xingtu_kol_id": "6618403120433070094",
+    "nick_name": "护肤代表鸭学长",
+    "fans_count": 2045625
+  },
+  "interface": "conversion_ability",
+  "timestamp": "2025-11-14T12:05:03.511109",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "42bb7ac0-1118-4f08-aa66-2ffd519c8635",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 20:05:03",
+    "time_stamp": 1763093103,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_conversion_ability_analysis_v1_api_v1_douyin_xingtu_kol_conversion_ability_analysis_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/42bb7ac0-1118-4f08-aa66-2ffd519c8635?sign=4edbf1a282d90c4c529abc4d78aea34b1308282c56ce657b55b0ccdff2df3cf7",
+    "router": "/api/v1/douyin/xingtu/kol_conversion_ability_analysis_v1",
+    "params": {
+      "kolId": "6618403120433070094",
+      "_range": "_3"
+    },
+    "data": {
+      "avg_sales_amount_range": "1000-2000",
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "category_items": [
+        {
+          "name": "美妆",
+          "rate": 1,
+          "sale_amount_range": "3000以下"
+        }
+      ],
+      "component_click_cnt_range": "1000-3000",
+      "component_click_rate_range": "4%-6%",
+      "gpm_range": "5以下",
+      "rec_product_cnt": {
+        "value": "1"
+      },
+      "rec_product_price_range": "100-300",
+      "related_cpc_range": "46-48",
+      "related_video_cnt": {
+        "value": "1"
+      },
+      "video_vv_median": {
+        "value": "761533"
+      }
+    }
+  }
+}

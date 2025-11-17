@@ -1,0 +1,42 @@
+{
+  "kol_info": {
+    "rank": 1,
+    "name": "程十安an",
+    "xingtu_kol_id": "6831825876674412552",
+    "nick_name": "程十安an",
+    "fans_count": 22133832
+  },
+  "interface": "cp_info",
+  "timestamp": "2025-11-14T12:03:07.512625",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "42366394-e891-4def-874c-e00e4fc01a8a",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-13 20:03:07",
+    "time_stamp": 1763092987,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_cp_info_v1_api_v1_douyin_xingtu_kol_cp_info_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/42366394-e891-4def-874c-e00e4fc01a8a?sign=741bfbc46b072cea3a998074c92ba2543e91d017a7b711918cb6a34aac72aab0",
+    "router": "/api/v1/douyin/xingtu/kol_cp_info_v1",
+    "params": {
+      "kolId": "6831825876674412552"
+    },
+    "data": {
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "expect_cpe": {},
+      "expect_cpm": {},
+      "expect_vv": {},
+      "hot_item": {
+        "value": 0
+      }
+    }
+  }
+}
