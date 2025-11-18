@@ -139,9 +139,9 @@ def search_kol_v1(api_key: str, keyword: str, page: int = 1, count: int = 20, so
             # 检查响应代码
             code = result.get('code', -1)
             message = result.get('message', 'Unknown')
-            
+
             print(f"   响应消息: code={code}, message={message}")
-            
+
             # 打印 data 部分的结构
             if 'data' in result:
                 data = result.get('data', {})
@@ -149,19 +149,21 @@ def search_kol_v1(api_key: str, keyword: str, page: int = 1, count: int = 20, so
                     print(f"   data 结构: {list(data.keys())}")
                 else:
                     print(f"   data 类型: {type(data)}")
-            
+
             if code == 200:  # 星图 API 成功返回 code=200
                 data = result.get('data', {})
-                
-                # 获取 KOL 列表
-                kol_list = data.get('kol_list', [])
-                has_more = data.get('has_more', False)
-                next_cursor = data.get('cursor', 0)
-                
-                print(f"   ✅ 成功获取 {len(kol_list)} 个 KOL")
+
+                # 获取作者列表 (新API结构使用authors而不是kol_list)
+                authors = data.get('authors', [])
+                # 检查是否有分页信息
+                pagination = data.get('pagination', {})
+                has_more = pagination.get('has_more', False)
+                cursor = pagination.get('cursor', 0)
+
+                print(f"   ✅ 成功获取 {len(authors)} 个作者")
                 print(f"   还有更多数据: {has_more}")
-                print(f"   下一页游标: {next_cursor}")
-                
+                print(f"   下一页游标: {cursor}")
+
                 return result
             else:
                 print(f"   ❌ API 返回错误码: {code}")
@@ -221,29 +223,31 @@ def fetch_multiple_pages(api_key: str, keyword: str, page_count: int = 3, count_
             print(f"⚠️ 第 {page} 页获取失败，停止搜索")
             break
         
-        # 提取 KOL 列表
+        # 提取作者列表
         data = result.get('data', {})
-        kol_list = data.get('kol_list', [])
-        has_more = data.get('has_more', False)
-        
-        if not kol_list:
+        authors = data.get('authors', [])
+        pagination = data.get('pagination', {})
+        has_more = pagination.get('has_more', False)
+
+        if not authors:
             print(f"⚠️ 第 {page} 页没有数据，停止搜索")
             break
-        
+
         # 添加到总列表
-        all_kols.extend(kol_list)
-        
-        # 显示本页 KOL 信息
-        print(f"\n本页 KOL 预览:")
-        for i, kol in enumerate(kol_list[:3], 1):
-            nickname = kol.get('nickname', 'N/A')
-            follower_count = kol.get('follower_count', 0)
-            star_score = kol.get('star_score', 0)
-            fans_level = kol.get('fans_level', 'N/A')
-            print(f"   {i}. {nickname} - 粉丝: {follower_count:,} - 星图评分: {star_score} - 等级: {fans_level}")
-        
-        if len(kol_list) > 3:
-            print(f"   ... 还有 {len(kol_list) - 3} 个 KOL")
+        all_kols.extend(authors)
+
+        # 显示本页作者信息
+        print(f"\n本页作者预览:")
+        for i, author in enumerate(authors[:3], 1):
+            attr_data = author.get('attribute_datas', {})
+            nickname = attr_data.get('nick_name', 'N/A')
+            follower_count = int(attr_data.get('follower', '0'))
+            star_score = float(attr_data.get('star_index', '0'))
+            fans_level = attr_data.get('grade', 'N/A')
+            print(f"   {i}. {nickname} - 粉丝: {follower_count:,} - 星图评分: {star_score:.1f} - 等级: {fans_level}")
+
+        if len(authors) > 3:
+            print(f"   ... 还有 {len(authors) - 3} 个作者")
         
         # 检查是否还有更多数据
         if not has_more:
@@ -303,19 +307,20 @@ def analyze_kol_distribution(kols: list) -> dict:
         '500万以上': 0
     }
     
-    # 遍历 KOL 进行分类
-    for kol in kols:
-        follower_count = kol.get('follower_count', 0)
+    # 遍历作者进行分类
+    for author in kols:
+        attr_data = author.get('attribute_datas', {})
+        follower_count = int(attr_data.get('follower', '0'))
         
         # 分类
         if follower_count >= 1_000_000:
-            categories['头部达人 (>=100万)'].append(kol)
+            categories['头部达人 (>=100万)'].append(author)
         elif follower_count >= 100_000:
-            categories['腰部达人 (10万~100万)'].append(kol)
+            categories['腰部达人 (10万~100万)'].append(author)
         elif follower_count >= 10_000:
-            categories['尾部达人 (1万~10万)'].append(kol)
+            categories['尾部达人 (1万~10万)'].append(author)
         else:
-            categories['素人 (<1万)'].append(kol)
+            categories['素人 (<1万)'].append(author)
         
         # 细分区间统计
         if follower_count < 10_000:
@@ -365,39 +370,41 @@ def analyze_kol_distribution(kols: list) -> dict:
     
     if waist_kols:
         # 按粉丝数排序
-        waist_kols_sorted = sorted(waist_kols, key=lambda x: x.get('follower_count', 0), reverse=True)
-        
+        waist_kols_sorted = sorted(waist_kols, key=lambda x: int(x.get('attribute_datas', {}).get('follower', '0')), reverse=True)
+
         # 统计
-        follower_counts = [kol.get('follower_count', 0) for kol in waist_kols]
+        follower_counts = [int(kol.get('attribute_datas', {}).get('follower', '0')) for kol in waist_kols]
         avg_followers = sum(follower_counts) / len(follower_counts)
         max_followers = max(follower_counts)
         min_followers = min(follower_counts)
-        
+
         print(f"\n粉丝数统计:")
         print(f"  平均粉丝数: {avg_followers:,.0f}")
         print(f"  最高粉丝数: {max_followers:,}")
         print(f"  最低粉丝数: {min_followers:,}")
-        
+
         print(f"\n腰部达人 TOP 10:")
         print("-" * 60)
-        
+
         for i, kol in enumerate(waist_kols_sorted[:10], 1):
-            nickname = kol.get('nickname', 'N/A')
-            follower_count = kol.get('follower_count', 0)
-            aweme_count = kol.get('aweme_count', 0)
-            star_score = kol.get('star_score', 0)
-            fans_level = kol.get('fans_level', 'N/A')
-            
+            attr_data = kol.get('attribute_datas', {})
+            nickname = attr_data.get('nick_name', 'N/A')
+            follower_count = int(attr_data.get('follower', '0'))
+            # 解析last_10_items来获取作品数量（近似值）
+            last_10_items = attr_data.get('last_10_items', '[]')
+            try:
+                items = json.loads(last_10_items) if last_10_items else []
+                aweme_count = len(items)
+            except:
+                aweme_count = 0
+            star_score = float(attr_data.get('star_index', '0'))
+            fans_level = attr_data.get('grade', 'N/A')
+
             print(f"  {i:2d}. {nickname}")
-            print(f"      粉丝: {follower_count:,} | 作品: {aweme_count} | 星图评分: {star_score} | 等级: {fans_level}")
-            
-            # 如果有价格信息
-            price_info = kol.get('price_info', {})
-            if price_info:
-                video_price = price_info.get('video_price', 0)
-                live_price = price_info.get('live_price', 0)
-                if video_price or live_price:
-                    print(f"      报价: 视频 {video_price:,} | 直播 {live_price:,}")
+            print(f"      粉丝: {follower_count:,} | 作品: {aweme_count} | 星图评分: {star_score:.1f} | 等级: {fans_level}")
+
+            # 检查是否有商业报价信息（在新数据结构中可能不存在）
+            # 这里暂时跳过价格信息，因为新API结构中可能没有这个字段
     
     # 构建返回结果
     analysis_result = {
@@ -523,13 +530,20 @@ def save_results(all_kols: list, analysis: dict, output_dir: str, keyword: str):
             f.write(f"|------|------|--------|--------|----------|----------|\n")
             
             for i, kol in enumerate(waist_details['top_10'], 1):
-                nickname = kol.get('nickname', 'N/A')
-                follower_count = kol.get('follower_count', 0)
-                aweme_count = kol.get('aweme_count', 0)
-                star_score = kol.get('star_score', 0)
-                fans_level = kol.get('fans_level', 'N/A')
-                
-                f.write(f"| {i} | {nickname} | {follower_count:,} | {aweme_count} | {star_score} | {fans_level} |\n")
+                attr_data = kol.get('attribute_datas', {})
+                nickname = attr_data.get('nick_name', 'N/A')
+                follower_count = int(attr_data.get('follower', '0'))
+                # 解析last_10_items来获取作品数量
+                last_10_items = attr_data.get('last_10_items', '[]')
+                try:
+                    items = json.loads(last_10_items) if last_10_items else []
+                    aweme_count = len(items)
+                except:
+                    aweme_count = 0
+                star_score = float(attr_data.get('star_index', '0'))
+                fans_level = attr_data.get('grade', 'N/A')
+
+                f.write(f"| {i} | {nickname} | {follower_count:,} | {aweme_count} | {star_score:.1f} | {fans_level} |\n")
     
     print(f"💾 分析报告已保存到: {report_file}")
     

@@ -1,0 +1,28 @@
+{
+  "code": 200,
+  "request_id": "db1390d7-c497-414f-b090-fb8e1278e5c9",
+  "message": "Request successful. This request will incur a charge.",
+  "message_zh": "请求成功，本次请求将被计费。",
+  "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+  "time": "2025-11-17 22:57:18",
+  "time_stamp": 1763449038,
+  "time_zone": "America/Los_Angeles",
+  "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/search_kol_v1_api_v1_douyin_xingtu_search_kol_v1_get",
+  "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+  "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+  "cache_url": "https://cache.tikhub.io/api/v1/cache/public/db1390d7-c497-414f-b090-fb8e1278e5c9?sign=ba8b2185803e2c3e2a833961e7f7cbc0620663df9082970f4b25bcdd4b2e5e94",
+  "router": "/api/v1/douyin/xingtu/search_kol_v1",
+  "params": {
+    "keyword": "护肤保养",
+    "page": "104",
+    "count": "20",
+    "sort_type": "1",
+    "platformSource": "_1"
+  },
+  "data": {
+    "base_resp": {
+      "status_code": 10003,
+      "status_message": "您的客户权益等级过低，暂时无法访问更多数据[2025111814571854C6B83E0AB643D133B0]"
+    }
+  }
+}

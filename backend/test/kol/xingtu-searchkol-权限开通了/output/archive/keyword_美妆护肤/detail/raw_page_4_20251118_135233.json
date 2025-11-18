@@ -1,0 +1,3341 @@
+{
+  "code": 200,
+  "request_id": "ce64343c-94ee-4c2b-85e9-8f604ccde53b",
+  "message": "Request successful. This request will incur a charge.",
+  "message_zh": "请求成功，本次请求将被计费。",
+  "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+  "time": "2025-11-17 21:53:02",
+  "time_stamp": 1763445182,
+  "time_zone": "America/Los_Angeles",
+  "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/search_kol_v1_api_v1_douyin_xingtu_search_kol_v1_get",
+  "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+  "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+  "cache_url": "https://cache.tikhub.io/api/v1/cache/public/ce64343c-94ee-4c2b-85e9-8f604ccde53b?sign=c1b8781e783eedd36f8c9c220ef4a4966a774c4aab60ed39ea8cde6bb3c9067a",
+  "router": "/api/v1/douyin/xingtu/search_kol_v1",
+  "params": {
+    "keyword": "美妆护肤",
+    "page": "4",
+    "count": "20",
+    "sort_type": "1",
+    "platformSource": "_1"
+  },
+  "data": {
+    "authors": [
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "34",
+          "author_avatar_frame_icon": "20",
+          "author_ecom_level": "L0",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{\"定妆\":0.3748660119873874,\"玻色因\":0.0003333333333333333,\"祛痘\":0,\"美白\":0.6681666666666666,\"胶原成分\":1.9753055995042377,\"遮瑕\":0,\"防晒\":0.09908333333333333,\"防水\":0}",
+          "author_type": "1",
+          "avatar_uri": "https://p26.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_855e805d94999de47ac196ea39e96325.jpeg?from=4010531038",
+          "brand_boost_vv": "246796",
+          "city": "成都市",
+          "content_theme_labels_180d": "[\"夏日饮品\",\"搞笑剧情\",\"自制美食\",\"职场趣闻\",\"闺蜜短剧\",\"有趣剧情创作\",\"零食测评\",\"生活好物评测\",\"美食探索\"]",
+          "core_user_id": "88530483567",
+          "e_commerce_enable": "0",
+          "ecom_video_product_num_30d": "0",
+          "enroll_task_price_list": "[25000]",
+          "expected_cpa3_level": "4",
+          "expected_natural_play_num": "285108",
+          "expected_play_num": "228431",
+          "fans_increment_rate_within_15d": "0.0010299283247693666",
+          "fans_increment_within_15d": "1006",
+          "fans_increment_within_30d": "-578",
+          "follower": "977650",
+          "game_type": "",
+          "gender": "1",
+          "grade": "0",
+          "id": "6922105781714157581",
+          "interact_rate_within_30d": "0.0744",
+          "interaction_median_30d": "4615",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "1",
+          "last_10_items": "[{\"comment_cnt\":\"39\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763107459\",\"item_id\":\"7572488841648602235\",\"item_publish_time\":\"1763114280\",\"item_title\":\"固体杨枝甘露升级版 糖葫芦跟雪媚娘谁能懂啊？！#固体杨枝甘露 #固体杨枝甘露升级版\",\"like_cnt\":\"669\",\"share_cnt\":\"143\",\"vv\":\"20833\"},{\"comment_cnt\":\"3382\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762746170\",\"item_id\":\"7570937128331862970\",\"item_publish_time\":\"1762746170\",\"item_title\":\"赵露思生日会vlog～下饭版 爱无需多言#赵露思 #赵露思生日会 #赵露思生日快乐 #赵露思生日见面会\",\"like_cnt\":\"127942\",\"share_cnt\":\"14152\",\"vv\":\"1870820\"},{\"comment_cnt\":\"63\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762609968\",\"item_id\":\"7570352164074628987\",\"item_publish_time\":\"1762609968\",\"item_title\":\"看个赵露思生日会给我哭几次！ 真的太不容易了#赵露思 #赵露思生日见面会\",\"like_cnt\":\"4886\",\"share_cnt\":\"231\",\"vv\":\"148208\"},{\"comment_cnt\":\"434\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760607951\",\"item_id\":\"7561753546943073595\",\"item_publish_time\":\"1760607951\",\"item_title\":\"你的好骗程度到几级？ 转给你在乎的人，让她提高警惕！#女性安全 #安全 #诈骗 #反诈 #骗局揭秘\",\"like_cnt\":\"7273\",\"share_cnt\":\"20428\",\"vv\":\"314852\"},{\"comment_cnt\":\"383\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760092223\",\"item_id\":\"7559538525511634233\",\"item_publish_time\":\"1760092223\",\"item_title\":\"防狼好物真假大测评。关键时刻真的有用！#防狼 #防狼好物 #女性安全 #安全\",\"like_cnt\":\"22163\",\"share_cnt\":\"9389\",\"vv\":\"518750\"},{\"comment_cnt\":\"6371\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1759217619\",\"item_id\":\"7555782124466539833\",\"item_publish_time\":\"1759224600\",\"item_title\":\"赵露思你赔我！ 许我耀眼你干嘛！#许我耀眼 #赵露思 #许我耀眼赵露思\",\"like_cnt\":\"31418\",\"share_cnt\":\"10384\",\"vv\":\"850272\"},{\"comment_cnt\":\"1356\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1758457046\",\"item_id\":\"7552515496413138234\",\"item_publish_time\":\"1758457046\",\"item_title\":\"青藏高原不是展示艺术的舞台 最后给我气😭#始祖鸟 #蔡国强 #烟花\",\"like_cnt\":\"25669\",\"share_cnt\":\"7193\",\"vv\":\"1074457\"},{\"comment_cnt\":\"1053\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1755161206\",\"item_id\":\"7538359968635735356\",\"item_publish_time\":\"1755161206\",\"item_title\":\"赵露思真假助农？ 我有话要说@赵露思 #赵露思 #赵露思助农 #礼礼爱美妆\",\"like_cnt\":\"7273\",\"share_cnt\":\"693\",\"vv\":\"98864\"},{\"comment_cnt\":\"710\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1754644975\",\"item_id\":\"7536142775285714234\",\"item_publish_time\":\"1754644975\",\"item_title\":\"当我偶遇赵露思是种怎样的体验？ 我也算圆满了！本人美到我失语！ 而且蛋糕真的好吃得不行！#赵露思 #赵露思去厚本粉丝见面会\",\"like_cnt\":\"45822\",\"share_cnt\":\"2931\",\"vv\":\"977901\"},{\"comment_cnt\":\"96\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1754298364\",\"item_id\":\"7534654087704775996\",\"item_publish_time\":\"1754298364\",\"item_title\":\"当面试官去了闺蜜的公司 下场竟然是…#礼礼爱美妆离职了 #奥黛丽厚本 #职场\",\"like_cnt\":\"8963\",\"share_cnt\":\"373\",\"vv\":\"677501\"}]",
+          "link_convert_index": "66.36",
+          "link_convert_index_by_industry": "66.36",
+          "link_i_cnt_by_industry": "1076429",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "1083017",
+          "link_link_cnt_by_industry": "2330355",
+          "link_n_cnt_by_industry": "170909",
+          "link_recommend_index_by_industry": "66.29",
+          "link_shopping_index": "66.29",
+          "link_spread_index": "68.14",
+          "link_spread_index_by_industry": "68.14",
+          "link_star_index": "69.72",
+          "link_star_index_by_industry": "69.72",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "礼礼爱美妆",
+          "pic_expected_play_num": "0",
+          "play_over_rate_within_30d": "0.092",
+          "price_1_20": "20000",
+          "price_20_60": "25000",
+          "price_60": "30000",
+          "promotion_prospective_1_20_cpm": "69.83",
+          "promotion_prospective_20_60_cpm": "87.29",
+          "promotion_prospective_60_cpm": "104.75",
+          "promotion_prospective_vv": "286398",
+          "prospective_1_20_cpm": "87.5538",
+          "prospective_20_60_cpm": "109.4422",
+          "prospective_60_cpm": "131.3307",
+          "province": "四川省",
+          "search_after_view_index_by_industry": "72.61",
+          "sn_expected_play_num": "228431",
+          "sn_interact_rate_within_30d": "0.0744",
+          "sn_play_over_rate_within_30d": "0.092",
+          "sn_prospective_1_20_cpe": "1.8325",
+          "sn_prospective_1_20_cpm": "87.5538",
+          "sn_prospective_20_60_cpe": "2.2906",
+          "sn_prospective_20_60_cpm": "109.4422",
+          "sn_prospective_60_cpe": "2.7488",
+          "sn_prospective_60_cpm": "131.3307",
+          "star_excellent_author": "0",
+          "star_index": "77.1943475924777",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"剧情搞笑\":[\"剧情\"]}",
+          "video_brand_boost": "true",
+          "video_brand_boost_vv": "246796",
+          "vv_median_30d": "134308"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7570937128331862970",
+            "video_tag": 3,
+            "vv": 1643526
+          },
+          {
+            "item_id": "7552515496413138234",
+            "video_tag": 3,
+            "vv": 943415
+          },
+          {
+            "item_id": "7536142775285714234",
+            "video_tag": 5,
+            "vv": 884116
+          },
+          {
+            "item_id": "7555782124466539833",
+            "video_tag": 5,
+            "vv": 814821
+          },
+          {
+            "item_id": "7572488841648602235",
+            "video_tag": 6,
+            "vv": 19081
+          },
+          {
+            "item_id": "7570352164074628987",
+            "video_tag": 6,
+            "vv": 134766
+          }
+        ],
+        "star_id": "6922105781714157581",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 25000,
+                "price_extra_info": {},
+                "start_time": "1725120000",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 20000,
+                "price_extra_info": {},
+                "start_time": "1725120000",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 49,
+                "price_extra_info": {
+                  "ceiling_price": "21278",
+                  "floor_price": "2127"
+                },
+                "start_time": "1693807363",
+                "task_category": 1,
+                "video_type": 92,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 30000,
+                "price_extra_info": {},
+                "start_time": "1725120000",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 40000,
+                "price_extra_info": {},
+                "start_time": "1648742400",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "97",
+          "author_avatar_frame_icon": "20",
+          "author_ecom_level": "L0",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813_2301e396025443c39c7ccee52e2b910f.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "成都市",
+          "core_user_id": "1143110658172509",
+          "e_commerce_enable": "1",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "2",
+          "fans_increment_rate_within_15d": "-0.001462952092834244",
+          "fans_increment_within_15d": "-162",
+          "fans_increment_within_30d": "-337",
+          "follower": "110576",
+          "game_type": "",
+          "gender": "1",
+          "grade": "0",
+          "id": "6937565987705192484",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1663413535\",\"item_id\":\"7144306625195625742\",\"item_publish_time\":\"1663413535\",\"item_title\":\"三十秒告诉你怎样躺着都能瘦#减肥 #食谱 \",\"like_cnt\":\"42\",\"share_cnt\":\"9\",\"vv\":\"3014\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1663308683\",\"item_id\":\"7143856313376820516\",\"item_publish_time\":\"1663308683\",\"item_title\":\"三十秒告诉你什么是骨盆前倾#健康 #养生   \",\"like_cnt\":\"32\",\"share_cnt\":\"2\",\"vv\":\"3680\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662721283\",\"item_id\":\"7141333442540752158\",\"item_publish_time\":\"1663207200\",\"item_title\":\"三十秒告诉你怎样改善自己的驼背，让你重新挺胸抬头#健康 #知识分享 #体态纠正 \",\"like_cnt\":\"142\",\"share_cnt\":\"14\",\"vv\":\"4922\"},{\"comment_cnt\":\"148\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662721053\",\"item_id\":\"7141332464252865799\",\"item_publish_time\":\"1663135200\",\"item_title\":\"三十秒告诉你网上麻斜大牌小样如何分辨真伪，注意避坑#美妆 #踩雷 #化妆 \",\"like_cnt\":\"4483\",\"share_cnt\":\"51\",\"vv\":\"52900\"},{\"comment_cnt\":\"398\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662720856\",\"item_id\":\"7141331631415020830\",\"item_publish_time\":\"1663120800\",\"item_title\":\"三十秒告诉你经常跷二郎腿的危害，尽快改掉不好的习惯#健康 #健身 #知识分享 \",\"like_cnt\":\"3945\",\"share_cnt\":\"2422\",\"vv\":\"177767\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662720694\",\"item_id\":\"7141330920925170957\",\"item_publish_time\":\"1663048800\",\"item_title\":\"三十秒告诉你数码产中不要踩的三个坑，注意避开，捐钱也要给国货#数码科技 #苹果 #干货分享 \",\"like_cnt\":\"2317\",\"share_cnt\":\"1\",\"vv\":\"4771\"},{\"comment_cnt\":\"18\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662720151\",\"item_id\":\"7141328616897449230\",\"item_publish_time\":\"1663034400\",\"item_title\":\"三十秒告诉你怎么用最少的钱来搞定自己的黄黑皮，让你从此走上冷白皮的不归路#美白 #美妆 #好物推荐🔥 \",\"like_cnt\":\"2347\",\"share_cnt\":\"4\",\"vv\":\"4968\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662718228\",\"item_id\":\"7141320238406126862\",\"item_publish_time\":\"1662976800\",\"item_title\":\"三十秒告诉你矿泉水什么可以买，什么一定要离它越远越好，喝水要慎重#矿泉水 #健康饮水 #避坑 \",\"like_cnt\":\"3294\",\"share_cnt\":\"8\",\"vv\":\"9888\"},{\"comment_cnt\":\"6\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662717956\",\"item_id\":\"7141319188005571876\",\"item_publish_time\":\"1662962400\",\"item_title\":\"三十秒告诉你不应该选择的姨妈巾，离他们远一点，女孩子一定要保护好自己#姨妈巾 #干货分享 #生理期 #女性健康 \",\"like_cnt\":\"3905\",\"share_cnt\":\"8\",\"vv\":\"9375\"},{\"comment_cnt\":\"11\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1662717742\",\"item_id\":\"7141318270191144222\",\"item_publish_time\":\"1662948000\",\"item_title\":\"三十秒告诉你化妆一定要关注的美妆博主，让你颜值飞速提升，学会你想要的化妆技巧#美妆 #博主推荐 #化妆 \",\"like_cnt\":\"4290\",\"share_cnt\":\"66\",\"vv\":\"27992\"}]",
+          "link_convert_index": "66.27",
+          "link_convert_index_by_industry": "66.27",
+          "link_i_cnt_by_industry": "1369",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "2903",
+          "link_link_cnt_by_industry": "4479",
+          "link_n_cnt_by_industry": "207",
+          "link_recommend_index_by_industry": "49.78",
+          "link_shopping_index": "49.78",
+          "link_spread_index": "43.62",
+          "link_spread_index_by_industry": "43.62",
+          "link_star_index": "59.36",
+          "link_star_index_by_industry": "59.36",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "护肤与数码",
+          "pic_expected_play_num": "1512",
+          "price_1_20": "7000",
+          "price_20_60": "7000",
+          "price_60": "7000",
+          "province": "四川省",
+          "search_after_view_index_by_industry": "31.7",
+          "star_excellent_author": "0",
+          "star_index": "45.31589984646219",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [],
+        "star_id": "6937565987705192484",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 7000,
+                "price_extra_info": {},
+                "start_time": "1648742400",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 7000,
+                "price_extra_info": {},
+                "start_time": "1648742400",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 7000,
+                "price_extra_info": {},
+                "start_time": "1648742400",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 2800,
+                "price_extra_info": {},
+                "start_time": "1648742400",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_task_price_list": "[15000,25000,25000,25000,25000,30000]",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L4",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{\"修容\":0.009000000000000001,\"定妆\":0.0075,\"服帖\":0.002,\"清爽\":0,\"遮瑕\":0.02147826086956522,\"防晒\":0.022000000000000002,\"防水\":0.03562500000000001}",
+          "author_type": "3",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_7d1ea07775092fb7d246b5e9948b8c10.jpeg?from=4010531038",
+          "avg_sale_amount_range": "500以下",
+          "city": "杭州",
+          "content_theme_labels_180d": "[\"底妆测评\",\"口红测评\",\"韩系妆容\",\"唇妆教程\",\"水光妆容\",\"清透妆容\",\"通勤妆容\",\"妆前技巧\",\"秋冬妆容\",\"水润妆容\"]",
+          "core_user_id": "268713518172544",
+          "e_commerce_enable": "1",
+          "ecom_avg_order_value_30d_range": "50-200",
+          "ecom_gmv_30d_range": ">100w",
+          "ecom_gpm_30d_range": "1000-3000",
+          "ecom_gpm_30days_range": "30-50",
+          "ecom_score": "82",
+          "ecom_video_ctr_30d_range": "4%-6%",
+          "ecom_video_mid_click_pv_30d_range": "500以下",
+          "ecom_video_product_num_30d": "2",
+          "ecom_watch_pv_30d": "1.9",
+          "expected_cpa3_level": "3",
+          "expected_natural_play_num": "2260",
+          "expected_play_num": "3428",
+          "fans_increment_rate_within_15d": "0.004550409050573157",
+          "fans_increment_within_15d": "2246",
+          "fans_increment_within_30d": "4561",
+          "follower": "495821",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "7390283866969210899",
+          "interact_rate_within_30d": "0.0052",
+          "interaction_median_30d": "22",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "last_10_items": "[{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763372963\",\"item_id\":\"7573629193160136185\",\"item_publish_time\":\"1763372963\",\"item_title\":\"新手也能轻松驾驭，老国货你配享太庙！#粉底 #底妆 #美妆 #好物推荐🔥\",\"like_cnt\":\"6\",\"share_cnt\":\"2\",\"vv\":\"1440\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763372557\",\"item_id\":\"7573627437985264625\",\"item_publish_time\":\"1763372557\",\"item_title\":\"秋冬干皮的人生粉膏来了!!#底妆 #美妆 #粉膏 #粉底\",\"like_cnt\":\"16\",\"share_cnt\":\"1\",\"vv\":\"5269\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763371344\",\"item_id\":\"7573622239212523194\",\"item_publish_time\":\"1763371344\",\"item_title\":\"终于懂什么叫带妆8小时还能清爽出门了#底妆 #诗黛尔 #粉膏 #美妆\",\"like_cnt\":\"12\",\"share_cnt\":\"1\",\"vv\":\"4904\"},{\"comment_cnt\":\"21\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763115059\",\"item_id\":\"7572521503670541193\",\"item_publish_time\":\"1763115059\",\"item_title\":\"底妆“邪修”就是香！轻轻松松搞定妈生好皮～ #底妆 #粉底液 #好物推荐 #干皮\",\"like_cnt\":\"227\",\"share_cnt\":\"8\",\"vv\":\"16070\"},{\"comment_cnt\":\"72\",\"is_high_quality_item\":\"1\",\"item_create_time\":\"1763019935\",\"item_id\":\"7572112935075934830\",\"item_publish_time\":\"1763019935\",\"item_title\":\"给干皮姐妹一点小小的底妆震撼！ #粉底液 #好物推荐🔥 #底妆 #干皮\",\"like_cnt\":\"651\",\"share_cnt\":\"11\",\"vv\":\"77225\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763006790\",\"item_id\":\"7572056466270506249\",\"item_publish_time\":\"1763006790\",\"item_title\":\"通勤，约会，见家长...任何需要伪素颜的场合，请呼叫小清透！#毛戈平清透 #毛戈平粉膏 #美妆 #底妆\",\"like_cnt\":\"2\",\"share_cnt\":\"0\",\"vv\":\"1319\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763006608\",\"item_id\":\"7572055703163112755\",\"item_publish_time\":\"1763006608\",\"item_title\":\"拒绝假面！要的就是这种看不出化了妆的高级清透感！#毛戈平 #妈生好皮 #底妆 #粉膏\",\"like_cnt\":\"2\",\"share_cnt\":\"0\",\"vv\":\"1345\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763006442\",\"item_id\":\"7572054979930869019\",\"item_publish_time\":\"1763006442\",\"item_title\":\"可以永远相信毛戈平的实力#毛戈平 #美妆 #粉膏 #毛戈平粉膏 #底妆\",\"like_cnt\":\"2\",\"share_cnt\":\"0\",\"vv\":\"1091\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763006280\",\"item_id\":\"7572054283387030793\",\"item_publish_time\":\"1763006280\",\"item_title\":\"卡粉，斑驳，假面..你的底妆痛点被毛戈平小清透一键清空了~#毛戈平 #粉膏 #底妆 #毛戈平清透粉膏\",\"like_cnt\":\"1\",\"share_cnt\":\"0\",\"vv\":\"901\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763005929\",\"item_id\":\"7572052794098584859\",\"item_publish_time\":\"1763005929\",\"item_title\":\"轻薄又遮瑕的妆效，上脸无粉感的底妆被我找到了！！#毛戈平 #清透底妆 #底妆 #伪素颜 #底妆分析\",\"like_cnt\":\"3\",\"share_cnt\":\"0\",\"vv\":\"1642\"}]",
+          "link_convert_index": "92.22",
+          "link_convert_index_by_industry": "92.22",
+          "link_i_cnt_by_industry": "196475",
+          "link_k_cnt_by_industry": "12845",
+          "link_l_cnt_by_industry": "1178961",
+          "link_link_cnt_by_industry": "1503153",
+          "link_n_cnt_by_industry": "114872",
+          "link_recommend_index_by_industry": "83.71",
+          "link_shopping_index": "83.71",
+          "link_spread_index": "76.97",
+          "link_spread_index_by_industry": "76.97",
+          "link_star_index": "79.76",
+          "link_star_index_by_industry": "79.76",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "井唐美妆",
+          "pic_expected_play_num": "167",
+          "play_over_rate_within_30d": "0.0366",
+          "price_1_20": "15000",
+          "price_20_60": "25000",
+          "price_60": "50000",
+          "promotion_prospective_1_20_cpm": "3788.84",
+          "promotion_prospective_20_60_cpm": "6314.73",
+          "promotion_prospective_60_cpm": "12629.45",
+          "promotion_prospective_vv": "3959",
+          "prospective_1_20_cpm": "4375.7293",
+          "prospective_20_60_cpm": "7292.8821",
+          "prospective_60_cpm": "14585.7643",
+          "province": "",
+          "search_after_view_index_by_industry": "80.92",
+          "sn_expected_play_num": "3428",
+          "sn_interact_rate_within_30d": "0.0052",
+          "sn_play_over_rate_within_30d": "0.0366",
+          "sn_prospective_1_20_cpe": "833.3333",
+          "sn_prospective_1_20_cpm": "4375.7293",
+          "sn_prospective_20_60_cpe": "1388.8889",
+          "sn_prospective_20_60_cpm": "7292.8821",
+          "sn_prospective_60_cpe": "2777.7778",
+          "sn_prospective_60_cpm": "14585.7643",
+          "star_ecom_main_price_30days": "35.8",
+          "star_ecom_video_num_30d": "3",
+          "star_ecom_video_product_num_30d": "1",
+          "star_excellent_author": "0",
+          "star_item_count_within_30d": "9",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}",
+          "vv_median_30d": "3373.5"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7568750555503241434",
+            "video_tag": 3,
+            "vv": 805912
+          },
+          {
+            "item_id": "7539060258195574016",
+            "video_tag": 3,
+            "vv": 573165
+          },
+          {
+            "item_id": "7560960787130338586",
+            "video_tag": 4,
+            "vv": 161503
+          },
+          {
+            "item_id": "7538368585773976878",
+            "video_tag": 4,
+            "vv": 16227
+          },
+          {
+            "item_id": "7540585662681533754",
+            "video_tag": 5,
+            "vv": 337594
+          },
+          {
+            "item_id": "7539809164999970058",
+            "video_tag": 5,
+            "vv": 212733
+          },
+          {
+            "item_id": "7573629193160136185",
+            "video_tag": 6,
+            "vv": 1241
+          },
+          {
+            "item_id": "7573627437985264625",
+            "video_tag": 6,
+            "vv": 4428
+          }
+        ],
+        "star_id": "7390283866969210899",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 50000,
+                "price_extra_info": {},
+                "start_time": "1756656000",
+                "task_category": 1,
+                "video_type": 150,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 50000,
+                "price_extra_info": {},
+                "start_time": "1756656000",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 25000,
+                "price_extra_info": {},
+                "start_time": "1756656000",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 15000,
+                "price_extra_info": {},
+                "start_time": "1756656000",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "41",
+          "assign_task_price_list": "[32000,40000]",
+          "author_avatar_frame_icon": "20",
+          "author_ecom_level": "L4",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{\"清爽\":0,\"绵密\":0}",
+          "author_type": "2",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c000-ce_o0bAtABbIACnFwJPZNiMAFEDkPkEiAahBHZAB.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "南京市",
+          "content_theme_labels_180d": "[\"洗发水测评\",\"护发测评\"]",
+          "core_user_id": "593329842297006",
+          "e_commerce_enable": "1",
+          "ecom_avg_order_value_30d_range": ">200",
+          "ecom_gmv_30d_range": ">100w",
+          "ecom_gpm_30d_range": ">3000",
+          "ecom_score": "92",
+          "ecom_video_product_num_30d": "0",
+          "ecom_watch_pv_30d": "1.7",
+          "expected_cpa3_level": "4",
+          "expected_natural_play_num": "2294",
+          "expected_play_num": "5656",
+          "fans_increment_rate_within_15d": "0.0003744365789213401",
+          "fans_increment_within_15d": "53",
+          "fans_increment_within_30d": "179",
+          "follower": "141606",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6867039279776792590",
+          "interaction_median_30d": "2385.5",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"198\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760178157\",\"item_id\":\"7559907578902334747\",\"item_publish_time\":\"1760259600\",\"item_title\":\"秋冬身体护理 | 都是一些个自用好物！#好物分享#身体#护理#好物\",\"like_cnt\":\"5619\",\"share_cnt\":\"17\",\"vv\":\"59122\"},{\"comment_cnt\":\"225\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760075949\",\"item_id\":\"7559468609542622502\",\"item_publish_time\":\"1760086800\",\"item_title\":\"每天最惬意的时刻，莫过于此~#护肤#沉浸式#变美\",\"like_cnt\":\"2181\",\"share_cnt\":\"17\",\"vv\":\"5417\"},{\"comment_cnt\":\"9\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1759144411\",\"item_id\":\"7555467680426298651\",\"item_publish_time\":\"1759222800\",\"item_title\":\"发丝护理好物 | 轻松养出丝滑缎光发！#护发 #好物#分享#种草\",\"like_cnt\":\"1283\",\"share_cnt\":\"18\",\"vv\":\"7961\"},{\"comment_cnt\":\"52\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1758887859\",\"item_id\":\"7554365790900784434\",\"item_publish_time\":\"1758963600\",\"item_title\":\"三步变身“人间富贵花”！普通女孩秒变贵气大小姐妆教#贵气感妆容#千金妆#变美干货\",\"like_cnt\":\"1950\",\"share_cnt\":\"14\",\"vv\":\"6991\"},{\"comment_cnt\":\"119\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1758679225\",\"item_id\":\"7553469730233863450\",\"item_publish_time\":\"1758704400\",\"item_title\":\"爆款换季护肤清单！烂脸急救靠它们稳了#换季护肤#敏感肌必备#护肤种草#抖音美妆#拯救烂脸\",\"like_cnt\":\"961\",\"share_cnt\":\"17\",\"vv\":\"4192\"},{\"comment_cnt\":\"21\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1757587098\",\"item_id\":\"7548779063687613746\",\"item_publish_time\":\"1757754000\",\"item_title\":\"分享5个邪修变美小方法！速成氛围感美女！#变美#变美小技巧#种草\",\"like_cnt\":\"1281\",\"share_cnt\":\"1\",\"vv\":\"5537\"},{\"comment_cnt\":\"70\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1757582584\",\"item_id\":\"7548759699169004826\",\"item_publish_time\":\"1757582584\",\"item_title\":\"水肿星人一定要学会的消肿大法！#变美#瘦脸#消肿#护肤\",\"like_cnt\":\"1183\",\"share_cnt\":\"18\",\"vv\":\"7716\"},{\"comment_cnt\":\"39\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1757060915\",\"item_id\":\"7546519156934380815\",\"item_publish_time\":\"1757060915\",\"item_title\":\"油头、雪花飘飘的宝有救了！#赛逸去屑洗发水 #洗发水分享#控油洗发水 #油头\",\"like_cnt\":\"1723\",\"share_cnt\":\"10\",\"vv\":\"6548\"},{\"comment_cnt\":\"110\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1756649949\",\"item_id\":\"7544754064987999527\",\"item_publish_time\":\"1756649949\",\"item_title\":\"选对卸妆产品，轻松养出妈生好肤质！#美宝莲 #美宝莲眼唇卸 #卸妆 #护肤\",\"like_cnt\":\"1561\",\"share_cnt\":\"8\",\"vv\":\"4779\"}]",
+          "link_convert_index": "89.64",
+          "link_convert_index_by_industry": "89.64",
+          "link_i_cnt_by_industry": "20788",
+          "link_k_cnt_by_industry": "2948",
+          "link_l_cnt_by_industry": "408762",
+          "link_link_cnt_by_industry": "439192",
+          "link_n_cnt_by_industry": "6694",
+          "link_recommend_index_by_industry": "73.34",
+          "link_shopping_index": "73.34",
+          "link_spread_index": "66.91",
+          "link_spread_index_by_industry": "66.91",
+          "link_star_index": "71.48",
+          "link_star_index_by_industry": "71.48",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "一颗美妆蛋",
+          "pic_expected_play_num": "0",
+          "price_1_20": "40000",
+          "price_20_60": "50000",
+          "price_60": "60000",
+          "promotion_prospective_1_20_cpm": "7259.53",
+          "promotion_prospective_20_60_cpm": "9074.41",
+          "promotion_prospective_60_cpm": "10889.29",
+          "promotion_prospective_vv": "5510",
+          "prospective_1_20_cpm": "7072.1358",
+          "prospective_20_60_cpm": "8840.1697",
+          "prospective_60_cpm": "10608.2037",
+          "province": "江苏省",
+          "search_after_view_index_by_industry": "63.47",
+          "sn_expected_play_num": "5656",
+          "sn_prospective_1_20_cpe": "30.5344",
+          "sn_prospective_1_20_cpm": "7072.1358",
+          "sn_prospective_20_60_cpe": "38.1679",
+          "sn_prospective_20_60_cpm": "8840.1697",
+          "sn_prospective_60_cpe": "45.8015",
+          "sn_prospective_60_cpm": "10608.2037",
+          "star_ecom_video_num_30d": "0",
+          "star_excellent_author": "0",
+          "star_index": "64.97172504609017",
+          "star_item_count_within_30d": "0",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}",
+          "vv_median_30d": "7856.5"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7559907578902334747",
+            "video_tag": 3,
+            "vv": 10960
+          },
+          {
+            "item_id": "7548759699169004826",
+            "video_tag": 3,
+            "vv": 6111
+          },
+          {
+            "item_id": "7546519156934380815",
+            "video_tag": 4,
+            "vv": 5601
+          },
+          {
+            "item_id": "7544754064987999527",
+            "video_tag": 4,
+            "vv": 3487
+          },
+          {
+            "item_id": "7555467680426298651",
+            "video_tag": 5,
+            "vv": 5929
+          },
+          {
+            "item_id": "7554365790900784434",
+            "video_tag": 5,
+            "vv": 4900
+          },
+          {
+            "item_id": "7559468609542622502",
+            "video_tag": 6,
+            "vv": 3291
+          },
+          {
+            "item_id": "7553469730233863450",
+            "video_tag": 6,
+            "vv": 2445
+          }
+        ],
+        "star_id": "6867039279776792590",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 60000,
+                "price_extra_info": {},
+                "start_time": "1748707200",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 40000,
+                "price_extra_info": {},
+                "start_time": "1759248000",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 60000,
+                "price_extra_info": {},
+                "start_time": "1759248000",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 50000,
+                "price_extra_info": {},
+                "start_time": "1759248000",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 60000,
+                "price_extra_info": {},
+                "start_time": "1759248000",
+                "task_category": 1,
+                "video_type": 150,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "48",
+          "assign_task_price_list": "[11880,13500]",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L2",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{\"服帖\":0,\"洁面\":1.16262769176496,\"清爽\":0.41942857142856915,\"祛痘\":0.4375,\"绵密\":0,\"美白\":3.2195611667297017,\"防晒\":0.7011218203995182}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_16edd68481c61b7c8e54c92c4a3bc8ea.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "沈阳市",
+          "content_theme_labels_180d": "[\"底妆测评\",\"宠物猫用品\",\"定妆测评\",\"宠物狗测评\"]",
+          "core_user_id": "103894607295",
+          "e_commerce_enable": "1",
+          "ecom_avg_order_value_30d_range": "50-200",
+          "ecom_gmv_30d_range": "1k-3w",
+          "ecom_gpm_30d_range": "<=80",
+          "ecom_score": "77",
+          "ecom_video_ctr_30d_range": "6%-8%",
+          "ecom_video_mid_click_pv_30d_range": "500以下",
+          "ecom_video_product_num_30d": "2",
+          "ecom_watch_pv_30d": "1.3",
+          "expected_cpa3_level": "2",
+          "expected_natural_play_num": "5545",
+          "expected_play_num": "13001",
+          "fans_increment_rate_within_15d": "-0.0011911300043508342",
+          "fans_increment_within_15d": "-167",
+          "fans_increment_within_30d": "-192",
+          "follower": "140046",
+          "game_type": "",
+          "gender": "1",
+          "grade": "0",
+          "id": "6629661505782546436",
+          "interact_rate_within_30d": "0.0065",
+          "interaction_median_30d": "112",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763378181\",\"item_id\":\"7573651584983321906\",\"item_publish_time\":\"1763378181\",\"item_title\":\"超级超级爱，但冬天慎重使用 #洁面乳温和不刺激 #黑头\",\"like_cnt\":\"4\",\"share_cnt\":\"0\",\"vv\":\"153\"},{\"comment_cnt\":\"3\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762317447\",\"item_id\":\"7569095770452921646\",\"item_publish_time\":\"1762317447\",\"item_title\":\"贵价平价，都有 #双十一购物清单 #双十一购物开箱 #面霜 #舒敏\",\"like_cnt\":\"30\",\"share_cnt\":\"0\",\"vv\":\"1443\"},{\"comment_cnt\":\"13\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761817997\",\"item_id\":\"7566950632490339599\",\"item_publish_time\":\"1761817997\",\"item_title\":\"大工程！历时一年 #vc精华 #VC美白 #维C精华 #美白精华\",\"like_cnt\":\"194\",\"share_cnt\":\"6\",\"vv\":\"12488\"},{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761048617\",\"item_id\":\"7563646205189410086\",\"item_publish_time\":\"1761048617\",\"item_title\":\"打底的保湿产品，也要好好选！ #敏感肌护肤 #b5精华 #换季护肤 #起皮卡粉怎么办\",\"like_cnt\":\"46\",\"share_cnt\":\"1\",\"vv\":\"7984\"},{\"comment_cnt\":\"80\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760867986\",\"item_id\":\"7562870342469963034\",\"item_publish_time\":\"1760867986\",\"item_title\":\"敏感肌换季美白，就用茶多酚 #美其肤茶多酚 #美其肤美白乳 #护肤\",\"like_cnt\":\"1290\",\"share_cnt\":\"49\",\"vv\":\"888945\"},{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760274101\",\"item_id\":\"7560319676715732234\",\"item_publish_time\":\"1760274101\",\"item_title\":\"换季就要用舒缓修护精华！ #舒缓修护 #干燥起皮 #保湿 #精华 #平价护肤\",\"like_cnt\":\"21\",\"share_cnt\":\"0\",\"vv\":\"2152\"},{\"comment_cnt\":\"400\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1758283729\",\"item_id\":\"7551771075370126592\",\"item_publish_time\":\"1758283729\",\"item_title\":\"为什么头痒、头屑、头油总是缠绕着你？ #换季 #发现者头皮精华 #头油 #头痒\",\"like_cnt\":\"5772\",\"share_cnt\":\"145\",\"vv\":\"134262\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1757604926\",\"item_id\":\"7548855572456590601\",\"item_publish_time\":\"1757604926\",\"item_title\":\"小小试品员又上线啦 #抗老精华 #诗肤理 #干敏皮护肤 #清爽面霜\",\"like_cnt\":\"38\",\"share_cnt\":\"0\",\"vv\":\"10296\"},{\"comment_cnt\":\"4\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1755528108\",\"item_id\":\"7539935802752601394\",\"item_publish_time\":\"1755528108\",\"item_title\":\"我爱蜜粉饼！控油粉饼！ #大牌粉饼 #大牌底妆 #蜜粉饼测评 #控油粉饼 #清爽底妆\",\"like_cnt\":\"72\",\"share_cnt\":\"5\",\"vv\":\"16329\"},{\"comment_cnt\":\"110\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1754295782\",\"item_id\":\"7534643002040896794\",\"item_publish_time\":\"1754295782\",\"item_title\":\"国产大集团发酵水，不输SKII啊！ #神仙水 #控油水乳 #酵母水 #精华水 #油皮的救星\",\"like_cnt\":\"1246\",\"share_cnt\":\"220\",\"vv\":\"99325\"}]",
+          "link_convert_index": "74.12",
+          "link_convert_index_by_industry": "74.12",
+          "link_i_cnt_by_industry": "76801",
+          "link_k_cnt_by_industry": "285",
+          "link_l_cnt_by_industry": "666277",
+          "link_link_cnt_by_industry": "858441",
+          "link_n_cnt_by_industry": "115078",
+          "link_recommend_index_by_industry": "67.56",
+          "link_shopping_index": "67.56",
+          "link_spread_index": "67.16",
+          "link_spread_index_by_industry": "67.16",
+          "link_star_index": "70.73",
+          "link_star_index_by_industry": "70.73",
+          "link_user_type_by_industry": "2",
+          "local_lower_threshold_author": "false",
+          "nick_name": "小key萌萌哒【理性护肤】",
+          "pic_expected_play_num": "0",
+          "play_over_rate_within_30d": "0.1474",
+          "price_1_20": "5000",
+          "price_20_60": "8000",
+          "price_60": "13500",
+          "promotion_prospective_1_20_cpm": "292.77",
+          "promotion_prospective_20_60_cpm": "468.44",
+          "promotion_prospective_60_cpm": "790.49",
+          "promotion_prospective_vv": "17078",
+          "prospective_1_20_cpm": "384.5858",
+          "prospective_20_60_cpm": "615.3373",
+          "prospective_60_cpm": "1038.3817",
+          "province": "辽宁省",
+          "search_after_view_index_by_industry": "73.81",
+          "sn_expected_play_num": "13001",
+          "sn_interact_rate_within_30d": "0.0065",
+          "sn_play_over_rate_within_30d": "0.1474",
+          "sn_prospective_1_20_cpe": "26.5957",
+          "sn_prospective_1_20_cpm": "384.5858",
+          "sn_prospective_20_60_cpe": "42.5532",
+          "sn_prospective_20_60_cpm": "615.3373",
+          "sn_prospective_60_cpe": "71.8085",
+          "sn_prospective_60_cpm": "1038.3817",
+          "star_ecom_video_num_30d": "1",
+          "star_excellent_author": "0",
+          "star_index": "52.27250225790045",
+          "star_item_count_within_30d": "1",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"测评\":[\"美妆测评\"],\"美妆\":[\"护肤保养\",\"美妆测评种草\"]}",
+          "vv_median_30d": "9593.5"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7513941102702857523",
+            "video_tag": 3,
+            "vv": 226825
+          },
+          {
+            "item_id": "7534643002040896794",
+            "video_tag": 3,
+            "vv": 81476
+          },
+          {
+            "item_id": "7562870342469963034",
+            "video_tag": 4,
+            "vv": 883969
+          },
+          {
+            "item_id": "7551771075370126592",
+            "video_tag": 4,
+            "vv": 118985
+          },
+          {
+            "item_id": "7529829336468245811",
+            "video_tag": 5,
+            "vv": 25231
+          },
+          {
+            "item_id": "7539935802752601394",
+            "video_tag": 5,
+            "vv": 15796
+          },
+          {
+            "item_id": "7573651584983321906",
+            "video_tag": 6,
+            "vv": 131
+          },
+          {
+            "item_id": "7569095770452921646",
+            "video_tag": 6,
+            "vv": 1236
+          }
+        ],
+        "star_id": "6629661505782546436",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 13500,
+                "price_extra_info": {},
+                "start_time": "1743436800",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 8000,
+                "price_extra_info": {},
+                "start_time": "1743436800",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 5000,
+                "price_extra_info": {},
+                "start_time": "1743436800",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "62",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L4",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_db3d54d3508d106e88ce54046fc51923.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "芜湖市",
+          "content_theme_labels_180d": "[\"亲子活动\",\"家庭生活记录\",\"求婚订婚\",\"夫妻情感\",\"家庭亲子生活\",\"约会穿搭\",\"婚礼妆容\",\"水果测评\",\"亲子旅行\"]",
+          "core_user_id": "63916937038",
+          "e_commerce_enable": "1",
+          "ecom_avg_order_value_30d_range": "50-200",
+          "ecom_gmv_30d_range": "20w-100w",
+          "ecom_gpm_30d_range": "1000-3000",
+          "ecom_score": "86",
+          "ecom_video_product_num_30d": "0",
+          "ecom_watch_pv_30d": "2.2",
+          "expected_cpa3_level": "4",
+          "expected_natural_play_num": "427568",
+          "expected_play_num": "510393",
+          "fans_increment_rate_within_15d": "-0.0013207245819753125",
+          "fans_increment_within_15d": "-1505",
+          "fans_increment_within_30d": "-2396",
+          "follower": "1138153",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6870161563551006727",
+          "interact_rate_within_30d": "0.0189",
+          "interaction_median_30d": "6800",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "true",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"31\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763383148\",\"item_id\":\"7573672936131054065\",\"item_publish_time\":\"1763383148\",\"item_title\":\"越来越喜欢这样的自己积极阳光，努力 上进，终于把工作忙完，明天水乳护肤，必须比双十一还要给力！明早九点记得来！\",\"like_cnt\":\"231\",\"share_cnt\":\"2\",\"vv\":\"20195\"},{\"comment_cnt\":\"24\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763347547\",\"item_id\":\"7573520027288637297\",\"item_publish_time\":\"1763347547\",\"item_title\":\"7小时到，赚钱不易 机票太贵！护肤品成份很重要，麦角硫因K老之王，用一段时间皮肤改善很大，明天活动给力，明早九点来！#护肤品#抗老抗衰\",\"like_cnt\":\"237\",\"share_cnt\":\"1\",\"vv\":\"20633\"},{\"comment_cnt\":\"86\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763296291\",\"item_id\":\"7573299894242017274\",\"item_publish_time\":\"1763296291\",\"item_title\":\"明天出差深圳，前两天在山东给爸买些衣服 东西拿过来，虽然我二婚了，但两边父母我都会尽力照顾到，尤其芜湖公公，我们十几年感情，希望他往后一切顺遂！#公公 #父母\",\"like_cnt\":\"1802\",\"share_cnt\":\"15\",\"vv\":\"90009\"},{\"comment_cnt\":\"176\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763038149\",\"item_id\":\"7572191181113159865\",\"item_publish_time\":\"1763038149\",\"item_title\":\"每次离别，我都能感受到潘先生的不舍，他当然也舍不得离开自己的父母，可为了我 为了我们的小家，他从山东到安徽 这份心和付出，以后我一定会好好对他！公婆还一直叮嘱他，把我和孩子照顾好，下次我们一定要多回来看看公婆！#二婚重组家庭 #好好生活\",\"like_cnt\":\"7524\",\"share_cnt\":\"97\",\"vv\":\"391413\"},{\"comment_cnt\":\"323\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762942771\",\"item_id\":\"7571781531015584238\",\"item_publish_time\":\"1762942771\",\"item_title\":\"这是我的二婚公婆，他们不止接受了我，更重要的是接受了我两儿子，对他们像亲孙子一样疼爱，公公腰不好，但他却把小儿子扛在肩膀上，这一幕真的让我好感动！#二婚重组家庭 #努力生活\",\"like_cnt\":\"8453\",\"share_cnt\":\"79\",\"vv\":\"429658\"},{\"comment_cnt\":\"58\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762690827\",\"item_id\":\"7570699445059656689\",\"item_publish_time\":\"1762690827\",\"item_title\":\"陪潘先生来看姥姥，给姥姥买点厚衣服 给点钱，潘先生对我家人的好 大家都看在眼里，我一定也会孝顺他的父母和长辈，和公婆不在一个城市少了很多陪伴，有时间回来陪陪他们，尽尽我们做儿子儿媳的孝心和责任！#二婚也幸福 #回婆家了\",\"like_cnt\":\"3806\",\"share_cnt\":\"20\",\"vv\":\"253892\"},{\"comment_cnt\":\"144\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762477838\",\"item_id\":\"7569784657320272558\",\"item_publish_time\":\"1762477838\",\"item_title\":\"订婚后第一次回山东婆家，太惊喜了，没想到婆婆还准备了鲜花，一大桌亲等着我们吃饭！每次回山东婆家的热情真的好幸福呀！#二婚也幸福#回婆家\",\"like_cnt\":\"6441\",\"share_cnt\":\"65\",\"vv\":\"396791\"},{\"comment_cnt\":\"420\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762353423\",\"item_id\":\"7569250310242429691\",\"item_publish_time\":\"1762353423\",\"item_title\":\"📓在家没更新动态的日子，我和她都在用心陪孩子，缺失父爱的几年 我们想好好补给孩子！28岁 我突然拥有了两儿子，刚开始我也怕自己做不好，怕他们不接受我，所以我每天都在努力学习做个称职的好爸爸！结果，他们真的很爱我，我很快适应了我再也不是一个人，我有老婆和孩子了！在一起的一年多让我懂得了爱人和责任！相信我 未来我们会越来越好！晚安#努力生活 #二婚也能很幸福\",\"like_cnt\":\"10229\",\"share_cnt\":\"127\",\"vv\":\"571880\"},{\"comment_cnt\":\"1163\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761695658\",\"item_id\":\"7566425174657748261\",\"item_publish_time\":\"1761695658\",\"item_title\":\"回忆过去还是忍不住流泪，那是一辈子抚平不了的伤，未来我相信会越来越好，祝我们都会好起来#治愈\",\"like_cnt\":\"12466\",\"share_cnt\":\"625\",\"vv\":\"533411\"},{\"comment_cnt\":\"234\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761652697\",\"item_id\":\"7566240710426823995\",\"item_publish_time\":\"1761652697\",\"item_title\":\"和老公带小儿子出差，爸在家带大儿子上学！忙完工作来西湖走走，此刻又感受到了 久违的幸福感！这辈子，你陪我把两儿子养大，我也希望能给你再生一个，等孩子们长大成家我们就可以过自己的老年生活了！#二婚也幸福#幸福感 #一家人在一起就是幸福\",\"like_cnt\":\"7528\",\"share_cnt\":\"128\",\"vv\":\"392337\"}]",
+          "link_convert_index": "87.8",
+          "link_convert_index_by_industry": "87.8",
+          "link_i_cnt_by_industry": "362950",
+          "link_k_cnt_by_industry": "9686",
+          "link_l_cnt_by_industry": "737983",
+          "link_link_cnt_by_industry": "1397896",
+          "link_n_cnt_by_industry": "287277",
+          "link_recommend_index_by_industry": "60.27",
+          "link_shopping_index": "60.27",
+          "link_spread_index": "66.55",
+          "link_spread_index_by_industry": "66.55",
+          "link_star_index": "71.45",
+          "link_star_index_by_industry": "71.45",
+          "link_user_type_by_industry": "2",
+          "local_lower_threshold_author": "false",
+          "nick_name": "雪莲一家人🍀18号水乳护肤专场",
+          "pic_expected_play_num": "72012",
+          "play_over_rate_within_30d": "0.2572",
+          "price_1_20": "11800",
+          "price_20_60": "26400",
+          "price_60": "33200",
+          "promotion_prospective_1_20_cpm": "23.67",
+          "promotion_prospective_20_60_cpm": "52.96",
+          "promotion_prospective_60_cpm": "66.6",
+          "promotion_prospective_vv": "498505",
+          "prospective_1_20_cpm": "23.1194",
+          "prospective_20_60_cpm": "51.7248",
+          "prospective_60_cpm": "65.0479",
+          "province": "安徽省",
+          "search_after_view_index_by_industry": "92.79",
+          "sn_expected_play_num": "510393",
+          "sn_interact_rate_within_30d": "0.0189",
+          "sn_play_over_rate_within_30d": "0.2572",
+          "sn_prospective_1_20_cpe": "1.2823",
+          "sn_prospective_1_20_cpm": "23.1194",
+          "sn_prospective_20_60_cpe": "2.8689",
+          "sn_prospective_20_60_cpm": "51.7248",
+          "sn_prospective_60_cpe": "3.6079",
+          "sn_prospective_60_cpm": "65.0479",
+          "star_excellent_author": "0",
+          "star_index": "70.83518277187902",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"生活\":[\"生活记录\"]}",
+          "vv_median_30d": "342705.5"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7556552601476123964",
+            "video_tag": 3,
+            "vv": 3676487
+          },
+          {
+            "item_id": "7556485193487256892",
+            "video_tag": 3,
+            "vv": 3093265
+          },
+          {
+            "item_id": "7556777239259565372",
+            "video_tag": 5,
+            "vv": 1885241
+          },
+          {
+            "item_id": "7541950409080343866",
+            "video_tag": 5,
+            "vv": 1437562
+          },
+          {
+            "item_id": "7573672936131054065",
+            "video_tag": 6,
+            "vv": 16312
+          },
+          {
+            "item_id": "7573520027288637297",
+            "video_tag": 6,
+            "vv": 15759
+          }
+        ],
+        "star_id": "6870161563551006727",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 26400,
+                "price_extra_info": {},
+                "start_time": "1738635842",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 11800,
+                "price_extra_info": {},
+                "start_time": "1738635842",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 33200,
+                "price_extra_info": {},
+                "start_time": "1738635842",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "36",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L4",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_a1cdfb18a54a8c75b90e44a87fee9252.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "",
+          "content_theme_labels_180d": "[\"亲子活动\",\"家庭生活记录\",\"家庭亲子生活\",\"亲子沟通\",\"家庭美食\",\"自制美食\",\"美食吃播\",\"家常菜教程\",\"家庭育儿\",\"家居装修\"]",
+          "core_user_id": "63349016164",
+          "e_commerce_enable": "1",
+          "ecom_score": "86",
+          "ecom_video_ctr_30d_range": "8%-10%",
+          "ecom_video_mid_click_pv_30d_range": "3000-5000",
+          "ecom_video_product_num_30d": "5",
+          "expected_cpa3_level": "3",
+          "expected_natural_play_num": "160071",
+          "expected_play_num": "243692",
+          "fans_increment_rate_within_15d": "-0.00009023356959489638",
+          "fans_increment_within_15d": "-60",
+          "fans_increment_within_30d": "4797621.1",
+          "follower": "664926",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6629659327487541255",
+          "interact_rate_within_30d": "0.013",
+          "interaction_median_30d": "2358",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"95\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763368818\",\"item_id\":\"7573611393280652155\",\"item_publish_time\":\"1763368818\",\"item_title\":\"款款真是我的大乖宝，之前的担心都白费了，我闺太好带了，款款到三亚很开心，可以出去溜溜了～@款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋\",\"like_cnt\":\"6342\",\"share_cnt\":\"492\",\"vv\":\"318457\"},{\"comment_cnt\":\"138\",\"is_high_quality_item\":\"1\",\"item_create_time\":\"1763197259\",\"item_id\":\"7572874548573721457\",\"item_publish_time\":\"1763197259\",\"item_title\":\"深思熟虑决定带款款去三亚玩了，我俩一年就双十一后最闲，舍不得把孩子扔家，就一起出去玩～@款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋\",\"like_cnt\":\"6089\",\"share_cnt\":\"295\",\"vv\":\"449976\"},{\"comment_cnt\":\"82\",\"is_high_quality_item\":\"1\",\"item_create_time\":\"1763111644\",\"item_id\":\"7572506835129251493\",\"item_publish_time\":\"1763111644\",\"item_title\":\"给婆婆精挑细选了一件适合她的貂～婆婆从我生款款就来了，这9个多月合作愉快🤝🏻 @款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋 @XINMAI 馨脉\",\"like_cnt\":\"4537\",\"share_cnt\":\"171\",\"vv\":\"375413\"},{\"comment_cnt\":\"51\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763025819\",\"item_id\":\"7572138209347439525\",\"item_publish_time\":\"1763025819\",\"item_title\":\"0.9岁制约全家，阿姨说比她带的小男孩都厉害😂@款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋 @XINMAI 馨脉\",\"like_cnt\":\"3338\",\"share_cnt\":\"137\",\"vv\":\"245839\"},{\"comment_cnt\":\"50\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762940515\",\"item_id\":\"7571771853660777893\",\"item_publish_time\":\"1762940515\",\"item_title\":\"双十一忙完了，在家天天陪款款玩。每年这个时候我早跑出去旅游了，今年不一样了，款款找人，我俩轻易不出门，怕她上火 @款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋\",\"like_cnt\":\"2851\",\"share_cnt\":\"105\",\"vv\":\"203303\"},{\"comment_cnt\":\"45\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762846796\",\"item_id\":\"7571369313673663226\",\"item_publish_time\":\"1762846796\",\"item_title\":\"款款大王这小生活太滋润了，她天天光鲜亮丽，我造的破马张飞，每天除了工作就是整款款大王的这一摊😂 @款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋\",\"like_cnt\":\"2572\",\"share_cnt\":\"108\",\"vv\":\"161292\"},{\"comment_cnt\":\"44\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762770473\",\"item_id\":\"7571041517486418363\",\"item_publish_time\":\"1762770473\",\"item_title\":\"款总可忙了，新家每个屋可哪溜达，哪屋也不多待，给我们几个累懵了，这搬进来，抱她可哪走可够累了😂@款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋\",\"like_cnt\":\"2782\",\"share_cnt\":\"85\",\"vv\":\"208105\"},{\"comment_cnt\":\"37\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762682572\",\"item_id\":\"7570663992353114341\",\"item_publish_time\":\"1762682572\",\"item_title\":\"别墅🏡定制的沙发到了，没有白花的钱，款款不自己吃东西，越让她自己吃越叛逆 @款款大王👑 @小娇言的快乐生活💕 @凯哥小美吃点啥🦋\",\"like_cnt\":\"2112\",\"share_cnt\":\"106\",\"vv\":\"219238\"},{\"comment_cnt\":\"53\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762678616\",\"item_id\":\"7570646997175346170\",\"item_publish_time\":\"1762678616\",\"item_title\":\"娇月嫂又上户了\",\"like_cnt\":\"2526\",\"share_cnt\":\"84\",\"vv\":\"244837\"},{\"comment_cnt\":\"51\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762597428\",\"item_id\":\"7570298303373950395\",\"item_publish_time\":\"1762597428\",\"item_title\":\"娇哥站起来了，深受款总抬爱，升级为外教老师@小娇言的快乐生活💕 @凯哥小美吃点啥🦋 @款款大王👑\",\"like_cnt\":\"3301\",\"share_cnt\":\"148\",\"vv\":\"218420\"}]",
+          "link_convert_index": "93.18",
+          "link_convert_index_by_industry": "93.18",
+          "link_i_cnt_by_industry": "295799",
+          "link_k_cnt_by_industry": "29898",
+          "link_l_cnt_by_industry": "646112",
+          "link_link_cnt_by_industry": "1227276",
+          "link_n_cnt_by_industry": "255467",
+          "link_recommend_index_by_industry": "73.2",
+          "link_shopping_index": "73.2",
+          "link_spread_index": "73.36",
+          "link_spread_index_by_industry": "73.36",
+          "link_star_index": "77.8",
+          "link_star_index_by_industry": "77.8",
+          "link_user_type_by_industry": "4",
+          "local_lower_threshold_author": "false",
+          "nick_name": "杨行❤️邢邢4号馨脉护肤品专场",
+          "pic_expected_play_num": "33544",
+          "play_over_rate_within_30d": "0.1297",
+          "price_1_20": "20000",
+          "price_20_60": "20000",
+          "price_60": "20000",
+          "promotion_prospective_1_20_cpm": "84.63",
+          "promotion_prospective_20_60_cpm": "84.63",
+          "promotion_prospective_60_cpm": "84.63",
+          "promotion_prospective_vv": "236312",
+          "prospective_1_20_cpm": "82.0708",
+          "prospective_20_60_cpm": "82.0708",
+          "prospective_60_cpm": "82.0708",
+          "province": "吉林省",
+          "search_after_view_index_by_industry": "82.24",
+          "sn_expected_play_num": "243692",
+          "sn_interact_rate_within_30d": "0.013",
+          "sn_play_over_rate_within_30d": "0.1297",
+          "sn_prospective_1_20_cpe": "6.0846",
+          "sn_prospective_1_20_cpm": "82.0708",
+          "sn_prospective_20_60_cpe": "6.0846",
+          "sn_prospective_20_60_cpm": "82.0708",
+          "sn_prospective_60_cpe": "6.0846",
+          "sn_prospective_60_cpm": "82.0708",
+          "star_excellent_author": "0",
+          "star_index": "76.95932648651592",
+          "star_qianchuan_high_potential": "1",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"母婴亲子\":[\"亲子互动\"]}",
+          "vv_median_30d": "172524"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7510209045879065913",
+            "video_tag": 3,
+            "vv": 1176280
+          },
+          {
+            "item_id": "7556562101374045499",
+            "video_tag": 3,
+            "vv": 918960
+          },
+          {
+            "item_id": "7526524730528533817",
+            "video_tag": 5,
+            "vv": 890979
+          },
+          {
+            "item_id": "7529368077893897532",
+            "video_tag": 5,
+            "vv": 809996
+          },
+          {
+            "item_id": "7573611393280652155",
+            "video_tag": 6,
+            "vv": 238998
+          },
+          {
+            "item_id": "7572874548573721457",
+            "video_tag": 6,
+            "vv": 356202
+          }
+        ],
+        "star_id": "6629659327487541255",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 8000,
+                "price_extra_info": {},
+                "start_time": "1664553600",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 20000,
+                "price_extra_info": {},
+                "start_time": "1664553600",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 20000,
+                "price_extra_info": {},
+                "start_time": "1664553600",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 20000,
+                "price_extra_info": {},
+                "start_time": "1664553600",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "48",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L0",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "2",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_2fcdd384e7a79b476483955c45dd3e19.jpeg?from=4010531038",
+          "city": "成都",
+          "content_theme_labels_180d": "[]",
+          "core_user_id": "2078495163295604",
+          "e_commerce_enable": "1",
+          "ecom_score": "78",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "3",
+          "expected_natural_play_num": "1124",
+          "expected_play_num": "1567",
+          "fans_increment_rate_within_15d": "-0.004533254933945355",
+          "fans_increment_within_15d": "-478",
+          "fans_increment_within_30d": "-938",
+          "follower": "104959",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "7229565311551275063",
+          "interaction_median_30d": "61",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "last_10_items": "[{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1755073883\",\"item_id\":\"7537984924524449082\",\"item_publish_time\":\"1755073883\",\"item_title\":\"79到手四只正装唇漆！还不来抢！#珂拉琪 #口红试色 #美妆\",\"like_cnt\":\"3\",\"share_cnt\":\"7\",\"vv\":\"1567\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1755072535\",\"item_id\":\"7537979117951683897\",\"item_publish_time\":\"1755072535\",\"item_title\":\"三合一珂拉琪唇漆！79到手4支正装！#珂拉琪 #口红试色 #不沾杯不掉色\",\"like_cnt\":\"6\",\"share_cnt\":\"1\",\"vv\":\"1301\"},{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1755072383\",\"item_id\":\"7537978477779504441\",\"item_publish_time\":\"1755072383\",\"item_title\":\"79直接到手4支坷拉琪唇漆！还不易沾杯！谁想要！\",\"like_cnt\":\"8\",\"share_cnt\":\"8\",\"vv\":\"2400\"}]",
+          "link_convert_index": "47.07",
+          "link_convert_index_by_industry": "47.07",
+          "link_i_cnt_by_industry": "32",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "223",
+          "link_link_cnt_by_industry": "301",
+          "link_n_cnt_by_industry": "46",
+          "link_recommend_index_by_industry": "40.61",
+          "link_shopping_index": "40.61",
+          "link_spread_index": "36.02",
+          "link_spread_index_by_industry": "36.02",
+          "link_star_index": "51.45",
+          "link_star_index_by_industry": "51.45",
+          "link_user_type_by_industry": "2",
+          "local_lower_threshold_author": "false",
+          "nick_name": "至彩美妆",
+          "pic_expected_play_num": "0",
+          "price_1_20": "12000",
+          "price_20_60": "12000",
+          "price_60": "15000",
+          "promotion_prospective_1_20_cpm": "7879.19",
+          "promotion_prospective_20_60_cpm": "7879.19",
+          "promotion_prospective_60_cpm": "9848.98",
+          "promotion_prospective_vv": "1523",
+          "prospective_1_20_cpm": "7657.9451",
+          "prospective_20_60_cpm": "7657.9451",
+          "prospective_60_cpm": "9572.4314",
+          "province": "",
+          "search_after_view_index_by_industry": "71.89",
+          "sn_expected_play_num": "1567",
+          "sn_prospective_1_20_cpe": "1200",
+          "sn_prospective_1_20_cpm": "7657.9451",
+          "sn_prospective_20_60_cpe": "1200",
+          "sn_prospective_20_60_cpm": "7657.9451",
+          "sn_prospective_60_cpe": "1500",
+          "sn_prospective_60_cpm": "9572.4314",
+          "star_excellent_author": "0",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}",
+          "vv_median_30d": "3506"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7537978477779504441",
+            "video_tag": 3,
+            "vv": 1998
+          },
+          {
+            "item_id": "7537984924524449082",
+            "video_tag": 3,
+            "vv": 1282
+          },
+          {
+            "item_id": "7537979117951683897",
+            "video_tag": 5,
+            "vv": 1184
+          }
+        ],
+        "star_id": "7229565311551275063",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 12000,
+                "price_extra_info": {},
+                "start_time": "1722441600",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 15000,
+                "price_extra_info": {},
+                "start_time": "1722441600",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 12000,
+                "price_extra_info": {},
+                "start_time": "1722441600",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "32",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L5",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_31c0e000116f11a147130.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "",
+          "content_theme_labels_180d": "[]",
+          "core_user_id": "62072717656",
+          "e_commerce_enable": "1",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "4",
+          "expected_play_num": "43558",
+          "fans_increment_rate_within_15d": "-0.0010880789067781768",
+          "fans_increment_within_15d": "-4883",
+          "fans_increment_within_30d": "-9871",
+          "follower": "4481855",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6732036482179006471",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"102\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1726057934\",\"item_id\":\"7413362276574563647\",\"item_publish_time\":\"1726264800\",\"item_title\":\"家政请的保姆月薪8000，每天把家里照顾得无微不至，兢兢业业，没见过她这么委屈过，今天看到这...#记录真实生活 #保姆 #宝妈 #日常vlog\",\"like_cnt\":\"783\",\"share_cnt\":\"31\",\"vv\":\"90414\"},{\"comment_cnt\":\"85\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1726057564\",\"item_id\":\"7413360674195164457\",\"item_publish_time\":\"1726221600\",\"item_title\":\"我们家亲戚介绍来的保姆月薪20000，离开后今天又做了这种事#记录真实生活 #保姆 #婆媳\",\"like_cnt\":\"1328\",\"share_cnt\":\"37\",\"vv\":\"114856\"},{\"comment_cnt\":\"170\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1726055369\",\"item_id\":\"7413351221316111627\",\"item_publish_time\":\"1726135200\",\"item_title\":\"我们家亲戚介绍来的保姆月薪20000，今天又这样#记录真实生活#宝妈 #保姆\",\"like_cnt\":\"1465\",\"share_cnt\":\"75\",\"vv\":\"152060\"},{\"comment_cnt\":\"170\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1726048808\",\"item_id\":\"7413323081126661387\",\"item_publish_time\":\"1726048808\",\"item_title\":\"我们家亲戚介绍来的保姆，今天被我看到这事#记录真实生活 #宝妈 #保姆\",\"like_cnt\":\"884\",\"share_cnt\":\"36\",\"vv\":\"94224\"},{\"comment_cnt\":\"104\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1725988161\",\"item_id\":\"7413062697001979175\",\"item_publish_time\":\"1726005601\",\"item_title\":\"我们家亲戚介绍来的保姆，今天被我撞见这事#记录真实生活 #保姆 #宝妈\",\"like_cnt\":\"1150\",\"share_cnt\":\"86\",\"vv\":\"119672\"},{\"comment_cnt\":\"120\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1725936432\",\"item_id\":\"7412840510735404307\",\"item_publish_time\":\"1725936432\",\"item_title\":\"我们家亲戚介绍来的保姆要跟我对账，这个账我怎么觉得不对劲呢#记录真实生活 #保姆 #宝妈\",\"like_cnt\":\"878\",\"share_cnt\":\"66\",\"vv\":\"104951\"}]",
+          "link_convert_index": "36.05",
+          "link_convert_index_by_industry": "36.05",
+          "link_i_cnt_by_industry": "387",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "700",
+          "link_link_cnt_by_industry": "1196",
+          "link_n_cnt_by_industry": "109",
+          "link_recommend_index_by_industry": "33.52",
+          "link_shopping_index": "33.52",
+          "link_spread_index": "34.32",
+          "link_spread_index_by_industry": "34.32",
+          "link_star_index": "45.48",
+          "link_star_index_by_industry": "45.48",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "雨姐高端护肤",
+          "pic_expected_play_num": "0",
+          "price_1_20": "100000",
+          "price_20_60": "100000",
+          "prospective_1_20_cpm": "2295.7684",
+          "prospective_20_60_cpm": "2295.7684",
+          "province": "",
+          "search_after_view_index_by_industry": "31.18",
+          "sn_expected_play_num": "43558",
+          "sn_prospective_1_20_cpe": "204.2484",
+          "sn_prospective_1_20_cpm": "2295.7684",
+          "sn_prospective_20_60_cpe": "204.2484",
+          "sn_prospective_20_60_cpm": "2295.7684",
+          "star_excellent_author": "0",
+          "star_index": "43.13674929391291",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "1",
+          "tags_relation": "{\"剧情搞笑\":[\"剧情\"]}"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7413351221316111627",
+            "video_tag": 3,
+            "vv": 127881
+          },
+          {
+            "item_id": "7413360674195164457",
+            "video_tag": 3,
+            "vv": 95326
+          },
+          {
+            "item_id": "7413062697001979175",
+            "video_tag": 5,
+            "vv": 86318
+          },
+          {
+            "item_id": "7413323081126661387",
+            "video_tag": 5,
+            "vv": 77338
+          },
+          {
+            "item_id": "7413362276574563647",
+            "video_tag": 6,
+            "vv": 74258
+          }
+        ],
+        "star_id": "6732036482179006471",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 100000,
+                "price_extra_info": {},
+                "start_time": "1578229457",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 100000,
+                "price_extra_info": {},
+                "start_time": "1578229457",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L4",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{\"定妆\":0.004,\"服帖\":0.06,\"清爽\":0,\"美白\":0.06,\"遮瑕\":0.06,\"防晒\":0.06}",
+          "author_type": "3",
+          "avatar_uri": "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_b28cc2eb41446bcdff470665f5706c16.jpeg?from=4010531038",
+          "city": "合肥",
+          "content_theme_labels_180d": "[\"零食测评\",\"口腔护理\",\"底妆测评\",\"秋冬穿搭\",\"生活好物评测\",\"定妆测评\",\"鞋靴推荐\",\"口红测评\",\"珠宝配饰\",\"防水彩妆\"]",
+          "core_user_id": "167599941104368",
+          "e_commerce_enable": "1",
+          "ecom_avg_order_value_30d_range": "50-200",
+          "ecom_gmv_30d_range": "20w-100w",
+          "ecom_gpm_30d_range": ">3000",
+          "ecom_score": "79",
+          "ecom_video_ctr_30d_range": "6%-8%",
+          "ecom_video_mid_click_pv_30d_range": "500以下",
+          "ecom_video_product_num_30d": "46",
+          "ecom_watch_pv_30d": "1",
+          "expected_cpa3_level": "3",
+          "expected_natural_play_num": "4396",
+          "expected_play_num": "4971",
+          "fans_increment_rate_within_15d": "-0.0021328242192826946",
+          "fans_increment_within_15d": "-391",
+          "fans_increment_within_30d": "950475.77",
+          "follower": "182927",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "7208136161590509579",
+          "interact_rate_within_30d": "0.0058",
+          "interaction_median_30d": "31",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "last_10_items": "[{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763308592\",\"item_id\":\"7573352598078590242\",\"item_publish_time\":\"1763308592\",\"item_title\":\"秋冬氛围感的第一支口红来啦～ #俞洋蕾 #口红 #口红试色 #口红推荐\",\"like_cnt\":\"23\",\"share_cnt\":\"0\",\"vv\":\"3113\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763299946\",\"item_id\":\"7573315502177586484\",\"item_publish_time\":\"1763307300\",\"item_title\":\"自带眼神光超绝～ #俞洋蕾#美瞳#眼珠珠#眼珠珠分享\",\"like_cnt\":\"18\",\"share_cnt\":\"0\",\"vv\":\"1731\"},{\"comment_cnt\":\"3\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763306253\",\"item_id\":\"7573342535016336655\",\"item_publish_time\":\"1763306253\",\"item_title\":\"深夜放毒系列之酥脆鸡蛋卷～ #俞洋蕾 #零食 #零食推荐 #零食测评\",\"like_cnt\":\"25\",\"share_cnt\":\"0\",\"vv\":\"2828\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763305237\",\"item_id\":\"7573338175708482851\",\"item_publish_time\":\"1763305237\",\"item_title\":\"秋冬穿搭怎么能少的了这对耳饰呢～ #俞洋蕾 #耳饰 #耳饰推荐 #耳饰分享\",\"like_cnt\":\"14\",\"share_cnt\":\"0\",\"vv\":\"1634\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763303612\",\"item_id\":\"7573331234231700770\",\"item_publish_time\":\"1763303612\",\"item_title\":\"秋冬袜子勤换勤洗～到手10双超划算～ #俞洋蕾 #棉袜 #棉袜推荐 #袜子\",\"like_cnt\":\"14\",\"share_cnt\":\"2\",\"vv\":\"1837\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763302522\",\"item_id\":\"7573326553774411023\",\"item_publish_time\":\"1763302522\",\"item_title\":\"社交第一步，口气清新很重要～ #俞洋蕾 #口喷 #口喷推荐 #口腔喷雾\",\"like_cnt\":\"19\",\"share_cnt\":\"0\",\"vv\":\"1444\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763300988\",\"item_id\":\"7573319961414864168\",\"item_publish_time\":\"1763300988\",\"item_title\":\"推荐自然肤连脚款哦～ #俞洋蕾 #光腿神器 #光腿神器测评 #光腿神器推荐\",\"like_cnt\":\"9\",\"share_cnt\":\"0\",\"vv\":\"1600\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763299694\",\"item_id\":\"7573314377579908367\",\"item_publish_time\":\"1763299694\",\"item_title\":\"可家居可外穿的家居服来啦～ #俞洋蕾 #睡衣 #睡衣家居服 #睡衣穿搭\",\"like_cnt\":\"13\",\"share_cnt\":\"0\",\"vv\":\"1294\"},{\"comment_cnt\":\"4\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763214491\",\"item_id\":\"7572948418360921396\",\"item_publish_time\":\"1763222340\",\"item_title\":\"保暖显瘦可外穿的家居服来喽～ #俞洋蕾 #睡衣 #睡衣家居服 #睡衣穿搭\",\"like_cnt\":\"67\",\"share_cnt\":\"2\",\"vv\":\"12721\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763222213\",\"item_id\":\"7572981623705161006\",\"item_publish_time\":\"1763222213\",\"item_title\":\"水润灵动舒适日抛眼珠珠来啦～自带眼神光超绝～ #俞洋蕾#美瞳#眼珠珠#眼珠珠分享\",\"like_cnt\":\"19\",\"share_cnt\":\"1\",\"vv\":\"2420\"}]",
+          "link_convert_index": "87.79",
+          "link_convert_index_by_industry": "87.79",
+          "link_i_cnt_by_industry": "64911",
+          "link_k_cnt_by_industry": "10645",
+          "link_l_cnt_by_industry": "503632",
+          "link_link_cnt_by_industry": "675588",
+          "link_n_cnt_by_industry": "96400",
+          "link_recommend_index_by_industry": "59.03",
+          "link_shopping_index": "59.03",
+          "link_spread_index": "62.72",
+          "link_spread_index_by_industry": "62.72",
+          "link_star_index": "75.37",
+          "link_star_index_by_industry": "75.37",
+          "link_user_type_by_industry": "4",
+          "local_lower_threshold_author": "false",
+          "nick_name": "俞洋蕾美妆护肤",
+          "pic_expected_play_num": "0",
+          "play_over_rate_within_30d": "0.0451",
+          "price_1_20": "15000",
+          "price_20_60": "15000",
+          "price_60": "20000",
+          "promotion_prospective_1_20_cpm": "3132.83",
+          "promotion_prospective_20_60_cpm": "3132.83",
+          "promotion_prospective_60_cpm": "4177.11",
+          "promotion_prospective_vv": "4788",
+          "prospective_1_20_cpm": "3017.5015",
+          "prospective_20_60_cpm": "3017.5015",
+          "prospective_60_cpm": "4023.3353",
+          "province": "",
+          "search_after_view_index_by_industry": "74.58",
+          "sn_expected_play_num": "4971",
+          "sn_interact_rate_within_30d": "0.0058",
+          "sn_play_over_rate_within_30d": "0.0451",
+          "sn_prospective_1_20_cpe": "428.5714",
+          "sn_prospective_1_20_cpm": "3017.5015",
+          "sn_prospective_20_60_cpe": "428.5714",
+          "sn_prospective_20_60_cpm": "3017.5015",
+          "sn_prospective_60_cpe": "571.4286",
+          "sn_prospective_60_cpm": "4023.3353",
+          "star_excellent_author": "0",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}",
+          "vv_median_30d": "4779"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7542509609773255976",
+            "video_tag": 3,
+            "vv": 117298
+          },
+          {
+            "item_id": "7554731769245830434",
+            "video_tag": 3,
+            "vv": 113725
+          },
+          {
+            "item_id": "7511632491833216271",
+            "video_tag": 5,
+            "vv": 107615
+          },
+          {
+            "item_id": "7554301932555291956",
+            "video_tag": 5,
+            "vv": 86909
+          },
+          {
+            "item_id": "7573352598078590242",
+            "video_tag": 6,
+            "vv": 2664
+          },
+          {
+            "item_id": "7573342535016336655",
+            "video_tag": 6,
+            "vv": 2482
+          }
+        ],
+        "star_id": "7208136161590509579",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 20000,
+                "price_extra_info": {},
+                "start_time": "1719763200",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 15000,
+                "price_extra_info": {},
+                "start_time": "1719763200",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 15000,
+                "price_extra_info": {},
+                "start_time": "1719763200",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "48",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L0",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{\"修容\":0.7318343906189926,\"定妆\":0.008333333333333333,\"服帖\":0.005,\"聚会\":0,\"遮瑕\":0.26729629629629625}",
+          "author_type": "1",
+          "avatar_uri": "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_facb00087d72f2fda9a3.jpeg?from=4010531038",
+          "brand_boost_vv": "49068",
+          "city": "杭州市",
+          "content_theme_labels_180d": "[\"眼妆教程\",\"古风妆容\",\"清透妆容\",\"妆前技巧\",\"时尚妆容\",\"眉毛教程\",\"创意妆容\",\"修容教程\",\"定妆技巧\",\"唇妆教程\"]",
+          "core_user_id": "98733058101",
+          "e_commerce_enable": "0",
+          "ecom_score": "96",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "3",
+          "expected_natural_play_num": "2915",
+          "expected_play_num": "4871",
+          "fans_increment_rate_within_15d": "-0.002864029344223546",
+          "fans_increment_within_15d": "-1660",
+          "fans_increment_within_30d": "-3050",
+          "follower": "577918",
+          "game_type": "",
+          "gender": "1",
+          "grade": "0",
+          "id": "6735286340427972615",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1758530326\",\"item_id\":\"7552830207632117046\",\"item_publish_time\":\"1758530326\",\"item_title\":\"花398就可以学习到“毛氏化妆法”，爱美的姐妹赶快安排起来 #化妆 #美妆 #毛戈平化妆学校\",\"like_cnt\":\"9\",\"share_cnt\":\"3\",\"vv\":\"4893\"},{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1757313448\",\"item_id\":\"7547603749187947791\",\"item_publish_time\":\"1757313448\",\"item_title\":\"自我化妆效果不尽人意？ 参与下方团购课程，专业指导助你提升技巧！#毛戈平化妆学校\",\"like_cnt\":\"10\",\"share_cnt\":\"7\",\"vv\":\"4892\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1756174863\",\"item_id\":\"7542713575358352640\",\"item_publish_time\":\"1756174863\",\"item_title\":\"毛戈平美妆教育开设了清透减龄小团课啦 #毛戈平化妆学校\",\"like_cnt\":\"9\",\"share_cnt\":\"2\",\"vv\":\"3109\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1755840962\",\"item_id\":\"7541279483257539881\",\"item_publish_time\":\"1755840962\",\"item_title\":\"398就可以学习到“毛氏化妆法” 爱美的姐妹赶快安排起来！#化妆造型分享 #妆前妆后 #毛戈平化妆学校\",\"like_cnt\":\"8\",\"share_cnt\":\"1\",\"vv\":\"6225\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1755239340\",\"item_id\":\"7538695526070455587\",\"item_publish_time\":\"1755239340\",\"item_title\":\"什么？毛戈平美妆教育也太卷了吧！ #毛戈平化妆学校 #清透底妆\",\"like_cnt\":\"3\",\"share_cnt\":\"3\",\"vv\":\"3515\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1754481484\",\"item_id\":\"7535440480255954212\",\"item_publish_time\":\"1754481484\",\"item_title\":\"毛戈平美妆教育推出减龄妆容课啦！ #化妆造型分享 #化妆 #毛戈平化妆学校\",\"like_cnt\":\"6\",\"share_cnt\":\"0\",\"vv\":\"5301\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1753243051\",\"item_id\":\"7530121514671279369\",\"item_publish_time\":\"1753243051\",\"item_title\":\"自我化妆效果不尽人意？参与下方团购课程! 业指导助你提升技巧，立即购买！#化妆 #毛戈平美妆教学\",\"like_cnt\":\"17\",\"share_cnt\":\"1\",\"vv\":\"5534\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1752568313\",\"item_id\":\"7527223568103378195\",\"item_publish_time\":\"1752568313\",\"item_title\":\"花398就可以学习到“毛氏化妆法”，爱美的姐妹赶快安排起来！ #零基础学化妆 #化妆 #彩妆培训\",\"like_cnt\":\"17\",\"share_cnt\":\"3\",\"vv\":\"11102\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1751849905\",\"item_id\":\"7524137996803755290\",\"item_publish_time\":\"1751849905\",\"item_title\":\"化妆新手也能hold住的日常妆容秘籍\",\"like_cnt\":\"10\",\"share_cnt\":\"5\",\"vv\":\"5426\",\"快来学习吧! #化妆培训 #美出高级感 #妆前妆后\":null},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1751447396\",\"item_id\":\"7522409263357005107\",\"item_publish_time\":\"1751447396\",\"item_title\":\"化妆新手也能hold住的日常妆容秘籍\",\"like_cnt\":\"3\",\"share_cnt\":\"0\",\"vv\":\"4683\",\"快来学习吧! #时尚课程  #自我提升  #化妆技巧 #零基础学化妆 #化妆\":null}]",
+          "link_convert_index": "60.3",
+          "link_convert_index_by_industry": "60.3",
+          "link_i_cnt_by_industry": "26777",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "324964",
+          "link_link_cnt_by_industry": "366214",
+          "link_n_cnt_by_industry": "14473",
+          "link_recommend_index_by_industry": "66.12",
+          "link_shopping_index": "66.12",
+          "link_spread_index": "62.09",
+          "link_spread_index_by_industry": "62.09",
+          "link_star_index": "64.05",
+          "link_star_index_by_industry": "64.05",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "毛戈平美妆教育美妆专卖店",
+          "pic_expected_play_num": "435",
+          "price_1_20": "9700",
+          "price_20_60": "13900",
+          "price_60": "17600",
+          "promotion_prospective_1_20_cpm": "2052.91",
+          "promotion_prospective_20_60_cpm": "2941.8",
+          "promotion_prospective_60_cpm": "3724.87",
+          "promotion_prospective_vv": "4725",
+          "prospective_1_20_cpm": "1991.3775",
+          "prospective_20_60_cpm": "2853.6235",
+          "prospective_60_cpm": "3613.2211",
+          "province": "浙江省",
+          "search_after_view_index_by_industry": "51.07",
+          "sn_expected_play_num": "4871",
+          "sn_prospective_1_20_cpe": "808.3333",
+          "sn_prospective_1_20_cpm": "1991.3775",
+          "sn_prospective_20_60_cpe": "1158.3333",
+          "sn_prospective_20_60_cpm": "2853.6235",
+          "sn_prospective_60_cpe": "1466.6667",
+          "sn_prospective_60_cpm": "3613.2211",
+          "star_excellent_author": "0",
+          "star_index": "64.50653825728178",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"美妆\":[\"美妆教程\"]}",
+          "video_brand_boost": "true",
+          "video_brand_boost_vv": "49068"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7527223568103378195",
+            "video_tag": 3,
+            "vv": 7485
+          },
+          {
+            "item_id": "7541279483257539881",
+            "video_tag": 3,
+            "vv": 5547
+          },
+          {
+            "item_id": "7530121514671279369",
+            "video_tag": 5,
+            "vv": 5093
+          },
+          {
+            "item_id": "7524137996803755290",
+            "video_tag": 5,
+            "vv": 5002
+          },
+          {
+            "item_id": "7552830207632117046",
+            "video_tag": 6,
+            "vv": 4386
+          },
+          {
+            "item_id": "7547603749187947791",
+            "video_tag": 6,
+            "vv": 3745
+          }
+        ],
+        "star_id": "6735286340427972615",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 17600,
+                "price_extra_info": {},
+                "start_time": "1656903532",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 13900,
+                "price_extra_info": {},
+                "start_time": "1656903532",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 9700,
+                "price_extra_info": {},
+                "start_time": "1656903532",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 7000,
+                "price_extra_info": {},
+                "start_time": "1656903532",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "36",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L4",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c000-ce_okp5PQWEAj9eAI9EyEFnAdADwBenAEKYfXOAT1.jpeg?from=4010531038",
+          "city": "东莞",
+          "content_theme_labels_180d": "[\"职场趣闻\",\"搞笑剧情\",\"有趣剧情创作\"]",
+          "core_user_id": "4380051546052093",
+          "e_commerce_enable": "1",
+          "ecom_score": "94",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "2",
+          "expected_natural_play_num": "2506",
+          "expected_play_num": "3773",
+          "fans_increment_rate_within_15d": "0.008666660947985738",
+          "fans_increment_within_15d": "3031",
+          "fans_increment_within_30d": "3165475.88",
+          "follower": "352737",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "7135664853816967181",
+          "interact_rate_within_30d": "0.0069",
+          "interaction_median_30d": "16",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761737443\",\"item_id\":\"7566604691158857082\",\"item_publish_time\":\"1761778800\",\"item_title\":\"多品牌陷“苏丹红”风波，蔡蔡提醒护肤品成分很关键 #护肤品 #避坑指南 #皮肤问题 #健康护肤 #秋冬护肤 @DOU+小助手\",\"like_cnt\":\"16\",\"share_cnt\":\"1\",\"vv\":\"2309\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761125834\",\"item_id\":\"7563977831730974015\",\"item_publish_time\":\"1761172200\",\"item_title\":\"秋冬护肤必须会以油养肤 #皮肤干燥 #皮肤管理 #补水保湿 #逆袭之路变美变好看 #浔姿 @DOU+小助手\",\"like_cnt\":\"15\",\"share_cnt\":\"3\",\"vv\":\"2660\"},{\"comment_cnt\":\"3\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761087589\",\"item_id\":\"7563813341655829779\",\"item_publish_time\":\"1761087589\",\"item_title\":\"#美业老板 #逆袭之路变美变好看 #护肤 #保养 #浔姿\",\"like_cnt\":\"20\",\"share_cnt\":\"0\",\"vv\":\"3095\"},{\"comment_cnt\":\"9\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760854866\",\"item_id\":\"7562814038988688703\",\"item_publish_time\":\"1760999400\",\"item_title\":\"你的脸在偷偷给你记账 #致女人 #美容 #护肤 #保养 #浔姿 @DOU+小助手\",\"like_cnt\":\"24\",\"share_cnt\":\"1\",\"vv\":\"4485\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760769855\",\"item_id\":\"7562448910485163300\",\"item_publish_time\":\"1760826600\",\"item_title\":\"想皮肤好，这3点很重要！ #皮肤管理 #变美 #护肤分享 #防晒 #浔姿 @DOU+小助手\",\"like_cnt\":\"34\",\"share_cnt\":\"3\",\"vv\":\"5327\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760689794\",\"item_id\":\"7562105052593261863\",\"item_publish_time\":\"1760740200\",\"item_title\":\"4条护肤忠告 #护肤分享 #避坑指南 #皮肤问题 #日常保养 #浔姿 @DOU+小助手\",\"like_cnt\":\"19\",\"share_cnt\":\"3\",\"vv\":\"2036\"},{\"comment_cnt\":\"3\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760660141\",\"item_id\":\"7561977631713922323\",\"item_publish_time\":\"1760660141\",\"item_title\":\"明星做水油护理的精华油有什么不一样？ 秋冬#护肤 #皮肤干燥 #补水保湿 #精华油 #浔姿 @DOU+小助手\",\"like_cnt\":\"41\",\"share_cnt\":\"15\",\"vv\":\"9289\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760655646\",\"item_id\":\"7561958364662500662\",\"item_publish_time\":\"1760655646\",\"item_title\":\"两类洗面奶千万别买 #实体店老板娘 #洗面奶 #护肤品避坑指南 #护肤 #浔姿 @DOU+小助手\",\"like_cnt\":\"18\",\"share_cnt\":\"1\",\"vv\":\"2060\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760575860\",\"item_id\":\"7561615693456706859\",\"item_publish_time\":\"1760575860\",\"item_title\":\"30岁后一定不要用乳液！ #抗衰老 #日常保养 #皮肤管理 #变美逆袭 @浔姿@DOU+小助手\",\"like_cnt\":\"18\",\"share_cnt\":\"2\",\"vv\":\"3198\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1760483061\",\"item_id\":\"7561216993580371254\",\"item_publish_time\":\"1760483061\",\"item_title\":\"长期保养 #护肤 #变美 @DOU+小助手\",\"like_cnt\":\"18\",\"share_cnt\":\"0\",\"vv\":\"2152\"}]",
+          "link_convert_index": "77.83",
+          "link_convert_index_by_industry": "77.83",
+          "link_i_cnt_by_industry": "19909",
+          "link_k_cnt_by_industry": "2587",
+          "link_l_cnt_by_industry": "54908",
+          "link_link_cnt_by_industry": "95133",
+          "link_n_cnt_by_industry": "17729",
+          "link_recommend_index_by_industry": "51.79",
+          "link_shopping_index": "51.79",
+          "link_spread_index": "56.78",
+          "link_spread_index_by_industry": "56.78",
+          "link_star_index": "63.48",
+          "link_star_index_by_industry": "63.48",
+          "link_user_type_by_industry": "4",
+          "local_lower_threshold_author": "false",
+          "nick_name": "蔡蔡教护肤",
+          "pic_expected_play_num": "161",
+          "play_over_rate_within_30d": "0.1037",
+          "price_1_20": "6000",
+          "price_20_60": "6500",
+          "price_60": "10000",
+          "promotion_prospective_1_20_cpm": "1619.43",
+          "promotion_prospective_20_60_cpm": "1754.39",
+          "promotion_prospective_60_cpm": "2699.06",
+          "promotion_prospective_vv": "3705",
+          "prospective_1_20_cpm": "1590.2465",
+          "prospective_20_60_cpm": "1722.767",
+          "prospective_60_cpm": "2650.4108",
+          "province": "",
+          "search_after_view_index_by_industry": "70.65",
+          "sn_expected_play_num": "3773",
+          "sn_interact_rate_within_30d": "0.0069",
+          "sn_play_over_rate_within_30d": "0.1037",
+          "sn_prospective_1_20_cpe": "222.2222",
+          "sn_prospective_1_20_cpm": "1590.2465",
+          "sn_prospective_20_60_cpe": "240.7407",
+          "sn_prospective_20_60_cpm": "1722.767",
+          "sn_prospective_60_cpe": "370.3704",
+          "sn_prospective_60_cpm": "2650.4108",
+          "star_excellent_author": "0",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "1",
+          "tags_relation": "{\"美妆\":[\"护肤保养\"]}",
+          "vv_median_30d": "2418"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7507444934665850171",
+            "video_tag": 3,
+            "vv": 19083
+          },
+          {
+            "item_id": "7547613987140144427",
+            "video_tag": 3,
+            "vv": 18438
+          },
+          {
+            "item_id": "7561977631713922323",
+            "video_tag": 5,
+            "vv": 5597
+          },
+          {
+            "item_id": "7554654183421529370",
+            "video_tag": 5,
+            "vv": 5272
+          },
+          {
+            "item_id": "7566604691158857082",
+            "video_tag": 6,
+            "vv": 1673
+          },
+          {
+            "item_id": "7563977831730974015",
+            "video_tag": 6,
+            "vv": 1803
+          }
+        ],
+        "star_id": "7135664853816967181",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 6000,
+                "price_extra_info": {},
+                "start_time": "1661704275",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 10000,
+                "price_extra_info": {},
+                "start_time": "1661704275",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 6500,
+                "price_extra_info": {},
+                "start_time": "1661704275",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 4000,
+                "price_extra_info": {},
+                "start_time": "1661704275",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 5000,
+                "price_extra_info": {},
+                "start_time": "1661401862",
+                "task_category": 1,
+                "video_type": 73,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "63",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L2",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_6e118a0a48f6f27cf060acfd03007c4b.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "",
+          "content_theme_labels_180d": "[\"女性穿搭\",\"流行穿搭\",\"特色服饰穿搭\",\"修容教程\",\"高颅顶造型\",\"中式穿搭\",\"创意发型\",\"传统服饰\",\"高颅顶发型\",\"日常穿搭\"]",
+          "core_user_id": "60681544437",
+          "e_commerce_enable": "1",
+          "ecom_score": "81",
+          "ecom_video_ctr_30d_range": "2%-4%",
+          "ecom_video_mid_click_pv_30d_range": "500以下",
+          "ecom_video_product_num_30d": "44",
+          "expected_cpa3_level": "1",
+          "expected_natural_play_num": "1700",
+          "expected_play_num": "1732",
+          "fans_increment_rate_within_15d": "-0.0015346911582754354",
+          "fans_increment_within_15d": "-258",
+          "fans_increment_within_30d": "-497",
+          "follower": "167858",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6700863687839711235",
+          "interact_rate_within_30d": "0.0327",
+          "interaction_median_30d": "72",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763385708\",\"item_id\":\"7573683935810972153\",\"item_publish_time\":\"1763385708\",\"item_title\":\"#棉服#修身显瘦#轻薄舒适#保暖舒适#短款棉服\",\"like_cnt\":\"24\",\"share_cnt\":\"0\",\"vv\":\"386\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763379562\",\"item_id\":\"7573657539808858609\",\"item_publish_time\":\"1763379562\",\"item_title\":\"#打底衫#洋气百搭#时尚百搭#修身显瘦\",\"like_cnt\":\"45\",\"share_cnt\":\"0\",\"vv\":\"820\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763352764\",\"item_id\":\"7573542436020453233\",\"item_publish_time\":\"1763352764\",\"item_title\":\"#高光修容#高光提亮#高光爆闪\",\"like_cnt\":\"47\",\"share_cnt\":\"1\",\"vv\":\"1338\"},{\"comment_cnt\":\"4\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763268841\",\"item_id\":\"7573181997314161990\",\"item_publish_time\":\"1763268841\",\"item_title\":\"#玉米烫夹板#增加发量#蓬松发根\",\"like_cnt\":\"121\",\"share_cnt\":\"3\",\"vv\":\"9723\"},{\"comment_cnt\":\"7\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763222666\",\"item_id\":\"7572983657016523243\",\"item_publish_time\":\"1763222666\",\"item_title\":\"#优雅大方的气质 #睡衣套装丝绒睡衣#宽红大码\",\"like_cnt\":\"83\",\"share_cnt\":\"0\",\"vv\":\"1514\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763210328\",\"item_id\":\"7572930683476842405\",\"item_publish_time\":\"1763210328\",\"item_title\":\"#加厚保暖#睡衣家居服#保暖舒适#加厚睡衣\",\"like_cnt\":\"47\",\"share_cnt\":\"0\",\"vv\":\"1283\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763207051\",\"item_id\":\"7572916616473276069\",\"item_publish_time\":\"1763207051\",\"item_title\":\"#宽松大码#休闲百搭#打底外穿#针织上衣\",\"like_cnt\":\"49\",\"share_cnt\":\"0\",\"vv\":\"1172\"},{\"comment_cnt\":\"4\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763193939\",\"item_id\":\"7572860296063472377\",\"item_publish_time\":\"1763193939\",\"item_title\":\"#睡衣套装#加绒保暖#睡衣家居服#在家也要美美哒\",\"like_cnt\":\"85\",\"share_cnt\":\"0\",\"vv\":\"1649\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763125044\",\"item_id\":\"7572564385743617771\",\"item_publish_time\":\"1763125044\",\"item_title\":\"#高光修容#高光提亮#高光爆闪\",\"like_cnt\":\"66\",\"share_cnt\":\"1\",\"vv\":\"8185\"},{\"comment_cnt\":\"3\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763092997\",\"item_id\":\"7572426736567924294\",\"item_publish_time\":\"1763092997\",\"item_title\":\"#谁穿谁洋气 #睡衣套装#加厚睡衣#在家也要美美哒\",\"like_cnt\":\"59\",\"share_cnt\":\"0\",\"vv\":\"1730\"}]",
+          "link_convert_index": "73.81",
+          "link_convert_index_by_industry": "73.81",
+          "link_i_cnt_by_industry": "12450",
+          "link_k_cnt_by_industry": "373",
+          "link_l_cnt_by_industry": "100275",
+          "link_link_cnt_by_industry": "121062",
+          "link_n_cnt_by_industry": "7964",
+          "link_recommend_index_by_industry": "64.55",
+          "link_shopping_index": "64.55",
+          "link_spread_index": "59.63",
+          "link_spread_index_by_industry": "59.63",
+          "link_star_index": "71.37",
+          "link_star_index_by_industry": "71.37",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "娟姐美妆",
+          "pic_expected_play_num": "0",
+          "play_over_rate_within_30d": "0.1061",
+          "price_1_20": "1000",
+          "price_20_60": "2000",
+          "promotion_prospective_1_20_cpm": "595.95",
+          "promotion_prospective_20_60_cpm": "1191.9",
+          "promotion_prospective_vv": "1678",
+          "prospective_1_20_cpm": "577.3672",
+          "prospective_20_60_cpm": "1154.7344",
+          "province": "北京市",
+          "search_after_view_index_by_industry": "72.89",
+          "sn_expected_play_num": "1732",
+          "sn_interact_rate_within_30d": "0.0327",
+          "sn_play_over_rate_within_30d": "0.1061",
+          "sn_prospective_1_20_cpe": "12.6582",
+          "sn_prospective_1_20_cpm": "577.3672",
+          "sn_prospective_20_60_cpe": "25.3165",
+          "sn_prospective_20_60_cpm": "1154.7344",
+          "star_excellent_author": "0",
+          "star_index": "76.41557632884758",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}",
+          "vv_median_30d": "2051"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7514161903082474810",
+            "video_tag": 3,
+            "vv": 389094
+          },
+          {
+            "item_id": "7548093645619318075",
+            "video_tag": 3,
+            "vv": 177676
+          },
+          {
+            "item_id": "7523498604780522794",
+            "video_tag": 5,
+            "vv": 107281
+          },
+          {
+            "item_id": "7528060968485997843",
+            "video_tag": 5,
+            "vv": 103968
+          },
+          {
+            "item_id": "7573683935810972153",
+            "video_tag": 6,
+            "vv": 338
+          },
+          {
+            "item_id": "7573657539808858609",
+            "video_tag": 6,
+            "vv": 729
+          }
+        ],
+        "star_id": "6700863687839711235",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 2000,
+                "price_extra_info": {},
+                "start_time": "1578229434",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 1000,
+                "price_extra_info": {},
+                "start_time": "1578229434",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "48",
+          "author_avatar_frame_icon": "20",
+          "author_ecom_level": "L1",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "2",
+          "avatar_uri": "https://p26.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-i-0813c000-ce_o4DEAAdKiiAxyeAwIeGBenzLJXSAJzzicEpPEZ.jpeg?from=4010531038",
+          "brand_boost_vv": "9083",
+          "city": "广州市",
+          "content_theme_labels_180d": "[]",
+          "core_user_id": "4477683796294296",
+          "e_commerce_enable": "1",
+          "ecom_video_product_num_30d": "0",
+          "enroll_task_price_list": "[6500]",
+          "expected_cpa3_level": "2",
+          "expected_natural_play_num": "5368",
+          "fans_increment_rate_within_15d": "-0.0010656061506388657",
+          "fans_increment_within_15d": "-321",
+          "fans_increment_within_30d": "78.04",
+          "follower": "300902",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "7111196878422671391",
+          "interaction_median_30d": "262",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "link_convert_index": "70.75",
+          "link_convert_index_by_industry": "70.75",
+          "link_i_cnt_by_industry": "0",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "0",
+          "link_link_cnt_by_industry": "67",
+          "link_n_cnt_by_industry": "67",
+          "link_recommend_index_by_industry": "46.62",
+          "link_shopping_index": "46.62",
+          "link_spread_index": "38.64",
+          "link_spread_index_by_industry": "38.64",
+          "link_star_index": "59.64",
+          "link_star_index_by_industry": "59.64",
+          "link_user_type_by_industry": "2",
+          "local_lower_threshold_author": "false",
+          "nick_name": "小郭不当美妆编导了",
+          "price_1_20": "6000",
+          "price_20_60": "7000",
+          "price_60": "8000",
+          "province": "广东省",
+          "search_after_view_index_by_industry": "75.15",
+          "star_excellent_author": "0",
+          "star_index": "65.04309482406101",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}",
+          "video_brand_boost": "true",
+          "video_brand_boost_vv": "9083",
+          "vv_median_30d": "4159"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7490871068098301196",
+            "video_tag": 3,
+            "vv": 63589
+          },
+          {
+            "item_id": "7504573732862577970",
+            "video_tag": 3,
+            "vv": 55772
+          },
+          {
+            "item_id": "7501266954074819894",
+            "video_tag": 5,
+            "vv": 24977
+          },
+          {
+            "item_id": "7491978713341431091",
+            "video_tag": 5,
+            "vv": 17513
+          },
+          {
+            "item_id": "7513787382580186403",
+            "video_tag": 6,
+            "vv": 4271
+          },
+          {
+            "item_id": "7512398376944536883",
+            "video_tag": 6,
+            "vv": 2635
+          }
+        ],
+        "star_id": "7111196878422671391",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 6000,
+                "price_extra_info": {},
+                "start_time": "1680278400",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 8000,
+                "price_extra_info": {},
+                "start_time": "1680278400",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 7000,
+                "price_extra_info": {},
+                "start_time": "1680278400",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 3600,
+                "price_extra_info": {},
+                "start_time": "1672039581",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "33",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L0",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_f91e0000fe76281bf5bc.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "新乡市",
+          "content_theme_labels_180d": "[]",
+          "core_user_id": "86970952676",
+          "e_commerce_enable": "0",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "2",
+          "expected_natural_play_num": "4986",
+          "fans_increment_rate_within_15d": "-0.001259107307066563",
+          "fans_increment_within_15d": "-178",
+          "fans_increment_within_30d": "-370",
+          "follower": "141198",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6852621304982405135",
+          "interaction_median_30d": "12.5",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "link_convert_index": "38.27",
+          "link_convert_index_by_industry": "38.27",
+          "link_i_cnt_by_industry": "50",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "2608",
+          "link_link_cnt_by_industry": "2744",
+          "link_n_cnt_by_industry": "86",
+          "link_recommend_index_by_industry": "40.05",
+          "link_shopping_index": "40.05",
+          "link_spread_index": "38.07",
+          "link_spread_index_by_industry": "38.07",
+          "link_star_index": "50.7",
+          "link_star_index_by_industry": "50.7",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "多多美妆店",
+          "price_1_20": "2000",
+          "price_20_60": "5000",
+          "province": "河南省",
+          "search_after_view_index_by_industry": "62.3",
+          "star_excellent_author": "0",
+          "star_index": "65.52647531547086",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "1",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}",
+          "vv_median_30d": "2968.5"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7511697139929877771",
+            "video_tag": 3,
+            "vv": 7418
+          },
+          {
+            "item_id": "7557208496858811658",
+            "video_tag": 3,
+            "vv": 5084
+          },
+          {
+            "item_id": "7557594367813635385",
+            "video_tag": 5,
+            "vv": 3191
+          },
+          {
+            "item_id": "7561294709868793114",
+            "video_tag": 5,
+            "vv": 2746
+          },
+          {
+            "item_id": "7563519421562965306",
+            "video_tag": 6,
+            "vv": 2415
+          },
+          {
+            "item_id": "7531945595079675190",
+            "video_tag": 6,
+            "vv": 2689
+          }
+        ],
+        "star_id": "6852621304982405135",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 5000,
+                "price_extra_info": {},
+                "start_time": "1606219903",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 2000,
+                "price_extra_info": {},
+                "start_time": "1606219903",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "43",
+          "author_avatar_frame_icon": "20",
+          "author_ecom_level": "L0",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "2",
+          "avatar_uri": "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_5f029cc72193d189bfb2431a7700f313.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "",
+          "core_user_id": "95413148098",
+          "e_commerce_enable": "0",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "4",
+          "fans_increment_rate_within_15d": "-0.001457205559619605",
+          "fans_increment_within_15d": "-498",
+          "fans_increment_within_30d": "-978",
+          "follower": "341292",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6628849885946839054",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"10\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1538749068\",\"item_id\":\"6608876923835649283\",\"item_publish_time\":\"1538749068\",\"item_title\":\"宣美妆最重要的是眼影，画法做了点小修改！\",\"like_cnt\":\"47\",\"share_cnt\":\"1\",\"vv\":\"5282\"},{\"comment_cnt\":\"13\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1538403838\",\"item_id\":\"6607394170275368206\",\"item_publish_time\":\"1538403838\",\"item_title\":\"国庆快乐鸭#国庆国庆国庆国庆国庆国庆国庆国庆国庆国\",\"like_cnt\":\"66\",\"share_cnt\":\"1\",\"vv\":\"11446\"},{\"comment_cnt\":\"9\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1538230007\",\"item_id\":\"6606647574591966468\",\"item_publish_time\":\"1538230007\",\"item_title\":\"塌鼻梁？没在怕的\",\"like_cnt\":\"91\",\"share_cnt\":\"2\",\"vv\":\"6613\"},{\"comment_cnt\":\"34\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1538136541\",\"item_id\":\"6606246139920387335\",\"item_publish_time\":\"1538136541\",\"item_title\":\"确认过眼神，是真的困了……\",\"like_cnt\":\"116\",\"share_cnt\":\"2\",\"vv\":\"19978\"},{\"comment_cnt\":\"8\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1538036047\",\"item_id\":\"6605814523502791943\",\"item_publish_time\":\"1538036047\",\"item_title\":\"有喜欢宣美的吗？看完快去听Siren，来自追星女孩的倔强......\",\"like_cnt\":\"12\",\"share_cnt\":\"0\",\"vv\":\"2158\"}]",
+          "link_convert_index": "34.47",
+          "link_convert_index_by_industry": "34.47",
+          "link_i_cnt_by_industry": "6",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "22",
+          "link_link_cnt_by_industry": "47",
+          "link_n_cnt_by_industry": "19",
+          "link_recommend_index_by_industry": "31.54",
+          "link_shopping_index": "31.54",
+          "link_spread_index": "31.25",
+          "link_spread_index_by_industry": "31.25",
+          "link_star_index": "45.85",
+          "link_star_index_by_industry": "45.85",
+          "link_user_type_by_industry": "2",
+          "local_lower_threshold_author": "false",
+          "nick_name": "美妆酱",
+          "price_1_20": "9000",
+          "price_20_60": "13500",
+          "province": "",
+          "search_after_view_index_by_industry": "35.28",
+          "star_excellent_author": "0",
+          "star_index": "55.86909177403115",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "1",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [],
+        "star_id": "6628849885946839054",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 9000,
+                "price_extra_info": {},
+                "start_time": "1578229392",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 13500,
+                "price_extra_info": {},
+                "start_time": "1578229392",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "41",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L1",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_14f528573fdbb18b9c55001a3605938e.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "三亚市",
+          "content_theme_labels_180d": "[\"变装造型\",\"时尚妆容\",\"青春发型\",\"中式妆容\",\"创意发型\",\"清透妆容\",\"韩系妆容\",\"夏日妆容\",\"泰式妆容\",\"高颅顶造型\"]",
+          "core_user_id": "60633375382",
+          "e_commerce_enable": "1",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "1",
+          "expected_natural_play_num": "2815",
+          "expected_play_num": "3142",
+          "fans_increment_rate_within_15d": "-0.0020052979476641994",
+          "fans_increment_within_15d": "-243",
+          "fans_increment_within_30d": "5768.76",
+          "follower": "120927",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6840406324275052558",
+          "interact_rate_within_30d": "0.0113",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763284109\",\"item_id\":\"7573247576904993531\",\"item_publish_time\":\"1763284109\",\"item_title\":\"今天只能帅成这样了 明天帅成哪样我再想想办法 #帅哥 #男生化妆\",\"like_cnt\":\"38\",\"share_cnt\":\"2\",\"vv\":\"4788\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763112626\",\"item_id\":\"7572511046201536997\",\"item_publish_time\":\"1763112626\",\"item_title\":\"法式复古批发造型 #美出高级感\",\"like_cnt\":\"23\",\"share_cnt\":\"0\",\"vv\":\"2764\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763024683\",\"item_id\":\"7572133335499149307\",\"item_publish_time\":\"1763024683\",\"item_title\":\"秋冬日杂风拉满 #秋冬日杂\",\"like_cnt\":\"19\",\"share_cnt\":\"0\",\"vv\":\"1589\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762931919\",\"item_id\":\"7571734903085641147\",\"item_publish_time\":\"1762939200\",\"item_title\":\"方圆脸女孩都去试试这个妆 太纯欲少女了吧～#变妆前后 #素人改造\",\"like_cnt\":\"23\",\"share_cnt\":\"1\",\"vv\":\"2700\"},{\"comment_cnt\":\"3\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762765402\",\"item_id\":\"7571019730019881905\",\"item_publish_time\":\"1762765402\",\"item_title\":\"千金感泰式妆造｜又来三亚开课啦～ 超级热情认真的三亚同学们#美妆 #轻泰 #美出高级感\",\"like_cnt\":\"42\",\"share_cnt\":\"9\",\"vv\":\"4171\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762593123\",\"item_id\":\"7570279790327344123\",\"item_publish_time\":\"1762593123\",\"item_title\":\"秋冬美拉德氛围感拉满了 #变妆前后 #素人改造 #化妆变身\",\"like_cnt\":\"17\",\"share_cnt\":\"1\",\"vv\":\"2672\"},{\"comment_cnt\":\"7\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762075806\",\"item_id\":\"7568057931083834233\",\"item_publish_time\":\"1762075806\",\"item_title\":\"睫毛处理#教程\",\"like_cnt\":\"33\",\"share_cnt\":\"4\",\"vv\":\"4816\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761556962\",\"item_id\":\"7565829533933620538\",\"item_publish_time\":\"1761556962\",\"item_title\":\"眼妆教程#贴睫毛#眼线\",\"like_cnt\":\"29\",\"share_cnt\":\"0\",\"vv\":\"2163\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761470571\",\"item_id\":\"7565458480154529061\",\"item_publish_time\":\"1761470571\",\"item_title\":\"饱满前区教程 超级百搭的前区造型#教程\",\"like_cnt\":\"89\",\"share_cnt\":\"1\",\"vv\":\"4558\"},{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761300707\",\"item_id\":\"7564728920730488121\",\"item_publish_time\":\"1761300707\",\"item_title\":\"适合方圆脸女孩的韩式妆造 #水光肌 #美妆 #韩式新娘造型 #变妆前后 #鲜花造型\",\"like_cnt\":\"39\",\"share_cnt\":\"5\",\"vv\":\"4573\"}]",
+          "link_convert_index": "71.05",
+          "link_convert_index_by_industry": "71.05",
+          "link_i_cnt_by_industry": "4023",
+          "link_k_cnt_by_industry": "27",
+          "link_l_cnt_by_industry": "13644",
+          "link_link_cnt_by_industry": "20214",
+          "link_n_cnt_by_industry": "2520",
+          "link_recommend_index_by_industry": "59.51",
+          "link_shopping_index": "59.51",
+          "link_spread_index": "52.62",
+          "link_spread_index_by_industry": "52.62",
+          "link_star_index": "64.01",
+          "link_star_index_by_industry": "64.01",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "花花美妆工作室",
+          "pic_expected_play_num": "323",
+          "play_over_rate_within_30d": "0.0524",
+          "price_1_20": "2100",
+          "price_20_60": "2100",
+          "price_60": "4500",
+          "promotion_prospective_1_20_cpm": "704.46",
+          "promotion_prospective_20_60_cpm": "704.46",
+          "promotion_prospective_60_cpm": "1509.56",
+          "promotion_prospective_vv": "2981",
+          "prospective_1_20_cpm": "668.3641",
+          "prospective_20_60_cpm": "668.3641",
+          "prospective_60_cpm": "1432.2088",
+          "province": "海南省",
+          "search_after_view_index_by_industry": "64.29",
+          "sn_expected_play_num": "3142",
+          "sn_interact_rate_within_30d": "0.0113",
+          "sn_play_over_rate_within_30d": "0.0524",
+          "sn_prospective_1_20_cpe": "55.2632",
+          "sn_prospective_1_20_cpm": "668.3641",
+          "sn_prospective_20_60_cpe": "55.2632",
+          "sn_prospective_20_60_cpm": "668.3641",
+          "sn_prospective_60_cpe": "118.4211",
+          "sn_prospective_60_cpm": "1432.2088",
+          "star_excellent_author": "0",
+          "star_index": "69.04638729896452",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7514996324351135036",
+            "video_tag": 3,
+            "vv": 11798
+          },
+          {
+            "item_id": "7541363811136605499",
+            "video_tag": 3,
+            "vv": 10784
+          },
+          {
+            "item_id": "7539125952103238969",
+            "video_tag": 5,
+            "vv": 10214
+          },
+          {
+            "item_id": "7538742585369218364",
+            "video_tag": 5,
+            "vv": 10085
+          },
+          {
+            "item_id": "7573247576904993531",
+            "video_tag": 6,
+            "vv": 4579
+          },
+          {
+            "item_id": "7572511046201536997",
+            "video_tag": 6,
+            "vv": 2646
+          }
+        ],
+        "star_id": "6840406324275052558",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 1800,
+                "price_extra_info": {},
+                "start_time": "1637469451",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 4500,
+                "price_extra_info": {},
+                "start_time": "1637469451",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 2100,
+                "price_extra_info": {},
+                "start_time": "1637469451",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 2100,
+                "price_extra_info": {},
+                "start_time": "1637469451",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "38",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L0",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_796fa64edf59704f406bcec89c6f5fb3.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "",
+          "core_user_id": "96606221922",
+          "e_commerce_enable": "0",
+          "ecom_video_product_num_30d": "0",
+          "expected_cpa3_level": "4",
+          "fans_increment_rate_within_15d": "-0.0012405803655100808",
+          "fans_increment_within_15d": "-417",
+          "fans_increment_within_30d": "-847",
+          "follower": "335703",
+          "game_type": "",
+          "gender": "1",
+          "grade": "0",
+          "id": "6629658670487568398",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"69\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1647413109\",\"item_id\":\"7075585423212334349\",\"item_publish_time\":\"1647413109\",\"item_title\":\"到底能不能每天洗头？为什么头发越洗越油？每天洗头会导致脱发吗？艾特你的姐妹来看！ #脱发 #科普\",\"like_cnt\":\"479\",\"share_cnt\":\"525\",\"vv\":\"68269\"},{\"comment_cnt\":\"117\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1647314570\",\"item_id\":\"7075162200121298184\",\"item_publish_time\":\"1647314570\",\"item_title\":\"经常戴耳机会“耳聋”吗？据说90%的人都没办法通过这个测试………#冷知识\",\"like_cnt\":\"108\",\"share_cnt\":\"17\",\"vv\":\"7195\"},{\"comment_cnt\":\"40\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1647257911\",\"item_id\":\"7074918850550189348\",\"item_publish_time\":\"1647257911\",\"item_title\":\"坐姿其实早就暴露了你的性格，你是属于哪种坐姿呢？ #女生必看\",\"like_cnt\":\"224\",\"share_cnt\":\"36\",\"vv\":\"18116\"},{\"comment_cnt\":\"3\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1647097906\",\"item_id\":\"7074231635960401159\",\"item_publish_time\":\"1647097906\",\"item_title\":\"女生经常熬夜会变得越来越像男人，是真的吗？#熬夜\",\"like_cnt\":\"27\",\"share_cnt\":\"7\",\"vv\":\"3785\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1646877152\",\"item_id\":\"7073283500966792456\",\"item_publish_time\":\"1646877152\",\"item_title\":\"暗沉、假面、浮粉……学生党到底怎么选择高性价比的粉底液？#粉底液\",\"like_cnt\":\"5\",\"share_cnt\":\"0\",\"vv\":\"2016\"},{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1646649695\",\"item_id\":\"7072306583048310023\",\"item_publish_time\":\"1646649695\",\"item_title\":\"为什么敷完面膜会烂脸？注意里面的增稠剂！#护肤 #面膜\",\"like_cnt\":\"316\",\"share_cnt\":\"76\",\"vv\":\"24188\"},{\"comment_cnt\":\"4\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1645528961\",\"item_id\":\"7067493069238619429\",\"item_publish_time\":\"1645528961\",\"item_title\":\"你到底是不是敏感肌？敏感肌到底怎么选护肤品？#敏感肌 #敏感肌肤修护\",\"like_cnt\":\"36\",\"share_cnt\":\"6\",\"vv\":\"4144\"}]",
+          "link_convert_index": "37.9",
+          "link_convert_index_by_industry": "37.9",
+          "link_i_cnt_by_industry": "101",
+          "link_k_cnt_by_industry": "0",
+          "link_l_cnt_by_industry": "261",
+          "link_link_cnt_by_industry": "417",
+          "link_n_cnt_by_industry": "55",
+          "link_recommend_index_by_industry": "42.77",
+          "link_shopping_index": "42.77",
+          "link_spread_index": "37.56",
+          "link_spread_index_by_industry": "37.56",
+          "link_star_index": "51.07",
+          "link_star_index_by_industry": "51.07",
+          "link_user_type_by_industry": "2",
+          "local_lower_threshold_author": "false",
+          "nick_name": "护肤硕士季学长",
+          "price_1_20": "18000",
+          "price_20_60": "28000",
+          "price_60": "38000",
+          "province": "",
+          "search_after_view_index_by_industry": "42.28",
+          "star_excellent_author": "0",
+          "star_index": "57.97367571097688",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "1",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [],
+        "star_id": "6629658670487568398",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 28000,
+                "price_extra_info": {},
+                "start_time": "1647576413",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 18000,
+                "price_extra_info": {},
+                "start_time": "1647576413",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 38000,
+                "price_extra_info": {},
+                "start_time": "1647576413",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 15200,
+                "price_extra_info": {},
+                "start_time": "1647576413",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "47",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L1",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p3.douyinpic.com/aweme/1080x1080/aweme-avatar/tos-cn-avt-0015_20bdb812a4261821db73daecd26c33da.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "运城市",
+          "content_theme_labels_180d": "[\"个人成长\",\"传统美食\",\"自制美食\",\"家庭美食\",\"家庭生活记录\",\"清洁技巧\",\"家常菜谱\",\"创业经历\",\"旅行特色体验\",\"地方旅行资讯\"]",
+          "core_user_id": "68258142112",
+          "e_commerce_enable": "1",
+          "ecom_score": "82",
+          "ecom_video_ctr_30d_range": "6%-8%",
+          "ecom_video_mid_click_pv_30d_range": "500以下",
+          "ecom_video_product_num_30d": "3",
+          "expected_cpa3_level": "1",
+          "expected_natural_play_num": "3337",
+          "expected_play_num": "3609",
+          "fans_increment_rate_within_15d": "-0.0010586371290329456",
+          "fans_increment_within_15d": "-149",
+          "fans_increment_within_30d": "4914.5",
+          "follower": "140612",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6861554596448305152",
+          "interact_rate_within_30d": "0.0144",
+          "interaction_median_30d": "28",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763295857\",\"item_id\":\"7573298032332445105\",\"item_publish_time\":\"1763295857\",\"item_title\":\"在#芒市遇见温暖、慷慨、热情好客的民宿老板\",\"like_cnt\":\"48\",\"share_cnt\":\"7\",\"vv\":\"5785\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763210787\",\"item_id\":\"7572932655038171834\",\"item_publish_time\":\"1763210787\",\"item_title\":\"云南共有四条大干线#云南#干线\",\"like_cnt\":\"20\",\"share_cnt\":\"0\",\"vv\":\"2063\"},{\"comment_cnt\":\"15\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763162247\",\"item_id\":\"7572724158187403441\",\"item_publish_time\":\"1763162247\",\"item_title\":\"千万不要来云南！为什么？#云南#莫里热带雨林\",\"like_cnt\":\"70\",\"share_cnt\":\"7\",\"vv\":\"4105\"},{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763043530\",\"item_id\":\"7572214285063259322\",\"item_publish_time\":\"1763043530\",\"item_title\":\"#丙午村赶集 #芒市\",\"like_cnt\":\"27\",\"share_cnt\":\"0\",\"vv\":\"1542\"},{\"comment_cnt\":\"30\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1763008423\",\"item_id\":\"7572063500877789369\",\"item_publish_time\":\"1763008423\",\"item_title\":\"#芒市#一车六人15天晃荡云南之芒市\",\"like_cnt\":\"101\",\"share_cnt\":\"12\",\"vv\":\"5699\"},{\"comment_cnt\":\"4\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762752602\",\"item_id\":\"7570964763786873777\",\"item_publish_time\":\"1762752602\",\"item_title\":\"#你被逼着干过什么 #艳艳美妆#河津\",\"like_cnt\":\"47\",\"share_cnt\":\"3\",\"vv\":\"2362\"},{\"comment_cnt\":\"5\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762648851\",\"item_id\":\"7570519156668535921\",\"item_publish_time\":\"1762648851\",\"item_title\":\"#冬木古雨#买一送一#河津#艳艳美妆\",\"like_cnt\":\"21\",\"share_cnt\":\"0\",\"vv\":\"2306\"},{\"comment_cnt\":\"4\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762557189\",\"item_id\":\"7570125444558176497\",\"item_publish_time\":\"1762557189\",\"item_title\":\"#若想口袋不空，又岂能脑袋空空？#艳艳美妆\",\"like_cnt\":\"40\",\"share_cnt\":\"1\",\"vv\":\"3788\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762475167\",\"item_id\":\"7569773174444903909\",\"item_publish_time\":\"1762475167\",\"item_title\":\"#专业#专注#皮肤管理 #河津#艳艳美妆\",\"like_cnt\":\"55\",\"share_cnt\":\"1\",\"vv\":\"4250\"},{\"comment_cnt\":\"7\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762335508\",\"item_id\":\"7569173359154589883\",\"item_publish_time\":\"1762335508\",\"item_title\":\"接睫毛送美甲#美睫#美睫团购\",\"like_cnt\":\"39\",\"share_cnt\":\"17\",\"vv\":\"3854\"}]",
+          "link_convert_index": "72.84",
+          "link_convert_index_by_industry": "72.84",
+          "link_i_cnt_by_industry": "7076",
+          "link_k_cnt_by_industry": "76",
+          "link_l_cnt_by_industry": "25620",
+          "link_link_cnt_by_industry": "39542",
+          "link_n_cnt_by_industry": "6770",
+          "link_recommend_index_by_industry": "68.11",
+          "link_shopping_index": "68.11",
+          "link_spread_index": "60.42",
+          "link_spread_index_by_industry": "60.42",
+          "link_star_index": "69.33",
+          "link_star_index_by_industry": "69.33",
+          "link_user_type_by_industry": "2",
+          "local_lower_threshold_author": "false",
+          "nick_name": "艳艳美妆（斑痘痣）",
+          "pic_expected_play_num": "327",
+          "play_over_rate_within_30d": "0.0373",
+          "price_1_20": "1000",
+          "price_20_60": "2000",
+          "promotion_prospective_1_20_cpm": "285.31",
+          "promotion_prospective_20_60_cpm": "570.61",
+          "promotion_prospective_vv": "3505",
+          "prospective_1_20_cpm": "277.0851",
+          "prospective_20_60_cpm": "554.1701",
+          "province": "山西省",
+          "search_after_view_index_by_industry": "63.49",
+          "sn_expected_play_num": "3609",
+          "sn_interact_rate_within_30d": "0.0144",
+          "sn_play_over_rate_within_30d": "0.0373",
+          "sn_prospective_1_20_cpe": "18.8679",
+          "sn_prospective_1_20_cpm": "277.0851",
+          "sn_prospective_20_60_cpe": "37.7358",
+          "sn_prospective_20_60_cpm": "554.1701",
+          "star_excellent_author": "0",
+          "star_index": "72.97570408817114",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "1",
+          "tags_relation": "{\"生活\":[\"其他\"]}",
+          "vv_median_30d": "2298"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7522730231485254931",
+            "video_tag": 3,
+            "vv": 13376
+          },
+          {
+            "item_id": "7509772356744973580",
+            "video_tag": 3,
+            "vv": 13154
+          },
+          {
+            "item_id": "7563243926203845946",
+            "video_tag": 5,
+            "vv": 12635
+          },
+          {
+            "item_id": "7525997747066785078",
+            "video_tag": 5,
+            "vv": 10880
+          },
+          {
+            "item_id": "7573298032332445105",
+            "video_tag": 6,
+            "vv": 4621
+          },
+          {
+            "item_id": "7572932655038171834",
+            "video_tag": 6,
+            "vv": 1736
+          }
+        ],
+        "star_id": "6861554596448305152",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 2000,
+                "price_extra_info": {},
+                "start_time": "1604671184",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 1000,
+                "price_extra_info": {},
+                "start_time": "1604671184",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      },
+      {
+        "attribute_datas": {
+          "assign_cpm_suggest_price": "39",
+          "author_avatar_frame_icon": "0",
+          "author_ecom_level": "L1",
+          "author_status": "1",
+          "author_thin_mid_word_association_index": "{}",
+          "author_type": "1",
+          "avatar_uri": "https://p11.douyinpic.com/aweme/1080x1080/aweme-avatar/mosaic-legacy_bddb0007bfa9894e49a4.jpeg?from=4010531038",
+          "brand_boost_vv": "0",
+          "city": "",
+          "content_theme_labels_180d": "[\"口红测评\",\"眼妆教程\",\"眼线教程\",\"秋冬妆容\",\"防水彩妆\"]",
+          "core_user_id": "104448486672",
+          "e_commerce_enable": "1",
+          "ecom_video_ctr_30d_range": "2%以下",
+          "ecom_video_mid_click_pv_30d_range": "500以下",
+          "ecom_video_product_num_30d": "6",
+          "expected_cpa3_level": "2",
+          "expected_natural_play_num": "1092",
+          "expected_play_num": "1187",
+          "fans_increment_rate_within_15d": "-0.0015174688428223006",
+          "fans_increment_within_15d": "-634",
+          "fans_increment_within_30d": "-1278",
+          "follower": "417162",
+          "game_type": "",
+          "gender": "2",
+          "grade": "0",
+          "id": "6675545309575118860",
+          "interact_rate_within_30d": "0.007",
+          "is_ad_star_cur_high_quality_author": "0",
+          "is_black_horse_author": "false",
+          "is_cocreate_author": "false",
+          "is_cpm_project_author": "0",
+          "is_excellenct_author": "0",
+          "is_short_drama": "0",
+          "last_10_items": "[{\"comment_cnt\":\"2\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762865564\",\"item_id\":\"7571449937649966074\",\"item_publish_time\":\"1762875000\",\"item_title\":\"新手一看就会的眼线画法#新手画眼线教程\",\"like_cnt\":\"13\",\"share_cnt\":\"0\",\"vv\":\"2916\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762865357\",\"item_id\":\"7571449041420342449\",\"item_publish_time\":\"1762873200\",\"item_title\":\"双眼皮松弛下垂这样贴#双眼皮贴教程\",\"like_cnt\":\"4\",\"share_cnt\":\"0\",\"vv\":\"1327\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762865039\",\"item_id\":\"7571447681035296955\",\"item_publish_time\":\"1762872180\",\"item_title\":\"新手一字眉快速画法#眉毛教程 #眉笔\",\"like_cnt\":\"12\",\"share_cnt\":\"1\",\"vv\":\"3198\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762864877\",\"item_id\":\"7571446986219402105\",\"item_publish_time\":\"1762864877\",\"item_title\":\"既是口红又是润唇膏  关键不粘杯不掉色，千人千色#口红推荐\",\"like_cnt\":\"4\",\"share_cnt\":\"0\",\"vv\":\"616\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762864336\",\"item_id\":\"7571444660586274555\",\"item_publish_time\":\"1762864336\",\"item_title\":\"秋冬季节必备温感变色口红  既是润唇膏又是口红，关键不粘杯不掉色哦#口红试色\",\"like_cnt\":\"2\",\"share_cnt\":\"0\",\"vv\":\"544\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762614625\",\"item_id\":\"7570372160141989285\",\"item_publish_time\":\"1762614625\",\"item_title\":\"秋冬显白显气质必入，滋润不粘杯不掉色#口红 #02蓝色妖姬\",\"like_cnt\":\"16\",\"share_cnt\":\"0\",\"vv\":\"2773\"},{\"comment_cnt\":\"1\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1762614437\",\"item_id\":\"7570371356387246714\",\"item_publish_time\":\"1762614437\",\"item_title\":\"不化妆 裸妆的姐妹秋冬必备色02#蔷薇之泪#口红试色\",\"like_cnt\":\"3\",\"share_cnt\":\"0\",\"vv\":\"887\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761890700\",\"item_id\":\"7567262910743225083\",\"item_publish_time\":\"1761890700\",\"item_title\":\"新手一看就会的自然百搭眼线画法#眼线教程\",\"like_cnt\":\"12\",\"share_cnt\":\"0\",\"vv\":\"3170\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761890451\",\"item_id\":\"7567261842818915429\",\"item_publish_time\":\"1761890451\",\"item_title\":\"一看就会的画眉教程#画眉教程 #新手画眉教程\",\"like_cnt\":\"39\",\"share_cnt\":\"3\",\"vv\":\"5607\"},{\"comment_cnt\":\"0\",\"is_high_quality_item\":\"0\",\"item_create_time\":\"1761838526\",\"item_id\":\"7567038801584663985\",\"item_publish_time\":\"1761838526\",\"item_title\":\"温感变色口红秋冬季用起来哦滋润不粘杯#变色口红 #口红试色 #口红推荐\",\"like_cnt\":\"4\",\"share_cnt\":\"0\",\"vv\":\"1149\"}]",
+          "link_convert_index": "57.57",
+          "link_convert_index_by_industry": "57.57",
+          "link_i_cnt_by_industry": "5373",
+          "link_k_cnt_by_industry": "3",
+          "link_l_cnt_by_industry": "30710",
+          "link_link_cnt_by_industry": "37601",
+          "link_n_cnt_by_industry": "1515",
+          "link_recommend_index_by_industry": "67.36",
+          "link_shopping_index": "67.36",
+          "link_spread_index": "56.52",
+          "link_spread_index_by_industry": "56.52",
+          "link_star_index": "64.69",
+          "link_star_index_by_industry": "64.69",
+          "link_user_type_by_industry": "1",
+          "local_lower_threshold_author": "false",
+          "nick_name": "ZUZK美妆",
+          "pic_expected_play_num": "16",
+          "play_over_rate_within_30d": "0.1653",
+          "price_1_20": "8800",
+          "price_20_60": "9000",
+          "price_60": "10000",
+          "promotion_prospective_1_20_cpm": "8255.16",
+          "promotion_prospective_20_60_cpm": "8442.78",
+          "promotion_prospective_60_cpm": "9380.86",
+          "promotion_prospective_vv": "1066",
+          "prospective_1_20_cpm": "7413.6479",
+          "prospective_20_60_cpm": "7582.1398",
+          "prospective_60_cpm": "8424.5998",
+          "province": "",
+          "search_after_view_index_by_industry": "55.14",
+          "sn_expected_play_num": "1187",
+          "sn_interact_rate_within_30d": "0.007",
+          "sn_play_over_rate_within_30d": "0.1653",
+          "sn_prospective_1_20_cpe": "1100",
+          "sn_prospective_1_20_cpm": "7413.6479",
+          "sn_prospective_20_60_cpe": "1125",
+          "sn_prospective_20_60_cpm": "7582.1398",
+          "sn_prospective_60_cpe": "1250",
+          "sn_prospective_60_cpm": "8424.5998",
+          "star_excellent_author": "0",
+          "star_index": "70.17918951907481",
+          "star_qianchuan_high_potential": "0",
+          "star_whispers_author": "0",
+          "tags_relation": "{\"时尚\":[\"穿搭\"]}"
+        },
+        "extra_data": {
+          "content_query_from_word": "",
+          "content_query_score": 0,
+          "debug_info": "",
+          "demander_behavior": {
+            "added_author_list": false,
+            "cooperated": false,
+            "viewd_author_page": false
+          },
+          "recall_from": [
+            "1_0"
+          ],
+          "recall_return_infos": {},
+          "recommend_types": []
+        },
+        "items": [
+          {
+            "item_id": "7564797596834581797",
+            "video_tag": 3,
+            "vv": 27002
+          },
+          {
+            "item_id": "7566640917781895674",
+            "video_tag": 3,
+            "vv": 5538
+          },
+          {
+            "item_id": "7567261842818915429",
+            "video_tag": 5,
+            "vv": 4431
+          },
+          {
+            "item_id": "7564796261447159077",
+            "video_tag": 5,
+            "vv": 3353
+          },
+          {
+            "item_id": "7571449937649966074",
+            "video_tag": 6,
+            "vv": 2612
+          },
+          {
+            "item_id": "7571449041420342449",
+            "video_tag": 6,
+            "vv": 1075
+          }
+        ],
+        "star_id": "6675545309575118860",
+        "task_infos": [
+          {
+            "online_status": 1,
+            "platform_source": 1,
+            "price_infos": [
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 10000,
+                "price_extra_info": {},
+                "start_time": "1661056598",
+                "task_category": 1,
+                "video_type": 71,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 9000,
+                "price_extra_info": {},
+                "start_time": "1661056598",
+                "task_category": 1,
+                "video_type": 2,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 8800,
+                "price_extra_info": {},
+                "start_time": "1661056598",
+                "task_category": 1,
+                "video_type": 1,
+                "video_type_status": 1
+              },
+              {
+                "end_time": "2145916800",
+                "platform_source": 1,
+                "price": 4000,
+                "price_extra_info": {},
+                "start_time": "1661056598",
+                "task_category": 1,
+                "video_type": 91,
+                "video_type_status": 1
+              }
+            ],
+            "task_category": 1,
+            "task_status": 1
+          }
+        ]
+      }
+    ],
+    "base_resp": {
+      "status_code": 0,
+      "status_message": ""
+    },
+    "extra_data": {
+      "is_cpm_project_search": false,
+      "search_author_count": 0,
+      "search_item_count": 0,
+      "search_session_id": "7573939121048797211"
+    },
+    "pagination": {
+      "has_more": true,
+      "limit": 20,
+      "page": 4,
+      "total_count": 4135
+    }
+  }
+}
