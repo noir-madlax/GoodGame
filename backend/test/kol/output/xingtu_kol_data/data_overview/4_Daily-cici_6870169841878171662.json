@@ -1,0 +1,88 @@
+{
+  "kol_info": {
+    "rank": 4,
+    "name": "Daily-cici",
+    "xingtu_kol_id": "6870169841878171662",
+    "nick_name": "Daily-cici",
+    "fans_count": 1435293
+  },
+  "interface": "data_overview",
+  "timestamp": "2025-11-18T16:26:33.364938",
+  "success": true,
+  "result": {
+    "code": 200,
+    "request_id": "bfe2600b-57d6-49c4-9528-4995e8953147",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-18 00:26:33",
+    "time_stamp": 1763454393,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_data_overview_v1_api_v1_douyin_xingtu_kol_data_overview_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/bfe2600b-57d6-49c4-9528-4995e8953147?sign=3a7809acbec2bc48e5a0400094215f9128e4b6dc54e74d7f0dd68c627456df43",
+    "router": "/api/v1/douyin/xingtu/kol_data_overview_v1",
+    "params": {
+      "kolId": "6870169841878171662",
+      "_type": "_1",
+      "_range": "_2",
+      "flowType": "1"
+    },
+    "data": {
+      "avg_duration": "27764",
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "comment_avg": "1506",
+      "expect_cpe": {
+        "cpe_1_20": "1708",
+        "cpe_21_60": "2365",
+        "cpe_60": "3417"
+      },
+      "expect_cpm": {
+        "cpm_1_20": "44956",
+        "cpm_21_60": "62247",
+        "cpm_60": "89912"
+      },
+      "interact_rate": {
+        "label": "美妆",
+        "overtake": 9329,
+        "value": 803
+      },
+      "item_num": "1",
+      "item_rate": {
+        "interact_rate": {},
+        "item_num": {
+          "label": "",
+          "overtake": 5000,
+          "value": 1
+        },
+        "play_mid": {
+          "label": "",
+          "overtake": 9932,
+          "value": 249373
+        }
+      },
+      "like_avg": "17875",
+      "play_mid": "249373",
+      "play_over_rate": {
+        "label": "美妆",
+        "overtake": 3145,
+        "value": 269
+      },
+      "play_stability": {
+        "label": "美妆",
+        "overtake": 9947,
+        "value": 821637
+      },
+      "sales_expect_cpm": {
+        "cpm_1_20": "46319",
+        "cpm_21_60": "64133",
+        "cpm_60": "92637"
+      },
+      "share_avg": "647"
+    }
+  }
+}
