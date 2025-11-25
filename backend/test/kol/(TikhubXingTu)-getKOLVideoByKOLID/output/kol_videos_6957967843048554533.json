@@ -1,0 +1,35 @@
+{
+  "kol_info": {
+    "kol_id": "6957967843048554533",
+    "kol_name": "一好护肤",
+    "fans_count": 153328
+  },
+  "fetched_at": "2025-11-24 18:20:33",
+  "api_response": {
+    "code": 200,
+    "request_id": "0cabcbf9-84c2-49fa-8891-407b98db7368",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-24 02:20:33",
+    "time_stamp": 1763979633,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_rec_videos_v1_api_v1_douyin_xingtu_kol_rec_videos_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/0cabcbf9-84c2-49fa-8891-407b98db7368?sign=a063916393e4c560374dfcac24f9863279727380c34657ad70cbb0e6cbfb9acc",
+    "router": "/api/v1/douyin/xingtu/kol_rec_videos_v1",
+    "params": {
+      "kolId": "6957967843048554533",
+      "count": "10",
+      "cursor": "0"
+    },
+    "data": {
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "masterpiece_videos": []
+    }
+  }
+}

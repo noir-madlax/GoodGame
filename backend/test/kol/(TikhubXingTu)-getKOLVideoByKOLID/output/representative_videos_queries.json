@@ -1,0 +1,200 @@
+{
+  "generated_at": "2025-11-24",
+  "description": "为9个腰部护肤KOL生成代表性视频查询，每人4条（每种类型2条）",
+  "tag_mapping": {
+    "masterpiece": 3,
+    "hot": 5,
+    "newest": 6
+  },
+  "queries": [
+    {
+      "kol_id": "6852500018742427651",
+      "kol_name": "欧阳白浅专供高端美容院护肤工厂源头",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6852500018742427651' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6852500018742427651",
+      "kol_name": "欧阳白浅专供高端美容院护肤工厂源头",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6852500018742427651' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6852500018742427651",
+      "kol_name": "欧阳白浅专供高端美容院护肤工厂源头",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6852500018742427651' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6957967843048554533",
+      "kol_name": "一好护肤",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6957967843048554533' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6957967843048554533",
+      "kol_name": "一好护肤",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6957967843048554533' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6957967843048554533",
+      "kol_name": "一好护肤",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6957967843048554533' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6870161674108665870",
+      "kol_name": "影子爱护肤",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6870161674108665870' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6870161674108665870",
+      "kol_name": "影子爱护肤",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6870161674108665870' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6870161674108665870",
+      "kol_name": "影子爱护肤",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6870161674108665870' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7004243194900643871",
+      "kol_name": "李拜天（败家版）",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7004243194900643871' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7004243194900643871",
+      "kol_name": "李拜天（败家版）",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7004243194900643871' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7004243194900643871",
+      "kol_name": "李拜天（败家版）",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7004243194900643871' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7097417916731260958",
+      "kol_name": "诗诗爱护肤",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7097417916731260958' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7097417916731260958",
+      "kol_name": "诗诗爱护肤",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7097417916731260958' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7097417916731260958",
+      "kol_name": "诗诗爱护肤",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7097417916731260958' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7279399698954190885",
+      "kol_name": "安神-护肤",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7279399698954190885' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7279399698954190885",
+      "kol_name": "安神-护肤",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7279399698954190885' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7279399698954190885",
+      "kol_name": "安神-护肤",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7279399698954190885' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6744563381727920141",
+      "kol_name": "护肤 问莫嫡",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6744563381727920141' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6744563381727920141",
+      "kol_name": "护肤 问莫嫡",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6744563381727920141' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "6744563381727920141",
+      "kol_name": "护肤 问莫嫡",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '6744563381727920141' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7489955985092509706",
+      "kol_name": "植唯安护肤",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7489955985092509706' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7489955985092509706",
+      "kol_name": "植唯安护肤",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7489955985092509706' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7489955985092509706",
+      "kol_name": "植唯安护肤",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7489955985092509706' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7135664853816967181",
+      "kol_name": "蔡蔡教护肤",
+      "api_label": "masterpiece",
+      "db_tag": 3,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7135664853816967181' AND video_tag = 3\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7135664853816967181",
+      "kol_name": "蔡蔡教护肤",
+      "api_label": "hot",
+      "db_tag": 5,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7135664853816967181' AND video_tag = 5\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    },
+    {
+      "kol_id": "7135664853816967181",
+      "kol_name": "蔡蔡教护肤",
+      "api_label": "newest",
+      "db_tag": 6,
+      "query": "SELECT item_id, item_title, like_cnt, vv, item_publish_time, video_tag\n            FROM gg_xingtu_kol_videos\n            WHERE kol_id = '7135664853816967181' AND video_tag = 6\n            ORDER BY vv DESC, like_cnt DESC\n            LIMIT 2;"
+    }
+  ]
+}

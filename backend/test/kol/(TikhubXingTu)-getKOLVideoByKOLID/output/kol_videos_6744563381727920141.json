@@ -1,0 +1,35 @@
+{
+  "kol_info": {
+    "kol_id": "6744563381727920141",
+    "kol_name": "护肤 问莫嫡",
+    "fans_count": 594038
+  },
+  "fetched_at": "2025-11-24 18:21:20",
+  "api_response": {
+    "code": 200,
+    "request_id": "c34169b7-f084-422b-a41e-97d13c968b53",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-24 02:21:20",
+    "time_stamp": 1763979680,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/kol_rec_videos_v1_api_v1_douyin_xingtu_kol_rec_videos_v1_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/c34169b7-f084-422b-a41e-97d13c968b53?sign=0cfb075ca6980a97a6a595732f7c76953d4e43a805c3d3988b422cbaeae7abc6",
+    "router": "/api/v1/douyin/xingtu/kol_rec_videos_v1",
+    "params": {
+      "kolId": "6744563381727920141",
+      "count": "10",
+      "cursor": "0"
+    },
+    "data": {
+      "base_resp": {
+        "status_code": 0,
+        "status_message": ""
+      },
+      "masterpiece_videos": []
+    }
+  }
+}

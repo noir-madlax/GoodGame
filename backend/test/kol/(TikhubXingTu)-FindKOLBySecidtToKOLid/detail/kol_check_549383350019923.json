@@ -1,0 +1,36 @@
+{
+  "user_info": {
+    "uid": "549383350019923",
+    "sec_uid": "MS4wLjABAAAAGhB17koVMyLClUewMt-KyHGwmKpNuhr1d93StLnfmFU",
+    "nickname": "皮肤科杨希川教授",
+    "follower_count": 113414,
+    "source_file": "video_search_page_7_20251124_164013.json"
+  },
+  "api_response": {
+    "code": 200,
+    "request_id": "9906f632-8603-4e5e-b965-2983c1788b0e",
+    "message": "Request successful. This request will incur a charge.",
+    "message_zh": "请求成功，本次请求将被计费。",
+    "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+    "time": "2025-11-24 00:57:45",
+    "time_stamp": 1763974665,
+    "time_zone": "America/Los_Angeles",
+    "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/get_xingtu_kolid_by_sec_user_id_api_v1_douyin_xingtu_get_xingtu_kolid_by_sec_user_id_get",
+    "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+    "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+    "cache_url": "https://cache.tikhub.io/api/v1/cache/public/9906f632-8603-4e5e-b965-2983c1788b0e?sign=b9f42d4fb3f96195b8df022517a3accce09ba7ebb9cc7c3dabb71fb83d366c00",
+    "router": "/api/v1/douyin/xingtu/get_xingtu_kolid_by_sec_user_id",
+    "params": {
+      "sec_user_id": "MS4wLjABAAAAGhB17koVMyLClUewMt-KyHGwmKpNuhr1d93StLnfmFU"
+    },
+    "data": {
+      "status_code": 10005,
+      "status_message": "User does not exist or has not joined Xingtu",
+      "status_message_zh": "用户不存在或未加入星图"
+    }
+  },
+  "is_kol": false,
+  "kol_id": null,
+  "checked_at": "2025-11-24 16:57:45",
+  "status_code": 200
+}
