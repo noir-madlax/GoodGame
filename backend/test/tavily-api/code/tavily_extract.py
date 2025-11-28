@@ -37,17 +37,29 @@ INCLUDE_FAVICON = False
 
 # 超时时间 (秒)
 # Default: 10s for basic, 30s for advanced
-TIMEOUT = 30.0
+TIMEOUT = 60.0
 
 # ==========================================
 
-# 输出目录
-OUTPUT_DIR = "../output/新星_护肤_抖音_网红达人_extract"
-# 搜索结果文件路径 (作为输入)
-INPUT_SEARCH_RESULT = "../output/response_formatted.json"
+# 输出目录配置（基于查询词，与search脚本保持一致）
+# 这里需要从BochaAI结果中读取查询词，或者手动指定
+QUERY = "新星护肤保养的网红达人在抖音平台上的"  # BochaAI查询词
+SAFE_QUERY_DIR = "".join(c if c.isalnum() or c in " " else "_" for c in QUERY).strip().replace(" ", "_")[:50]
+
+OUTPUT_BASE_DIR = f"/Users/rigel/project/hdl-tikhub-goodgame/backend/test/tavily-api/output/{SAFE_QUERY_DIR}"
+EXTRACT_OUTPUT_DIR = f"{OUTPUT_BASE_DIR}/extract"
+
+print(f"输出基础目录: {OUTPUT_BASE_DIR}")
+print(f"提取输出目录: {EXTRACT_OUTPUT_DIR}")
+
+# 确保基础输出目录存在
+os.makedirs(OUTPUT_BASE_DIR, exist_ok=True)
+
+# BochaAI 结果文件路径 (作为输入)
+INPUT_BOCHA_RESULT = "/Users/rigel/project/hdl-tikhub-goodgame/backend/test/bocha-api/output/新星护肤保养的网红达人在抖音平台上的/result.json"
 
 # 确保输出目录存在
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.makedirs(EXTRACT_OUTPUT_DIR, exist_ok=True)
 
 if not API_KEY:
     print("Error: TAVILY_API_KEY not found in environment variables.")
@@ -71,25 +83,27 @@ def get_safe_filename(url):
     return "".join(c if c.isalnum() or c in "_-" else "_" for c in safe_name)[:50]
 
 def run_extraction():
-    # 1. 读取搜索结果
-    if not os.path.exists(INPUT_SEARCH_RESULT):
-        print(f"Error: Input file {INPUT_SEARCH_RESULT} not found. Please run 'Tavily Search.py' first.")
+    # 1. 读取BochaAI搜索结果
+    if not os.path.exists(INPUT_BOCHA_RESULT):
+        print(f"Error: Input file {INPUT_BOCHA_RESULT} not found.")
         return
 
-    print(f"Reading URLs from: {INPUT_SEARCH_RESULT}")
-    with open(INPUT_SEARCH_RESULT, "r", encoding="utf-8") as f:
-        search_data = json.load(f)
-    
-    results = search_data.get("results", [])
-    if not results:
-        print("No results found in search data.")
+    print(f"Reading URLs from: {INPUT_BOCHA_RESULT}")
+    with open(INPUT_BOCHA_RESULT, "r", encoding="utf-8") as f:
+        bocha_data = json.load(f)
+
+    # 提取webPages.value中的结果
+    web_pages = bocha_data.get("data", {}).get("webPages", {}).get("value", [])
+    if not web_pages:
+        print("No web pages found in BochaAI data.")
         return
 
-    urls_to_extract = [res["url"] for res in results]
+    urls_to_extract = [page["url"] for page in web_pages if page.get("url")]
     
     print("开始提取网页内容...")
     print(f"Params: depth={EXTRACT_DEPTH}, format={FORMAT}")
     print(f"共需处理 {len(urls_to_extract)} 个URL")
+    print(f"结果将保存到: {EXTRACT_OUTPUT_DIR}")
     print("-" * 50)
 
     successful_extractions = 0
@@ -113,12 +127,12 @@ def run_extraction():
             filename_base = get_safe_filename(url)
             
             # 保存原始返回数据
-            raw_filename = os.path.join(OUTPUT_DIR, f"{filename_base}_raw.json")
+            raw_filename = os.path.join(EXTRACT_OUTPUT_DIR, f"{filename_base}_raw.json")
             with open(raw_filename, "w", encoding="utf-8") as f:
                 json.dump(response, f, ensure_ascii=False)
 
             # 保存格式化的JSON数据
-            formatted_filename = os.path.join(OUTPUT_DIR, f"{filename_base}_formatted.json")
+            formatted_filename = os.path.join(EXTRACT_OUTPUT_DIR, f"{filename_base}_formatted.json")
             with open(formatted_filename, "w", encoding="utf-8") as f:
                 json.dump(response, f, ensure_ascii=False, indent=2)
 
@@ -126,9 +140,11 @@ def run_extraction():
             if response.get('results') and len(response['results']) > 0:
                 result = response['results'][0]
                 if result.get('raw_content'):
-                    text_filename = os.path.join(OUTPUT_DIR, f"{filename_base}_content.md")
+                    # 从BochaAI数据中获取标题
+                    title = web_pages[i-1].get('name', 'No Title') if i-1 < len(web_pages) else 'No Title'
+                    text_filename = os.path.join(EXTRACT_OUTPUT_DIR, f"{filename_base}_content.md")
                     with open(text_filename, "w", encoding="utf-8") as f:
-                        f.write(f"# {search_data.get('results')[i-1].get('title', 'No Title')}\n\n") # Use title from search result as fallback/header
+                        f.write(f"# {title}\n\n")
                         f.write(f"**URL:** {url}\n\n")
                         f.write("---\n\n")
                         f.write(result['raw_content'])
@@ -146,7 +162,7 @@ def run_extraction():
             print(f"  错误信息: {str(e)}")
             
             # 记录错误
-            error_log = os.path.join(OUTPUT_DIR, "extraction_errors.log")
+            error_log = os.path.join(EXTRACT_OUTPUT_DIR, "extraction_errors.log")
             with open(error_log, "a", encoding="utf-8") as f:
                 f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {url} - {str(e)}\n")
 
@@ -154,7 +170,7 @@ def run_extraction():
     print("提取完成!")
     print(f"成功: {successful_extractions} 个")
     print(f"失败: {failed_extractions} 个")
-    print(f"结果保存在: {OUTPUT_DIR}")
+    print(f"结果保存在: {EXTRACT_OUTPUT_DIR}")
 
 if __name__ == "__main__":
     run_extraction()

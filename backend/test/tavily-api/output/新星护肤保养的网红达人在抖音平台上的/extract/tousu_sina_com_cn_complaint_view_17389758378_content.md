@@ -1,0 +1,261 @@
+# 投诉抖音里的商家宝萃缇院线护肤_黑猫投诉_新浪网
+
+**URL:** https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793
+
+---
+
+投诉抖音里的商家宝萃缇院线护肤_电商投诉、网购投诉_黑猫投诉_新浪网
+
+===============
+
+[315黑猫投诉-新浪旗下消费者服务平台](https://tousu.sina.com.cn/ "315黑猫投诉-新浪旗下消费者服务平台")
+=======================================================================
+
+[消息](javascript:;)
+
+[注册](https://login.sina.com.cn/signup/signup?entry=sports)
+
+[![Image 1](https://i.sso.sina.com.cn/images/login/thumb_default.png)登录](javascript:;)
+
+[×](javascript:;)
+
+新浪微博、博客、邮箱账号，请直接登录
+
+*   加载中...[换个账号登录](javascript:;)
+*   [×](javascript:;)
+
+*    ![Image 2: 看不清？换一换](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[](javascript:; "看不清？换一换")[](javascript:;)
+
+*   [登录](javascript:;) - [x] 下次自动登录 
+*   [忘记密码](https://login.sina.com.cn/getpass.html)[立即注册](https://login.sina.com.cn/signup/signup.php?entry=finance)
+*   [使用QQ登录](https://passport.weibo.com/othersitebind/authorize?site=qq&wl=1&entry=finance&callback=https%3A%2F%2Ftousu.sina.com.cn%2Fcomplaint%2Fview%2F17389758378%3Fsld%3D8632a2e3cc47f0deed6eae203153a793)
+
+请用最新版微博客户端扫码
+
+[![Image 3](https://i.sso.sina.com.cn/images/login/td.png)](javascript:;)
+
+![Image 4](https://i.sso.sina.com.cn/images/login/pre_loading.gif)
+
+![Image 5](https://i.sso.sina.com.cn/images/login/weibo_how_ot.png)
+
+扫描成功！
+
+点击手机上的确认即可登录
+
+投诉
+
+投诉
+
+商家
+
+展示近 30天 数据
+
+[_0_ 消息](https://tousu.sina.com.cn/user/message)
+
+*   [首页](https://tousu.sina.com.cn/ "投诉")
+*   [集体投诉](https://tousu.sina.com.cn/grp_comp/index "集体投诉")
+*   [红黑榜](https://tousu.sina.com.cn/top_rank/index_n)
+*   [商家列表](https://tousu.sina.com.cn/company/index)
+*   [帮帮团](https://tousu.sina.com.cn/jury/index)
+*   [热点追踪](https://tousu.sina.com.cn/articles/index)
+
+[首页](https://tousu.sina.com.cn/ "投诉")>详情
+
+投诉抖音里的商家宝萃缇院线护肤
+===============
+
+![Image 6](https://n.sinaimg.cn/finance/235fa465/20230314/1.png)友爱喵 发布于 2025年11月08日 15:54
+
+*   投诉编号  17389758378
+*   投诉对象 [抖音电商售后官方客服](https://jiangsu.tousu.sina.com.cn/company/view/?couid=6020086612)
+*   使用服务 抖音商城
+*   投诉问题  护肤品用后发痒发红
+*   投诉要求  退货退款,道歉,下架产品
+*   涉诉金额  369元
+*   投诉进度 **投诉已完成**
+
+0[0](https://comment5.news.sina.com.cn/comment/skin/default.html?channel=tousu&newsid=tousu_complaint_42554012) 0 
+*   [微博](https://service.weibo.com/share/share.php?url=https%3A%2F%2Ftousu.sina.com.cn%2Fcomplaint%2Fview%2F17389758378%3Fsld%3D8632a2e3cc47f0deed6eae203153a793&title=%E6%8A%95%E8%AF%89%E6%8A%96%E9%9F%B3%E9%87%8C%E7%9A%84%E5%95%86%E5%AE%B6%E5%AE%9D%E8%90%83%E7%BC%87%E9%99%A2%E7%BA%BF%E6%8A%A4%E8%82%A4&pic=)
+*   [微信](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)
+*   [QQ](https://connect.qq.com/widget/shareqq/index.html?url=https%3A%2F%2Ftousu.sina.com.cn%2Fcomplaint%2Fview%2F17389758378%3Fsld%3D8632a2e3cc47f0deed6eae203153a793&desc=&title=%E6%8A%95%E8%AF%89%E6%8A%96%E9%9F%B3%E9%87%8C%E7%9A%84%E5%95%86%E5%AE%B6%E5%AE%9D%E8%90%83%E7%BC%87%E9%99%A2%E7%BA%BF%E6%8A%A4%E8%82%A4&summary=&pics=&flash=&site=)
+*   [QQ空间](https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https%3A%2F%2Ftousu.sina.com.cn%2Fcomplaint%2Fview%2F17389758378%3Fsld%3D8632a2e3cc47f0deed6eae203153a793&title=%E6%8A%95%E8%AF%89%E6%8A%96%E9%9F%B3%E9%87%8C%E7%9A%84%E5%95%86%E5%AE%B6%E5%AE%9D%E8%90%83%E7%BC%87%E9%99%A2%E7%BA%BF%E6%8A%A4%E8%82%A4&desc=&summary=&pics=)
+
+![Image 7](https://n.sinaimg.cn/finance/blackcat/wap/img/icon-code-23.png)黑猫消费者服务平台 自动完成 11-23 15:08:39
+
+距离商家申请完成投诉已经5个自然日，期间用户未做进一步操作，系统已自动变更为“已完成”状态。如对企业处理结果有异议，可重新发起投诉。
+
+[![Image 8](https://tvax3.sinaimg.cn/crop.0.0.600.600.180/0083Qmwxly8hviaalwpmgj30go0go3yz.jpg?KID=imgbed,tva&Expires=1764330722&ssig=Y%2FS4m2wetT)商 抖音商城售后官方客服](https://jiangsu.tousu.sina.com.cn/company/view/?couid=6020086612)申请完成投诉 11-18 15:06:33
+
+申请原因：最终解决方案
+
+解决方案：您好，经核实，平台已致电联系您告知处理方案：支持退货退款，感谢您的反馈和理解。
+
+黑猫提示：
+
+以上内容为商家填写并提交，如您对申请或表述有异议，可在5个自然日内进行补充投诉，逾期投诉将自动完成
+
+[![Image 9](https://tvax3.sinaimg.cn/crop.0.0.600.600.180/0083Qmwxly8hviaalwpmgj30go0go3yz.jpg?KID=imgbed,tva&Expires=1764330722&ssig=Y%2FS4m2wetT)商 抖音商城售后官方客服](https://jiangsu.tousu.sina.com.cn/company/view/?couid=6020086612)回复 11-18 15:06:30
+
+已隐藏内容
+
+[![Image 10](https://tvax3.sinaimg.cn/crop.0.0.600.600.180/0083Qmwxly8hviaalwpmgj30go0go3yz.jpg?KID=imgbed,tva&Expires=1764330722&ssig=Y%2FS4m2wetT)商 抖音商城售后官方客服](https://jiangsu.tousu.sina.com.cn/company/view/?couid=6020086612)回复 11-08 17:20:08
+
+已隐藏内容
+
+![Image 11](https://n.sinaimg.cn/finance/blackcat/wap/img/icon-code-23.png)黑猫消费者服务平台 商家处理中 11-08 17:10:03
+
+已分配商家 抖音电商售后官方客服
+
+![Image 12](https://n.sinaimg.cn/finance/blackcat/wap/img/icon-code-24.png)黑猫消费者服务平台 审核通过 11-08 17:10:03
+
+![Image 13](https://n.sinaimg.cn/finance/235fa465/20230314/1.png)友爱喵 于黑猫投诉平台发起 11-08 15:54:21
+
+我于2025年11月左右在抖音平台购买了名为女鬼扎的产品~用后下巴发红发痒~跟商量沟通后说是本人后期修护不到位~此款产品又不是医用械字号的！又不破皮！明明就是产品本身不合适我肤质！导致我发痒发红~要求全额退款
+
+声明：
+
+1.以上内容仅代表投诉者本人，不代表黑猫投诉立场。
+
+2.未经授权，本平台案例禁止任何转载，违者将被追究法律责任。
+
+3.黑猫投诉处理投诉不收取任何费用，凡以黑猫投诉名义收费的均为冒充、欺骗行为，请及时报警并与黑猫官方反馈。举报邮箱 heimaotousu@vip.sina.com。
+
+**4.请大家选择官方渠道解决消费纠纷，不要轻信第三方机构或个人办理退费以免受骗。请不要随意通过QQ或微信等方式添加陌生人，更不要给陌生人汇款，谨防被骗，如遇诈骗请及时报警。**
+
+![Image 14](https://n.sinaimg.cn/tech/hmapp/viewQrcode.jpg)
+
+_[0](https://comment5.news.sina.com.cn/comment/skin/default.html?channel=tousu&newsid=tousu\_complaint\_42554012)_ 条评论|_[0](https://comment5.news.sina.com.cn/comment/skin/default.html?channel=tousu&newsid=tousu\_complaint\_42554012)_ 人参与 网友评论
+
+[![Image 15](https://img.t.sinajs.cn/t5/style/images/face/male_180.png)](https://weibo.com/)
+
+[![Image 16](https://img.t.sinajs.cn/t5/style/images/face/male_180.png)](https://weibo.com/)
+
+[表情](javascript:;)
+
+[登录](javascript:; "登录")|[注册](https://login.sina.com.cn/signup/signup.php)
+
+|[退出](javascript:; "退出")
+
+分享到微博
+
+[发布](javascript:;)
+
+最热评论[刷新](javascript:;)
+
+[](javascript:;)
+
+最新评论[刷新](javascript:;)
+
+[](javascript:;)
+
+[更多精彩评论>>](https://comment5.news.sina.com.cn/comment/skin/default.html?channel=tousu&newsid=tousu_complaint_42554012&group=0)
+
+[](javascript:;)
+
+[《文明诚信投诉公约》](https://tousu.sina.com.cn/articles/view/301450/)
+
+我要投诉
+
+[我的投诉单](https://tousu.sina.com.cn/user/view)
+
+24小时有效投诉 24382
+
+累计有效投诉 31108127
+
+[![Image 17: 黑猫投诉](https://n.sinaimg.cn/tech/hmapp/lead0517.jpeg)](https://forerunner.sina.com.cn/)
+
+[![Image 18: 黑猫投诉](https://n.sinaimg.cn/tech/hmapp/ts315logo.png)](https://tousu.sina.com.cn/leadership/index)
+
+[新手引导](https://tousu.sina.com.cn/articles/view/144/)[商家指南](https://tousu.sina.com.cn/static/company_guide.pdf)[常见Q&A](https://tousu.sina.com.cn/articles/view/11692/)[网站地图](https://tousu.sina.com.cn/sitemap/index)
+
+官方邮箱：heimaotousu@vip.sina.com
+
+合作机构
+----
+
+![Image 19: 中国标准化研究院](https://n.sinaimg.cn/finance/blackcat/pc/img/0506_media1.jpg)
+
+![Image 20: 国家市场监督管理总局缺陷产品召回技术中心](https://n.sinaimg.cn/tech/hmapp/0319_samr.png?v=1.0)
+
+![Image 21: 全国消费品缺陷线索检测协作网](https://n.sinaimg.cn/finance/blackcat/pc/img/media_240828.png)
+
+[![Image 22: APP风险检测](https://n.sinaimg.cn/finance/blackcat/pc/img/jianceBg.png?v=1.1.2)](https://fzbbt.gat.zj.gov.cn:8099/uni-H5?sourceId=10d131e2607a46d4948b5d8e1f08bb05)
+
+![Image 23: 新浪人民调解委员会](https://n.sinaimg.cn/finance/blackcat/pc/img/0125_sina.jpg)
+
+![Image 24: 中国质量万里行促进会](https://n.sinaimg.cn/finance/blackcat/pc/img/0506_media2.jpg?v=1.0.1)
+
+![Image 25: 金盾](https://n.sinaimg.cn/finance/blackcat/pc/img/1214_media1.jpg?v=1.0.1)
+
+![Image 26: 新京报智库](https://n.sinaimg.cn/finance/blackcat/pc/img/1214_media2.jpg?v=1.0.1)
+
+合作媒体
+----
+
+[![Image 27: 燕赵都市报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media30.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 28: 潇湘晨报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media31.png)](http://www.xxcb.cn/)[![Image 29: 金陵晚报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media32.png)](http://www.jlwb.net/)[![Image 30: 安徽商报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media33.png)](http://www.wehefei.com/)[![Image 31: 陕西日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media34.png)](http://www.sxdaily.com.cn/)[![Image 32: 今日女报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media36.png)](http://www.fengone.com/)[![Image 33: 消费者报道](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media37.png)](https://www.ccreports.com.cn/)
+
+[![Image 34: 新华社](https://n.sinaimg.cn/finance/235fa465/20240613/media01.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 35: 人民网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media02.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 36: 央视新闻](https://n.sinaimg.cn/tech/hmapp/cctv13.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 37: 央视财经](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media03.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 38: 工人日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media05.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 39: 法治日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media06.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 40: 中国消费者报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media04.png)](http://www.ccn.com.cn/)[![Image 41: 消费日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media07.png)](http://www.xfrb.com.cn/)[![Image 42: 证券日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media08.png)](http://www.zqrb.cn/)[![Image 43: 中国交通广播](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media09.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)
+
+[![Image 44: 央广网经济之声天天315](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media10.png)](http://finance.cnr.cn/315/gz/)[![Image 45: 财经网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media11.png)](http://www.caijing.com.cn/)[![Image 46: 中国商网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media12.png)](http://www.zgswcn.com/)[![Image 47: 华夏时报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media13.png)](https://www.chinatimes.net.cn/)[![Image 48: 经济观察报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media14.png)](http://www.eeo.com.cn/)[![Image 49: 中国经营报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media15.png)](http://www.cb.com.cn/)[![Image 50: 中国网财经](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media16.png)](http://finance.china.com.cn/)[![Image 51: 中国科技投资](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media17.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 52: 中国食品报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media18.png)](http://www.cnfood.cn/)[![Image 53: 中国质量新闻网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media19.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)
+
+[![Image 54: 中国质量报告](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media20.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 55: 新京报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media21.png)](http://www.bjnews.com.cn/)[![Image 56: 北青网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media22.png)](http://www.ynet.com/index.html)[![Image 57: 千龙网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media23.png)](http://www.qianlong.com/)[![Image 58: 新闻晨报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media24.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 59: 新快网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media25.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 60: 鲁网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media26.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 61: 山东商报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media27.png)](http://www.readmeok.com/)[![Image 62: 泰山财经](https://n.sinaimg.cn/finance/blackcat/pc/img/0131_media39.jpg)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 63: 钱江晚报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media29.png)](http://www.thehour.cn/)
+
+[![Image 64: 燕赵都市报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media30.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 65: 潇湘晨报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media31.png)](http://www.xxcb.cn/)[![Image 66: 金陵晚报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media32.png)](http://www.jlwb.net/)[![Image 67: 安徽商报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media33.png)](http://www.wehefei.com/)[![Image 68: 陕西日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media34.png)](http://www.sxdaily.com.cn/)[![Image 69: 今日女报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media36.png)](http://www.fengone.com/)[![Image 70: 消费者报道](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media37.png)](https://www.ccreports.com.cn/)
+
+[![Image 71: 新华社](https://n.sinaimg.cn/finance/235fa465/20240613/media01.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 72: 人民网](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media02.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 73: 央视新闻](https://n.sinaimg.cn/tech/hmapp/cctv13.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 74: 央视财经](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media03.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 75: 工人日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media05.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 76: 法治日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media06.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[![Image 77: 中国消费者报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media04.png)](http://www.ccn.com.cn/)[![Image 78: 消费日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media07.png)](http://www.xfrb.com.cn/)[![Image 79: 证券日报](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media08.png)](http://www.zqrb.cn/)[![Image 80: 中国交通广播](https://n.sinaimg.cn/finance/blackcat/pc/img/1102_media09.png)](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)
+
+合作律所
+----
+
+*   北京浩云律师事务所
+*   北京京师律师事务所
+*   北京中闻律师事务所
+*   北京道可特律师事务所
+*   岳成律师事务所
+*   广东保典律师事务所
+*   泽普律师事务所
+*   北京亿中律师事务所
+
+黑猫地方站
+-----
+
+[广东站](https://gd.tousu.sina.com.cn/)|[浙江站](https://zj.tousu.sina.com.cn/)|[上海站](https://sh.tousu.sina.com.cn/)|[陕西站](https://sx.tousu.sina.com.cn/)|[广西站](https://gx.tousu.sina.com.cn/)
+
+[吉林站](https://jl.tousu.sina.com.cn/)|[江苏站](https://jiangsu.tousu.sina.com.cn/)|[湖南站](https://hunan.tousu.sina.com.cn/)|[安徽站](https://ah.tousu.sina.com.cn/)|[黑龙江站](https://hlj.tousu.sina.com.cn/)
+
+[河南站](https://henan.tousu.sina.com.cn/)|[江西站](https://jx.tousu.sina.com.cn/)|[天津站](https://tj.tousu.sina.com.cn/)|[重庆站](https://cq.tousu.sina.com.cn/)|[海南站](https://hainan.tousu.sina.com.cn/)
+
+[辽宁站](https://ln.tousu.sina.com.cn/)|[湖北站](https://hb.tousu.sina.com.cn/)|[河北站](https://hebei.tousu.sina.com.cn/)|[四川站](https://sc.tousu.sina.com.cn/)|[福建站](https://fj.tousu.sina.com.cn/)
+
+请选择投诉类型[](javascript:;)
+-----------------------
+
+[个人投诉 针对自己消费中遇到的问题 提交个人投诉](javascript:;)[集体投诉 针对多个消费者遭遇的同一问题，发起集体投诉 (如仅为个人问题，请不要提交集体投诉)](javascript:;)
+
+重要提示[](javascript:;)
+
+Copyright©1996-2025 SINA Corporation
+
+All Right Reserved 新浪公司 版权所有
+
+[隐私保护](https://corp.sina.com.cn/chn/sina_priv.html) 新浪公司 [版权所有](https://www.sina.com.cn/intro/copyright.shtml)[京ICP证000007](https://beian.miit.gov.cn/)
+
+违法和不良信息举报电话：4001102288 举报邮箱：[jubao@vip.sina.com](mailto:jubao@vip.sina.com)
+
+京网文【2017】10231-1151号 互联网新闻信息服务许可编号：11220180001 [北京新浪互联信息服务有限公司](https://www.sina.com.cn/license/business_index.shtml)
+
+互联网药品信息服务（京）-经营性-2019-0026 京教研[2002]7号 电信业务审批[2001]字第379号
+
+增值电信业务经营许可证B1.B2-20090108 电信与信息服务业务许可编号：[京ICP证000007号](https://beian.miit.gov.cn/)
+
+广播电视节目制作经营许可证（京）字第828号 甲测资字1100078 [京公网安备11000002000016号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002000016)
+
+[APP下载![Image 81](https://n.sinaimg.cn/tech/hmapp/pchm_weixin3.png)](javascript:;)[公众号![Image 82](https://n.sinaimg.cn/finance/blackcat/pc/img/wechatQR.jpeg)](javascript:;)[官方微博](https://weibo.com/heimaotousu)[回到顶部](javascript:;)
+
+![Image 83](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)
+
+[](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)[](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)
+
+[](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)
+
+[](https://tousu.sina.com.cn/complaint/view/17389758378?sld=8632a2e3cc47f0deed6eae203153a793)

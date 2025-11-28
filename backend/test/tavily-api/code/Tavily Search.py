@@ -20,7 +20,13 @@ API_KEY = os.getenv("TAVILY_API_KEY")
 
 # 搜索查询词
 # The search query to execute with Tavily.
-QUERY = "抖音上新星的护肤保养的网红达人"
+QUERY = "帮我找出新晋网红达人，是在抖音的护肤保养方面的人"
+
+# 输出目录配置（基于查询词）
+# 将查询词转换为安全的目录名
+SAFE_QUERY_DIR = "".join(c if c.isalnum() or c in " " else "_" for c in QUERY).strip().replace(" ", "_")[:50]
+OUTPUT_BASE_DIR = f"./output/{SAFE_QUERY_DIR}"
+SEARCH_OUTPUT_DIR = f"{OUTPUT_BASE_DIR}/search"
 
 # 搜索深度
 # 'basic': 快速，1 credit
@@ -31,7 +37,7 @@ SEARCH_DEPTH = "advanced"
 # 'general': 通用搜索，来源广泛
 # 'news': 实时新闻更新，适用于政治、体育、大事件
 # 'finance': 金融相关
-TOPIC = "news"
+TOPIC = "general"  # 改成general以支持country参数
 
 # 结果数量限制
 # Default: 5, Max: 20
@@ -55,9 +61,14 @@ INCLUDE_RAW_CONTENT = False
 INCLUDE_IMAGES = False
 
 # 国家/地区增强 (仅适用于 topic='general')
-# e.g., 'cn' for China
-# 由于选择了 topic='news'，此参数可能无效或被忽略，但在此列出作为参考
-COUNTRY = "cn" 
+# 支持的国家名称列表见文档: https://docs.tavily.com/documentation/api-reference/endpoint/search
+# e.g., 'china', 'united states', 'japan' 等
+# 优先返回指定国家的搜索结果
+COUNTRY = "china"
+
+# 排除的域名列表
+# 排除抖音搜索结果页面
+EXCLUDE_DOMAINS = ["douyin.com"]
 
 # ==========================================
 
@@ -83,20 +94,20 @@ try:
         include_images=INCLUDE_IMAGES,
         topic=TOPIC,
         time_range=TIME_RANGE,
-        # country=COUNTRY # Note: Country is officially for 'general' topic only
+        country=COUNTRY,  # 现在topic是general，可以使用country参数
+        exclude_domains=EXCLUDE_DOMAINS  # 排除抖音搜索结果
     )
 
     # 确保输出目录存在
-    output_dir = "../output"
-    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(SEARCH_OUTPUT_DIR, exist_ok=True)
 
     # 保存原始返回数据
-    raw_path = os.path.join(output_dir, "response_raw.json")
+    raw_path = os.path.join(SEARCH_OUTPUT_DIR, "response_raw.json")
     with open(raw_path, "w", encoding="utf-8") as f:
         json.dump(response, f, ensure_ascii=False)
 
     # 保存格式化的 JSON 数据（用于人类阅读）
-    formatted_path = os.path.join(output_dir, "response_formatted.json")
+    formatted_path = os.path.join(SEARCH_OUTPUT_DIR, "response_formatted.json")
     with open(formatted_path, "w", encoding="utf-8") as f:
         json.dump(response, f, ensure_ascii=False, indent=2)
 
