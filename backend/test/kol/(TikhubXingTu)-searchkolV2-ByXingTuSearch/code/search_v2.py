@@ -129,7 +129,8 @@ def main():
     output_dir = script_dir / "output"
     
     # 搜索关键词
-    keyword = "护肤保养"
+    keyword = "抗衰老"
+    #  keyword = "护肤保养"
     # keyword = "美妆"
     
     # 调用 API

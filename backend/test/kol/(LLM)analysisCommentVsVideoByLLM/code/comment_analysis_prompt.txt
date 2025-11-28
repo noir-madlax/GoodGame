@@ -1,0 +1,98 @@
+作为一位资深的数据分析师和社交媒体风控专家，请对比提供的“视频内容分析”和“用户评论数据”，评估评论的质量、真实性以及与视频内容的关联度。
+
+**目标**：
+1.  **评估关联度**：评论内容是否真正回应了视频的主题、产品或主播观点？
+2.  **识别异常**：是否存在大量重复、无意义、格式化或明显的“水军”/机器人刷评迹象？
+3.  **分析舆情**：用户对产品的真实反馈如何？（正向/负向/存疑）。
+
+**输入数据说明**：
+*   **Input 1 (视频分析)**：包含视频的核心摘要、产品卖点、受众画像等。
+*   **Input 2 (评论列表)**：包含多条用户评论内容。
+
+**要求**：
+*   **必须分析每一条评论**：请遍历分析列表中的所有评论，不要抽样。
+*   **统计覆盖率**：请在结果中明确指出一共收到了多少条评论，以及你实际分析了多少条。
+
+**请从以下维度进行分析，并严格按照指定的 JSON 键名输出：**
+
+1.  **总体关联度与评估 (对应 JSON key: `overall_assessment`)**
+    *   **关联度评分 (`relevance_score`)**：(0-10分) 10分表示高度相关，0分表示无关。
+    *   **真实性等级 (`authenticity_level`)**：High/Medium/Low。
+    *   **总结分析 (`summary`)**：综合评价评论区质量。
+
+2.  **异常/水军检测 (对应 JSON key: `spam_analysis`)**
+    *   **疑似水军比例 (`suspected_spam_ratio`)**：
+        *   `value`: 百分比 (例如 "65%")。
+        *   `detail`: 分子/分母 (例如 "130/200")。
+        *   `description`: 用中文简要描述水军整体情况。
+    *   **异常特征统计 (`spam_patterns`)**：请列出所有发现的异常模式。对于每一种模式，必须包含以下字段：
+        *   `pattern`: 模式名称（如“重复文案”、“万金油评论”）。
+        *   `count`: 具体数量 (分子/分母)。
+        *   `percentage`: 占比百分比。
+        *   `description`: **关键要求**：请用中文详细描述该模式的表现形式，分析其为何被判定为异常。
+        *   `examples`: 举例该模式下的典型评论（2-3条即可）。
+        *   **重复用户检测**：作为一种特殊的 pattern，统计是否有同一个 `user_id` 发送多条评论。
+
+3.  **内容质量分析 (对应 JSON key: `content_insights`)**
+    *   **有效评论占比 (`valid_comments_ratio`)**：
+        *   `value`: 百分比。
+        *   `detail`: 分子/分母。
+        *   `description`: 中文描述有效评论的整体情况。
+    *   **主要话题分布 (`topic_distribution`)**：
+        *   请列出主要讨论的话题（如“产品功效”、“价格质疑”等）。
+        *   每个话题对应的值应包含**占比百分比**和**简要中文说明**。
+    *   **用户情绪 (`sentiment_analysis`)**：分析整体情绪倾向（正面/负面/中立）及原因。
+    *   **有价值评论举例 (`valuable_comments_examples`)**：**限制数量**：请只挑选 **3-5条** 最有代表性、包含具体使用细节的真实用户评论。
+
+4.  **舆情风险提示 (对应 JSON key: `risk_flags`)**
+    *   请列出所有识别到的风险点（如假货质疑、价格混乱、虚假宣传等）。
+    *   每条风险提示请包含具体的风险描述，并可引用1-2条相关评论佐证。
+
+**请返回如下 JSON 格式（请确保 JSON 格式合法）：**
+
+{
+  "meta": {
+    "total_comments_received": 0,
+    "total_comments_analyzed": 0
+  },
+  "overall_assessment": {
+    "relevance_score": 0,
+    "bot_suspicion_score": 0, 
+    "authenticity_level": "High/Medium/Low",
+    "summary": "..."
+  },
+  "spam_analysis": {
+    "suspected_spam_ratio": {
+        "value": "percentage",
+        "detail": "count/total",
+        "description": "..."
+    },
+    "spam_patterns": [
+      {
+        "pattern": "模式名称",
+        "count": "count/total",
+        "percentage": "percentage",
+        "description": "详细的中文描述，解释该模式的特征和判断依据。",
+        "examples": ["...", "..."]
+      }
+    ],
+    "evidence": "..."
+  },
+  "content_insights": {
+    "valid_comments_ratio": {
+        "value": "percentage",
+        "detail": "count/total",
+        "description": "..."
+    },
+    "topic_distribution": {
+      "topic_name_1": "percentage - description",
+      "topic_name_2": "percentage - description"
+    },
+    "sentiment_analysis": "...",
+    "valuable_comments_examples": ["...", "...", "...", "...", "..."]
+  },
+  "risk_flags": [
+    "风险描述 1...",
+    "风险描述 2..."
+  ]
+}

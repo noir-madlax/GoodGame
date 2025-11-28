@@ -1,0 +1,43 @@
+{
+  "code": 200,
+  "request_id": "e4e4b275-3954-473a-bace-e01546966d77",
+  "message": "Request successful. This request will incur a charge.",
+  "message_zh": "请求成功，本次请求将被计费。",
+  "support": "Discord: https://discord.gg/aMEAS8Xsvz",
+  "time": "2025-11-27 19:00:04",
+  "time_stamp": 1764298804,
+  "time_zone": "America/Los_Angeles",
+  "docs": "https://api.tikhub.io/#/Douyin-Xingtu-API/search_kol_v2_api_v1_douyin_xingtu_search_kol_v2_get",
+  "cache_message": "This request will be cached. You can access the cached result directly using the URL below, valid for 24 hours. Accessing the cache will not incur additional charges.",
+  "cache_message_zh": "本次请求将被缓存，你可以使用下面的 URL 直接访问缓存结果，有效期为 24 小时，访问缓存不会产生额外费用。",
+  "cache_url": "https://cache.tikhub.io/api/v1/cache/public/e4e4b275-3954-473a-bace-e01546966d77?sign=1426f1ecd9f7e49e9ded158a9cf7a7aeb9ed1938d5f75022f4c59467662d4661",
+  "router": "/api/v1/douyin/xingtu/search_kol_v2",
+  "params": {
+    "keyword": "抗衰老",
+    "page": "1",
+    "count": "20",
+    "followerRange": "10-100",
+    "contentTag": "tag_level_two-4"
+  },
+  "data": {
+    "authors": [],
+    "base_resp": {
+      "status_code": 0,
+      "status_message": ""
+    },
+    "extra_data": {
+      "intent_score": 3.816993284999626e-06,
+      "is_cpm_project_search": false,
+      "is_intent_consistent": false,
+      "search_author_count": 0,
+      "search_item_count": 0,
+      "search_session_id": "7577605332277919750"
+    },
+    "pagination": {
+      "has_more": false,
+      "limit": 20,
+      "page": 1,
+      "total_count": 0
+    }
+  }
+}
