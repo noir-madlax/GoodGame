@@ -1,0 +1,62 @@
+{
+  "description": "从图片 image.png 中识别的6行6列公司数据（与div15前6条对应）",
+  "columns": [
+    "organization_name",
+    "industries",
+    "last_funding_type",
+    "last_funding_date",
+    "headquarters_location",
+    "description"
+  ],
+  "companies": [
+    {
+      "organization_name": "Voyfai",
+      "industries": ["Artificial Intelligence (AI)", "Logistics", "Procurement"],
+      "last_funding_type": "Series A",
+      "last_funding_date": "Jan 1, 2025",
+      "headquarters_location": "Berlin, Berlin, Germany",
+      "description": "Voyfai provides a platform to manage shipments, procurement, back-office tasks, and logistics services for freight forwarders."
+    },
+    {
+      "organization_name": "Boshida",
+      "industries": ["Artificial Intelligence (AI)", "Industrial", "Intelligent Systems"],
+      "last_funding_type": "Series A",
+      "last_funding_date": "Mar 17, 2025",
+      "headquarters_location": "Chengdu, Sichuan, China",
+      "description": "Boshida is a company specializing in machine vision, image processing and artificial intelligence technology."
+    },
+    {
+      "organization_name": "DemoGuru",
+      "industries": ["Analytics", "Artificial Intelligence (AI)", "Big Data", "Brand Marketing", "Business Intelligence", "Machine Learning", "Productivity Tools", "Sales Automation"],
+      "last_funding_type": "Series A",
+      "last_funding_date": "Jan 1, 2025",
+      "headquarters_location": "New York, New York, United States",
+      "description": "Digital assistants that interact with website visitors to boost engagement and free go-to-market teams from tedious tasks."
+    },
+    {
+      "organization_name": "Aqua Helpers",
+      "industries": ["Advanced Materials", "Artificial Intelligence (AI)", "Manufacturing"],
+      "last_funding_type": "Series A",
+      "last_funding_date": "Jun 3, 2025",
+      "headquarters_location": "Chaoyang, Liaoning, China",
+      "description": "Aqua Helpers is a full-service R&D and manufacturing company for intelligent unmanned ships."
+    },
+    {
+      "organization_name": "JinXun Intelligent",
+      "industries": ["Artificial Intelligence (AI)", "Machine Learning", "Robotics"],
+      "last_funding_type": "Series A",
+      "last_funding_date": "Nov 17, 2025",
+      "headquarters_location": null,
+      "description": "JinXun Intelligent is a technology company specializing in the research and development of RV reducers for robots."
+    },
+    {
+      "organization_name": "POROSVOC",
+      "industries": ["Artificial Intelligence (AI)", "Audio", "Music"],
+      "last_funding_type": "Series A",
+      "last_funding_date": "Aug 11, 2025",
+      "headquarters_location": "Longhua, Guangdong, China",
+      "description": "POROSVOC is an audio processing technology company that provides chip-level core services."
+    }
+  ]
+}
+
