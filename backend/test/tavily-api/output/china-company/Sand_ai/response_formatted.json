@@ -1,0 +1,80 @@
+{
+  "query": "介绍一下Sand.ai这家中国Haidian的公司产品。\n他主要做Artificial Intelligence (AI), Information Services, Video方面的业务方面。\n我需要他进一步的产品介绍，功能介绍，官网链接，服务的客户",
+  "follow_up_questions": null,
+  "answer": "Sand.ai（北京三呆科技有限公司）坐落于北京海淀区，是一家专注于人工智能、信息服务和视频技术的高科技企业，2024年1月由清华博士曹越和前微软亚洲研究院视觉计算专家张拯共同创立，已累计融资约6000万美元，投资方包括源码资本、今日资本、经纬创投、华业天成、创新工场、IDG等。公司的核心产品是全球首个自回归视频生成大模型MAGI‑1（及其升级版MAGI‑1.1），该模型拥有240亿参数，能够实现从文本、静态图片或已有视频片段生成1‑10秒、1080p质量的连贯视频，并支持视频扩展、写实与动画风格、情绪色彩和节奏等多模态控制；平台提供免费注册赠送500积分、积分制与订阅制两种付费方式，并开放了模型代码和权重在GitHub与HuggingFace，支持企业级API接入，帮助内容创作者、营销广告公司、教育培训机构及各类企业快速生成社交媒体短片、产品演示、教学视频和创意故事板。官方入口为 https://sand.ai/，用户可以通过网页版直接使用或下载本地部署版本，已在全球范围内服务数千家中小企业和创意机构，帮助它们降低视频制作成本、提升创意效率并实现从“创作工具”到实时AI视频体验的升级。",
+  "images": [],
+  "results": [
+    {
+      "url": "https://www.huacapital.com/news_detail_153.html",
+      "title": "华业伙伴| Sand AI开源全球首个自回归视频生成模型",
+      "content": "创始人曹越是清华大学软件工程博士。在读博期间，曹越的研究方向就是机器学习和计算机视觉。2019 年获博士学位后，他加入微软亚洲研究院，在此期间的代表作包括 Swin Transformer（获 ICCV 马尔奖）、GCNet、VL-BERT 和 DAN 等。同时，曹越还是清华大学特等奖学金得主。目前，曹越的谷歌被引量已经接近 6 万次。\n\n联合创始人张拯本硕均毕业于华中科技大学软件工程专业，也是 Swin Transformer 作者之一。他也曾在微软亚洲研究院工作，与曹越合作五年，并与曹越一起获得 ICCV2021 最佳论文奖（马尔奖）。根据 Google Scholar 统计数据，张拯的被引量接近 5 万次。\n\n截至目前，Sand AI 共融资近六千万美金。连续三轮融资分别由源码、今日、经纬领投，跟投方包含华业天成、创新工场、IDG、襄禾、商汤国香以及知名个人投资者。 [...] Sand AI 这次发布的 MAGI-1 是全球首个自回归视频生成大模型，这是 2025 年备受关注的图像、视频生成技术路线。前段时间，OpenAI 在 GPT-4o 的报告中也提到，GPT-4o 图像生成是原生嵌入在 ChatGPT 中的自回归模型。\n\n在公司官网上，我们看到他们的下一步计划是实现视频的实时、快速生成，让他们的 AI 模型实现从「创作工具」到实时体验的升级。\n\n期待该公司的下一步进展。\n\n返回 下一篇\n\n 2022年02月15日\n\n  本土汽车电子龙头厂商经纬恒润 科创板IPO注册申请获通过\n 2022年06月02日\n\n  云计算向“去中心化”演进，边缘云服务商PPIO完成2.5亿A轮融资\n 2024年04月03日\n\n  向下扎根 向上生长 | 华业天成资本3月刊\n\n深圳市南山区懿德轩  \n海棠道3号别墅)\n\n上海市静安区南京西路  \n静安嘉里中心办公楼T2  \n 3004室)\n\n香港皇后大道中12号  \n上海商业银行大厦18楼)\n\n© 华业天成资本 备案号：粤ICP备19045696号 [...] 可以看到，MAGI-1 首先会对用户输入的提示词进行增强，得到更详细的提示词：\n\n之后，MAGI-1 会使用这个新提示词进行生成。我们等待了 4 分钟，得到了结果，效果还算不错。\n\n接下来，我们又试了一下让「走红毯的马斯克」与左边的人握手，随后跳舞，结果生成效果也不错\n\n同时，Sand AI 也提供了视频扩展功能，可以沿着之前生成视频或用户上传视频继续生成新的视频片段，并且无需用户自己手动拼接 —— 会直接输出经过扩展后的更长视频。用户只需设置每次扩展生成的持续时间为 1 秒，便可以实现「以一秒为单位做精细化控制」。\n\n在测试过程中我们发现，MAGI-1 目前支持 1-10 秒长度的视频生成，单个生成每秒耗费 10 点积分。初始注册用户可以免费获得 500 积分。\n\n当然，免费额度用完了，用户也可以选择继续付费使用。Sand AI 提供了订阅制和积分制两种付费模式，其相应的价格如下。\n\n此外，由于 Sand AI 开源了 MAGI-1 的几个版本，我们也可以下载之后本地运行。\n\n 技术报告：\n GitHub页面：\n HuggingFace页面：",
+      "score": 0.63750535,
+      "raw_content": null
+    },
+    {
+      "url": "https://moge.ai/zh/product/sand-ai",
+      "title": "Sand AI:免费在线视频生成器 - MOGE",
+      "content": "MOGE\n\n# Sand AI\n\n数字营销内容生成器AI 社交媒体助手AI YouTube 助手AI 视频生成图像转视频视频转视频文本转视频\n\n 概览\n 替代方案\n 数据分析\n\n## 产品概览\n\n### 什么是Sand AI？\n\nSand AI是一个综合性视频生成平台，使用户能够从文本描述或图像创建专业质量的视频，无需任何技术技能。该平台使用MAGI-1模型，这是一种先进的自回归视频生成系统，逐块生成视频（每段24帧），实现流畅、连贯的序列。Sand AI支持多种生成模式，包括文本到视频、图像到视频和视频到视频的转换，提供写实和动画风格。该平台的突出特点是提供无限制免费访问，无水印、无注册要求或隐藏费用，使专业视频创作对每个人都触手可及。\n\n### 主要功能\n\n #### MAGI-1 自回归引擎\n\n  先进的视频生成模型，使用240亿参数架构分块创建视频，确保流畅的时间一致性和1080p分辨率的高质量输出。\n #### 多模态生成\n\n  支持文本到视频、图像到视频和视频到视频的转换，具有多主体一致性，保持帧间角色和场景的连贯性。\n #### 无限免费访问 [...] 完全免费的平台，没有使用限制、水印或注册要求，允许无限制地创建个人和专业用途的视频。\n #### 多样化风格选项\n\n  以写实或动画风格创建视频，可自定义情绪、颜色和节奏，以匹配特定的创意愿景和平台要求。\n #### 分块控制\n\n  先进的提示系统，通过逐块生成实现场景转换、长形式视频合成和精细的文本驱动控制。\n\n### 使用场景\n\n 社交媒体内容 : 内容创作者可以快速生成适用于YouTube、抖音、小红书等社交平台的吸引人视频，无需昂贵设备或编辑技能。\n 市场营销和广告 : 企业可以为营销活动和品牌推广创建专业的产品演示、宣传视频和广告内容。\n 教育内容 : 教育工作者和培训师可以制作教学视频、教程和教育材料，以提升学习体验和知识共享。\n 创意讲故事 : 电影制作人和讲故事者可以为创意项目和演示制作场景原型、创建短片和开发视觉叙事。\n 商业演示 : 专业人士可以增强演示文稿，创建解释视频，并为企业沟通和客户会议开发视觉内容。\n\n### 常见问题\n\n## Sand AI的替代方案\n\n### Video Ocean [...] AI驱动的视频生成平台，轻松将文本与图片转化为高质量真实感视频。\n\n♨️ 44.64K🇺🇸 23.59%\n\nFree Trial### AI Video API\n\n高可扩展、高性价比的API平台，支持从文本和图片生成高质量AI视频，具备超长视频时长及多格式输出。\n\n♨️ 7.29K🇺🇸 15.9%\n\nPaid### Vidu Studio AI\n\nAI驱动的视频创作平台，能将文本和图片快速转化为高质量、可定制的视频。\n\n♨️ 2.12M🇯🇵 16.65%\n\nFreemium### Haiper AI\n\nAI驱动的视频创作平台，支持用户通过文本提示、图片或现有素材生成超真实感视频，并以社区共建为核心。\n\n♨️ 179.04K🇺🇸 11.78%\n\nFree Trial### Pixverse AI\n\nAI驱动平台，将静态图片和文本转化为高质量、动态视频，具备先进动画与风格特效。\n\n♨️ 13.73K🇨🇳 86.22%\n\nFreemium### Dream Machine AI\n\n先进AI平台，能够快速从文本和图片生成高质量、逼真的视频，运动流畅，角色一致性高。",
+      "score": 0.6271529,
+      "raw_content": null
+    },
+    {
+      "url": "https://finance.sina.com.cn/tech/roll/2025-04-22/doc-inetzepc5554304.shtml",
+      "title": "「全球首个自回归视频生成大模型」，刚刚 - 新浪财经",
+      "content": "创始人曹越是清华大学软件工程博士。在读博期间，曹越的研究方向就是机器学习和计算机视觉。2019 年获博士学位后，他加入微软亚洲研究院，在此期间的代表作包括 Swin Transformer（获 ICCV 马尔奖）、GCNet、VL-BERT 和 DAN 等。同时，曹越还是清华大学特等奖学金得主。目前，曹越的谷歌被引量已经接近 6 万次。\n\n联合创始人张拯本硕均毕业于华中科技大学软件工程专业，也是 Swin Transformer 作者之一。他也曾在微软亚洲研究院工作，与曹越合作五年，并与曹越一起获得 ICCV2021 最佳论文奖（马尔奖）。根据 Google Scholar 统计数据，张拯的被引量接近 5 万次。\n\n截至目前，Sand AI 共融资近六千万美金。连续三轮融资分别由源码、今日、经纬领投，跟投方包含华业天成、创新工场、IDG、襄禾、商汤国香以及知名个人投资者。 [...] 同时，Sand AI 也提供了视频扩展功能，可以沿着之前生成视频或用户上传视频继续生成新的视频片段，并且无需用户自己手动拼接 —— 会直接输出经过扩展后的更长视频。用户只需设置每次扩展生成的持续时间为 1 秒，便可以实现「以一秒为单位做精细化控制」。\n\n在测试过程中我们发现，MAGI-1 目前支持 1-10 秒长度的视频生成，单个生成每秒耗费 10 点积分。初始注册用户可以免费获得 500 积分。\n\n当然，免费额度用完了，用户也可以选择继续付费使用。Sand AI 提供了订阅制和积分制两种付费模式，其相应的价格如下。\n\n此外，由于 Sand AI 开源了 MAGI-1 的几个版本，我们也可以下载之后本地运行。\n\n 技术报告：\n GitHub页面：\n HuggingFace页面：\n\nMAGI-1 的发布在海外引起了一些轰动，开源大神 Simo Ryu 发帖提问，想要了解 Sand AI背后是怎样一个团队。OpenAI 研究员 Lucas beyer 则给出了自己收集到的资料，看来他也在关注 Sand AI。\n\nMAGI-1 模型介绍 [...] 在训练过程中，步长从 {64, 32, 16, 8} 中循环采样，并采用无分类器引导蒸馏法来保持条件对齐。这样就能以最小的保真度损失实现高效推理。\n\n评估\n\n内部人工评估。在开源模型中，MAGI-1 实现了最先进的性能（超过 Wan-2.1，明显优于 Hailuo 和 HunyuanVideo），尤其是在指令遵循和运动质量方面表现出色，使其成为 Kling 等闭源商业模型的潜在有力竞争者。\n\n物理评估。得益于自回归架构的天然优势，Magi 在通过视频连续性预测物理行为方面实现了远超常人的精度，明显优于所有现有模型。\n\n成立一年多，Sand AI拿出全球首个自回归视频生成大模型\n\nSand AI 创立于 2024 年 1 月，由曹越、张拯等人联合创立。",
+      "score": 0.614464,
+      "raw_content": null
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/1911477778580246688",
+      "title": "对话Sand.ai首席科学家张拯：用自回归开启视频生成下半场",
+      "content": "下载知乎App\n\n无障碍模式\n\n验证码登录\n\n密码登录\n\n开通机构号\n\n中国 +86\n\n获取短信验证码\n\n获取语音验证码\n\n登录/注册\n\n其他方式登录\n\n未注册手机验证后自动登录，注册即代表同意《知乎协议》《隐私保护指引》\n\n扫码下载知乎 App\n\n关闭二维码\n\n打开知乎App\n\n在「我的页」右上角打开扫一扫\n\nImage 16\n\n其他扫码方式：微信\n\n下载知乎App\n\n无障碍模式\n\n验证码登录\n\n密码登录\n\n开通机构号\n\n中国 +86\n\n获取短信验证码\n\n获取语音验证码\n\n登录/注册\n\n其他方式登录\n\n未注册手机验证后自动登录，注册即代表同意《知乎协议》《隐私保护指引》\n\n扫码下载知乎 App\n\n关闭二维码 [...] 另一方面，也存在一些现实挑战：因为我们和市场主流技术路线不一样，很多功能（ 比如多参考图控制、条件生成接口等 ）已经在社区广泛支持的模块或工具链中，在我们目前的自回归路线下其实无法直接使用；所以我们必须从头开发这些通用功能在新架构下的支持版本；而且在开发过程中，可能还会遇到一些偏研究性质的问题，需要投入比较大的工程和研究成本。比如一个比较典型的例子是 “ 参考图生成 ”：目前社区已经有不少扩散模型或产品模型支持这个功能；但如果我们要在像 MAGI-1 这样的自回归架构下去实现，就需要重新设计实现路径并从头尝试。\n\n但如果我们能把开源这件事情真正做好，让更多的人来尝试使用我们的模型， 那么我们就可以更有效地借助开源社区的力量。从这个角度来看，我们也非常希望能坚持开源的策略。\n\n知危：\n\n您本次决定创业的根源是什么？\n\n张拯：\n\n其实是有一个比较清晰的背景的：在加入 Sand.ai、和曹越一起创业之前，我一直是在偏研究方向的机构工作。 这段时间也不短了，大概有六七年，主要是在微软亚洲研究院（ MSRA ）视觉计算组（ VC 组 ）。 [...] Image 12: 英伟达联合MIT、清华团队提出文生图框架Sana，可秒出高分辨率图像 英伟达联合MIT、清华团队提出文生图框架Sana，可秒出高分辨率图像 ================================== DeepTech深科技UE4实现交互式动作捕捉 ============ 在传统的动作捕捉流程中，要想在引擎中查看最终效果，需要先在动捕软件中将录制好动捕数据导入到max，maya，motionbuilder等资源生产工具中，调整动画效果，重定向角色骨骼（也可以先重定向… 我乱写的 发表于一个想法，...Image 13: UE5：捕获相机画面到渲染目标 UE5：捕获相机画面到渲染目标 =============== sayonaraImage 14: 阿里云Aegaeon方案GPU用量削减82% 阿里云Aegaeon方案GPU用量削减82% ====================== 蓝肥仔\n\n_想来知乎工作？请发送邮件到 jobs@zhihu.com_\n\n打开知乎App\n\n在「我的页」右上角打开扫一扫\n\nImage 15\n\n其他扫码方式：微信",
+      "score": 0.5473921,
+      "raw_content": null
+    },
+    {
+      "url": "https://www.iyiou.com/company/SandAI",
+      "title": "Sand AI-北京三呆科技有限公司- 亿欧网",
+      "content": "亿欧是一家专注科技+产业+投资的信息平台和智库；成立于2014年2月，总部位于北京，用户/客户覆盖超过50个国家或地区。亿欧为中外客户提供行业研究、投资分析、创新咨询、数据",
+      "score": 0.52378637,
+      "raw_content": null
+    },
+    {
+      "url": "https://www.sandtech.com/",
+      "title": "SAND Technologies",
+      "content": "Enable automated responses and improved human decision-making\n\n## Our product architecture\n\nOur core product is “Sand OS” – an enterprise-grade data platform that helps organizations aggregate, analyze, and act upon complex data.\n\nAI Co-Pilot\n\nCo-Pilot\n\nData Visualization\n\nVisualization\n\nData Platform\n\nPlatform\n\nInfrastructure Layer\n\nLayers\n\n### AI Co-Pilot [...] The robust data platform provides a backbone for AI models, enabling clean, organized and accessible data for unmatched training, enrichment and real-world performance.\n\n### Infrastructure Layer\n\nOur enterprise-grade data platform enables organizations to aggregate, analyze and act on complex data. The infrastructure layer provides the foundation for our Source, Ingest, Enrich, Serve, Engage (SIESE) framework.\n\n## Built for Speed and Scale [...] Our secure, real-time, digital-twin platform provides an engine for scaled AI deployment. It unifies fragmented data and bridges the physical-digital gap, enabling a progression from situational awareness to forecasting, simulation and system-wide optimization.\n\n### Unified Data Layer\n\nConsolidates fragmented data sources into a single, real-time digital twin\n\n### Modular Architecture\n\nSIESE framework enables reusable components across domains\n\n### Develop Tools",
+      "score": 0.49846253,
+      "raw_content": null
+    },
+    {
+      "url": "https://sand.ai/",
+      "title": "Magi - Autoregressive Video Generation at Scale by Sand.ai",
+      "content": "Try MagiMagi HumanAPI PlatformAbout Us\n\nOur MissionOur mission is to advance AI to benefit everyone.\n\nIntroducing  \nMagi-1.1\n\nThe first autoregressive video model with top-tier quality output.\n\nLearn More\n\nLatest\n\nTechnical Report of Magi-1\n\n21 April 2025Inference Code and Model Weights of Magi-1\n\n21 April 2025Code of MagiAttention\n\n21 April 2025\n\nJoin Us: hr@sand.ai\n\nContact Us: support@sand.ai",
+      "score": 0.38776046,
+      "raw_content": null
+    },
+    {
+      "url": "https://huggingface.co/openbmb/cpm-bee-1b/commit/bd72a61dd7a59086ed7456f1dfcaa995c8ec58a3.diff",
+      "title": "https://huggingface.co/openbmb/cpm-bee-1b/commit/b...",
+      "content": "index 0000000000000000000000000000000000000000..b977bdaf9898e679a19e338be19321bc1d6f7ede\n--- /dev/null\n+++ b/vocab.txt\n@@ -0,0 +1,86583 @@\n+ + + + + + +~~ +~~ + + + [...] diff --git a/config.json b/config.json\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..211f9478428c6be3d133406b0d33d64b0138c4ea\n--- /dev/null\n+++ b/config.json\n@@ -0,0 +1,15 @@\n+{\n+    \"vocab_size\": 86583,\n+    \"dim_model\": 4096,\n+    \"dim_ff\" : 1024,\n+    \"num_layers\" : 48,\n+    \"num_heads\": 32,\n+    \"dim_head\" : 40,\n+    \"dropout_p\" : 0.0,\n+    \"position_bias_num_buckets\" : 256,\n+    \"position_bias_num_segment_buckets\": 256,\n+    \"position_bias_max_distance\" : 2048, [...] +    \"eps\" : 1e-6,\n+    \"half\" : true,\n+    \"mask_modules\": \n+}\ndiff --git a/pytorch_model.bin b/pytorch_model.bin\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..2d3e134b3618fa81233683fe619a575b39affdfe\n--- /dev/null\n+++ b/pytorch_model.bin\n@@ -0,0 +1,3 @@\n+version \n+oid sha256:a4900eb67843181959ea77043a59a7d7e78fb688bd9ee61858658c10823c1b33\n+size 2110668093\ndiff --git a/vocab.txt b/vocab.txt\nnew file mode 100644",
+      "score": 0.05620019,
+      "raw_content": null
+    },
+    {
+      "url": "https://aws.amazon.com/cn/blogs/china/amazon-nova-reel-1-1-featuring-up-to-2-minutes-multi-shot-videos/",
+      "title": "正式推出Amazon Nova Reel 1.1：可生成长达2 分钟的多镜头视频！",
+      "content": "第一次调用后，脚本会定期检查状态，直到视频创建完成。每次代码运行时，我都会随机传递种子，以获得不同的结果。\n\n运行脚本：\n\n```\nStatus: InProgress . . . Status: Completed Video is ready at s3:////output.mp4 \n```\n\n几分钟后，脚本运行完成并打印出输出的 Amazon S3 位置。我使用 AWS CLI 下载输出视频：\n\n```\naws s3 cp s3:////output.mp4 output_automated.mp4\n```\n\n这是该提示生成的视频：\n\n查看视频\n\n如果 TaskType 参数为 `MULTI_SHOT_MANUAL` 模式，并且有多个镜头的提示以及每个镜头的描述，那么就无需添加 `durationSeconds` 变量。\n\n使用由 Sanju Sunny 创建的多个镜头的提示。\n\n运行 Python 脚本： [...] ``` [...] ```",
+      "score": 0.027671918,
+      "raw_content": null
+    },
+    {
+      "url": "https://www.ceair.com/",
+      "title": "机票预订_飞机票查询_机票价格查询_打折特价机票",
+      "content": "根据您的行程随心安排住宿，部分房型可在规定时间内免费取消\n\n优质的售后服务，尽力满足您的各种需求，让您出行无忧\n\n服务资讯\n\n \n\n赠上海、北京、昆明、西安等地隔夜酒店\n\n中转服务专区\n\n空铁联运，为出行提供更多选择\n\n航空+铁路一站式购买\n\n机场巴士“空中+地面”一站式服务\n\n安心便捷的周转换乘接驳\n\n机场接送服务尊享无忧出行\n\n三重保障，快速预订\n\n东航商城\n\nHUAWEI matext 非凡大师 三折叠屏手机\n\n¥ 23999\n\nESTEE LAUDER 雅诗兰黛 特润修护精华露第七代小棕瓶\n\n¥ 935\n\n天梭 瑞士手表 小可爱系列腕表 钢带石英女表\n\n¥ 2499\n\n云鲸 S2 智能吸拖一体无线手持洗地机 旗舰款\n\n¥ 1999\n\nVinda 维达 细韧抽纸纸巾3层120抽 20包/箱\n\n¥ 50\n\nABCD\n\n中国\n86\n\n中国香港\n852\n\n中国澳门\n853\n\n中国台湾\n886\n\n加拿大\n1\n\n美国\n1\n\n俄罗斯\n7\n\n法国\n33\n\n意大利\n39\n\n英国\n44\n\n德国\n49\n\n马来西亚\n60\n\n澳大利亚\n61\n\n印度尼西亚\n62\n\n菲律宾\n63\n\n新加坡\n65 [...] 出行提示:\n\n 关于拉萨贡嘎国际机场调整国内航班值机截载时间的通知\n\n  查看更多\n 关于南京禄口国际机场东上航值机柜台临时调整的通知\n\n  查看更多\n\n航班搜索选座值机航班动态\n\n购票须知\n\n多段的目的地可以是一个国家/地区的两个不同航点：比如去程选择上海-东京，返回选择大阪-上海。最大支持查询6段航班，若超出6段请致电95530咨询。\n\n阅读并同意\n选座须知\n及\n登机牌办理须知\n\n\\仅支持本网站订单或机票号\n\n改期/升舱\n\n退票\n\n值机选座\n\n空中Wi-Fi\n\n酒店\n\n约车接送\n\n东航商城\n\n机酒\n\n特价活动\n\n国内\n\n国际/中国港澳台\n\n上海\n出发\n\n青岛\n\n249\n\n起\n\n青岛\n\n249\n起\n\n上海\n出发\n\n兰州\n\n249\n\n起\n\n兰州\n\n249\n起\n\n上海\n出发\n\n义乌\n\n299\n\n起\n\n义乌\n\n299\n起\n\n上海\n出发\n\n温州\n\n299\n\n起\n\n温州\n\n299\n起\n\n上海\n出发\n\n武汉\n\n299\n\n起\n\n武汉\n\n299\n起\n\n酒店推荐\n\n上海\n\n北京\n\n三亚\n\n墨尔本\n\n曼谷\n\n深圳\n\n广州\n\n提供覆盖全球的酒店资源，实现您的环球之旅 [...] 泰国\n66\n\n日本\n81\n\n韩国\n82\n\n越南\n84\n\n印度\n91\n\n柬埔寨\n855",
+      "score": 0.01749784,
+      "raw_content": null
+    }
+  ],
+  "response_time": 5.27,
+  "request_id": "4dc803b6-050c-4127-b64c-481b0fe94768"
+}
