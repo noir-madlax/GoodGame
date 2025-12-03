@@ -61,10 +61,11 @@ interface CausalChain {
   attribute_cause: string;
   performance_effect: string;
   use_cases: string[];
+  style_result: string | null;
   created_at: string;
 }
 
-/** 商品规则 */
+/** 商品规则 - APUS 四维度 */
 interface ProductRule {
   id: number;
   category: string;
@@ -72,6 +73,7 @@ interface ProductRule {
   attribute_keywords: string[];
   performance_keywords: string[];
   use_keywords: string[];
+  style_keywords: string[];
   is_featured: boolean;
   created_at: string;
   updated_at: string;
@@ -171,13 +173,13 @@ const CausalChainInput: React.FC<{
 }> = ({ ruleId, onAdd }) => {
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState<{ attribute: string; performance: string; use: string[] } | null>(null);
+  const [preview, setPreview] = useState<{ attribute: string; performance: string; use: string[]; style: string } | null>(null);
   
-  // 示例话术
+  // 示例话术（包含风格维度）
   const examples = [
-    '吊带连衣裙，显瘦显腿长，适合海边度假',
-    '高领毛衣保暖又显气质，适合冬季约会',
-    '阔腿裤版型宽松舒适不挑腿型，日常通勤百搭',
+    '吊带连衣裙，显瘦显腿长，适合海边度假，浪漫风格',
+    '高领毛衣保暖显气质，适合冬季约会，温柔优雅风',
+    '阔腿裤宽松舒适不挑腿型，日常通勤百搭，休闲简约风',
   ];
   
   const handleParse = async () => {
@@ -215,6 +217,7 @@ const CausalChainInput: React.FC<{
           attribute_cause: preview.attribute,
           performance_effect: preview.performance,
           use_cases: preview.use,
+          style_result: preview.style,
         }),
       });
       setInputValue('');
@@ -232,15 +235,15 @@ const CausalChainInput: React.FC<{
       <p className="text-xs text-purple-400 mb-2">💡 输入一句自然语言描述，系统将自动解析为因果链</p>
       
       {/* 示例 */}
-      <div className="flex flex-wrap gap-1 mb-2">
+      <div className="flex flex-wrap gap-2 mb-2">
         {examples.map((ex, i) => (
           <button
             key={i}
             onClick={() => setInputValue(ex)}
-            className="px-2 py-0.5 text-xs rounded-full transition-all hover:opacity-80"
+            className="px-3 py-1 text-xs rounded-full transition-all hover:opacity-80 whitespace-nowrap"
             style={{ background: 'rgba(139, 92, 246, 0.2)', color: '#c4b5fd' }}
           >
-            {ex.length > 20 ? ex.slice(0, 20) + '...' : ex}
+            {ex}
           </button>
         ))}
       </div>
@@ -251,7 +254,7 @@ const CausalChainInput: React.FC<{
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="例如：吊带连衣裙，显瘦显腿长，适合海边度假"
+          placeholder="例如：吊带连衣裙，显瘦显腿长，适合海边度假，浪漫风格"
           className="flex-1 px-3 py-2 rounded-lg text-sm bg-slate-800/50 border border-slate-600 text-white outline-none focus:border-purple-500"
         />
         <button
@@ -268,12 +271,14 @@ const CausalChainInput: React.FC<{
       {preview && (
         <div className="mt-3 p-2 rounded-lg" style={{ background: 'rgba(255, 255, 255, 0.05)' }}>
           <p className="text-xs text-gray-400 mb-2">解析结果预览：</p>
-          <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-2 text-xs flex-wrap">
             <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-300">{preview.attribute}</span>
             <ArrowRight className="w-3 h-3 text-gray-500" />
             <span className="px-2 py-1 rounded bg-green-500/20 text-green-300">{preview.performance}</span>
             <ArrowRight className="w-3 h-3 text-gray-500" />
             <span className="px-2 py-1 rounded bg-purple-500/20 text-purple-300">{preview.use.join(', ')}</span>
+            <ArrowRight className="w-3 h-3 text-gray-500" />
+            <span className="px-2 py-1 rounded bg-amber-500/20 text-amber-300">{preview.style}</span>
           </div>
           <div className="flex gap-2 mt-2">
             <button
@@ -343,7 +348,7 @@ const CategoryRuleCard: React.FC<{
             {rule.category}
           </span>
           <span className="text-gray-400 text-sm">
-            {rule.attribute_keywords.length} 属性 · {rule.performance_keywords.length} 性能 · {rule.use_keywords.length} 场景
+            {rule.attribute_keywords.length} 属性 · {rule.performance_keywords.length} 性能 · {rule.use_keywords.length} 场景 · {(rule.style_keywords || []).length} 风格
           </span>
           {chains.length > 0 && (
             <span className="text-purple-400 text-sm">· {chains.length} 因果链</span>
@@ -437,7 +442,7 @@ const CategoryRuleCard: React.FC<{
               {chains.map((chain) => (
                 <div
                   key={chain.id}
-                  className="flex items-center gap-2 p-2 rounded-lg text-xs"
+                  className="flex items-center gap-2 p-2 rounded-lg text-xs flex-wrap"
                   style={{ background: 'rgba(255, 255, 255, 0.03)' }}
                 >
                   <span className="text-blue-400">{chain.attribute_cause}</span>
@@ -445,6 +450,12 @@ const CategoryRuleCard: React.FC<{
                   <span className="text-green-400">{chain.performance_effect}</span>
                   <ArrowRight className="w-3 h-3 text-gray-500" />
                   <span className="text-purple-400">{chain.use_cases.join(', ')}</span>
+                  {chain.style_result && (
+                    <>
+                      <ArrowRight className="w-3 h-3 text-gray-500" />
+                      <span className="text-amber-400">{chain.style_result}</span>
+                    </>
+                  )}
                 </div>
               ))}
               {chains.length === 0 && !editing && (
@@ -518,8 +529,8 @@ const OriginalRulesTab: React.FC = () => {
           <div className="text-sm">
             <p className="text-cyan-400 font-medium mb-1">什么是原始规则库？</p>
             <p className="text-gray-400">
-              这是 LLM 分析商品时的参考规则。每个品类定义了可能的属性、性能和使用场景关键词，
-              以及因果关系链（如"凉感面料 → 凉爽透气 → 夏季日常"）。
+              这是 LLM 分析商品时的参考规则。每个品类定义了可能的属性、性能、场景和风格关键词，
+              以及因果关系链（如"凉感面料 → 凉爽透气 → 夏季日常 → 简约百搭"）。
               修改这些规则后，重新运行商品分析可以得到更准确的结果。
             </p>
           </div>
@@ -637,7 +648,7 @@ const ProductRuleCard: React.FC<{
             )}
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-3 rounded-lg" style={{ background: 'rgba(59, 130, 246, 0.1)' }}>
               <h4 className="text-xs font-medium text-blue-400 mb-2">Attribute (物理属性)</h4>
               <KeywordTags keywords={editing ? editedRule.attribute_keywords : rule.attribute_keywords}
@@ -655,6 +666,12 @@ const ProductRuleCard: React.FC<{
               <KeywordTags keywords={editing ? editedRule.use_keywords : rule.use_keywords}
                 color="purple" editable={editing}
                 onChange={(kw) => setEditedRule({ ...editedRule, use_keywords: kw })} />
+            </div>
+            <div className="p-3 rounded-lg" style={{ background: 'rgba(245, 158, 11, 0.1)' }}>
+              <h4 className="text-xs font-medium text-amber-400 mb-2">Style (风格)</h4>
+              <KeywordTags keywords={editing ? editedRule.style_keywords : (rule.style_keywords || [])}
+                color="amber" editable={editing}
+                onChange={(kw) => setEditedRule({ ...editedRule, style_keywords: kw })} />
             </div>
           </div>
         </div>
@@ -733,7 +750,7 @@ const ProductResultsTab: React.FC = () => {
             <p className="text-blue-400 font-medium mb-1">什么是商品分析结果？</p>
             <p className="text-gray-400">
               这是使用原始规则库对每个商品进行 LLM 分析后的结果。
-              包含商品的核心描述和提取出的 APU 三维度信息。
+              包含商品的核心描述和提取出的 APUS 四维度信息（属性、性能、场景、风格）。
               这些数据用于向量化搜索，让用户能用自然语言找到商品。
             </p>
           </div>

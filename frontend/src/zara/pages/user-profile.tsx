@@ -23,6 +23,10 @@ import {
   RefreshCw,
   Search,
   Sparkles,
+  ShoppingBag,
+  Eye,
+  Thermometer,
+  UserCircle,
 } from 'lucide-react';
 
 // ============================================================================
@@ -125,10 +129,7 @@ const UserCard: React.FC<{
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="text-2xl">{genderIcon}</span>
-          <div>
-            <p className="text-white font-medium">{profile.user_id}</p>
-            <p className="text-xs text-gray-400">{profile.total_searches} 次搜索</p>
-          </div>
+          <p className="text-white font-medium">{profile.user_id}</p>
         </div>
         <ChevronRight className={cn("w-5 h-5 text-gray-400 transition-transform", isSelected && "rotate-90")} />
       </div>
@@ -292,7 +293,7 @@ export default function UserProfilePage() {
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                用户画像
+                用户偏好
               </h1>
               <p className="text-sm text-gray-400">
                 基于历史对话的用户偏好分析
@@ -332,8 +333,8 @@ export default function UserProfilePage() {
           <RefreshCw className="w-8 h-8 text-purple-400 animate-spin" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* 左侧：用户列表 */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* 左侧：用户列表（窄） */}
           <div
             className="lg:col-span-1 rounded-xl p-4"
             style={{
@@ -342,11 +343,11 @@ export default function UserProfilePage() {
               border: '1px solid rgba(100, 116, 139, 0.2)',
             }}
           >
-            <h3 className="text-white font-medium mb-4 flex items-center gap-2">
+            <h3 className="text-white font-medium mb-4 flex items-center gap-2 text-sm">
               <User className="w-4 h-4 text-purple-400" />
               用户列表 ({users.length})
             </h3>
-            <div className="space-y-2 max-h-[600px] overflow-y-auto">
+            <div className="space-y-2 max-h-[700px] overflow-y-auto">
               {users.map((user) => (
                 <UserCard
                   key={user.user_id}
@@ -358,11 +359,11 @@ export default function UserProfilePage() {
             </div>
           </div>
 
-          {/* 右侧：用户详情 */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* 右侧：用户详情（宽） */}
+          <div className="lg:col-span-3 space-y-4">
             {selectedUser ? (
               <>
-                {/* 用户画像卡片 */}
+                {/* 偏好画像总结 */}
                 <div
                   className="rounded-xl p-6"
                   style={{
@@ -374,7 +375,7 @@ export default function UserProfilePage() {
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-white font-medium flex items-center gap-2">
                       <Heart className="w-4 h-4 text-pink-400" />
-                      偏好画像
+                      偏好画像总结
                     </h3>
                     <div className="flex items-center gap-2 text-sm">
                       <span className="px-2 py-1 rounded-lg bg-purple-500/20 text-purple-300">
@@ -389,7 +390,7 @@ export default function UserProfilePage() {
                   </div>
 
                   {/* 偏好分类 */}
-                  <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                     <div>
                       <p className="text-xs text-gray-400 mb-2">风格偏好</p>
                       <div className="flex flex-wrap gap-1">
@@ -442,7 +443,144 @@ export default function UserProfilePage() {
                   </div>
                 </div>
 
-                {/* 聊天记录 */}
+                {/* 用户画像数据来源 - 四大维度 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* 基础属性 */}
+                  <div
+                    className="rounded-xl p-4"
+                    style={{
+                      background: 'rgba(30, 41, 59, 0.6)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(139, 92, 246, 0.2)',
+                    }}
+                  >
+                    <h4 className="text-white font-medium mb-3 flex items-center gap-2 text-sm">
+                      <UserCircle className="w-4 h-4 text-purple-400" />
+                      基础属性
+                      <span className="text-xs text-gray-500 font-normal">（会员注册信息）</span>
+                    </h4>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">性别：</span>
+                        <span className="text-purple-300">
+                          {selectedUser.inferred_gender === 'female' ? '女' : 
+                           selectedUser.inferred_gender === 'male' ? '男' : '-'}
+                        </span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">身高：</span>
+                        <span className="text-purple-300">165cm</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">体重：</span>
+                        <span className="text-purple-300">52kg</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">生日：</span>
+                        <span className="text-purple-300">1995-06</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 地理位置 */}
+                  <div
+                    className="rounded-xl p-4"
+                    style={{
+                      background: 'rgba(30, 41, 59, 0.6)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(34, 197, 94, 0.2)',
+                    }}
+                  >
+                    <h4 className="text-white font-medium mb-3 flex items-center gap-2 text-sm">
+                      <Thermometer className="w-4 h-4 text-green-400" />
+                      地理位置
+                      <span className="text-xs text-gray-500 font-normal">（环境因素）</span>
+                    </h4>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">区域：</span>
+                        <span className="text-green-300">
+                          {selectedUser.region_preference === 'south' ? '南方' :
+                           selectedUser.region_preference === 'north' ? '北方' : '未知'}
+                        </span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">城市：</span>
+                        <span className="text-green-300">上海</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">气温：</span>
+                        <span className="text-green-300">22°C</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">湿度：</span>
+                        <span className="text-green-300">65%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 历史订单 */}
+                  <div
+                    className="rounded-xl p-4"
+                    style={{
+                      background: 'rgba(30, 41, 59, 0.6)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(245, 158, 11, 0.2)',
+                    }}
+                  >
+                    <h4 className="text-white font-medium mb-3 flex items-center gap-2 text-sm">
+                      <ShoppingBag className="w-4 h-4 text-amber-400" />
+                      历史订单 (12)
+                      <span className="text-xs text-gray-500 font-normal">（消费习惯）</span>
+                    </h4>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">常购品类</span>
+                        <span className="text-amber-300">T恤、连衣裙、短裤</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">价格偏好</span>
+                        <span className="text-amber-300">¥100-300</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">常购尺码</span>
+                        <span className="text-amber-300">S / M</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 历史浏览 */}
+                  <div
+                    className="rounded-xl p-4"
+                    style={{
+                      background: 'rgba(30, 41, 59, 0.6)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(59, 130, 246, 0.2)',
+                    }}
+                  >
+                    <h4 className="text-white font-medium mb-3 flex items-center gap-2 text-sm">
+                      <Eye className="w-4 h-4 text-blue-400" />
+                      历史浏览 (56)
+                      <span className="text-xs text-gray-500 font-normal">（行为数据）</span>
+                    </h4>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">搜索次数</span>
+                        <span className="text-blue-300">{selectedUser.total_searches} 次</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">点击次数</span>
+                        <span className="text-blue-300">{selectedUser.total_clicks} 次</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-slate-800/50">
+                        <span className="text-gray-400">平均停留</span>
+                        <span className="text-blue-300">45 秒</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 历史搜索对话 */}
                 <div
                   className="rounded-xl p-6"
                   style={{
@@ -452,13 +590,13 @@ export default function UserProfilePage() {
                   }}
                 >
                   <h3 className="text-white font-medium mb-4 flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-blue-400" />
-                    历史对话 ({chatHistory.length})
+                    <Clock className="w-4 h-4 text-cyan-400" />
+                    历史搜索对话 ({chatHistory.length})
                   </h3>
                   
                   {loadingDetail ? (
                     <div className="flex items-center justify-center py-8">
-                      <RefreshCw className="w-6 h-6 text-blue-400 animate-spin" />
+                      <RefreshCw className="w-6 h-6 text-cyan-400 animate-spin" />
                     </div>
                   ) : (
                     <div className="space-y-3 max-h-[400px] overflow-y-auto">
@@ -466,7 +604,7 @@ export default function UserProfilePage() {
                         <ChatCard key={chat.id} chat={chat} />
                       ))}
                       {chatHistory.length === 0 && (
-                        <p className="text-center text-gray-500 py-8">暂无聊天记录</p>
+                        <p className="text-center text-gray-500 py-8">暂无搜索记录</p>
                       )}
                     </div>
                   )}

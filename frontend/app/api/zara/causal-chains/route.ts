@@ -19,7 +19,7 @@ const supabase = createClient(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { rule_id, attribute_cause, performance_effect, use_cases } = body;
+    const { rule_id, attribute_cause, performance_effect, use_cases, style_result } = body;
 
     if (!rule_id || !attribute_cause || !performance_effect || !use_cases) {
       return NextResponse.json({ success: false, error: '缺少必要参数' }, { status: 400 });
@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
         attribute_cause,
         performance_effect,
         use_cases: Array.isArray(use_cases) ? use_cases : [use_cases],
+        style_result: style_result || '时尚百搭',
       })
       .select()
       .single();

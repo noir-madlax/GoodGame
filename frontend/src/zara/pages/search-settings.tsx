@@ -534,9 +534,9 @@ export default function SearchSettingsPage() {
             </div>
           </ConfigCard>
 
-          {/* 个性化权重 */}
+          {/* 排序设置 */}
           <ConfigCard
-            title="个性化权重"
+            title="排序设置"
             icon={<Sliders className="w-5 h-5" />}
             color="#ec4899"
           >
@@ -546,9 +546,17 @@ export default function SearchSettingsPage() {
             >
               <Info className="w-4 h-4 text-pink-400 shrink-0 mt-0.5" />
               <p className="text-xs text-gray-400">
-                商品个性化标签（区域/风格）和用户偏好（历史对话）的权重，影响千人千面推荐效果。
+                最终排序权重 = 搜索结果权重 + 商品个性化权重 + 用户偏好权重。三者之和建议为 1。
               </p>
             </div>
+
+            <SliderInput
+              value={Number(getValue('search_result_weight', 0.5))}
+              onChange={(v) => updateValue('search_result_weight', v)}
+              label="搜索结果权重"
+              description="基于 APUS 四维度的多模态搜索结果权重"
+              color="#3b82f6"
+            />
 
             <SliderInput
               value={Number(getValue('persona_tag_weight', 0.3))}
@@ -565,6 +573,33 @@ export default function SearchSettingsPage() {
               description="基于历史对话提取的用户偏好标签"
               color="#ec4899"
             />
+
+            {/* 权重总和提示 */}
+            <div 
+              className="p-3 rounded-lg flex items-center justify-between mt-2"
+              style={{ 
+                background: 'rgba(100, 116, 139, 0.1)',
+                border: '1px solid rgba(100, 116, 139, 0.2)'
+              }}
+            >
+              <span className="text-gray-400 text-sm">排序权重总和</span>
+              <span 
+                className={cn(
+                  "font-bold",
+                  Math.abs(
+                    Number(getValue('search_result_weight', 0.5)) +
+                    Number(getValue('persona_tag_weight', 0.3)) +
+                    Number(getValue('user_preference_weight', 0.2)) - 1
+                  ) < 0.01 ? "text-green-400" : "text-amber-400"
+                )}
+              >
+                {(
+                  Number(getValue('search_result_weight', 0.5)) +
+                  Number(getValue('persona_tag_weight', 0.3)) +
+                  Number(getValue('user_preference_weight', 0.2))
+                ).toFixed(2)}
+              </span>
+            </div>
           </ConfigCard>
 
           {/* 模型配置 */}
