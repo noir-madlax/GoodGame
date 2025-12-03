@@ -501,14 +501,12 @@ export default function ProductSearchPage() {
                           </span>
                         )}
                       </div>
-                      <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
+                      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 mt-1 text-[10px]">
                         {result.scores ? (
                           <>
                             <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
                             <span>标签: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
-                            {result.categoryMatched && result.scores.categoryWeight && (
-                              <span>品类: <span className="text-red-400">{result.scores.categoryWeight}</span></span>
-                            )}
+                            <span>品类: <span className={result.categoryMatched ? "text-red-400" : "text-gray-500"}>{result.categoryMatched ? result.scores.categoryWeight : '-'}</span></span>
                             <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
                           </>
                         ) : (

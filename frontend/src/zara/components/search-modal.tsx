@@ -566,11 +566,20 @@ export default function SearchModal({
               {/* 配置参数 */}
               {debugInfo.config && (
                 <div className="space-y-1">
-                  <p className="text-gray-400 font-medium">⚙️ 配置参数 (数据库):</p>
+                  <p className="text-gray-400 font-medium">⚙️ 搜索配置:</p>
                   <div className="bg-white/5 rounded-lg p-3 space-y-2">
-                    {/* CAPUS 五维度权重 */}
+                    {/* 实际参与计算的权重 */}
                     <div>
-                      <p className="text-purple-300 text-[10px] mb-1">🎯 品类及 APUS 五维度权重 (和=1):</p>
+                      <p className="text-cyan-300 text-[10px] mb-1">📊 实际搜索计算权重:</p>
+                      <div className="flex flex-wrap gap-2 text-[10px]">
+                        <span className="px-2 py-0.5 bg-green-500/20 rounded">向量相似度: 主要</span>
+                        <span className="px-2 py-0.5 bg-blue-500/20 rounded">标签匹配: 辅助</span>
+                        <span className="px-2 py-0.5 bg-red-500/20 rounded">品类加权: {debugInfo.config.capusWeights?.category ? (1 + debugInfo.config.capusWeights.category * 3).toFixed(1) : '2.2'}x</span>
+                      </div>
+                    </div>
+                    {/* CAPUS 五维度权重（规划中） */}
+                    <div>
+                      <p className="text-purple-300 text-[10px] mb-1">🎯 CAPUS 五维度配置 (影响增强文本生成):</p>
                       <div className="flex flex-wrap gap-2 text-[10px]">
                         <span className="px-2 py-0.5 bg-red-500/20 rounded">品类: {debugInfo.config.capusWeights?.category || 0.30}</span>
                         <span className="px-2 py-0.5 bg-blue-500/20 rounded">属性: {debugInfo.config.capusWeights?.attribute || 0.25}</span>
@@ -645,15 +654,13 @@ export default function SearchModal({
                             </span>
                           )}
                         </div>
-                        <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
+                        <div className="grid grid-cols-2 gap-1 mt-1 text-[10px]">
                           {result.scores ? (
                             <>
-                              <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
-                              <span>标签: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
-                              {result.categoryMatched && (
-                                <span>品类权重: <span className="text-red-400">{result.scores.categoryWeight}</span></span>
-                              )}
-                              <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
+                              <span>向量相似度: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
+                              <span>标签匹配分: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
+                              <span>品类加权: <span className={result.categoryMatched ? "text-red-400" : "text-gray-500"}>{result.categoryMatched ? `${result.scores.categoryWeight} (生效)` : '无'}</span></span>
+                              <span>最终得分: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
                             </>
                           ) : (
                             <>
