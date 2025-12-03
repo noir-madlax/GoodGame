@@ -194,6 +194,10 @@ ${userQuery}
 - 品类: T恤, 针织衫, 外套, 牛仔裤, 连衣裙, 大衣, 卫衣, 衬衫, 休闲裤, 半身裙, 包, 鞋, 棉服, 羽绒服, 开衫, 背心, 西装, 上衣
 - 风格: 修身, 宽松, 休闲, 通勤, 基础, 简约, 时尚
 
+## 重要：品类识别
+如果用户明确指定了品类（如"连衣裙"、"T恤"、"牛仔裤"），必须提取出来放到 extractedCategory 字段。
+品类是搜索的最高优先级，必须准确匹配！
+
 ## 输出格式 (严格 JSON)
 {
   "isSearch": true,
@@ -201,9 +205,11 @@ ${userQuery}
   "intent_analysis": {
     "attribute": ["用户需要的物理属性"],
     "performance": ["用户需要的性能"],
-    "use": ["用户的使用场景"]
+    "use": ["用户的使用场景"],
+    "style": ["用户偏好的风格"]
   },
   "causal_reasoning": "反向推理过程说明",
+  "extractedCategory": "用户指定的品类（如：连衣裙、T恤，没有明确品类则为 null）",
   "extractedTags": ["映射到标签库的标签"],
   "searchText": "融合三维度的向量搜索文本"
 }
@@ -216,11 +222,13 @@ ${userQuery}
   "isSearch": true,
   "primary_dimension": "use",
   "intent_analysis": {
-    "attribute": ["轻薄", "连衣裙", "飘逸"],
+    "attribute": ["轻薄", "飘逸"],
     "performance": ["凉爽", "透气", "舒适"],
-    "use": ["度假", "沙滩", "夏季"]
+    "use": ["度假", "沙滩", "夏季"],
+    "style": ["休闲", "时尚"]
   },
   "causal_reasoning": "用户要去沙滩→需要凉爽透气的衣服→需要轻薄飘逸面料的连衣裙",
+  "extractedCategory": "连衣裙",
   "extractedTags": ["女装", "连衣裙", "夏季"],
   "searchText": "女装 连衣裙 轻薄飘逸凉爽透气 度假沙滩夏季"
 }
@@ -233,9 +241,11 @@ ${userQuery}
   "intent_analysis": {
     "attribute": ["羽绒", "厚实"],
     "performance": ["保暖", "防风", "轻便"],
-    "use": ["冬季日常", "户外", "通勤"]
+    "use": ["冬季日常", "户外", "通勤"],
+    "style": ["简约", "休闲"]
   },
   "causal_reasoning": "用户要保暖→羽绒服保暖性好→适合冬季日常和户外",
+  "extractedCategory": "羽绒服",
   "extractedTags": ["女装", "羽绒服", "冬季"],
   "searchText": "女装 羽绒服 保暖防风轻便 冬季日常户外通勤"
 }
@@ -246,11 +256,13 @@ ${userQuery}
   "isSearch": true,
   "primary_dimension": "attribute",
   "intent_analysis": {
-    "attribute": ["宽松", "牛仔裤", "阔腿"],
+    "attribute": ["宽松", "阔腿"],
     "performance": ["舒适", "不紧绷", "活动自如"],
-    "use": ["日常休闲", "周末", "逛街"]
+    "use": ["日常休闲", "周末", "逛街"],
+    "style": ["休闲", "宽松"]
   },
   "causal_reasoning": "用户要宽松版型→舒适不紧绷→适合日常休闲和周末逛街",
+  "extractedCategory": "牛仔裤",
   "extractedTags": ["女装", "牛仔裤", "宽松", "休闲"],
   "searchText": "女装 宽松阔腿牛仔裤 舒适不紧绷 日常休闲周末逛街"
 }`;

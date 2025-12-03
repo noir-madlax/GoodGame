@@ -37,43 +37,83 @@ export interface SearchDebugResultItem {
   rank: number;
   productId: number;
   productName: string;
-  vectorScore: number;
-  tagScore: number;
-  finalScore: number;
+  // 新版打分结构
+  scores?: {
+    vectorSimilarity: number;
+    tagMatchScore: number;
+    rrfScore: number;
+    finalScore: number;
+  };
   matchedTags: string[];
+  // 兼容旧版
+  vectorScore?: number;
+  tagScore?: number;
+  finalScore?: number;
 }
 
-// 搜索 Debug 信息接口
+// APU 意图分析
+interface APUIntentDebug {
+  attribute: string[];
+  performance: string[];
+  use: string[];
+  style?: string[];
+  primaryDimension?: string;
+  causalReasoning?: string;
+}
+
+// 搜索 Debug 信息接口 - 优化版
 export interface SearchDebugInfo {
   // 输入解析
   input?: {
     rawQuery: string;
-    llmParseTime?: number;
-    extractedTags?: string[];
     searchText?: string;
+    extractedTags?: string[];
+    apuIntent?: APUIntentDebug;
   };
-  // 搜索参数
-  params?: {
-    vectorWeight: number;
-    tagWeight: number;
+  // 配置参数（从数据库加载）
+  config?: {
+    textSearchWeight: number;
+    imageSearchWeight: number;
+    apuWeights: {
+      attribute: number;
+      performance: number;
+      use: number;
+      style: number;
+    };
+    rankingWeights: {
+      searchResult: number;
+      personaTag: number;
+      userPreference: number;
+    };
     rrf_k: number;
-    searchTime?: number;
+    matchCount: number;
+    minSimilarity: number;
+  };
+  // 耗时统计
+  timing?: {
+    llmParseMs?: number;
+    embeddingMs?: number;
+    searchMs?: number;
+    totalMs: number;
   };
   // 图片搜索调试信息
   imageSearch?: {
-    vectorDimension: number;          // 向量维度
-    vectorSample: number[];           // 向量前 5 个值（用于验证）
-    searchModel: string;              // 使用的搜索模型
-    dbModel: string;                  // 数据库中存储的模型
-    rawResultCount: number;           // 原始返回数量
-    minSimilarityThreshold: number;   // 最低相似度阈值
-    topSimilarities?: number[];       // 前几个相似度分数
-    error?: string;                   // 错误信息
+    vectorDimension: number;
+    searchModel: string;
+    dbModel: string;
+    rawResultCount: number;
+    topSimilarities?: number[];
+    error?: string;
   };
-  // 前 10 个结果详情
+  // 结果详情
   results?: SearchDebugResultItem[];
-  // 后 10 个结果详情
-  bottomResults?: SearchDebugResultItem[];
+  // 兼容旧版
+  params?: {
+    vectorWeight?: number;
+    tagWeight?: number;
+    rrf_k?: number;
+    searchTime?: number;
+  };
 }
 
 interface SearchModalProps {
@@ -471,75 +511,160 @@ export default function SearchModal({
           </p>
         </div>
 
-        {/* Debug 信息面板 */}
+        {/* Debug 信息面板 - 优化版 */}
         {showDebug && debugInfo && (
           <div className={cn(
             'border-t border-white/20 dark:border-white/10',
-            'bg-gray-900/90 backdrop-blur-xl',
+            'bg-gray-900/95 backdrop-blur-xl',
             'text-white text-xs',
-            'max-h-[300px] overflow-auto'
+            'max-h-[400px] overflow-auto'
           )}>
             <div className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h4 className="font-semibold text-violet-400">🔍 搜索 Debug 信息</h4>
-                <button
-                  onClick={onToggleDebug}
-                  className="text-gray-400 hover:text-white"
-                >
+                <button onClick={onToggleDebug} className="text-gray-400 hover:text-white">
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
-              {/* 输入解析 */}
+              {/* 输入解析与 APU 意图 */}
               {debugInfo.input && (
                 <div className="space-y-1">
-                  <p className="text-gray-400">输入解析:</p>
-                  <div className="bg-white/5 rounded-lg p-2 space-y-1">
-                    <p>原始输入: <span className="text-green-400">{debugInfo.input.rawQuery}</span></p>
-                    {debugInfo.input.llmParseTime && (
-                      <p>LLM 解析耗时: <span className="text-yellow-400">{debugInfo.input.llmParseTime}ms</span></p>
+                  <p className="text-gray-400 font-medium">📝 输入解析:</p>
+                  <div className="bg-white/5 rounded-lg p-3 space-y-2">
+                    <p>原始查询: <span className="text-green-400">{debugInfo.input.rawQuery}</span></p>
+                    {debugInfo.input.searchText && (
+                      <p>搜索文本: <span className="text-cyan-400">{debugInfo.input.searchText}</span></p>
                     )}
-                    {debugInfo.input.extractedTags && (
+                    {debugInfo.input.extractedTags && debugInfo.input.extractedTags.length > 0 && (
                       <p>提取标签: <span className="text-blue-400">[{debugInfo.input.extractedTags.join(', ')}]</span></p>
                     )}
-                    {debugInfo.input.searchText && (
-                      <p>搜索文本: <span className="text-green-400">{debugInfo.input.searchText}</span></p>
+                    {/* 提取的品类 - 最高优先级 */}
+                    {debugInfo.input.extractedCategory && (
+                      <p className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 bg-red-500/20 text-red-300 rounded text-[10px]">🎯 品类过滤</span>
+                        <span className="text-red-400 font-bold">{debugInfo.input.extractedCategory}</span>
+                      </p>
+                    )}
+                    {/* APU 意图分析 */}
+                    {debugInfo.input.apuIntent && (
+                      <div className="mt-2 pt-2 border-t border-white/10">
+                        <p className="text-purple-400 mb-1">APUS 四维度意图分析:</p>
+                        <div className="grid grid-cols-2 gap-2 text-[10px]">
+                          <p>属性(A): <span className="text-blue-300">{debugInfo.input.apuIntent.attribute?.join(', ') || '-'}</span></p>
+                          <p>性能(P): <span className="text-green-300">{debugInfo.input.apuIntent.performance?.join(', ') || '-'}</span></p>
+                          <p>场景(U): <span className="text-amber-300">{debugInfo.input.apuIntent.use?.join(', ') || '-'}</span></p>
+                          <p>风格(S): <span className="text-pink-300">{debugInfo.input.apuIntent.style?.join(', ') || '-'}</span></p>
+                        </div>
+                        {debugInfo.input.apuIntent.primaryDimension && (
+                          <p className="mt-1">主要维度: <span className="text-yellow-400">{debugInfo.input.apuIntent.primaryDimension}</span></p>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* 搜索参数 */}
-              {debugInfo.params && (
+              {/* 配置参数 */}
+              {debugInfo.config && (
                 <div className="space-y-1">
-                  <p className="text-gray-400">搜索参数:</p>
-                  <div className="bg-white/5 rounded-lg p-2 flex flex-wrap gap-3">
-                    <span>向量权重: <span className="text-cyan-400">{debugInfo.params.vectorWeight}</span></span>
-                    <span>标签权重: <span className="text-cyan-400">{debugInfo.params.tagWeight}</span></span>
-                    <span>RRF k: <span className="text-cyan-400">{debugInfo.params.rrf_k}</span></span>
-                    {debugInfo.params.searchTime && (
-                      <span>搜索耗时: <span className="text-yellow-400">{debugInfo.params.searchTime}ms</span></span>
-                    )}
+                  <p className="text-gray-400 font-medium">⚙️ 配置参数 (数据库):</p>
+                  <div className="bg-white/5 rounded-lg p-3 space-y-2">
+                    {/* CAPUS 五维度权重 */}
+                    <div>
+                      <p className="text-purple-300 text-[10px] mb-1">🎯 品类及 APUS 五维度权重 (和=1):</p>
+                      <div className="flex flex-wrap gap-2 text-[10px]">
+                        <span className="px-2 py-0.5 bg-red-500/20 rounded">品类: {debugInfo.config.capusWeights?.category || 0.30}</span>
+                        <span className="px-2 py-0.5 bg-blue-500/20 rounded">属性: {debugInfo.config.capusWeights?.attribute || 0.25}</span>
+                        <span className="px-2 py-0.5 bg-green-500/20 rounded">性能: {debugInfo.config.capusWeights?.performance || 0.20}</span>
+                        <span className="px-2 py-0.5 bg-amber-500/20 rounded">场景: {debugInfo.config.capusWeights?.use || 0.15}</span>
+                        <span className="px-2 py-0.5 bg-pink-500/20 rounded">风格: {debugInfo.config.capusWeights?.style || 0.10}</span>
+                      </div>
+                    </div>
+                    {/* 排序权重 */}
+                    <div>
+                      <p className="text-cyan-300 text-[10px] mb-1">排序权重:</p>
+                      <div className="flex flex-wrap gap-2 text-[10px]">
+                        <span className="px-2 py-0.5 bg-blue-500/20 rounded">搜索结果: {debugInfo.config.rankingWeights.searchResult}</span>
+                        <span className="px-2 py-0.5 bg-amber-500/20 rounded">个性化标签: {debugInfo.config.rankingWeights.personaTag}</span>
+                        <span className="px-2 py-0.5 bg-pink-500/20 rounded">用户偏好: {debugInfo.config.rankingWeights.userPreference}</span>
+                      </div>
+                    </div>
+                    {/* 其他参数 */}
+                    <div className="flex flex-wrap gap-3 text-[10px] pt-1 border-t border-white/10">
+                      <span>RRF k: <span className="text-cyan-400">{debugInfo.config.rrf_k}</span></span>
+                      <span>最大数量: <span className="text-cyan-400">{debugInfo.config.matchCount}</span></span>
+                      <span>最小相似度: <span className="text-cyan-400">{debugInfo.config.minSimilarity}</span></span>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* 结果详情 */}
+              {/* 耗时统计 */}
+              {debugInfo.timing && (
+                <div className="space-y-1">
+                  <p className="text-gray-400 font-medium">⏱️ 耗时统计:</p>
+                  <div className="bg-white/5 rounded-lg p-2 flex flex-wrap gap-3">
+                    {debugInfo.timing.llmParseMs && (
+                      <span>LLM解析: <span className="text-yellow-400">{debugInfo.timing.llmParseMs}ms</span></span>
+                    )}
+                    {debugInfo.timing.embeddingMs && (
+                      <span>向量化: <span className="text-cyan-400">{debugInfo.timing.embeddingMs}ms</span></span>
+                    )}
+                    {debugInfo.timing.searchMs && (
+                      <span>搜索: <span className="text-green-400">{debugInfo.timing.searchMs}ms</span></span>
+                    )}
+                    <span>总耗时: <span className="text-amber-400 font-bold">{debugInfo.timing.totalMs}ms</span></span>
+                  </div>
+                </div>
+              )}
+
+              {/* 结果详情打分 */}
               {debugInfo.results && debugInfo.results.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-gray-400">结果详情 (Top {debugInfo.results.length}):</p>
-                  <div className="space-y-2">
-                    {debugInfo.results.map((result, index) => (
-                      <div key={result.productId} className="bg-white/5 rounded-lg p-2">
-                        <p className="font-medium text-white">
-                          #{index + 1} {result.productName.slice(0, 40)}...
-                        </p>
-                        <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
-                          <span>向量: <span className="text-green-400">{result.vectorScore.toFixed(3)}</span></span>
-                          <span>标签: <span className="text-blue-400">{result.tagScore.toFixed(3)}</span></span>
-                          <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore.toFixed(3)}</span></span>
+                  <p className="text-gray-400 font-medium">📊 结果打分详情 (Top {debugInfo.results.length}):</p>
+                  <div className="space-y-1.5 max-h-[200px] overflow-auto">
+                    {debugInfo.results.map((result, idx) => (
+                      <div 
+                        key={`result-${idx}-${result.rank}`} 
+                        className="rounded-lg p-2"
+                        style={{ 
+                          background: result.categoryMatched 
+                            ? 'rgba(239, 68, 68, 0.15)' 
+                            : 'rgba(255, 255, 255, 0.05)',
+                          border: result.categoryMatched 
+                            ? '1px solid rgba(239, 68, 68, 0.3)' 
+                            : 'none'
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium text-white text-[11px] flex-1">
+                            #{result.rank} {result.productName.slice(0, 30)}...
+                          </p>
+                          {result.categoryMatched && (
+                            <span className="px-1.5 py-0.5 text-[9px] bg-red-500/30 text-red-300 rounded">
+                              ✓ 品类匹配
+                            </span>
+                          )}
                         </div>
-                        {result.matchedTags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
+                          {result.scores ? (
+                            <>
+                              <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
+                              <span>标签: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
+                              {result.categoryMatched && (
+                                <span>品类权重: <span className="text-red-400">{result.scores.categoryWeight}</span></span>
+                              )}
+                              <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
+                            </>
+                          ) : (
+                            <>
+                              <span>向量: <span className="text-green-400">{(result as unknown as { vectorScore: number }).vectorScore?.toFixed(3) || '-'}</span></span>
+                              <span>最终: <span className="text-yellow-400 font-bold">{(result as unknown as { finalScore: number }).finalScore?.toFixed(3) || '-'}</span></span>
+                            </>
+                          )}
+                        </div>
+                        {result.matchedTags && result.matchedTags.length > 0 && (
                           <p className="text-[10px] mt-1">
                             匹配标签: <span className="text-purple-400">[{result.matchedTags.join(', ')}]</span>
                           </p>

@@ -456,9 +456,9 @@ export default function SearchSettingsPage() {
             />
           </ConfigCard>
 
-          {/* APUS 四维度权重 */}
+          {/* 品类及 APUS 五维度权重 */}
           <ConfigCard
-            title="APUS 四维度权重"
+            title="品类及 APUS 五维度权重"
             icon={<Sliders className="w-5 h-5" />}
             color="#8b5cf6"
           >
@@ -468,12 +468,20 @@ export default function SearchSettingsPage() {
             >
               <Info className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
               <p className="text-xs text-gray-400">
-                APUS 四维度：属性(A) · 性能(P) · 场景(U) · 风格(S)。权重影响搜索匹配优先级。
+                五维度权重：品类(C) · 属性(A) · 性能(P) · 场景(U) · 风格(S)。品类权重最高优先级，五者之和应为 1。
               </p>
             </div>
 
             <SliderInput
-              value={Number(getValue('apu_attribute_weight', 0.35))}
+              value={Number(getValue('category_weight', 0.30))}
+              onChange={(v) => updateValue('category_weight', v)}
+              label="Category 权重 (品类) 🎯"
+              description="品类匹配优先级最高，如：连衣裙、T恤、牛仔裤"
+              color="#ef4444"
+            />
+
+            <SliderInput
+              value={Number(getValue('apu_attribute_weight', 0.25))}
               onChange={(v) => updateValue('apu_attribute_weight', v)}
               label="Attribute 权重 (属性)"
               description="外观、材质、版型等物理特征"
@@ -481,7 +489,7 @@ export default function SearchSettingsPage() {
             />
 
             <SliderInput
-              value={Number(getValue('apu_performance_weight', 0.25))}
+              value={Number(getValue('apu_performance_weight', 0.20))}
               onChange={(v) => updateValue('apu_performance_weight', v)}
               label="Performance 权重 (性能)"
               description="舒适度、保暖性、透气性等功能表现"
@@ -489,7 +497,7 @@ export default function SearchSettingsPage() {
             />
 
             <SliderInput
-              value={Number(getValue('apu_use_weight', 0.25))}
+              value={Number(getValue('apu_use_weight', 0.15))}
               onChange={(v) => updateValue('apu_use_weight', v)}
               label="Use 权重 (场景)"
               description="日常、通勤、约会等适用场合"
@@ -497,7 +505,7 @@ export default function SearchSettingsPage() {
             />
 
             <SliderInput
-              value={Number(getValue('apu_style_weight', 0.15))}
+              value={Number(getValue('apu_style_weight', 0.10))}
               onChange={(v) => updateValue('apu_style_weight', v)}
               label="Style 权重 (风格)"
               description="简约、时尚、复古等风格偏好"
@@ -512,23 +520,25 @@ export default function SearchSettingsPage() {
                 border: '1px solid rgba(100, 116, 139, 0.2)'
               }}
             >
-              <span className="text-gray-400 text-sm">APUS 权重总和</span>
+              <span className="text-gray-400 text-sm">五维度权重总和</span>
               <span 
                 className={cn(
                   "font-bold",
                   Math.abs(
-                    Number(getValue('apu_attribute_weight', 0.35)) +
-                    Number(getValue('apu_performance_weight', 0.25)) +
-                    Number(getValue('apu_use_weight', 0.25)) +
-                    Number(getValue('apu_style_weight', 0.15)) - 1
+                    Number(getValue('category_weight', 0.30)) +
+                    Number(getValue('apu_attribute_weight', 0.25)) +
+                    Number(getValue('apu_performance_weight', 0.20)) +
+                    Number(getValue('apu_use_weight', 0.15)) +
+                    Number(getValue('apu_style_weight', 0.10)) - 1
                   ) < 0.01 ? "text-green-400" : "text-amber-400"
                 )}
               >
                 {(
-                  Number(getValue('apu_attribute_weight', 0.35)) +
-                  Number(getValue('apu_performance_weight', 0.25)) +
-                  Number(getValue('apu_use_weight', 0.25)) +
-                  Number(getValue('apu_style_weight', 0.15))
+                  Number(getValue('category_weight', 0.30)) +
+                  Number(getValue('apu_attribute_weight', 0.25)) +
+                  Number(getValue('apu_performance_weight', 0.20)) +
+                  Number(getValue('apu_use_weight', 0.15)) +
+                  Number(getValue('apu_style_weight', 0.10))
                 ).toFixed(2)}
               </span>
             </div>

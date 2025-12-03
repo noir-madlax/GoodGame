@@ -384,6 +384,13 @@ export default function ProductSearchPage() {
                   {debugInfo.input.extractedTags && debugInfo.input.extractedTags.length > 0 && (
                     <p>提取标签: <span className="text-blue-400">[{debugInfo.input.extractedTags.join(', ')}]</span></p>
                   )}
+                  {/* 品类过滤 - 最高优先级 */}
+                  {debugInfo.input.extractedCategory && (
+                    <p className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 bg-red-500/30 text-red-300 rounded text-[10px]">🎯 品类过滤</span>
+                      <span className="text-red-400 font-bold">{debugInfo.input.extractedCategory}</span>
+                    </p>
+                  )}
                   {debugInfo.input.searchText && (
                     <p>搜索文本: <span className="text-green-400">{debugInfo.input.searchText}</span></p>
                   )}
@@ -472,24 +479,51 @@ export default function ProductSearchPage() {
               </div>
             )}
 
-            {/* 前 10 个结果详情 */}
+            {/* 前 15 个结果详情 */}
             {debugInfo.results && debugInfo.results.length > 0 && (
               <div className="space-y-1">
-                <p className="text-gray-400">🔝 前 {debugInfo.results.length} 个结果:</p>
+                <p className="text-gray-400">🔝 前 {debugInfo.results.length} 个结果打分:</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
-                  {debugInfo.results.map((result) => (
+                  {debugInfo.results.map((result, idx) => (
                     <div 
-                      key={`top-${result.productId}`} 
+                      key={`top-${idx}-${result.rank}`} 
                       className="rounded-lg p-2"
-                      style={{ background: 'rgba(34, 197, 94, 0.1)' }}
+                      style={{ 
+                        background: result.categoryMatched 
+                          ? 'rgba(239, 68, 68, 0.15)' 
+                          : 'rgba(34, 197, 94, 0.1)',
+                        border: result.categoryMatched 
+                          ? '1px solid rgba(239, 68, 68, 0.3)' 
+                          : 'none'
+                      }}
                     >
-                      <p className="font-medium text-white truncate">
-                        #{result.rank} {result.productName}
-                      </p>
+                      <div className="flex items-center gap-1">
+                        <p className="font-medium text-white truncate flex-1">
+                          #{result.rank} {result.productName}
+                        </p>
+                        {result.categoryMatched && (
+                          <span className="px-1 py-0.5 text-[8px] bg-red-500/30 text-red-300 rounded shrink-0">
+                            品类✓
+                          </span>
+                        )}
+                      </div>
                       <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
-                        <span>向量: <span className="text-green-400">{result.vectorScore.toFixed(3)}</span></span>
-                        <span>标签: <span className="text-blue-400">{result.tagScore.toFixed(3)}</span></span>
-                        <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore.toFixed(4)}</span></span>
+                        {result.scores ? (
+                          <>
+                            <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
+                            <span>标签: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
+                            {result.categoryMatched && result.scores.categoryWeight && (
+                              <span>品类: <span className="text-red-400">{result.scores.categoryWeight}</span></span>
+                            )}
+                            <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
+                          </>
+                        ) : (
+                          <>
+                            <span>向量: <span className="text-green-400">{result.vectorScore?.toFixed(3) ?? '-'}</span></span>
+                            <span>标签: <span className="text-blue-400">{result.tagScore?.toFixed(3) ?? '-'}</span></span>
+                            <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore?.toFixed(4) ?? '-'}</span></span>
+                          </>
+                        )}
                       </div>
                       {result.matchedTags && result.matchedTags.length > 0 && (
                         <p className="text-[10px] text-violet-400 mt-1 truncate">
@@ -502,14 +536,14 @@ export default function ProductSearchPage() {
               </div>
             )}
 
-            {/* 后 10 个结果详情 */}
+            {/* 后 10 个结果详情 - 已移除，新版本只显示前 15 个 */}
             {debugInfo.bottomResults && debugInfo.bottomResults.length > 0 && (
               <div className="space-y-1">
                 <p className="text-gray-400">🔻 后 {debugInfo.bottomResults.length} 个结果:</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
-                  {debugInfo.bottomResults.map((result) => (
+                  {debugInfo.bottomResults.map((result, idx) => (
                     <div 
-                      key={`bottom-${result.productId}`} 
+                      key={`bottom-${idx}-${result.rank}`} 
                       className="rounded-lg p-2"
                       style={{ background: 'rgba(239, 68, 68, 0.1)' }}
                     >
@@ -517,9 +551,17 @@ export default function ProductSearchPage() {
                         #{result.rank} {result.productName}
                       </p>
                       <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
-                        <span>向量: <span className="text-green-400">{result.vectorScore.toFixed(3)}</span></span>
-                        <span>标签: <span className="text-blue-400">{result.tagScore.toFixed(3)}</span></span>
-                        <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore.toFixed(4)}</span></span>
+                        {result.scores ? (
+                          <>
+                            <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
+                            <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
+                          </>
+                        ) : (
+                          <>
+                            <span>向量: <span className="text-green-400">{result.vectorScore?.toFixed(3) ?? '-'}</span></span>
+                            <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore?.toFixed(4) ?? '-'}</span></span>
+                          </>
+                        )}
                       </div>
                       {result.matchedTags && result.matchedTags.length > 0 && (
                         <p className="text-[10px] text-violet-400 mt-1 truncate">

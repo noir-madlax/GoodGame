@@ -45,9 +45,11 @@ interface LLMParseResult {
     attribute: string[];                // 物理属性需求
     performance: string[];              // 性能需求
     use: string[];                      // 使用场景
+    style?: string[];                   // 风格需求
   };
   causalReasoning?: string;             // 因果推理过程
   extractedTags: string[];              // 提取的标签
+  extractedCategory?: string;           // 提取的品类（如：连衣裙、T恤）
   searchText: string;                   // 用于向量搜索的文本
   chatResponse?: string;                // 如果是闲聊，返回回复
 }
@@ -65,46 +67,88 @@ interface SearchResult {
   image_score?: number;
   matched_tags: string[];
   final_score: number;
+  category_matched?: boolean;  // 新增：是否品类匹配
 }
 
-// Debug 结果项
+// Debug 结果项 - 详细打分
 interface DebugResultItem {
   rank: number;
   productId: number;
   productName: string;
-  vectorScore: number;
-  tagScore: number;
-  finalScore: number;
+  categoryMatched: boolean;      // 品类是否匹配
+  scores: {
+    vectorSimilarity: number;    // 向量相似度原始分
+    tagMatchScore: number;       // 标签匹配分
+    categoryWeight: number;      // 品类权重（匹配时生效）
+    baseScore: number;           // 基础分数
+    finalScore: number;          // 最终分数
+  };
   matchedTags: string[];
 }
 
-// Debug 信息
+// APU 意图分析结果
+interface APUIntentDebug {
+  attribute: string[];           // 属性需求
+  performance: string[];         // 性能需求
+  use: string[];                 // 场景需求
+  style?: string[];              // 风格需求
+  primaryDimension?: string;     // 主要维度
+  causalReasoning?: string;      // 因果推理
+}
+
+// Debug 信息 - 优化版
 interface DebugInfo {
+  // 输入解析
   input: {
-    rawQuery: string;
-    llmParseTime?: number;
-    extractedTags?: string[];
-    searchText?: string;
+    rawQuery: string;            // 原始查询
+    llmParseTime?: number;       // LLM 解析耗时
+    searchText?: string;         // 实际搜索文本
+    extractedTags?: string[];    // 提取的标签
+    extractedCategory?: string;  // 提取的品类
+    apuIntent?: APUIntentDebug;  // APU 意图分析
   };
-  params: {
-    vectorWeight: number;
-    tagWeight: number;
+  // 配置参数（从数据库加载）
+  config: {
+    // 多模态权重
+    textSearchWeight: number;
+    imageSearchWeight: number;
+    // 品类及 APUS 五维度权重（和为 1）
+    capusWeights: {
+      category: number;          // 品类权重（最高优先级）
+      attribute: number;
+      performance: number;
+      use: number;
+      style: number;
+    };
+    // 排序权重
+    rankingWeights: {
+      searchResult: number;      // 搜索结果权重
+      personaTag: number;        // 商品个性化标签权重
+      userPreference: number;    // 用户偏好权重
+    };
+    // 其他参数
     rrf_k: number;
-    searchTime?: number;
+    matchCount: number;
+    minSimilarity: number;
+  };
+  // 耗时统计
+  timing: {
+    llmParseMs?: number;
+    embeddingMs?: number;
+    searchMs?: number;
+    totalMs: number;
   };
   // 图片搜索调试信息
   imageSearch?: {
-    vectorDimension: number;          // 向量维度
-    vectorSample: number[];           // 向量前 5 个值（用于验证）
-    searchModel: string;              // 使用的搜索模型
-    dbModel: string;                  // 数据库中存储的模型
-    rawResultCount: number;           // 原始返回数量
-    minSimilarityThreshold: number;   // 最低相似度阈值
-    topSimilarities?: number[];       // 前几个相似度分数
-    error?: string;                   // 错误信息
+    vectorDimension: number;
+    searchModel: string;
+    dbModel: string;
+    rawResultCount: number;
+    topSimilarities?: number[];
+    error?: string;
   };
-  results?: DebugResultItem[];       // 前 10 个结果
-  bottomResults?: DebugResultItem[]; // 后 10 个结果
+  // 结果明细
+  results?: DebugResultItem[];
 }
 
 // ============================================================================
@@ -242,6 +286,7 @@ async function parseUserIntent(query: string): Promise<LLMParseResult> {
         intentAnalysis: parsed.intent_analysis,
         causalReasoning: parsed.causal_reasoning,
         extractedTags: parsed.extractedTags || [],
+        extractedCategory: parsed.extractedCategory || null,  // 提取品类
         searchText: parsed.searchText || query,
         chatResponse: parsed.chatResponse,
       };
@@ -402,12 +447,14 @@ function toVectorString(arr: number[]): string {
 /**
  * 执行文本混合搜索
  * 权重从数据库配置读取
+ * 支持品类过滤和权重计算
  */
 async function hybridSearchByText(
   embedding: number[],
   tags: string[],
   matchCount: number = 50,
-  config?: Record<string, unknown>
+  config?: Record<string, unknown>,
+  categoryFilter?: string  // 品类过滤
 ): Promise<SearchResult[]> {
   // 加载配置
   const searchConfig = config || await loadSearchConfig();
@@ -416,8 +463,10 @@ async function hybridSearchByText(
   const vectorWeight = getConfigValue(searchConfig, 'vector_weight', 0.9);
   const tagWeight = getConfigValue(searchConfig, 'tag_weight', 0.1);
   const rrfK = getConfigValue(searchConfig, 'rrf_k', 50);
+  const categoryWeight = getConfigValue(searchConfig, 'category_weight', 0.30);  // 品类权重
   
   console.log(`搜索权重: vector=${vectorWeight}, tag=${tagWeight}, rrf_k=${rrfK}`);
+  console.log(`品类过滤: ${categoryFilter || '无'}, 品类权重: ${categoryWeight}`);
   
   // pgvector 需要向量格式为 "[...]" 字符串
   const { data, error } = await supabase.rpc('hybrid_search_products', {
@@ -427,6 +476,8 @@ async function hybridSearchByText(
     vector_weight: vectorWeight,
     tag_weight: tagWeight,
     rrf_k: rrfK,
+    category_filter: categoryFilter || null,  // 品类过滤
+    category_boost: 1.0 + categoryWeight * 3,  // 品类权重转换为加权因子（权重越高，加权越大）
   });
 
   if (error) {
@@ -562,20 +613,55 @@ export async function POST(request: NextRequest) {
     }
 
     let results: SearchResult[] = [];
+    const startTimeTotal = Date.now();
+    
     // 加载搜索配置
     const searchConfig = await loadSearchConfig();
-    const vectorWeight = getConfigValue(searchConfig, 'vector_weight', 0.9);
-    const tagWeight = getConfigValue(searchConfig, 'tag_weight', 0.1);
+    
+    // 读取配置值
+    const textSearchWeight = getConfigValue(searchConfig, 'text_search_weight', 0.5);
+    const imageSearchWeight = getConfigValue(searchConfig, 'image_search_weight', 0.5);
     const rrfK = getConfigValue(searchConfig, 'rrf_k', 50);
+    const matchCountConfig = getConfigValue(searchConfig, 'match_count', 50);
+    const minSimilarity = getConfigValue(searchConfig, 'min_similarity', 0.3);
+    
+    // 品类及 APUS 五维度权重（和为 1）
+    const categoryWeight = getConfigValue(searchConfig, 'category_weight', 0.30);
+    const apuAttributeWeight = getConfigValue(searchConfig, 'apu_attribute_weight', 0.25);
+    const apuPerformanceWeight = getConfigValue(searchConfig, 'apu_performance_weight', 0.20);
+    const apuUseWeight = getConfigValue(searchConfig, 'apu_use_weight', 0.15);
+    const apuStyleWeight = getConfigValue(searchConfig, 'apu_style_weight', 0.10);
+    
+    // 排序权重
+    const searchResultWeight = getConfigValue(searchConfig, 'search_result_weight', 0.5);
+    const personaTagWeight = getConfigValue(searchConfig, 'persona_tag_weight', 0.3);
+    const userPreferenceWeight = getConfigValue(searchConfig, 'user_preference_weight', 0.2);
 
     const debugInfo: DebugInfo = {
       input: {
         rawQuery: query || '[图片搜索]',
       },
-      params: {
-        vectorWeight,         // 从数据库配置读取
-        tagWeight,            // 从数据库配置读取
-        rrf_k: rrfK,          // 从数据库配置读取
+      config: {
+        textSearchWeight,
+        imageSearchWeight,
+        capusWeights: {
+          category: categoryWeight,
+          attribute: apuAttributeWeight,
+          performance: apuPerformanceWeight,
+          use: apuUseWeight,
+          style: apuStyleWeight,
+        },
+        rankingWeights: {
+          searchResult: searchResultWeight,
+          personaTag: personaTagWeight,
+          userPreference: userPreferenceWeight,
+        },
+        rrf_k: rrfK,
+        matchCount: matchCountConfig,
+        minSimilarity,
+      },
+      timing: {
+        totalMs: 0,
       },
     };
 
@@ -585,16 +671,39 @@ export async function POST(request: NextRequest) {
       const llmStartTime = Date.now();
       const parseResult = await parseUserIntent(query);
       const llmParseTime = Date.now() - llmStartTime;
+      debugInfo.timing.llmParseMs = llmParseTime;
 
-      debugInfo.input.llmParseTime = llmParseTime;
       debugInfo.input.extractedTags = parseResult.extractedTags;
       debugInfo.input.searchText = parseResult.searchText;
+      debugInfo.input.extractedCategory = parseResult.extractedCategory;
+      
+      // APU 意图分析结果
+      if (parseResult.intentAnalysis) {
+        debugInfo.input.apuIntent = {
+          attribute: parseResult.intentAnalysis.attribute || [],
+          performance: parseResult.intentAnalysis.performance || [],
+          use: parseResult.intentAnalysis.use || [],
+          style: parseResult.intentAnalysis.style || [],
+          primaryDimension: parseResult.primaryDimension,
+          causalReasoning: parseResult.causalReasoning,
+        };
+      }
 
       // Step 2: 生成文本向量
+      const embeddingStartTime = Date.now();
       const embedding = await generateTextEmbedding(parseResult.searchText);
+      debugInfo.timing.embeddingMs = Date.now() - embeddingStartTime;
 
-      // Step 3: 混合搜索 (使用数据库配置)
-      results = await hybridSearchByText(embedding, parseResult.extractedTags, matchCount, searchConfig);
+      // Step 3: 混合搜索 (使用数据库配置，支持品类过滤)
+      const searchStartTime = Date.now();
+      results = await hybridSearchByText(
+        embedding, 
+        parseResult.extractedTags, 
+        matchCount, 
+        searchConfig,
+        parseResult.extractedCategory  // 传入品类过滤
+      );
+      debugInfo.timing.searchMs = Date.now() - searchStartTime;
     }
     // 情况 2: 只有图片
     // 使用 TinyCLIP 生成 512 维图片向量
@@ -634,9 +743,8 @@ export async function POST(request: NextRequest) {
         results = [];
       }
       
-      // 更新 debug 参数
-      debugInfo.params.vectorWeight = 1.0;  // 纯图片搜索
-      debugInfo.params.tagWeight = 0;
+      // 纯图片搜索模式
+      debugInfo.timing.searchMs = Date.now() - startTimeTotal;
     }
     // 情况 3: 文本 + 图片
     else if (query && imageBase64) {
@@ -677,39 +785,32 @@ export async function POST(request: NextRequest) {
       debugInfo.imageSearch.rawResultCount = searchResult.debugInfo.rawCount;
       debugInfo.imageSearch.topSimilarities = searchResult.debugInfo.topSimilarities;
 
-      debugInfo.params.vectorWeight = 0.3;
-      debugInfo.params.tagWeight = 0.2;
+      // 混合搜索模式
+      debugInfo.timing.searchMs = Date.now() - startTimeTotal - (debugInfo.timing.llmParseMs || 0);
     }
 
     // 计算总耗时
-    const searchTime = Date.now() - startTime;
-    debugInfo.params.searchTime = searchTime;
+    debugInfo.timing.totalMs = Date.now() - startTimeTotal;
 
-    // 生成结果 Debug 信息 (前 10 + 后 10)
-    const topResults = results.slice(0, 10).map((r, i) => ({
-      rank: i + 1,
-      productId: r.product_id,
-      productName: r.item_name,
-      vectorScore: r.vector_score || r.image_score || 0,
-      tagScore: r.tag_score,
-      finalScore: r.final_score,
-      matchedTags: r.matched_tags || [],
-    }));
-    
-    const bottomResults = results.length > 10 
-      ? results.slice(-10).map((r, i) => ({
-          rank: results.length - 9 + i,
-          productId: r.product_id,
-          productName: r.item_name,
-          vectorScore: r.vector_score || r.image_score || 0,
-          tagScore: r.tag_score,
-          finalScore: r.final_score,
-          matchedTags: r.matched_tags || [],
-        }))
-      : [];
-    
-    debugInfo.results = topResults;
-    debugInfo.bottomResults = bottomResults;
+    // 生成结果 Debug 信息 (前 15 个结果的详细打分)
+    debugInfo.results = results.slice(0, 15).map((r, i) => {
+      const categoryMatched = r.category_matched || false;
+      
+      return {
+        rank: i + 1,
+        productId: r.product_id,
+        productName: r.item_name,
+        categoryMatched,
+        scores: {
+          vectorSimilarity: Number((r.vector_score || r.image_score || 0).toFixed(4)),
+          tagMatchScore: Number((r.tag_score || 0).toFixed(4)),
+          categoryWeight: categoryMatched ? categoryWeight : 0,
+          baseScore: Number(r.final_score.toFixed(4)),
+          finalScore: Number(r.final_score.toFixed(4)),
+        },
+        matchedTags: r.matched_tags || [],
+      };
+    });
 
     return NextResponse.json({
       success: true,
