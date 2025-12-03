@@ -723,11 +723,9 @@ export async function POST(request: NextRequest) {
       // 添加图片搜索调试信息
       debugInfo.imageSearch = {
         vectorDimension: imageEmbedding.length,
-        vectorSample: imageEmbedding.slice(0, 5),
         searchModel: 'TinyCLIP (negu63/tinyclip)',
         dbModel: 'openai/clip-vit-base-patch32',
         rawResultCount: 0,
-        minSimilarityThreshold: 0.0,  // 使用 0 阈值进行调试
         topSimilarities: [],
       };
       
@@ -766,11 +764,9 @@ export async function POST(request: NextRequest) {
       // 添加图片搜索调试信息
       debugInfo.imageSearch = {
         vectorDimension: imageEmbedding.length,
-        vectorSample: imageEmbedding.slice(0, 5),
         searchModel: 'TinyCLIP (negu63/tinyclip)',
         dbModel: 'openai/clip-vit-base-patch32',
         rawResultCount: 0,
-        minSimilarityThreshold: 0.2,
         topSimilarities: [],
       };
 

@@ -37,11 +37,14 @@ export interface SearchDebugResultItem {
   rank: number;
   productId: number;
   productName: string;
+  categoryMatched?: boolean;      // 品类是否匹配
   // 新版打分结构
   scores?: {
     vectorSimilarity: number;
     tagMatchScore: number;
-    rrfScore: number;
+    categoryWeight?: number;      // 品类权重（匹配时生效）
+    baseScore?: number;           // 基础分数
+    rrfScore?: number;
     finalScore: number;
   };
   matchedTags: string[];
@@ -68,13 +71,15 @@ export interface SearchDebugInfo {
     rawQuery: string;
     searchText?: string;
     extractedTags?: string[];
+    extractedCategory?: string;  // 提取的品类
     apuIntent?: APUIntentDebug;
   };
   // 配置参数（从数据库加载）
   config?: {
     textSearchWeight: number;
     imageSearchWeight: number;
-    apuWeights: {
+    capusWeights: {
+      category: number;         // 品类权重（最高优先级）
       attribute: number;
       performance: number;
       use: number;

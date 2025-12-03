@@ -433,21 +433,10 @@ export default function ProductSearchPage() {
                   {/* 向量信息 */}
                   <div className="flex flex-wrap gap-3">
                     <span>向量维度: <span className="text-cyan-400">{debugInfo.imageSearch.vectorDimension}</span></span>
-                    <span>相似度阈值: <span className="text-cyan-400">{debugInfo.imageSearch.minSimilarityThreshold}</span></span>
                     <span>返回数量: <span className={debugInfo.imageSearch.rawResultCount > 0 ? 'text-green-400' : 'text-red-400'}>
                       {debugInfo.imageSearch.rawResultCount}
                     </span></span>
                   </div>
-                  
-                  {/* 向量样本 */}
-                  {debugInfo.imageSearch.vectorSample && (
-                    <div>
-                      <span className="text-gray-400">向量前 5 个值: </span>
-                      <span className="text-violet-300 font-mono text-[10px]">
-                        [{debugInfo.imageSearch.vectorSample.map(v => v.toFixed(4)).join(', ')}]
-                      </span>
-                    </div>
-                  )}
                   
                   {/* 相似度分数 */}
                   {debugInfo.imageSearch.topSimilarities && debugInfo.imageSearch.topSimilarities.length > 0 && (
@@ -513,44 +502,6 @@ export default function ProductSearchPage() {
                           <>
                             <span>向量: <span className="text-green-400">{result.vectorScore?.toFixed(3) ?? '-'}</span></span>
                             <span>标签: <span className="text-blue-400">{result.tagScore?.toFixed(3) ?? '-'}</span></span>
-                            <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore?.toFixed(4) ?? '-'}</span></span>
-                          </>
-                        )}
-                      </div>
-                      {result.matchedTags && result.matchedTags.length > 0 && (
-                        <p className="text-[10px] text-violet-400 mt-1 truncate">
-                          匹配: [{result.matchedTags.join(', ')}]
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* 后 10 个结果详情 - 已移除，新版本只显示前 15 个 */}
-            {debugInfo.bottomResults && debugInfo.bottomResults.length > 0 && (
-              <div className="space-y-1">
-                <p className="text-gray-400">🔻 后 {debugInfo.bottomResults.length} 个结果:</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
-                  {debugInfo.bottomResults.map((result, idx) => (
-                    <div 
-                      key={`bottom-${idx}-${result.rank}`} 
-                      className="rounded-lg p-2"
-                      style={{ background: 'rgba(239, 68, 68, 0.1)' }}
-                    >
-                      <p className="font-medium text-white truncate">
-                        #{result.rank} {result.productName}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
-                        {result.scores ? (
-                          <>
-                            <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
-                            <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
-                          </>
-                        ) : (
-                          <>
-                            <span>向量: <span className="text-green-400">{result.vectorScore?.toFixed(3) ?? '-'}</span></span>
                             <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore?.toFixed(4) ?? '-'}</span></span>
                           </>
                         )}
