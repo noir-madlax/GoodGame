@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { 
   Package, 
   Sparkles,
+  Brain,
 } from 'lucide-react';
 
 /**
@@ -36,6 +37,12 @@ const navItems: NavItem[] = [
     label: '商品搜索',
     icon: <Package className="w-5 h-5" />,
     path: '/zara/products',
+  },
+  {
+    id: 'apu-rules',
+    label: '增强理解管理',
+    icon: <Brain className="w-5 h-5" />,
+    path: '/zara/apu-rules',
   },
 ];
 

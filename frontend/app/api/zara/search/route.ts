@@ -4,21 +4,27 @@
  * 路由: POST /api/zara/search
  * 
  * 功能:
- * 1. 文本搜索: LLM 意图解析 → 文本向量生成 → 混合搜索
+ * 1. 文本搜索: APU 意图解析 → 文本向量生成 → 混合搜索
  * 2. 图片搜索: TinyCLIP 向量生成 (512维) → 图片向量搜索
  * 3. 混合搜索: 文本 + 图片同时搜索 → RRF 合并
  * 
+ * APU 三维度理论:
+ * - Attribute (属性): 物理特性 - 外观、材质、版型等
+ * - Performance (性能): 性能表现 - 舒适度、保暖性等
+ * - Use (使用): 使用场景 - 日常、通勤、约会等
+ * 
+ * 搜索权重: 向量搜索 0.9 + 标签匹配 0.1
+ * 
  * 外部 API:
  * - OpenAI: text-embedding-3-small (文本向量)
- * - OpenRouter + Gemini 2.5 Flash: LLM 意图解析
- * - Replicate TinyCLIP: 图片向量 (512维，与数据库匹配)
- *   - 模型: negu63/tinyclip
- *   - 参考: https://replicate.com/negu63/tinyclip/api
+ * - OpenRouter + Gemini 2.5 Flash: LLM APU 意图解析
+ * - Replicate TinyCLIP: 图片向量 (512维)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
+import { buildSearchPrompt } from '@/zara/lib/apu-prompt-builder';
 
 // ============================================================================
 // 类型定义
@@ -31,12 +37,19 @@ interface SearchRequest {
   matchCount?: number;      // 返回数量
 }
 
-// LLM 解析结果
+// LLM APU 解析结果
 interface LLMParseResult {
-  isSearch: boolean;        // 是否是搜索意图
-  extractedTags: string[];  // 提取的标签
-  searchText: string;       // 用于向量搜索的文本
-  chatResponse?: string;    // 如果是闲聊，返回回复
+  isSearch: boolean;                    // 是否是搜索意图
+  primaryDimension?: string;            // 主要关注的维度: attribute/performance/use
+  intentAnalysis?: {                    // APU 意图分析
+    attribute: string[];                // 物理属性需求
+    performance: string[];              // 性能需求
+    use: string[];                      // 使用场景
+  };
+  causalReasoning?: string;             // 因果推理过程
+  extractedTags: string[];              // 提取的标签
+  searchText: string;                   // 用于向量搜索的文本
+  chatResponse?: string;                // 如果是闲聊，返回回复
 }
 
 // 搜索结果
@@ -120,47 +133,29 @@ const openrouter = new OpenAI({
 // ============================================================================
 
 /**
- * 使用 Gemini 2.5 Flash 解析用户意图
- * 提取搜索标签和搜索文本
+ * 使用 APU 三维度理论解析用户意图
+ * 从数据库加载规则，构建 Prompt，调用 LLM
+ * 
+ * APU 维度:
+ * - Attribute: 用户想要什么物理特征
+ * - Performance: 用户关心什么性能
+ * - Use: 用户在什么场景使用
  */
 async function parseUserIntent(query: string): Promise<LLMParseResult> {
-  // const startTime = Date.now(); // 用于调试
-  
   try {
+    // 构建 APU Prompt（包含从数据库加载的规则）
+    const apuPrompt = await buildSearchPrompt(supabase, query);
+    
     const response = await openrouter.chat.completions.create({
       model: 'google/gemini-2.5-flash',
       messages: [
         {
-          role: 'system',
-          content: `你是一个商品搜索助手，负责从用户的自然语言输入中提取搜索意图。
-
-你需要：
-1. 判断用户是否在搜索商品
-2. 如果是搜索，提取关键属性作为标签：品类、颜色、材质、风格、场景、季节等
-3. 生成用于向量搜索的简洁搜索文本
-
-可用的标签类型：
-- 性别: 女士, 男士, 儿童, 婴儿
-- 季节: 春季, 夏季, 秋季, 冬季
-- 品类: 连衣裙, T恤, 衬衫, 裤子, 牛仔裤, 外套, 针织衫, 毛衣, 羽绒服, 裙子, 短裙, 长裙 等
-- 风格: 休闲, 通勤, 运动, 优雅, 简约, 复古 等
-- 材质: 棉, 羊毛, 丝绸, 牛仔, 针织 等
-- 特征: 宽松, 修身, 印花, 条纹, 纯色 等
-
-输出格式 (必须是有效的 JSON):
-{
-  "isSearch": true,
-  "extractedTags": ["标签1", "标签2"],
-  "searchText": "用于向量搜索的简洁文本"
-}`
-        },
-        {
           role: 'user',
-          content: query
+          content: apuPrompt
         }
       ],
       temperature: 0.3,
-      max_tokens: 500,
+      max_tokens: 800,
     });
 
     const content = response.choices[0]?.message?.content || '';
@@ -171,6 +166,9 @@ async function parseUserIntent(query: string): Promise<LLMParseResult> {
       const parsed = JSON.parse(jsonMatch[0]);
       return {
         isSearch: parsed.isSearch ?? true,
+        primaryDimension: parsed.primary_dimension,
+        intentAnalysis: parsed.intent_analysis,
+        causalReasoning: parsed.causal_reasoning,
         extractedTags: parsed.extractedTags || [],
         searchText: parsed.searchText || query,
         chatResponse: parsed.chatResponse,
@@ -184,7 +182,7 @@ async function parseUserIntent(query: string): Promise<LLMParseResult> {
       searchText: query,
     };
   } catch (error) {
-    console.error('LLM 解析失败:', error);
+    console.error('APU 意图解析失败:', error);
     // 降级处理：直接使用原始查询
     return {
       isSearch: true,
@@ -331,6 +329,7 @@ function toVectorString(arr: number[]): string {
 
 /**
  * 执行文本混合搜索
+ * 权重: 向量搜索 0.9 + 标签匹配 0.1
  */
 async function hybridSearchByText(
   embedding: number[],
@@ -338,12 +337,13 @@ async function hybridSearchByText(
   matchCount: number = 50
 ): Promise<SearchResult[]> {
   // pgvector 需要向量格式为 "[...]" 字符串
+  // 权重调整：向量搜索为主 (0.9)，标签匹配为辅 (0.1)
   const { data, error } = await supabase.rpc('hybrid_search_products', {
     query_embedding: toVectorString(embedding),
     tag_values: tags,
     match_count: matchCount,
-    vector_weight: 0.75,
-    tag_weight: 0.25,
+    vector_weight: 0.9,   // 向量搜索权重 90%
+    tag_weight: 0.1,      // 标签匹配权重 10%
     rrf_k: 50,
   });
 
@@ -485,8 +485,8 @@ export async function POST(request: NextRequest) {
         rawQuery: query || '[图片搜索]',
       },
       params: {
-        vectorWeight: 0.75,
-        tagWeight: 0.25,
+        vectorWeight: 0.9,    // 向量搜索权重 90%
+        tagWeight: 0.1,       // 标签匹配权重 10%
         rrf_k: 50,
       },
     };
