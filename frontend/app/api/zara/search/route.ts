@@ -129,6 +129,78 @@ const openrouter = new OpenAI({
 });
 
 // ============================================================================
+// 配置加载
+// ============================================================================
+
+/** 搜索配置缓存 */
+let configCache: Record<string, unknown> | null = null;
+let configCacheTime = 0;
+const CONFIG_CACHE_TTL = 60 * 1000; // 1 分钟缓存
+
+/**
+ * 从数据库加载搜索配置
+ * 带缓存，避免每次请求都查询数据库
+ */
+async function loadSearchConfig(): Promise<Record<string, unknown>> {
+  const now = Date.now();
+  if (configCache && now - configCacheTime < CONFIG_CACHE_TTL) {
+    return configCache;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('gg_search_config')
+      .select('config_key, config_value');
+
+    if (error) {
+      console.error('加载搜索配置失败:', error);
+      // 返回默认配置
+      return getDefaultConfig();
+    }
+
+    const config: Record<string, unknown> = {};
+    for (const item of data || []) {
+      config[item.config_key] = item.config_value;
+    }
+
+    configCache = config;
+    configCacheTime = now;
+    return config;
+  } catch (err) {
+    console.error('加载搜索配置异常:', err);
+    return getDefaultConfig();
+  }
+}
+
+/**
+ * 获取默认配置
+ */
+function getDefaultConfig(): Record<string, unknown> {
+  return {
+    vector_weight: 0.9,
+    tag_weight: 0.1,
+    rrf_k: 50,
+    match_count: 50,
+    min_similarity: 0.3,
+    llm_temperature: 0.3,
+  };
+}
+
+/**
+ * 获取配置值
+ */
+function getConfigValue(config: Record<string, unknown>, key: string, defaultValue: number): number {
+  const value = config[key];
+  if (value === undefined || value === null) return defaultValue;
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') {
+    const parsed = parseFloat(value);
+    return isNaN(parsed) ? defaultValue : parsed;
+  }
+  return defaultValue;
+}
+
+// ============================================================================
 // 工具函数
 // ============================================================================
 
@@ -329,22 +401,32 @@ function toVectorString(arr: number[]): string {
 
 /**
  * 执行文本混合搜索
- * 权重: 向量搜索 0.9 + 标签匹配 0.1
+ * 权重从数据库配置读取
  */
 async function hybridSearchByText(
   embedding: number[],
   tags: string[],
-  matchCount: number = 50
+  matchCount: number = 50,
+  config?: Record<string, unknown>
 ): Promise<SearchResult[]> {
+  // 加载配置
+  const searchConfig = config || await loadSearchConfig();
+  
+  // 从配置获取权重
+  const vectorWeight = getConfigValue(searchConfig, 'vector_weight', 0.9);
+  const tagWeight = getConfigValue(searchConfig, 'tag_weight', 0.1);
+  const rrfK = getConfigValue(searchConfig, 'rrf_k', 50);
+  
+  console.log(`搜索权重: vector=${vectorWeight}, tag=${tagWeight}, rrf_k=${rrfK}`);
+  
   // pgvector 需要向量格式为 "[...]" 字符串
-  // 权重调整：向量搜索为主 (0.9)，标签匹配为辅 (0.1)
   const { data, error } = await supabase.rpc('hybrid_search_products', {
     query_embedding: toVectorString(embedding),
     tag_values: tags,
     match_count: matchCount,
-    vector_weight: 0.9,   // 向量搜索权重 90%
-    tag_weight: 0.1,      // 标签匹配权重 10%
-    rrf_k: 50,
+    vector_weight: vectorWeight,
+    tag_weight: tagWeight,
+    rrf_k: rrfK,
   });
 
   if (error) {
@@ -480,14 +562,20 @@ export async function POST(request: NextRequest) {
     }
 
     let results: SearchResult[] = [];
+    // 加载搜索配置
+    const searchConfig = await loadSearchConfig();
+    const vectorWeight = getConfigValue(searchConfig, 'vector_weight', 0.9);
+    const tagWeight = getConfigValue(searchConfig, 'tag_weight', 0.1);
+    const rrfK = getConfigValue(searchConfig, 'rrf_k', 50);
+
     const debugInfo: DebugInfo = {
       input: {
         rawQuery: query || '[图片搜索]',
       },
       params: {
-        vectorWeight: 0.9,    // 向量搜索权重 90%
-        tagWeight: 0.1,       // 标签匹配权重 10%
-        rrf_k: 50,
+        vectorWeight,         // 从数据库配置读取
+        tagWeight,            // 从数据库配置读取
+        rrf_k: rrfK,          // 从数据库配置读取
       },
     };
 
@@ -505,8 +593,8 @@ export async function POST(request: NextRequest) {
       // Step 2: 生成文本向量
       const embedding = await generateTextEmbedding(parseResult.searchText);
 
-      // Step 3: 混合搜索
-      results = await hybridSearchByText(embedding, parseResult.extractedTags, matchCount);
+      // Step 3: 混合搜索 (使用数据库配置)
+      results = await hybridSearchByText(embedding, parseResult.extractedTags, matchCount, searchConfig);
     }
     // 情况 2: 只有图片
     // 使用 TinyCLIP 生成 512 维图片向量

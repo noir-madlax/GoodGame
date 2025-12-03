@@ -85,16 +85,24 @@ def get_products_with_enhanced_text(supabase: Client, limit: int = None, force: 
         limit: 限制数量
         force: 是否强制重新生成（不跳过已有向量的）
     """
-    # 获取所有有增强文本的商品
+    # 获取所有有增强文本的商品（join 商品表获取 item_id）
     query = supabase.table("gg_taobao_product_apu").select(
-        "product_id, enhanced_text"
+        "product_id, enhanced_text, gg_taobao_products!inner(item_id)"
     ).not_.is_("enhanced_text", "null")
     
     if limit:
         query = query.limit(limit)
     
     result = query.execute()
-    products = result.data
+    
+    # 展开 join 结果
+    products = []
+    for row in result.data:
+        products.append({
+            "product_id": row["product_id"],
+            "enhanced_text": row["enhanced_text"],
+            "item_id": row["gg_taobao_products"]["item_id"]
+        })
     
     if not force:
         # 获取已有向量的商品 ID
@@ -148,8 +156,14 @@ def update_original_embeddings(supabase: Client, embeddings_data: list) -> None:
     # 转换为 text 类型
     text_embeddings = []
     for item in embeddings_data:
-        text_item = item.copy()
-        text_item["embedding_type"] = "text"
+        text_item = {
+            "product_id": item["product_id"],
+            "item_id": item["item_id"],
+            "embedding_type": "text",
+            "embedding_model": item["embedding_model"],
+            "embedding": item["embedding"],
+            "source_text": item["source_text"],
+        }
         text_embeddings.append(text_item)
     
     supabase.table("gg_taobao_product_embeddings").upsert(
@@ -194,6 +208,7 @@ def main():
         # 提取增强文本
         texts = [p["enhanced_text"] for p in batch]
         product_ids = [p["product_id"] for p in batch]
+        item_ids = [p["item_id"] for p in batch]
         
         try:
             # 生成向量
@@ -201,10 +216,11 @@ def main():
             
             # 构建数据 (text_enhanced 类型)
             embeddings_data = []
-            for j, product_id in enumerate(product_ids):
+            for j, (product_id, item_id) in enumerate(zip(product_ids, item_ids)):
                 if embeddings[j]:
                     embeddings_data.append({
                         "product_id": product_id,
+                        "item_id": item_id,
                         "embedding_type": "text_enhanced",
                         "embedding_model": EMBEDDING_MODEL,
                         "embedding": embeddings[j],

@@ -15,7 +15,7 @@
  *   - use_keywords: 使用场景
  */
 
-import { createClient } from '@supabase/supabase-js';
+// Supabase client 类型使用 any 以兼容不同版本的客户端实例
 
 // ============================================================================
 // 类型定义
@@ -52,7 +52,8 @@ const CACHE_TTL = 5 * 60 * 1000;
  * 带缓存机制，避免频繁查询数据库
  */
 export async function loadAPUProductRules(
-  supabase: ReturnType<typeof createClient>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any
 ): Promise<APUProductRule[]> {
   // 检查缓存是否有效
   const now = Date.now();
@@ -89,7 +90,8 @@ export async function loadAPUProductRules(
  * @param maxPerCategory - 每个品类最多展示几个示例
  */
 export async function buildRulesPromptSection(
-  supabase: ReturnType<typeof createClient>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any,
   maxPerCategory: number = 3
 ): Promise<string> {
   const rules = await loadAPUProductRules(supabase);
@@ -146,7 +148,8 @@ export async function buildRulesPromptSection(
  * @returns 完整的 Prompt 文本
  */
 export async function buildSearchPrompt(
-  supabase: ReturnType<typeof createClient>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any,
   userQuery: string
 ): Promise<string> {
   const rulesSection = await buildRulesPromptSection(supabase);

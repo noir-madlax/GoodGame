@@ -16,6 +16,8 @@ import {
   Package, 
   Sparkles,
   Brain,
+  Settings,
+  User,
 } from 'lucide-react';
 
 /**
@@ -30,6 +32,7 @@ interface NavItem {
 
 /**
  * 导航菜单配置
+ * 顺序：商品搜索 → 商品理解管理 → 用户偏好 → 搜索权重设置
  */
 const navItems: NavItem[] = [
   {
@@ -40,9 +43,21 @@ const navItems: NavItem[] = [
   },
   {
     id: 'apu-rules',
-    label: '增强理解管理',
+    label: '商品理解管理',
     icon: <Brain className="w-5 h-5" />,
     path: '/zara/apu-rules',
+  },
+  {
+    id: 'user-profile',
+    label: '用户偏好',
+    icon: <User className="w-5 h-5" />,
+    path: '/zara/user-profile',
+  },
+  {
+    id: 'search-settings',
+    label: '搜索权重设置',
+    icon: <Settings className="w-5 h-5" />,
+    path: '/zara/search-settings',
   },
 ];
 
