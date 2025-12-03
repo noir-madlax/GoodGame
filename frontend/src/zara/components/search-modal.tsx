@@ -532,19 +532,17 @@ export default function SearchModal({
                 <div className="space-y-1">
                   <p className="text-gray-400 font-medium">📝 输入解析:</p>
                   <div className="bg-white/5 rounded-lg p-3 space-y-2">
-                    <p>原始查询: <span className="text-green-400">{debugInfo.input.rawQuery}</span></p>
-                    {debugInfo.input.searchText && (
-                      <p>搜索文本: <span className="text-cyan-400">{debugInfo.input.searchText}</span></p>
-                    )}
-                    {debugInfo.input.extractedTags && debugInfo.input.extractedTags.length > 0 && (
-                      <p>提取标签: <span className="text-blue-400">[{debugInfo.input.extractedTags.join(', ')}]</span></p>
-                    )}
+                    <p>原始输入: <span className="text-green-400">{debugInfo.input.rawQuery}</span></p>
                     {/* 提取的品类 - 最高优先级 */}
                     {debugInfo.input.extractedCategory && (
                       <p className="flex items-center gap-2">
                         <span className="px-2 py-0.5 bg-red-500/20 text-red-300 rounded text-[10px]">🎯 品类过滤</span>
                         <span className="text-red-400 font-bold">{debugInfo.input.extractedCategory}</span>
                       </p>
+                    )}
+                    {/* 增强搜索文本 */}
+                    {debugInfo.input.searchText && (
+                      <p>增强搜索文本: <span className="text-cyan-400">{debugInfo.input.searchText}</span></p>
                     )}
                     {/* APU 意图分析 */}
                     {debugInfo.input.apuIntent && (

@@ -378,12 +378,6 @@ export default function ProductSearchPage() {
                   style={{ background: 'rgba(255, 255, 255, 0.05)' }}
                 >
                   <p>原始输入: <span className="text-green-400">{debugInfo.input.rawQuery}</span></p>
-                  {debugInfo.input.llmParseTime !== undefined && debugInfo.input.llmParseTime > 0 && (
-                    <p>LLM 解析耗时: <span className="text-yellow-400">{debugInfo.input.llmParseTime}ms</span></p>
-                  )}
-                  {debugInfo.input.extractedTags && debugInfo.input.extractedTags.length > 0 && (
-                    <p>提取标签: <span className="text-blue-400">[{debugInfo.input.extractedTags.join(', ')}]</span></p>
-                  )}
                   {/* 品类过滤 - 最高优先级 */}
                   {debugInfo.input.extractedCategory && (
                     <p className="flex items-center gap-2">
@@ -392,7 +386,7 @@ export default function ProductSearchPage() {
                     </p>
                   )}
                   {debugInfo.input.searchText && (
-                    <p>搜索文本: <span className="text-green-400">{debugInfo.input.searchText}</span></p>
+                    <p>增强搜索文本: <span className="text-cyan-400">{debugInfo.input.searchText}</span></p>
                   )}
                 </div>
               </div>

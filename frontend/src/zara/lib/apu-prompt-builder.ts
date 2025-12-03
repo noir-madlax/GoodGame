@@ -229,8 +229,8 @@ ${userQuery}
   },
   "causal_reasoning": "用户要去沙滩→需要凉爽透气的衣服→需要轻薄飘逸面料的连衣裙",
   "extractedCategory": "连衣裙",
-  "extractedTags": ["女装", "连衣裙", "夏季"],
-  "searchText": "女装 连衣裙 轻薄飘逸凉爽透气 度假沙滩夏季"
+  "extractedTags": ["连衣裙", "夏季"],
+  "searchText": "连衣裙 轻薄飘逸凉爽透气 度假沙滩夏季"
 }
 
 用户输入: "保暖的羽绒服"
@@ -246,8 +246,8 @@ ${userQuery}
   },
   "causal_reasoning": "用户要保暖→羽绒服保暖性好→适合冬季日常和户外",
   "extractedCategory": "羽绒服",
-  "extractedTags": ["女装", "羽绒服", "冬季"],
-  "searchText": "女装 羽绒服 保暖防风轻便 冬季日常户外通勤"
+  "extractedTags": ["羽绒服", "冬季"],
+  "searchText": "羽绒服 保暖防风轻便 冬季日常户外通勤"
 }
 
 用户输入: "宽松的牛仔裤"
@@ -263,9 +263,13 @@ ${userQuery}
   },
   "causal_reasoning": "用户要宽松版型→舒适不紧绷→适合日常休闲和周末逛街",
   "extractedCategory": "牛仔裤",
-  "extractedTags": ["女装", "牛仔裤", "宽松", "休闲"],
-  "searchText": "女装 宽松阔腿牛仔裤 舒适不紧绷 日常休闲周末逛街"
-}`;
+  "extractedTags": ["牛仔裤", "宽松", "休闲"],
+  "searchText": "宽松阔腿牛仔裤 舒适不紧绷 日常休闲周末逛街"
+}
+
+注意：
+- 只有用户明确说"女装"、"男装"、"童装"时才添加性别标签
+- searchText 只包含用户实际提到或推理出的内容，不要添加默认值`;
 }
 
 /**
