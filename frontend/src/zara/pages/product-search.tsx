@@ -409,6 +409,69 @@ export default function ProductSearchPage() {
               </div>
             )}
 
+            {/* 图片搜索调试信息 */}
+            {debugInfo.imageSearch && (
+              <div className="space-y-1">
+                <p className="text-gray-400">🖼️ 图片搜索调试:</p>
+                <div 
+                  className="rounded-lg p-2 space-y-2"
+                  style={{ background: 'rgba(139, 92, 246, 0.1)' }}
+                >
+                  {/* 模型对比 - 关键问题提示 */}
+                  <div className="flex flex-wrap gap-3 items-center">
+                    <span>搜索模型: <span className="text-violet-400">{debugInfo.imageSearch.searchModel}</span></span>
+                    <span className="text-gray-500">vs</span>
+                    <span>数据库模型: <span className="text-orange-400">{debugInfo.imageSearch.dbModel}</span></span>
+                    {debugInfo.imageSearch.searchModel !== debugInfo.imageSearch.dbModel && (
+                      <span className="px-2 py-0.5 rounded text-xs bg-red-500/20 text-red-400 border border-red-500/30">
+                        ⚠️ 模型不匹配
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* 向量信息 */}
+                  <div className="flex flex-wrap gap-3">
+                    <span>向量维度: <span className="text-cyan-400">{debugInfo.imageSearch.vectorDimension}</span></span>
+                    <span>相似度阈值: <span className="text-cyan-400">{debugInfo.imageSearch.minSimilarityThreshold}</span></span>
+                    <span>返回数量: <span className={debugInfo.imageSearch.rawResultCount > 0 ? 'text-green-400' : 'text-red-400'}>
+                      {debugInfo.imageSearch.rawResultCount}
+                    </span></span>
+                  </div>
+                  
+                  {/* 向量样本 */}
+                  {debugInfo.imageSearch.vectorSample && (
+                    <div>
+                      <span className="text-gray-400">向量前 5 个值: </span>
+                      <span className="text-violet-300 font-mono text-[10px]">
+                        [{debugInfo.imageSearch.vectorSample.map(v => v.toFixed(4)).join(', ')}]
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* 相似度分数 */}
+                  {debugInfo.imageSearch.topSimilarities && debugInfo.imageSearch.topSimilarities.length > 0 && (
+                    <div>
+                      <span className="text-gray-400">前 {debugInfo.imageSearch.topSimilarities.length} 个相似度: </span>
+                      <span className="font-mono text-[10px]">
+                        {debugInfo.imageSearch.topSimilarities.map((sim, i) => (
+                          <span key={i} className={sim > 0.5 ? 'text-green-400' : sim > 0.3 ? 'text-yellow-400' : 'text-red-400'}>
+                            {sim.toFixed(4)}{i < debugInfo.imageSearch!.topSimilarities!.length - 1 ? ', ' : ''}
+                          </span>
+                        ))}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* 错误信息 */}
+                  {debugInfo.imageSearch.error && (
+                    <div className="text-red-400">
+                      ❌ 错误: {debugInfo.imageSearch.error}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* 前 10 个结果详情 */}
             {debugInfo.results && debugInfo.results.length > 0 && (
               <div className="space-y-1">

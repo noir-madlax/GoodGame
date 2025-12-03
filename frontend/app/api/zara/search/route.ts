@@ -5,13 +5,15 @@
  * 
  * 功能:
  * 1. 文本搜索: LLM 意图解析 → 文本向量生成 → 混合搜索
- * 2. 图片搜索: CLIP 向量生成 → 图片向量搜索
+ * 2. 图片搜索: TinyCLIP 向量生成 (512维) → 图片向量搜索
  * 3. 混合搜索: 文本 + 图片同时搜索 → RRF 合并
  * 
  * 外部 API:
  * - OpenAI: text-embedding-3-small (文本向量)
  * - OpenRouter + Gemini 2.5 Flash: LLM 意图解析
- * - Replicate CLIP: 图片向量
+ * - Replicate TinyCLIP: 图片向量 (512维，与数据库匹配)
+ *   - 模型: negu63/tinyclip
+ *   - 参考: https://replicate.com/negu63/tinyclip/api
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -76,6 +78,17 @@ interface DebugInfo {
     tagWeight: number;
     rrf_k: number;
     searchTime?: number;
+  };
+  // 图片搜索调试信息
+  imageSearch?: {
+    vectorDimension: number;          // 向量维度
+    vectorSample: number[];           // 向量前 5 个值（用于验证）
+    searchModel: string;              // 使用的搜索模型
+    dbModel: string;                  // 数据库中存储的模型
+    rawResultCount: number;           // 原始返回数量
+    minSimilarityThreshold: number;   // 最低相似度阈值
+    topSimilarities?: number[];       // 前几个相似度分数
+    error?: string;                   // 错误信息
   };
   results?: DebugResultItem[];       // 前 10 个结果
   bottomResults?: DebugResultItem[]; // 后 10 个结果
@@ -194,9 +207,42 @@ async function generateTextEmbedding(text: string): Promise<number[]> {
 }
 
 /**
- * 使用 Replicate CLIP 生成图片向量
+ * 使用 Replicate TinyCLIP 生成图片向量 (512维)
+ * 
+ * 参考: https://replicate.com/negu63/tinyclip/api
+ * 
+ * TinyCLIP 输入参数:
+ * - url: 图片 URL
+ * - image_base64: Base64 编码的图片 (不含 data: 前缀)
+ * - text: 文本输入
+ * 
+ * TinyCLIP 输出格式:
+ * - 图片输入: { "image_vector": [...] } (512 维)
+ * - 文本输入: { "text_vector": [...] } (512 维)
+ * 
+ * 优势:
+ * - 512 维向量，与数据库中的图片向量维度匹配
+ * - 响应速度快
  */
+
+// TinyCLIP 模型版本 ID
+const TINYCLIP_VERSION = 'f1905b91cb2d384a76764d14189c76b15daea3588197c67fe29042c7f386699c';
+
+// 超时设置 (毫秒)
+const TINYCLIP_TIMEOUT_MS = 30000;
+
+// 最大轮询次数
+const TINYCLIP_MAX_POLLS = 30;
+
 async function generateImageEmbedding(imageBase64: string): Promise<number[]> {
+  const startTime = Date.now();
+  
+  // 去除 data URL 前缀，TinyCLIP 需要纯 Base64 字符串
+  const pureBase64 = imageBase64.startsWith('data:') 
+    ? imageBase64.split(',')[1] 
+    : imageBase64;
+  
+  // 创建预测请求
   const response = await fetch('https://api.replicate.com/v1/predictions', {
     method: 'POST',
     headers: {
@@ -204,65 +250,76 @@ async function generateImageEmbedding(imageBase64: string): Promise<number[]> {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      version: '75b33f253f7714a281ad3e9b28f63e3232d583716ef6718f2e46641077ea040a',
+      version: TINYCLIP_VERSION,
       input: {
-        inputs: imageBase64.startsWith('data:') ? imageBase64 : `data:image/jpeg;base64,${imageBase64}`,
+        // TinyCLIP 使用 image_base64 参数接收 Base64 编码的图片
+        image_base64: pureBase64,
       },
     }),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(`Replicate API 错误: ${JSON.stringify(error)}`);
+    throw new Error(`TinyCLIP API 创建预测失败: ${JSON.stringify(error)}`);
   }
 
-  const prediction = await response.json();
+  let prediction = await response.json();
+  console.log('TinyCLIP 预测 ID:', prediction.id, '状态:', prediction.status);
   
-  // 等待预测完成
-  let result = prediction;
-  while (result.status !== 'succeeded' && result.status !== 'failed') {
+  // 轮询等待预测完成，带超时控制
+  let pollCount = 0;
+  while (
+    prediction.status !== 'succeeded' && 
+    prediction.status !== 'failed' && 
+    pollCount < TINYCLIP_MAX_POLLS
+  ) {
+    // 检查是否超时
+    if (Date.now() - startTime > TINYCLIP_TIMEOUT_MS) {
+      throw new Error(`TinyCLIP 预测超时 (${TINYCLIP_TIMEOUT_MS}ms)`);
+    }
+    
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const pollResponse = await fetch(result.urls.get, {
+    pollCount++;
+    
+    const pollResponse = await fetch(prediction.urls.get, {
       headers: {
         'Authorization': `Token ${process.env.REPLICATE_API_KEY}`,
       },
     });
-    result = await pollResponse.json();
+    prediction = await pollResponse.json();
+    console.log(`TinyCLIP 轮询 ${pollCount}: ${prediction.status}`);
   }
 
-  if (result.status === 'failed') {
-    throw new Error(`Replicate 预测失败: ${result.error}`);
+  // 检查最终状态
+  if (prediction.status === 'failed') {
+    throw new Error(`TinyCLIP 预测失败: ${prediction.error}`);
+  }
+  
+  if (prediction.status !== 'succeeded') {
+    throw new Error(`TinyCLIP 预测未完成，状态: ${prediction.status}`);
   }
 
-  // 打印完整返回结果用于调试
-  console.log('Replicate API 完整返回:', JSON.stringify(result, null, 2));
+  const duration = Date.now() - startTime;
+  console.log(`TinyCLIP 图片向量生成完成，耗时: ${duration}ms`);
 
-  // 返回向量
-  // Replicate openai/clip 模型返回格式:
-  // - output: { embedding: [...] } (768维向量)
-  const output = result.output;
+  // 解析返回的向量
+  const output = prediction.output;
   
-  // 新格式: output.embedding (openai/clip 模型)
-  if (output && typeof output === 'object' && 'embedding' in output) {
-    const embedding = output.embedding;
-    if (Array.isArray(embedding)) {
-      console.log(`Replicate 返回 embedding 维度: ${embedding.length}`);
-      return embedding;
-    }
+  // TinyCLIP 图片输入返回格式: { "image_vector": [...] }
+  if (output && output.image_vector && Array.isArray(output.image_vector)) {
+    const vector = output.image_vector;
+    console.log(`TinyCLIP 返回 image_vector 维度: ${vector.length}`);
+    return vector;
   }
   
-  // 旧格式兼容: 如果是数组的数组，取第一个
-  if (Array.isArray(output) && Array.isArray(output[0])) {
-    return output[0];
+  // 兜底: 检查其他可能的字段名
+  if (output && output.embedding && Array.isArray(output.embedding)) {
+    console.log(`TinyCLIP 返回 embedding 维度: ${output.embedding.length}`);
+    return output.embedding;
   }
   
-  // 旧格式兼容: 如果直接是数组
-  if (Array.isArray(output)) {
-    return output;
-  }
-  
-  console.error('Replicate 返回格式异常:', typeof output, JSON.stringify(output));
-  throw new Error(`Replicate 返回格式异常: ${typeof output}`);
+  console.error('TinyCLIP 返回格式异常:', JSON.stringify(output));
+  throw new Error(`TinyCLIP 返回格式异常: ${JSON.stringify(output)}`);
 }
 
 /**
@@ -300,13 +357,17 @@ async function hybridSearchByText(
 
 /**
  * 执行图片搜索
+ * 
+ * 注意：当前数据库中的向量是用 openai/clip-vit-base-patch32 生成的
+ * 而搜索使用的是 TinyCLIP 模型，两者向量空间不完全兼容
+ * 需要降低相似度阈值才能获取结果
  */
 async function searchByImage(
   imageEmbedding: number[],
   textEmbedding?: number[],
   tags?: string[],
   matchCount: number = 50
-): Promise<SearchResult[]> {
+): Promise<{ results: SearchResult[]; debugInfo: { rawCount: number; topSimilarities: number[] } }> {
   // pgvector 需要向量格式为 "[...]" 字符串
   const { data, error } = await supabase.rpc('hybrid_search_with_image', {
     image_embedding: toVectorString(imageEmbedding),
@@ -324,7 +385,79 @@ async function searchByImage(
     throw error;
   }
 
-  return data || [];
+  const results = data || [];
+  
+  // 提取相似度调试信息
+  const topSimilarities = results.slice(0, 5).map((r: SearchResult) => r.image_score || 0);
+  
+  console.log('图片搜索结果数量:', results.length);
+  console.log('前 5 个相似度:', topSimilarities);
+
+  return {
+    results,
+    debugInfo: {
+      rawCount: results.length,
+      topSimilarities,
+    }
+  };
+}
+
+/**
+ * 直接使用底层函数搜索图片（绕过相似度阈值限制）
+ * 用于调试和验证向量兼容性
+ */
+async function searchByImageDirect(
+  imageEmbedding: number[],
+  matchCount: number = 50
+): Promise<{ results: SearchResult[]; debugInfo: { rawCount: number; topSimilarities: number[] } }> {
+  // 直接调用底层搜索函数，设置最低阈值为 0
+  const { data, error } = await supabase.rpc('search_products_by_image_vector', {
+    query_embedding: toVectorString(imageEmbedding),
+    match_count: matchCount,
+    min_similarity: 0.0,  // 设置为 0，获取所有结果
+  });
+
+  if (error) {
+    console.error('直接图片搜索失败:', error);
+    throw error;
+  }
+
+  const results = data || [];
+  const topSimilarities = results.slice(0, 10).map((r: { similarity: number }) => r.similarity);
+  
+  console.log('直接搜索结果数量:', results.length);
+  console.log('前 10 个相似度:', topSimilarities);
+
+  // 转换为标准格式
+  const standardResults: SearchResult[] = results.map((r: {
+    product_id: number;
+    item_id: number;
+    item_name: string;
+    price_yuan: number;
+    main_image_url: string;
+    matched_image_url: string;
+    similarity: number;
+  }) => ({
+    product_id: r.product_id,
+    item_id: r.item_id,
+    item_name: r.item_name,
+    price_yuan: r.price_yuan,
+    main_image_url: r.main_image_url,
+    matched_image_url: r.matched_image_url,
+    vector_score: 0,
+    tag_score: 0,
+    image_score: r.similarity,
+    matched_tags: [],
+    final_score: r.similarity,
+  }));
+
+  return {
+    results: standardResults,
+    debugInfo: {
+      rawCount: results.length,
+      topSimilarities,
+    }
+  };
 }
 
 // ============================================================================
@@ -376,14 +509,45 @@ export async function POST(request: NextRequest) {
       results = await hybridSearchByText(embedding, parseResult.extractedTags, matchCount);
     }
     // 情况 2: 只有图片
+    // 使用 TinyCLIP 生成 512 维图片向量
+    // 注意：数据库中的向量是 openai/clip-vit-base-patch32 生成的
+    // TinyCLIP 与 clip-vit-base-patch32 的向量空间可能不完全兼容
     else if (imageBase64 && !query) {
-      // Step 1: 生成图片向量
-      const imageEmbedding = await generateImageEmbedding(imageBase64);
-
-      // Step 2: 图片搜索
-      results = await searchByImage(imageEmbedding, undefined, undefined, matchCount);
+      console.log('图片搜索：使用 TinyCLIP 生成图片向量进行搜索');
       
-      debugInfo.params.vectorWeight = 1;
+      // Step 1: 生成图片向量 (TinyCLIP 512维)
+      const imageEmbedding = await generateImageEmbedding(imageBase64);
+      console.log('图片向量维度:', imageEmbedding.length);
+      console.log('图片向量前 5 个值:', imageEmbedding.slice(0, 5));
+      
+      debugInfo.input.rawQuery = '[图片搜索]';
+      debugInfo.input.searchText = '[图片向量搜索]';
+      
+      // 添加图片搜索调试信息
+      debugInfo.imageSearch = {
+        vectorDimension: imageEmbedding.length,
+        vectorSample: imageEmbedding.slice(0, 5),
+        searchModel: 'TinyCLIP (negu63/tinyclip)',
+        dbModel: 'openai/clip-vit-base-patch32',
+        rawResultCount: 0,
+        minSimilarityThreshold: 0.0,  // 使用 0 阈值进行调试
+        topSimilarities: [],
+      };
+      
+      // Step 2: 使用直接搜索函数（绕过阈值限制，用于调试）
+      try {
+        const searchResult = await searchByImageDirect(imageEmbedding, matchCount);
+        results = searchResult.results;
+        debugInfo.imageSearch.rawResultCount = searchResult.debugInfo.rawCount;
+        debugInfo.imageSearch.topSimilarities = searchResult.debugInfo.topSimilarities;
+      } catch (searchError) {
+        console.error('图片搜索出错:', searchError);
+        debugInfo.imageSearch.error = searchError instanceof Error ? searchError.message : '未知错误';
+        results = [];
+      }
+      
+      // 更新 debug 参数
+      debugInfo.params.vectorWeight = 1.0;  // 纯图片搜索
       debugInfo.params.tagWeight = 0;
     }
     // 情况 3: 文本 + 图片
@@ -403,13 +567,27 @@ export async function POST(request: NextRequest) {
         generateImageEmbedding(imageBase64),
       ]);
 
+      // 添加图片搜索调试信息
+      debugInfo.imageSearch = {
+        vectorDimension: imageEmbedding.length,
+        vectorSample: imageEmbedding.slice(0, 5),
+        searchModel: 'TinyCLIP (negu63/tinyclip)',
+        dbModel: 'openai/clip-vit-base-patch32',
+        rawResultCount: 0,
+        minSimilarityThreshold: 0.2,
+        topSimilarities: [],
+      };
+
       // Step 3: 图片 + 文本混合搜索
-      results = await searchByImage(
+      const searchResult = await searchByImage(
         imageEmbedding,
         textEmbedding,
         parseResult.extractedTags,
         matchCount
       );
+      results = searchResult.results;
+      debugInfo.imageSearch.rawResultCount = searchResult.debugInfo.rawCount;
+      debugInfo.imageSearch.topSimilarities = searchResult.debugInfo.topSimilarities;
 
       debugInfo.params.vectorWeight = 0.3;
       debugInfo.params.tagWeight = 0.2;

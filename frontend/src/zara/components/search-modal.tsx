@@ -59,6 +59,17 @@ export interface SearchDebugInfo {
     rrf_k: number;
     searchTime?: number;
   };
+  // 图片搜索调试信息
+  imageSearch?: {
+    vectorDimension: number;          // 向量维度
+    vectorSample: number[];           // 向量前 5 个值（用于验证）
+    searchModel: string;              // 使用的搜索模型
+    dbModel: string;                  // 数据库中存储的模型
+    rawResultCount: number;           // 原始返回数量
+    minSimilarityThreshold: number;   // 最低相似度阈值
+    topSimilarities?: number[];       // 前几个相似度分数
+    error?: string;                   // 错误信息
+  };
   // 前 10 个结果详情
   results?: SearchDebugResultItem[];
   // 后 10 个结果详情
