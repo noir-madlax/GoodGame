@@ -1,0 +1,116 @@
+======================================================================
+小红书蒲公英 (PGY) API 接口测试报告
+生成时间: 2025-12-08 16:15:12
+======================================================================
+
+## 一、接口列表概览
+----------------------------------------------------------------------
+序号   接口名称                           路径                                                
+----------------------------------------------------------------------
+1    kol_info                       /api/xiaohongshu-pgy/get-kol-info/v1              
+2    kol_note_rate                  /api/xiaohongshu-pgy/get-kol-note-rate/v1         
+3    kol_fans_portrait              /api/xiaohongshu-pgy/get-kol-fans-portrait/v1     
+4    kol_fans_summary               /api/xiaohongshu-pgy/get-kol-fans-summary/v1      
+5    kol_fans_trend                 /api/xiaohongshu-pgy/get-kol-fans-trend/v1        
+6    kol_track                      /api/xiaohongshu-pgy/get-kol-track/v1             
+7    kol_note_list                  /api/xiaohongshu-pgy/get-kol-note-list/v1         
+8    kol_data_summary_v1            /api/xiaohongshu-pgy/get-kol-data-summary/v1      
+9    kol_data_summary_v2            /api/xiaohongshu-pgy/get-kol-data-summary/v2      
+10   kol_cost_effective             /api/xiaohongshu-pgy/get-kol-cost-effective/v1    
+11   kol_core_data                  /api/xiaohongshu-pgy/get-kol-core-data/v1         
+12   note_detail_v1                 /api/xiaohongshu-pgy/get-note-detail/v1           
+13   notes_detail_v2                /api/xiaohongshu-pgy/api/solar/kol/dataV2/notesDetail/v1
+14   note_detail_solar              /api/xiaohongshu-pgy/api/solar/note/noteId/detail/v1
+
+总计: 14 个接口
+
+## 二、测试结果汇总
+----------------------------------------------------------------------
+
+测试接口数: 17
+成功: 13
+失败: 4
+成功率: 76.5%
+
+### 接口测试详情
+----------------------------------------------------------------------
+接口名称                                状态         数据字段数     
+----------------------------------------------------------------------
+kol                                 ✅ 成功       -         
+kol_core_data_5662e3c1b8ce1a26f2c10712 ✅ 成功       2         
+kol_cost_effective_5662e3c1b8ce1a26f2c10712 ❌ 失败(301)  -         
+kol_fans_portrait_5662e3c1b8ce1a26f2c10712 ✅ 成功       7         
+kol_fans_trend_5662e3c1b8ce1a26f2c10712 ✅ 成功       3         
+kol_info_5662e3c1b8ce1a26f2c10712   ❌ 失败(None) -         
+kol_note_list_5662e3c1b8ce1a26f2c10712 ✅ 成功       2         
+kol_note_rate_5662e3c1b8ce1a26f2c10712 ✅ 成功       28        
+kol_track_5662e3c1b8ce1a26f2c10712  ❌ 失败(None) -         
+note                                ✅ 成功       -         
+note_684aae12000000002001f502       ✅ 成功       -         
+note_684bf70d000000001101f891       ✅ 成功       -         
+note_68510b120000000023014034       ✅ 成功       -         
+note_detail_solar_684aae12000000002001f502 ✅ 成功       -         
+note_detail_v1_684aae12000000002001f502 ❌ 失败(301)  -         
+notes                               ✅ 成功       -         
+notes_detail_v2_5662e3c1b8ce1a26f2c10712 ✅ 成功       -         
+
+## 三、接口分类说明
+----------------------------------------------------------------------
+
+### KOL 相关接口 (需要 kolId 参数)
+1. get-kol-info/v1 - KOL 基础信息 (头像、昵称、粉丝数等)
+2. get-kol-note-rate/v1 - KOL 笔记数据率 (阅读率、互动率等)
+3. get-kol-fans-portrait/v1 - KOL 粉丝画像 (年龄、性别、地域、兴趣等)
+4. get-kol-fans-summary/v1 - KOL 粉丝分析 (粉丝质量、活跃度等)
+5. get-kol-fans-trend/v1 - KOL 粉丝趋势 (粉丝增长曲线)
+6. get-kol-track/v1 - 相似 KOL 推荐 (404，可能已下线)
+7. get-kol-note-list/v1 - KOL 笔记列表 (该 KOL 发布的笔记)
+8. get-kol-data-summary/v1 - KOL 数据概览 V1
+9. get-kol-data-summary/v2 - KOL 数据概览 V2 (更详细)
+10. get-kol-cost-effective/v1 - KOL 性价比分析 (301，可能需要特殊权限)
+11. get-kol-core-data/v1 - KOL 核心数据
+
+### 笔记相关接口 (需要 noteId 参数)
+1. get-note-detail/v1 - 笔记详情 (已废弃，返回 301)
+2. api/solar/note/noteId/detail/v1 - 笔记详情 Solar 版本 ✅ 推荐使用
+
+### KOL 笔记列表接口 (需要 userId 参数)
+1. api/solar/kol/dataV2/notesDetail/v1 - KOL 笔记详情 V2
+
+
+## 四、ID 获取说明
+----------------------------------------------------------------------
+
+### kolId / userId 获取方式
+1. 从搜索结果的 widgets_context 字段中提取 author_id
+2. 从笔记详情的 userId 字段获取
+3. kolId 和 userId 在大多数情况下是相同的
+
+### noteId 获取方式
+1. 从搜索结果的 note.id 字段获取
+2. 从 KOL 笔记列表接口获取
+
+
+## 五、业务价值分析
+----------------------------------------------------------------------
+
+### 高价值接口
+1. **get-kol-fans-portrait/v1** - 粉丝画像数据非常详细
+   - 年龄分布、性别比例
+   - 地域分布 (省份、城市)
+   - 兴趣标签
+   - 设备品牌分布
+
+2. **api/solar/note/noteId/detail/v1** - 笔记详情数据丰富
+   - 曝光数、阅读数、点赞数、收藏数、评论数、分享数
+   - 作者信息 (粉丝数、报价等)
+   - 图片/视频信息
+
+3. **get-kol-data-summary/v2** - KOL 数据概览最全面
+   - 48 个数据字段
+   - 包含各种维度的数据统计
+
+### 注意事项
+1. 部分接口返回 301，可能需要特殊权限或已下线
+2. 建议使用 acceptCache=true 减少 API 调用成本
+3. 某些 KOL 可能没有笔记数据 (list 为空)

@@ -1,0 +1,200 @@
+{
+  "test_time": "2025-12-08T16:15:12.130395",
+  "config": {
+    "api_base_url": "https://api.justoneapi.com",
+    "concurrency": 7,
+    "timeout": 30,
+    "retry_count": 3,
+    "retry_delay": 2,
+    "test_kol_ids": [
+      "5662e3c1b8ce1a26f2c10712",
+      "589c0b9911b4e72eaace0e9c",
+      "590966065e87e73275634184",
+      "59130ced6a6a692e93ad11a3",
+      "591477395e87e702298f8ac7"
+    ],
+    "test_note_ids": [
+      "684aae12000000002001f502",
+      "684bf70d000000001101f891",
+      "68510b120000000023014034",
+      "685806d300000000110017bb",
+      "686b90ed0000000012022060"
+    ],
+    "test_user_ids": [
+      "5662e3c1b8ce1a26f2c10712",
+      "589c0b9911b4e72eaace0e9c",
+      "590966065e87e73275634184",
+      "59130ced6a6a692e93ad11a3",
+      "591477395e87e702298f8ac7"
+    ],
+    "接口列表": {
+      "kol_info": "/api/xiaohongshu-pgy/get-kol-info/v1",
+      "kol_note_rate": "/api/xiaohongshu-pgy/get-kol-note-rate/v1",
+      "kol_fans_portrait": "/api/xiaohongshu-pgy/get-kol-fans-portrait/v1",
+      "kol_fans_summary": "/api/xiaohongshu-pgy/get-kol-fans-summary/v1",
+      "kol_fans_trend": "/api/xiaohongshu-pgy/get-kol-fans-trend/v1",
+      "kol_track": "/api/xiaohongshu-pgy/get-kol-track/v1",
+      "kol_note_list": "/api/xiaohongshu-pgy/get-kol-note-list/v1",
+      "kol_data_summary_v1": "/api/xiaohongshu-pgy/get-kol-data-summary/v1",
+      "kol_data_summary_v2": "/api/xiaohongshu-pgy/get-kol-data-summary/v2",
+      "kol_cost_effective": "/api/xiaohongshu-pgy/get-kol-cost-effective/v1",
+      "kol_core_data": "/api/xiaohongshu-pgy/get-kol-core-data/v1",
+      "note_detail_v1": "/api/xiaohongshu-pgy/get-note-detail/v1",
+      "notes_detail_v2": "/api/xiaohongshu-pgy/api/solar/kol/dataV2/notesDetail/v1",
+      "note_detail_solar": "/api/xiaohongshu-pgy/api/solar/note/noteId/detail/v1"
+    }
+  },
+  "results": {
+    "phase1": {
+      "note": {
+        "code": 0,
+        "has_data": true,
+        "file": "note_detail_solar_684aae12000000002001f502_20251208_161033.json"
+      },
+      "notes": {
+        "code": 0,
+        "has_data": true,
+        "file": "notes_detail_v2_5662e3c1b8ce1a26f2c10712_20251208_161035.json"
+      },
+      "kol": {
+        "code": 0,
+        "has_data": true,
+        "file": "kol_info_5662e3c1b8ce1a26f2c10712_20251208_161032.json"
+      }
+    },
+    "phase2": {
+      "kol_cost_effective_5662e3c1b8ce1a26f2c10712": {
+        "code": 301,
+        "has_data": false,
+        "data_keys": [],
+        "file": "kol_cost_effective_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      },
+      "kol_core_data_5662e3c1b8ce1a26f2c10712": {
+        "code": 0,
+        "has_data": true,
+        "data_keys": [
+          "sumData",
+          "dailyData"
+        ],
+        "file": "kol_core_data_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      },
+      "kol_info_5662e3c1b8ce1a26f2c10712": {
+        "code": null,
+        "has_data": false,
+        "data_keys": [],
+        "file": "kol_info_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      },
+      "kol_note_rate_5662e3c1b8ce1a26f2c10712": {
+        "code": 0,
+        "has_data": true,
+        "data_keys": [
+          "noteNumber",
+          "videoNoteNumber",
+          "hundredLikePercent",
+          "thousandLikePercent",
+          "noteType",
+          "tradeNames",
+          "impMedian",
+          "impMedianBeyondRate",
+          "readMedian",
+          "readMedianBeyondRate",
+          "interactionMedian",
+          "interactionRate",
+          "interactionBeyondRate",
+          "likeMedian",
+          "collectMedian",
+          "commentMedian",
+          "shareMedian",
+          "videoFullViewRate",
+          "videoFullViewBeyondRate",
+          "picture3sViewRate",
+          "notes",
+          "pagePercentVo",
+          "longTermCommonNoteVo",
+          "longTermCooperateNoteVo",
+          "mengagementNum",
+          "mfollowCnt",
+          "mEngagementNum",
+          "mFollowCnt"
+        ],
+        "file": "kol_note_rate_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      },
+      "kol_fans_portrait_5662e3c1b8ce1a26f2c10712": {
+        "code": 0,
+        "has_data": true,
+        "data_keys": [
+          "ages",
+          "gender",
+          "interests",
+          "provinces",
+          "cities",
+          "devices",
+          "dateKey"
+        ],
+        "file": "kol_fans_portrait_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      },
+      "kol_track_5662e3c1b8ce1a26f2c10712": {
+        "code": null,
+        "has_data": false,
+        "data_keys": [],
+        "file": "kol_track_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      },
+      "kol_fans_trend_5662e3c1b8ce1a26f2c10712": {
+        "code": 0,
+        "has_data": true,
+        "data_keys": [
+          "fansNumInc",
+          "fansNumIncRate",
+          "list"
+        ],
+        "file": "kol_fans_trend_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      },
+      "kol_note_list_5662e3c1b8ce1a26f2c10712": {
+        "code": 0,
+        "has_data": true,
+        "data_keys": [
+          "list",
+          "total"
+        ],
+        "file": "kol_note_list_5662e3c1b8ce1a26f2c10712_20251208_161124.json"
+      }
+    },
+    "phase3": {
+      "note_68510b120000000023014034": {
+        "code": 0,
+        "has_data": true,
+        "file": "note_68510b120000000023014034_20251208_161418.json"
+      },
+      "notes_detail_v2_5662e3c1b8ce1a26f2c10712": {
+        "code": 0,
+        "has_data": true,
+        "file": "notes_detail_v2_5662e3c1b8ce1a26f2c10712_20251208_161400.json"
+      },
+      "note_684bf70d000000001101f891": {
+        "code": 0,
+        "has_data": true,
+        "file": "note_684bf70d000000001101f891_20251208_161418.json"
+      },
+      "note_684aae12000000002001f502": {
+        "code": 0,
+        "has_data": true,
+        "file": "note_684aae12000000002001f502_20251208_161418.json"
+      },
+      "note_detail_solar_684aae12000000002001f502": {
+        "code": 0,
+        "has_data": true,
+        "file": "note_detail_solar_684aae12000000002001f502_20251208_161400.json"
+      },
+      "note_detail_v1_684aae12000000002001f502": {
+        "code": 301,
+        "has_data": false,
+        "file": "note_detail_v1_684aae12000000002001f502_20251208_161400.json"
+      }
+    },
+    "api_summary": {}
+  },
+  "statistics": {
+    "total_apis": 14,
+    "tested_apis": 17
+  }
+}
