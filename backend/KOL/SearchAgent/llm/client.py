@@ -25,7 +25,7 @@ class LLMClient:
         else:
              genai.configure(api_key=self.api_key)
         
-        self.model_name = "gemini-pro" # Default
+        self.model_name = "gemini-3-pro-preview" # Default
 
     def generate_text(self, prompt: str) -> str:
         """
