@@ -37,8 +37,8 @@ DATA_DIR = PROJECT_DIR / "02_视频数据"
 RESULT_DIR = PROJECT_DIR / "03_分析结果"
 PROMPT_DIR = PROJECT_DIR / "prompts"
 
-# 配置Gemini
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '') or os.getenv('GEMINI_API_KEY_ANALYZE', '')
+# 配置Gemini - 优先使用GEMINI_API_KEY2
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY2', '') or os.getenv('GEMINI_API_KEY', '') or os.getenv('GEMINI_API_KEY_ANALYZE', '')
 genai.configure(api_key=GEMINI_API_KEY)
 
 
@@ -107,8 +107,8 @@ def create_analysis_prompt(video_metadata: Dict) -> str:
 """
 
 
-def analyze_video(video_path: str, video_metadata: Dict, video_index: int = 0, total: int = 1) -> Optional[Dict]:
-    """分析单个视频（带实时日志）"""
+def analyze_video(video_path: str, video_metadata: Dict, video_index: int = 0, total: int = 1, max_retries: int = 3) -> Optional[Dict]:
+    """分析单个视频（带实时日志和重试）"""
     note_id = video_metadata.get('note_id', 'unknown')
     title = (video_metadata.get('title') or '无标题')[:25]
     
@@ -116,74 +116,89 @@ def analyze_video(video_path: str, video_metadata: Dict, video_index: int = 0, t
         log(f"  [{video_index}/{total}] ❌ 未配置 GEMINI_API_KEY")
         return None
     
-    try:
-        system_prompt = load_system_prompt()
-        
-        log(f"  [{video_index}/{total}] 📤 上传: {title}...")
-        video_file = genai.upload_file(video_path, mime_type="video/mp4")
-        
-        log(f"  [{video_index}/{total}] ⏳ 处理中...")
-        while video_file.state.name == "PROCESSING":
-            time.sleep(3)
-            video_file = genai.get_file(video_file.name)
-        
-        if video_file.state.name != "ACTIVE":
-            log(f"  [{video_index}/{total}] ❌ 处理失败: {video_file.state.name}")
-            return None
-        
-        model = genai.GenerativeModel(
-            model_name="gemini-2.5-flash",
-            generation_config={"temperature": 0.3, "max_output_tokens": 8192}
-        )
-        
-        user_prompt = create_analysis_prompt(video_metadata)
-        
-        log(f"  [{video_index}/{total}] 🔍 分析中...")
-        response = model.generate_content(
-            [video_file, system_prompt, user_prompt],
-            request_options={"timeout": 300}
-        )
-        
-        result_text = response.text
-        
-        # 提取JSON
-        if "```json" in result_text:
-            json_start = result_text.find("```json") + 7
-            json_end = result_text.find("```", json_start)
-            result_text = result_text[json_start:json_end].strip()
-        elif "```" in result_text:
-            json_start = result_text.find("```") + 3
-            json_end = result_text.find("```", json_start)
-            result_text = result_text[json_start:json_end].strip()
-        
-        # 修复不完整JSON
+    for attempt in range(max_retries):
         try:
-            result = json.loads(result_text)
-        except json.JSONDecodeError:
-            if result_text.count('{') > result_text.count('}'):
-                missing = result_text.count('{') - result_text.count('}')
-                result_text = result_text.rstrip(',\n ') + '\n' + '}' * missing
-                result = json.loads(result_text)
+            system_prompt = load_system_prompt()
+            
+            if attempt == 0:
+                log(f"  [{video_index}/{total}] 📤 上传: {title}...")
             else:
-                raise
-        
-        # 清理上传文件
-        try:
-            genai.delete_file(video_file.name)
-        except:
-            pass
-        
-        score = result.get('overall_assessment', {}).get('overall_score', 'N/A')
-        log(f"  [{video_index}/{total}] ✅ 完成: {title} | 评分: {score}")
-        
-        return result
-        
-    except json.JSONDecodeError as e:
-        log(f"  [{video_index}/{total}] ❌ JSON错误: {title}")
-        return None
-    except Exception as e:
-        log(f"  [{video_index}/{total}] ❌ 异常: {title} - {str(e)[:50]}")
-        return None
+                log(f"  [{video_index}/{total}] 🔄 重试({attempt+1}/{max_retries}): {title}...")
+                time.sleep(30 * attempt)  # 指数退避
+            
+            video_file = genai.upload_file(video_path, mime_type="video/mp4")
+            
+            log(f"  [{video_index}/{total}] ⏳ 处理中...")
+            while video_file.state.name == "PROCESSING":
+                time.sleep(3)
+                video_file = genai.get_file(video_file.name)
+            
+            if video_file.state.name != "ACTIVE":
+                log(f"  [{video_index}/{total}] ❌ 处理失败: {video_file.state.name}")
+                continue
+            
+            model = genai.GenerativeModel(
+                model_name="gemini-2.5-flash",
+                generation_config={"temperature": 0.3, "max_output_tokens": 8192}
+            )
+            
+            user_prompt = create_analysis_prompt(video_metadata)
+            
+            log(f"  [{video_index}/{total}] 🔍 分析中...")
+            response = model.generate_content(
+                [video_file, system_prompt, user_prompt],
+                request_options={"timeout": 300}
+            )
+            
+            result_text = response.text
+            
+            # 提取JSON
+            if "```json" in result_text:
+                json_start = result_text.find("```json") + 7
+                json_end = result_text.find("```", json_start)
+                result_text = result_text[json_start:json_end].strip()
+            elif "```" in result_text:
+                json_start = result_text.find("```") + 3
+                json_end = result_text.find("```", json_start)
+                result_text = result_text[json_start:json_end].strip()
+            
+            # 修复不完整JSON
+            try:
+                result = json.loads(result_text)
+            except json.JSONDecodeError:
+                if result_text.count('{') > result_text.count('}'):
+                    missing = result_text.count('{') - result_text.count('}')
+                    result_text = result_text.rstrip(',\n ') + '\n' + '}' * missing
+                    result = json.loads(result_text)
+                else:
+                    raise
+            
+            # 清理上传文件
+            try:
+                genai.delete_file(video_file.name)
+            except:
+                pass
+            
+            score = result.get('overall_assessment', {}).get('overall_score', 'N/A')
+            log(f"  [{video_index}/{total}] ✅ 完成: {title} | 评分: {score}")
+            
+            return result
+            
+        except json.JSONDecodeError as e:
+            log(f"  [{video_index}/{total}] ❌ JSON错误: {title}")
+            return None
+        except Exception as e:
+            err_str = str(e)
+            if "429" in err_str or "quota" in err_str.lower():
+                log(f"  [{video_index}/{total}] ⚠️ 配额限制，等待重试...")
+                if attempt < max_retries - 1:
+                    time.sleep(60 * (attempt + 1))  # 1分钟, 2分钟...
+                    continue
+            log(f"  [{video_index}/{total}] ❌ 异常: {title} - {err_str[:50]}")
+            if attempt == max_retries - 1:
+                return None
+    
+    return None
 
 
 def save_result(result: Dict, video_metadata: Dict):
@@ -364,7 +379,7 @@ def generate_kol_summary(kol_id: str, kol_name: str) -> Optional[str]:
 | 项目 | 信息 |
 |------|------|
 | 博主名称 | {kol_name} |
-| 粉丝数量 | {fans_count:,} |
+| 粉丝数量 | {fans_count or 0:,} |
 | 分析视频数 | {len(video_analyses)} 个 |
 | 评估时间 | {time.strftime('%Y-%m-%d %H:%M:%S')} |
 
