@@ -1,12 +1,14 @@
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
+from jobs.logger import get_logger
 
 # Load environment variables from backend/.env
 current_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(current_dir, "../../../.env")
 load_dotenv(dotenv_path)
 
+logger = get_logger(__name__)
 
 from typing import Optional
 
@@ -19,7 +21,7 @@ class LLMClient:
 
         if not self.api_key:
              # Just a warning or placeholder, user might configure it later
-             print("Warning: GOOGLE_API_KEY not found.")
+             logger.warning("GOOGLE_API_KEY not found.")
         else:
              genai.configure(api_key=self.api_key)
         
