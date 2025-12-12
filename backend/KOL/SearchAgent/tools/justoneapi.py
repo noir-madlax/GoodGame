@@ -28,7 +28,7 @@ class ApiResult:
     error_message: Optional[str] = None
 
 
-def search_user(keyword: Union[str, List[str]], max_pages: int = 2) -> ApiResult:
+def search_user(keyword: Union[str, List[str]], max_pages: int = 1) -> ApiResult:
     """
     Search for users using UserSearch API with pagination.
     Iterates from page used internally (always starts at 1) up to limits.

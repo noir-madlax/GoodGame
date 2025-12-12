@@ -4,7 +4,7 @@ from .llm.client import LLMClient
 from .node.search_node import SearchNode
 from .node.summary_node import SummaryNode
 
-from .tools.justoneapi import search_user, ApiResult
+from .tools.justoneapi import search_user, ApiResult, execute_search_tool
 class SearchAgent:
     """
     KOL Search Agent
@@ -26,6 +26,27 @@ class SearchAgent:
         # Step 1: Search
         # Pass user_input as input_data although node accesses state too if needed
         self.state = self.search_node.mutate_state(user_input, self.state)
+        
+        # Execute Tool
+        current_tool = self.state.tool_name
+        keywords = self.state.kols_to_search
+        
+        if keywords:
+            # Execute the tool
+            # Assuming for now we just pass keywords as 'keyword' argument
+            # If we add other tools, we might need a more complex argument mapper
+            api_result: ApiResult = execute_search_tool(current_tool, keyword=keywords)
+            
+            # Store results in state (extracting data from QueryResult objects)
+            if api_result.results:
+                self.state.search_results = [r.data for r in api_result.results]
+            else:
+                self.state.search_results = []
+                
+            if api_result.error_message:
+                # Log or handle error? For now, maybe just let the summary node see empty results
+                pass
+        
         
         # Step 2: Summary
         # Pass kols_to_search as input_data or None, node uses state.kols_to_search

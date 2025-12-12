@@ -93,7 +93,9 @@ class SearchNode(StateMutationNode):
             
             return {
                 "search_query": result.get("search_query", ""),
-                "reasoning": result.get("reasoning", "")
+                "reasoning": result.get("reasoning", ""),
+                "search_tool": result.get("search_tool", "search_user"),
+                "texts": result.get("texts", [])
             }
         except json.JSONDecodeError as e:
             self.log_error(f"JSON parsing failed: {str(e)}")
@@ -124,8 +126,19 @@ class SearchNode(StateMutationNode):
         # State has `kols_to_search: List[str]`.
         
         search_query = result.get("search_query")
-        if search_query:
-            state.kols_to_search = [search_query] # Treat the keyword as the "KOL" to search for now
+        search_tool = result.get("search_tool")
+        texts = result.get("texts")
+        
+        # Update tool name
+        if search_tool:
+            state.tool_name = search_tool
+            
+        # Update KOLs to search
+        if texts and isinstance(texts, list) and len(texts) > 0:
+            state.kols_to_search = texts
+            self.log_info(f"Updated state with {len(texts)} keywords from 'texts'")
+        elif search_query:
+            state.kols_to_search = [search_query]
             self.log_info(f"Updated state with search query: {search_query}")
         
         state.current_step = "search_query_generated"
