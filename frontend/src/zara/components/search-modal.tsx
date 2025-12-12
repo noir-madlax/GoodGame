@@ -32,6 +32,16 @@ import {
   Clipboard,
 } from 'lucide-react';
 
+// CAPUS 五维度得分接口
+interface CAPUSScores {
+  category: number;              // 品类匹配分 (0 或 1)
+  attribute: number;             // 属性匹配分 (0-1)
+  performance: number;           // 性能匹配分 (0-1)
+  use: number;                   // 场景匹配分 (0-1)
+  style: number;                 // 风格匹配分 (0-1)
+  weighted: number;              // 加权后的总分
+}
+
 // Debug 结果项接口
 export interface SearchDebugResultItem {
   rank: number;
@@ -42,9 +52,8 @@ export interface SearchDebugResultItem {
   scores?: {
     vectorSimilarity: number;
     tagMatchScore: number;
-    categoryWeight?: number;      // 品类权重（匹配时生效）
-    baseScore?: number;           // 基础分数
-    rrfScore?: number;
+    capus?: CAPUSScores;         // CAPUS 五维度得分明细
+    baseScore?: number;           // RRF 基础分数
     finalScore: number;
   };
   matchedTags: string[];
@@ -573,24 +582,15 @@ export default function SearchModal({
                 <div className="space-y-1">
                   <p className="text-gray-400 font-medium">⚙️ 搜索配置:</p>
                   <div className="bg-white/5 rounded-lg p-3 space-y-2">
-                    {/* 实际参与计算的权重 */}
+                    {/* CAPUS 五维度权重 */}
                     <div>
-                      <p className="text-cyan-300 text-[10px] mb-1">📊 实际搜索计算权重:</p>
+                      <p className="text-purple-300 text-[10px] mb-1">🎯 CAPUS 五维度权重 (和=1，用于维度匹配加权):</p>
                       <div className="flex flex-wrap gap-2 text-[10px]">
-                        <span className="px-2 py-0.5 bg-green-500/20 rounded">向量相似度: 主要</span>
-                        <span className="px-2 py-0.5 bg-blue-500/20 rounded">标签匹配: 辅助</span>
-                        <span className="px-2 py-0.5 bg-red-500/20 rounded">品类加权: {debugInfo.config.capusWeights?.category ? (1 + debugInfo.config.capusWeights.category * 3).toFixed(1) : '2.2'}x</span>
-                      </div>
-                    </div>
-                    {/* CAPUS 五维度权重（规划中） */}
-                    <div>
-                      <p className="text-purple-300 text-[10px] mb-1">🎯 CAPUS 五维度配置 (影响增强文本生成):</p>
-                      <div className="flex flex-wrap gap-2 text-[10px]">
-                        <span className="px-2 py-0.5 bg-red-500/20 rounded">品类: {debugInfo.config.capusWeights?.category || 0.30}</span>
-                        <span className="px-2 py-0.5 bg-blue-500/20 rounded">属性: {debugInfo.config.capusWeights?.attribute || 0.25}</span>
-                        <span className="px-2 py-0.5 bg-green-500/20 rounded">性能: {debugInfo.config.capusWeights?.performance || 0.20}</span>
-                        <span className="px-2 py-0.5 bg-amber-500/20 rounded">场景: {debugInfo.config.capusWeights?.use || 0.15}</span>
-                        <span className="px-2 py-0.5 bg-pink-500/20 rounded">风格: {debugInfo.config.capusWeights?.style || 0.10}</span>
+                        <span className="px-2 py-0.5 bg-red-500/20 rounded">C品类: {debugInfo.config.capusWeights?.category || 0.40}</span>
+                        <span className="px-2 py-0.5 bg-blue-500/20 rounded">A属性: {debugInfo.config.capusWeights?.attribute || 0.20}</span>
+                        <span className="px-2 py-0.5 bg-green-500/20 rounded">P性能: {debugInfo.config.capusWeights?.performance || 0.20}</span>
+                        <span className="px-2 py-0.5 bg-amber-500/20 rounded">U场景: {debugInfo.config.capusWeights?.use || 0.10}</span>
+                        <span className="px-2 py-0.5 bg-pink-500/20 rounded">S风格: {debugInfo.config.capusWeights?.style || 0.10}</span>
                       </div>
                     </div>
                     {/* 排序权重 */}
@@ -635,7 +635,7 @@ export default function SearchModal({
               {debugInfo.results && debugInfo.results.length > 0 && (
                 <div className="space-y-1">
                   <p className="text-gray-400 font-medium">📊 结果打分详情 (Top {debugInfo.results.length}):</p>
-                  <div className="space-y-1.5 max-h-[200px] overflow-auto">
+                  <div className="space-y-1.5 max-h-[280px] overflow-auto">
                     {debugInfo.results.map((result, idx) => (
                       <div 
                         key={`result-${idx}-${result.rank}`} 
@@ -659,21 +659,43 @@ export default function SearchModal({
                             </span>
                           )}
                         </div>
-                        <div className="grid grid-cols-2 gap-1 mt-1 text-[10px]">
-                          {result.scores ? (
-                            <>
-                              <span>向量相似度: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
-                              <span>标签匹配分: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
-                              <span>品类加权: <span className={result.categoryMatched ? "text-red-400" : "text-gray-500"}>{result.categoryMatched ? `${result.scores.categoryWeight} (生效)` : '无'}</span></span>
-                              <span>最终得分: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
-                            </>
-                          ) : (
-                            <>
-                              <span>向量: <span className="text-green-400">{(result as unknown as { vectorScore: number }).vectorScore?.toFixed(3) || '-'}</span></span>
-                              <span>最终: <span className="text-yellow-400 font-bold">{(result as unknown as { finalScore: number }).finalScore?.toFixed(3) || '-'}</span></span>
-                            </>
-                          )}
-                        </div>
+                        {result.scores && (
+                          <>
+                            {/* 基础分数 */}
+                            <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
+                              <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
+                              <span>标签: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
+                              <span>基础: <span className="text-purple-400">{result.scores.baseScore}</span></span>
+                              <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
+                            </div>
+                            {/* CAPUS 五维度得分 */}
+                            {result.scores.capus && (
+                              <div className="mt-1 pt-1 border-t border-white/10">
+                                <p className="text-[9px] text-gray-400 mb-0.5">CAPUS 五维度得分:</p>
+                                <div className="flex flex-wrap gap-1.5 text-[9px]">
+                                  <span className="px-1.5 py-0.5 rounded" style={{ background: result.scores.capus.category > 0 ? 'rgba(239,68,68,0.3)' : 'rgba(100,116,139,0.2)' }}>
+                                    C:{result.scores.capus.category}
+                                  </span>
+                                  <span className="px-1.5 py-0.5 rounded" style={{ background: result.scores.capus.attribute > 0 ? 'rgba(59,130,246,0.3)' : 'rgba(100,116,139,0.2)' }}>
+                                    A:{result.scores.capus.attribute}
+                                  </span>
+                                  <span className="px-1.5 py-0.5 rounded" style={{ background: result.scores.capus.performance > 0 ? 'rgba(34,197,94,0.3)' : 'rgba(100,116,139,0.2)' }}>
+                                    P:{result.scores.capus.performance}
+                                  </span>
+                                  <span className="px-1.5 py-0.5 rounded" style={{ background: result.scores.capus.use > 0 ? 'rgba(245,158,11,0.3)' : 'rgba(100,116,139,0.2)' }}>
+                                    U:{result.scores.capus.use}
+                                  </span>
+                                  <span className="px-1.5 py-0.5 rounded" style={{ background: result.scores.capus.style > 0 ? 'rgba(236,72,153,0.3)' : 'rgba(100,116,139,0.2)' }}>
+                                    S:{result.scores.capus.style}
+                                  </span>
+                                  <span className="px-1.5 py-0.5 rounded bg-amber-500/30 text-amber-300">
+                                    加权:{result.scores.capus.weighted}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        )}
                         {result.matchedTags && result.matchedTags.length > 0 && (
                           <p className="text-[10px] mt-1">
                             匹配标签: <span className="text-purple-400">[{result.matchedTags.join(', ')}]</span>

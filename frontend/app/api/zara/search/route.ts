@@ -70,6 +70,16 @@ interface SearchResult {
   category_matched?: boolean;  // 新增：是否品类匹配
 }
 
+// CAPUS 五维度得分
+interface CAPUSScores {
+  category: number;              // 品类匹配分 (0 或 1)
+  attribute: number;             // 属性匹配分 (0-1)
+  performance: number;           // 性能匹配分 (0-1)
+  use: number;                   // 场景匹配分 (0-1)
+  style: number;                 // 风格匹配分 (0-1)
+  weighted: number;              // 加权后的总分
+}
+
 // Debug 结果项 - 详细打分
 interface DebugResultItem {
   rank: number;
@@ -79,8 +89,8 @@ interface DebugResultItem {
   scores: {
     vectorSimilarity: number;    // 向量相似度原始分
     tagMatchScore: number;       // 标签匹配分
-    categoryWeight: number;      // 品类权重（匹配时生效）
-    baseScore: number;           // 基础分数
+    capus: CAPUSScores;          // CAPUS 五维度得分明细
+    baseScore: number;           // RRF 基础分数
     finalScore: number;          // 最终分数
   };
   matchedTags: string[];
@@ -247,6 +257,139 @@ function getConfigValue(config: Record<string, unknown>, key: string, defaultVal
 // ============================================================================
 // 工具函数
 // ============================================================================
+
+/**
+ * 商品 APU 信息接口
+ */
+interface ProductAPUInfo {
+  product_id: number;
+  category: string;
+  attribute_keywords: string[];
+  performance_keywords: string[];
+  use_keywords: string[];
+  style_keywords: string[];
+}
+
+/**
+ * 批量获取商品的 APU 分析信息
+ */
+async function getProductsAPUInfo(productIds: number[]): Promise<Map<number, ProductAPUInfo>> {
+  const { data, error } = await supabase
+    .from('gg_taobao_product_apu')
+    .select('product_id, category, attribute_keywords, performance_keywords, use_keywords, style_keywords')
+    .in('product_id', productIds);
+
+  if (error) {
+    console.error('获取商品 APU 信息失败:', error);
+    return new Map();
+  }
+
+  const apuMap = new Map<number, ProductAPUInfo>();
+  for (const item of data || []) {
+    apuMap.set(item.product_id, item as ProductAPUInfo);
+  }
+  return apuMap;
+}
+
+/**
+ * 计算关键词匹配分数
+ * 用户意图关键词与商品关键词的匹配程度
+ */
+function calculateKeywordMatchScore(userKeywords: string[], productKeywords: string[]): number {
+  if (!userKeywords || userKeywords.length === 0 || !productKeywords || productKeywords.length === 0) {
+    return 0;
+  }
+  
+  // 统计匹配数量
+  let matchCount = 0;
+  for (const userKw of userKeywords) {
+    for (const prodKw of productKeywords) {
+      // 模糊匹配：用户关键词包含在商品关键词中，或商品关键词包含在用户关键词中
+      if (userKw.includes(prodKw) || prodKw.includes(userKw)) {
+        matchCount++;
+        break;
+      }
+    }
+  }
+  
+  // 返回匹配比例 (0-1)
+  return matchCount / userKeywords.length;
+}
+
+/**
+ * 计算 CAPUS 五维度得分
+ */
+function calculateCAPUSScores(
+  userIntent: {
+    attribute?: string[];
+    performance?: string[];
+    use?: string[];
+    style?: string[];
+  } | undefined,
+  extractedCategory: string | undefined,
+  productAPU: ProductAPUInfo | undefined,
+  weights: {
+    category: number;
+    attribute: number;
+    performance: number;
+    use: number;
+    style: number;
+  }
+): CAPUSScores {
+  // 默认分数
+  const scores: CAPUSScores = {
+    category: 0,
+    attribute: 0,
+    performance: 0,
+    use: 0,
+    style: 0,
+    weighted: 0,
+  };
+
+  if (!productAPU) {
+    return scores;
+  }
+
+  // 1. 品类匹配 (0 或 1)
+  if (extractedCategory && productAPU.category) {
+    // 检查品类是否匹配（模糊匹配）
+    const categoryMatched = 
+      productAPU.category.includes(extractedCategory) || 
+      extractedCategory.includes(productAPU.category) ||
+      productAPU.category === extractedCategory;
+    scores.category = categoryMatched ? 1 : 0;
+  }
+
+  // 2. 属性匹配
+  if (userIntent?.attribute && productAPU.attribute_keywords) {
+    scores.attribute = calculateKeywordMatchScore(userIntent.attribute, productAPU.attribute_keywords);
+  }
+
+  // 3. 性能匹配
+  if (userIntent?.performance && productAPU.performance_keywords) {
+    scores.performance = calculateKeywordMatchScore(userIntent.performance, productAPU.performance_keywords);
+  }
+
+  // 4. 场景匹配
+  if (userIntent?.use && productAPU.use_keywords) {
+    scores.use = calculateKeywordMatchScore(userIntent.use, productAPU.use_keywords);
+  }
+
+  // 5. 风格匹配
+  if (userIntent?.style && productAPU.style_keywords) {
+    scores.style = calculateKeywordMatchScore(userIntent.style, productAPU.style_keywords);
+  }
+
+  // 计算加权总分
+  scores.weighted = 
+    scores.category * weights.category +
+    scores.attribute * weights.attribute +
+    scores.performance * weights.performance +
+    scores.use * weights.use +
+    scores.style * weights.style;
+
+  return scores;
+}
 
 /**
  * 使用 APU 三维度理论解析用户意图
@@ -788,9 +931,34 @@ export async function POST(request: NextRequest) {
     // 计算总耗时
     debugInfo.timing.totalMs = Date.now() - startTimeTotal;
 
+    // 获取搜索结果商品的 APU 信息
+    const productIds = results.slice(0, 15).map(r => r.product_id);
+    const productsAPUMap = await getProductsAPUInfo(productIds);
+    
+    // CAPUS 权重配置
+    const capusWeights = {
+      category: categoryWeight,
+      attribute: apuAttributeWeight,
+      performance: apuPerformanceWeight,
+      use: apuUseWeight,
+      style: apuStyleWeight,
+    };
+
     // 生成结果 Debug 信息 (前 15 个结果的详细打分)
     debugInfo.results = results.slice(0, 15).map((r, i) => {
       const categoryMatched = r.category_matched || false;
+      const productAPU = productsAPUMap.get(r.product_id);
+      
+      // 计算 CAPUS 五维度得分
+      const capusScores = calculateCAPUSScores(
+        debugInfo.input.apuIntent,
+        debugInfo.input.extractedCategory,
+        productAPU,
+        capusWeights
+      );
+      
+      // 使用 CAPUS 加权分数调整最终排序分数
+      const adjustedFinalScore = r.final_score * (1 + capusScores.weighted);
       
       return {
         rank: i + 1,
@@ -800,9 +968,16 @@ export async function POST(request: NextRequest) {
         scores: {
           vectorSimilarity: Number((r.vector_score || r.image_score || 0).toFixed(4)),
           tagMatchScore: Number((r.tag_score || 0).toFixed(4)),
-          categoryWeight: categoryMatched ? categoryWeight : 0,
+          capus: {
+            category: Number(capusScores.category.toFixed(2)),
+            attribute: Number(capusScores.attribute.toFixed(2)),
+            performance: Number(capusScores.performance.toFixed(2)),
+            use: Number(capusScores.use.toFixed(2)),
+            style: Number(capusScores.style.toFixed(2)),
+            weighted: Number(capusScores.weighted.toFixed(4)),
+          },
           baseScore: Number(r.final_score.toFixed(4)),
-          finalScore: Number(r.final_score.toFixed(4)),
+          finalScore: Number(adjustedFinalScore.toFixed(4)),
         },
         matchedTags: r.matched_tags || [],
       };
