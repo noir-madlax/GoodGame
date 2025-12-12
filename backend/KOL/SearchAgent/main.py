@@ -4,6 +4,7 @@ from .llm.client import LLMClient
 from .node.search_node import SearchNode
 from .node.summary_node import SummaryNode
 
+from .tools.justoneapi import search_user, ApiResult
 class SearchAgent:
     """
     KOL Search Agent
@@ -34,3 +35,30 @@ class SearchAgent:
 
     def get_state(self) -> Dict[str, Any]:
         return self.state.model_dump()
+
+def execute_search_tool(tool_name: str, **kwargs) -> ApiResult:
+    """
+    Execute a search tool based on the provided tool name.
+    
+    Args:
+        tool_name: The name of the tool to execute.
+        **kwargs: Arguments to pass to the tool.
+        
+    Returns:
+        The result of the tool execution.
+    """
+    if tool_name == "search_user":
+        # Ensure keyword is present as it is required for search_user
+        if "keyword" not in kwargs:
+            return ApiResult(
+                tool_name=tool_name,
+                parameters=kwargs,
+                error_message="Missing required argument: keyword"
+            )
+        return search_user(**kwargs)
+    
+    return ApiResult(
+        tool_name=tool_name,
+        parameters=kwargs,
+        error_message=f"Tool '{tool_name}' not found"
+    )
