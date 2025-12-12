@@ -961,9 +961,9 @@ export async function POST(request: NextRequest) {
       const adjustedFinalScore = r.final_score * (1 + capusScores.weighted);
       
       return {
-        rank: i + 1,
-        productId: r.product_id,
-        productName: r.item_name,
+      rank: i + 1,
+      productId: r.product_id,
+      productName: r.item_name,
         categoryMatched,
         scores: {
           vectorSimilarity: Number((r.vector_score || r.image_score || 0).toFixed(4)),
@@ -979,7 +979,7 @@ export async function POST(request: NextRequest) {
           baseScore: Number(r.final_score.toFixed(4)),
           finalScore: Number(adjustedFinalScore.toFixed(4)),
         },
-        matchedTags: r.matched_tags || [],
+      matchedTags: r.matched_tags || [],
       };
     });
 

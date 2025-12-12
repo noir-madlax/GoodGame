@@ -482,21 +482,21 @@ export default function ProductSearchPage() {
                     >
                       <div className="flex items-center gap-1">
                         <p className="font-medium text-white truncate flex-1">
-                          #{result.rank} {result.productName}
-                        </p>
+                        #{result.rank} {result.productName}
+                      </p>
                         {result.categoryMatched && (
                           <span className="px-1 py-0.5 text-[8px] bg-red-500/30 text-red-300 rounded shrink-0">
                             品类✓
                           </span>
-                        )}
-                      </div>
+                      )}
+                    </div>
                       {result.scores ? (
                         <>
                           <div className="flex flex-wrap gap-1.5 mt-1 text-[10px]">
                             <span>向量: <span className="text-green-400">{result.scores.vectorSimilarity}</span></span>
                             <span>标签: <span className="text-blue-400">{result.scores.tagMatchScore}</span></span>
                             <span>最终: <span className="text-yellow-400 font-bold">{result.scores.finalScore}</span></span>
-                          </div>
+                </div>
                           {/* CAPUS 五维度得分 */}
                           {result.scores.capus && (
                             <div className="flex flex-wrap gap-1 mt-1 text-[8px]">
@@ -505,15 +505,15 @@ export default function ProductSearchPage() {
                               <span className="px-1 rounded" style={{ background: result.scores.capus.performance > 0 ? 'rgba(34,197,94,0.3)' : 'rgba(100,116,139,0.2)' }}>P:{result.scores.capus.performance}</span>
                               <span className="px-1 rounded" style={{ background: result.scores.capus.use > 0 ? 'rgba(245,158,11,0.3)' : 'rgba(100,116,139,0.2)' }}>U:{result.scores.capus.use}</span>
                               <span className="px-1 rounded" style={{ background: result.scores.capus.style > 0 ? 'rgba(236,72,153,0.3)' : 'rgba(100,116,139,0.2)' }}>S:{result.scores.capus.style}</span>
-                            </div>
-                          )}
+              </div>
+            )}
                         </>
                       ) : (
                         <div className="flex flex-wrap gap-1.5 mt-1 text-[10px]">
                           <span>向量: <span className="text-green-400">{result.vectorScore?.toFixed(3) ?? '-'}</span></span>
                           <span>标签: <span className="text-blue-400">{result.tagScore?.toFixed(3) ?? '-'}</span></span>
                           <span>最终: <span className="text-yellow-400 font-bold">{result.finalScore?.toFixed(4) ?? '-'}</span></span>
-                        </div>
+                      </div>
                       )}
                       {result.matchedTags && result.matchedTags.length > 0 && (
                         <p className="text-[10px] text-violet-400 mt-1 truncate">

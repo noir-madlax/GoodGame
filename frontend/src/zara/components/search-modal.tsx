@@ -54,7 +54,7 @@ export interface SearchDebugResultItem {
     tagMatchScore: number;
     capus?: CAPUSScores;         // CAPUS 五维度得分明细
     baseScore?: number;           // RRF 基础分数
-    finalScore: number;
+  finalScore: number;
   };
   matchedTags: string[];
   // 兼容旧版
